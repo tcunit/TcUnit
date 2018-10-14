@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION TEST
+VAR_INPUT
+	sTestName : Tc2_Utilities.T_MaxString;
+END_VAR
+VAR
+	nCounterTestFunctionBlockAddress : UINT;
+	nCounterTestName : UINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// TODO: Check if test has unique name. To do this we need to check whether the call to this has been made in the same cycle.
+
+(* Mark this test as the current one being executed *)
+GVL.sCurrentTestNameBeingCalled := sTestName;
+
+(* Check if combination of address for the test function block and test name already 
+   exists. If so, don't add it to the available tests. If not found, add it to the available
+   tests *)
+FOR nCounterTestFunctionBlockAddress := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
+	IF GVL.pTestFunctionBlockAddressess[nCounterTestFunctionBlockAddress] = GVL.pCurrentTestFunctionBlockBeingCalled THEN
+		GVL.pTestFunctionBlockAddressess[nCounterTestFunctionBlockAddress].AddTest(sTestName := sTestName);
+		RETURN;
+	END_IF
+END_FOR
+]]></ST>
+    </Implementation>
+    <LineIds Name="TEST">
+      <LineId Id="9" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="40" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

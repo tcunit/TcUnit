@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic IMPLEMENTS I_AssertResult
+VAR
+    aAssertResults : ARRAY[1..cStartSizeOfArray] OF ST_AssertResult;
+    nFailuresCount : UINT := 0;
+    nSuccessCount : UINT := 0;
+    nTotalCount : UINT := 0;
+END_VAR
+VAR CONSTANT
+    cStartSizeOfArray : UINT := 100;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FindMessageAndTestInstancePathEquals" Id="{33a89dae-77cc-43e7-920d-ea254b349a40}">
+      <Declaration><![CDATA[(* This method searches for any already added additions of the combination of
+   assertion message and assertion instance paths. It returns the location of
+   the addition. If it is not found, it returns 0.
+*)
+METHOD PRIVATE FindMessageAndTestInstancePathEquals : UDINT
+VAR_INPUT
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    nCounter : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
+IF nTotalCount > 0 THEN
+    FOR nCounter := 1 TO nTotalCount BY 1 DO
+        IF sMessage = aAssertResults[nCounter].sMessage AND
+            sTestInstancePath = aAssertResults[nCounter].sTestInstancePath THEN
+            FindMessageAndTestInstancePathEquals := nCounter;
+            EXIT;
+        END_IF
+	END_FOR
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReportResult_BOOL" Id="{6b9b378f-8601-4280-b87e-19959f7271bd}">
+      <Declaration><![CDATA[METHOD PUBLIC ReportResult_BOOL
+VAR_INPUT
+    bExpected : BOOL;
+    bActual : BOOL;
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR_OUTPUT
+    bAlreadyReported : BOOL := FALSE;
+END_VAR
+VAR
+    nLocation : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Check if we can find any existing match of the report
+IF ((nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0) OR_ELSE
+    (aAssertResults[nLocation].uExpected.bExpectedOrActual <> bExpected OR
+       aAssertResults[nLocation].uActual.bExpectedOrActual <> bActual) THEN
+    IF bExpected <> bActual THEN
+        nFailuresCount := nFailuresCount + 1;
+    ELSE
+        nSuccessCount := nSuccessCount + 1;
+	END_IF
+    nTotalCount := nTotalCount + 1;
+    aAssertResults[nTotalCount].uExpected.bExpectedOrActual := bExpected;
+    aAssertResults[nTotalCount].uActual.bExpectedOrActual := bActual;
+    aAssertResults[nTotalCount].sMessage := sMessage;
+    aAssertResults[nTotalCount].sTestInstancePath := sTestInstancePath;
+ELSE
+    bAlreadyReported := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReportResult_USINT" Id="{e2917775-ee70-432e-a727-d868a612315b}">
+      <Declaration><![CDATA[METHOD PUBLIC ReportResult_USINT
+VAR_INPUT
+    nExpected : USINT;
+    nActual : USINT;
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR_OUTPUT
+    bAlreadyReported : BOOL := FALSE;
+END_VAR
+VAR
+    nLocation : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Check if we can find any existing match of the report
+IF ((nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0) OR_ELSE
+    (aAssertResults[nLocation].uExpected.nUSExpectedOrActual <> nExpected OR
+       aAssertResults[nLocation].uActual.nUSExpectedOrActual <> nActual) THEN
+    IF nExpected <> nActual THEN
+        nFailuresCount := nFailuresCount + 1;
+    ELSE
+        nSuccessCount := nSuccessCount + 1;
+	END_IF
+    nTotalCount := nTotalCount + 1;
+    aAssertResults[nTotalCount].uExpected.nUSExpectedOrActual := nExpected;
+    aAssertResults[nTotalCount].uActual.nUSExpectedOrActual := nActual;
+    aAssertResults[nTotalCount].sMessage := sMessage;
+    aAssertResults[nTotalCount].sTestInstancePath := sTestInstancePath;
+ELSE
+    bAlreadyReported := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AssertResultStatic">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.FindMessageAndTestInstancePathEquals">
+      <LineId Id="22" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.ReportResult_BOOL">
+      <LineId Id="67" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="68" Count="8" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.ReportResult_USINT">
+      <LineId Id="67" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="68" Count="8" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

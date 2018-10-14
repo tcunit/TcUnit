@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_MessagePrinter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+DESCRIPTION: This function block is responsible for printing the results of the tests to a defined output.
+*)
+FUNCTION_BLOCK FB_MessagePrinter]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="LogMessageError" Id="{bab195d7-5e96-4c3f-8266-c59551de8d0d}">
+      <Declaration><![CDATA[METHOD PUBLIC LogMessageError
+VAR_INPUT
+    sExpected : STRING;
+    sActual : STRING;
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    sTestInstancePathCleaned : STRING;
+    sFinalMessage : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[sTestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(sTestInstancePath);
+sFinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', sTestInstancePathCleaned);
+sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, '$'');
+IF Tc2_Standard.LEN(STR := sExpected) > 0 THEN
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', EXP: ');
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, sExpected);
+END_IF
+IF Tc2_Standard.LEN(STR := sActual) > 0 THEN
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', ACT: ');
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, sActual);
+END_IF
+IF Tc2_Standard.LEN(STR := sMessage) > 0 THEN
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', MSG: %s ');
+END_IF
+Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                     msgFmtStr := sFinalMessage,
+                     strArg := sMessage);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{60392e51-c21c-4caa-851a-442a6a14bf1d}">
+      <Declaration><![CDATA[METHOD PRIVATE RemoveInstancePathAndProjectNameFromTestInstancePath : STRING
+VAR_INPUT
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    nCharacterPositionOfProjectName : INT;
+    sProjectNameWithDot : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Add the '.' character to the project name for search
+sProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
+
+// Find the character position of the beginning of the first occurence of the project name
+nCharacterPositionOfProjectName := FIND(sTestInstancePath, sProjectNameWithDot);
+
+
+IF nCharacterPositionOfProjectName > 0 THEN
+    sTestInstancePath := DELETE(STR := sTestInstancePath,
+                                LEN := LEN(sProjectNameWithDot),
+                                POS := nCharacterPositionOfProjectName);
+END_IF
+
+// Check if the project name happens to be the same as namespace, and in that case, remove that as well
+nCharacterPositionOfProjectName := FIND(sTestInstancePath,
+                                        sProjectNameWithDot);
+
+IF nCharacterPositionOfProjectName > 0 THEN
+    sTestInstancePath := DELETE(STR := sTestInstancePath,
+                                LEN := LEN(sProjectNameWithDot),
+                                POS := nCharacterPositionOfProjectName);
+END_IF
+
+RemoveInstancePathAndProjectNameFromTestInstancePath := sTestInstancePath;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MessagePrinter">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MessagePrinter.LogMessageError">
+      <LineId Id="27" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MessagePrinter.RemoveInstancePathAndProjectNameFromTestInstancePath">
+      <LineId Id="39" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="61" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

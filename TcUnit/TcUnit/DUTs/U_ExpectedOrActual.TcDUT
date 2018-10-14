@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <DUT Name="U_ExpectedOrActual" Id="{539c30a7-a560-469c-8422-aaf8c09f45d9}">
+    <Declaration><![CDATA[TYPE U_ExpectedOrActual :
+UNION
+    bExpectedOrActual : BOOL;
+    nbExpectedOrActual : BYTE;
+    nDWExpectedOrActual : DWORD;
+    sExpectedOrActual : Tc2_System.T_MaxString;
+    nUDExpectedOrActual : UDINT;
+    nUExpectedOrActual : UINT;
+    nUSExpectedOrActual : USINT;
+    nWExpectedOrActual : WORD;
+END_UNION
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

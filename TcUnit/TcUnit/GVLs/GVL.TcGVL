@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <GVL Name="GVL" Id="{78472b76-c9a4-4b27-a580-8e7898edc3d7}">
+    <Declaration><![CDATA[{attribute 'no_assign'}
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	fbAssertResultStatic : FB_AssertResultStatic;
+	fbTcUnitRunner : FB_TcUnitRunner;
+	
+	
+	bTestFunctionBlockAssertRegistered : BOOL;
+	
+	(* Amount of function blocks that have declared tests *)
+	//nAmountOfTestFunctionBlocks : UINT := 0;
+	
+	(* Current test function block being called *)
+	pCurrentTestFunctionBlockBeingCalled : I_TestFunctionBlock;
+	
+	(* Current name of test being called *)
+	sCurrentTestNameBeingCalled : Tc2_Utilities.T_MaxString;
+	
+	(* The function block assert instance should be 1:1 mapped to
+	   the test function block instance path. *)
+	nInitializedTestFunctionBlocks : UINT := 0;
+	pTestFunctionBlockAssertAddressess : ARRAY[1..300] OF PVOID;
+	pTestFunctionBlockAddressess : ARRAY[1..300] OF I_TestFunctionBlock;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

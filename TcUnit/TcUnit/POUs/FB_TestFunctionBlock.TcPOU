@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_TestFunctionBlock" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the function block that
+   has the different tests in it (i.e. test-FB). Every test-FB can have one or more tests, and
+   each test can do one or more asserts.
+*)
+{attribute 'call_after_init'}
+{attribute 'reflection'}
+FUNCTION_BLOCK FB_TestFunctionBlock IMPLEMENTS I_TestFunctionBlock
+VAR
+	{attribute 'instance-path'}
+    {attribute 'noinit'}
+	sInstancePath : Tc2_Utilities.T_MaxString;
+	
+	(* This is a interface-pointer to the child-object that inherits this object
+	   in order for us to have a reference to calling the actual execution of the
+       tests *) 
+	pRunnableTest : I_RunnableTestFunctionBlock;
+	
+	nNumberOfTests : UINT := 0;
+	aTestNames : ARRAY[1..100] OF Tc2_Utilities.T_MaxString;
+	aTestFailed : ARRAY[1..100] OF BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
+      <Declaration><![CDATA[METHOD PUBLIC AddTest
+VAR_INPUT
+	sTestName : T_MaxString;
+END_VAR
+VAR
+	nCounterTestName : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[(* Check if the test name already exists *)
+FOR nCounterTestName := 1 TO nNumberOfTests BY 1 DO
+	IF aTestNames[nCounterTestName] = sTestName THEN
+		RETURN; // Found
+	END_IF
+END_FOR
+		
+(* Not found. Add it. *)
+aTestNames[nCounterTestName] := sTestName;
+nNumberOfTests := nNumberOfTests + 1;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetAmountOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
+      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfFailedTests : UINT
+VAR
+	nCounter : UINT;
+	nFailedTestsCount : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nNumberOfTests > 0 THEN
+	FOR nCounter := 1 TO GetAmountOfTests() BY 1 DO
+		IF aTestFailed[nCounter] = TRUE THEN
+			nFailedTestsCount := nFailedTestsCount + 1;
+		END_IF
+	END_FOR
+END_IF
+
+GetAmountOfFailedTests := nFailedTestsCount;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetAmountOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
+      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfSuccessfulTests : UINT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAmountOfSuccessfulTests := GetAmountOfTests() - GetAmountOfFailedTests();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetAmountOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
+      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfTests : UINT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAmountOfTests := nNumberOfTests;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
+      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_Utilities.T_MaxString
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetInstancePath := sInstancePath;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetRunnable" Id="{42018cb6-0640-401b-9af0-45a257049175}">
+      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestFunctionBlock]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetRunnable := pRunnableTest;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Initialize" Id="{1c3645b8-e9b0-4963-8e9e-6ea2327dddf4}">
+      <Declaration><![CDATA[{attribute 'call_after_init'}
+METHOD PRIVATE Initialize]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.bTestFunctionBlockAssertRegistered THEN
+	GVL.nInitializedTestFunctionBlocks := GVL.nInitializedTestFunctionBlocks + 1;	
+	GVL.pTestFunctionBlockAddressess[GVL.nInitializedTestFunctionBlocks] := THIS^;
+	GVL.bTestFunctionBlockAssertRegistered := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterTestFunctionBlock" Id="{5739bc4d-f91e-4513-b43f-1bc828337468}">
+      <Declaration><![CDATA[METHOD PUBLIC RegisterTestFunctionBlock
+VAR_INPUT
+	iRunnableTestFunctionBlock : I_RunnableTestFunctionBlock;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pRunnableTest := iRunnableTestFunctionBlock;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
+      <Declaration><![CDATA[METHOD PUBLIC SetTestFailed
+VAR_INPUT
+	sTestName : Tc2_Utilities.T_MaxString;
+END_VAR
+VAR
+	nCounter : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF nNumberOfTests > 0 THEN
+	FOR nCounter := 1 TO nNumberOfTests BY 1 DO
+		IF aTestNames[nCounter] = sTestName THEN
+			aTestFailed[nCounter] := TRUE;
+		END_IF
+	END_FOR
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TestFunctionBlock">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.AddTest">
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="3" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="32" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.GetAmountOfFailedTests">
+      <LineId Id="10" Count="7" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.GetAmountOfSuccessfulTests">
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.GetAmountOfTests">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.GetInstancePath">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.GetRunnable">
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.Initialize">
+      <LineId Id="14" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.RegisterTestFunctionBlock">
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFunctionBlock.SetTestFailed">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <Itf Name="I_TestFunctionBlock" Id="{fabfa969-ab32-4ba2-961d-04367de5e5dc}">
+    <Declaration><![CDATA[INTERFACE I_TestFunctionBlock
+]]></Declaration>
+    <Method Name="AddTest" Id="{b1967430-7a18-45f6-a848-c24f8e3214cd}">
+      <Declaration><![CDATA[METHOD PUBLIC AddTest
+VAR_INPUT
+	sTestName : T_MaxString;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="GetAmountOfFailedTests" Id="{61a062f9-f37a-4424-96ae-de91ff83afb5}">
+      <Declaration><![CDATA[METHOD GetAmountOfFailedTests : UINT]]></Declaration>
+    </Method>
+    <Method Name="GetAmountOfSuccessfulTests" Id="{fce6e539-04f0-4cbf-9c8e-65424fef18a9}">
+      <Declaration><![CDATA[METHOD GetAmountOfSuccessfulTests : UINT]]></Declaration>
+    </Method>
+    <Method Name="GetAmountOfTests" Id="{69a9429d-ebdd-410d-884a-632e720b1b3c}">
+      <Declaration><![CDATA[METHOD GetAmountOfTests : UINT]]></Declaration>
+    </Method>
+    <Method Name="GetInstancePath" Id="{5094a4b1-13cc-4403-8245-d0e51307e14a}">
+      <Declaration><![CDATA[METHOD GetInstancePath : Tc2_Utilities.T_MaxString]]></Declaration>
+    </Method>
+    <Method Name="GetRunnable" Id="{608fa14a-a1d0-4c7f-ba01-8c9a22b16686}">
+      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestFunctionBlock]]></Declaration>
+    </Method>
+    <Method Name="SetTestFailed" Id="{fe3fa7bb-7999-49ed-9295-a12b7993e593}">
+      <Declaration><![CDATA[METHOD SetTestFailed
+VAR_INPUT
+	sTestName : Tc2_Utilities.T_MaxString;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

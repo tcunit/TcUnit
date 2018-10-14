@@ -1,0 +1,78 @@
+# //////////////////////////////////////////////////////////////////////////////
+#
+# This file makes sure everything in this folder (recursively) according to the
+# rules specified here is ignored by GIT version controlling. It's adapted
+# specifically for TwinCAT3.1 projects.
+#
+# Revision history:
+#
+# 1.0/2015-09-09/Jakob Sagatowski
+#                First revision. Created a default ignorefile with some TwinCAT
+#                files extensions recommended by Beckhoff.
+# 1.1/2016-11-28/Jakob Sagatowski
+#                Removed included libraries
+# 1.2/2017-04-27/Jakob Sagatowski
+#                Removed *.tmc from the git ignore. Now *.tmc-files are included.
+# 1.3/2017-12-14/Jakob Sagatowski
+#                Added *.~u.
+# 1.4/2018-10-03/Jakob Sagatowksi
+#		 Added .vs/
+# 
+# //////////////////////////////////////////////////////////////////////////////
+
+#TwinCAT files
+*.tpy
+*.tclrs
+*.compiled-library
+*.compileinfo
+_Boot/
+_CompileInfo/
+_Libraries/
+
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.mdf
+*.ldf
+*.sln.~u
+*.~u
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+.vs/
+
+#Tooling
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+Packages*/
+#Project files
+#[Bb]uild/
+
+#Subversion files
+.svn
+
+# Office Temp Files
+~$*

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <DUT Name="ST_TestFunctionBlockInstance" Id="{016951be-9167-42bd-ae10-8e1a68d8330a}">
+    <Declaration><![CDATA[TYPE ST_TestFunctionBlockInstance :
+STRUCT
+   // iAddressOfTestFunctionBlock : I_TestFunctionBlock := 16#0;
+    eTestFunctionBlockRunState : E_TestFunctionBlockRunState := E_TestFunctionBlockRunState.IDLE;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

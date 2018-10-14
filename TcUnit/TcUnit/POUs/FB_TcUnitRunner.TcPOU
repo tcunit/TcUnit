@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+DESCRIPTION: This function block is responsible for holding track of the tests
+			 and executing them.
+*)
+FUNCTION_BLOCK FB_TcUnitRunner IMPLEMENTS I_TcUnitRunner
+VAR
+	(* There can be one or more tests (testnames) for every test function
+	   block instance *)
+    //aTestFunctionBlocks : ARRAY[1..cSizeOfStaticArray] OF ST_TestFunctionBlock;
+	//aTestFunctionBlocks : ARRAY[0..cSizeOfStaticArray] OF FB_TestFunctionBlock;
+	//aRunnableTestFunctionBlockAddresses : ARRAY[1..cSizeOfStaticArray] OF I_RunnableTestFunctionBlock;
+	aRunnableTestFunctionBlockResults : ARRAY[1..cSizeOfStaticArray] OF E_TestFunctionBlockRunState;
+	
+	(* The total amount of test function blocks to be executed *)
+    //nAmountOfRunnableTestFunctionBlocks : UINT := 0;
+	
+	(* Inidication of whether all test FBs have reported that they are finished *)
+    bAllTestFunctionBlocksFinished : BOOL := FALSE;
+END_VAR
+VAR CONSTANT
+    cSizeOfStaticArray : UINT := 300;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="RunFunctionBlocksTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
+      <Declaration><![CDATA[METHOD RunFunctionBlocksTests
+VAR
+    nCounter : UINT := 0;
+    nTestFunctionBlocksFinished : UINT := 0;
+    sIntermediateString : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT bAllTestFunctionBlocksFinished AND GVL.nInitializedTestFunctionBlocks > 0 THEN
+    FOR nCounter := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
+		IF aRunnableTestFunctionBlockResults[nCounter] = E_TestFunctionBlockRunState.FINISHED THEN
+            nTestFunctionBlocksFinished := nTestFunctionBlocksFinished + 1;
+        ELSE
+			GVL.pCurrentTestFunctionBlockBeingCalled := GVL.pTestFunctionBlockAddressess[nCounter];
+			aRunnableTestFunctionBlockResults[nCounter] := GVL.pCurrentTestFunctionBlockBeingCalled.GetRunnable().RunTests();
+        END_IF
+	END_FOR
+    IF nTestFunctionBlocksFinished = GVL.nInitializedTestFunctionBlocks THEN
+        bAllTestFunctionBlocksFinished := TRUE;
+
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                     msgFmtStr := '=================TESTS FINISHED RUNNING=======================',
+                     strArg := '');
+        sIntermediateString := Tc2_Utilities.CONCAT(STR1 := 'Total amount of test function blocks : ',
+                                                    STR2 := UINT_TO_STRING(nTestFunctionBlocksFinished));
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                             msgFmtStr := sIntermediateString, strArg := '');
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                     msgFmtStr := '==============================================================',
+                     strArg := '');
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TcUnitRunner">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcUnitRunner.RunFunctionBlocksTests">
+      <LineId Id="10" Count="1" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="38" Count="3" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

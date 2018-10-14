@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <Itf Name="I_AssertResult" Id="{d62257da-e039-4c36-bcdd-d114537286b3}">
+    <Declaration><![CDATA[INTERFACE I_AssertResult]]></Declaration>
+    <Method Name="ReportResult_BOOL" Id="{67d6ca26-d15b-4508-ae77-495c179e8a48}">
+      <Declaration><![CDATA[METHOD PUBLIC ReportResult_BOOL
+VAR_INPUT
+    bExpected : BOOL;
+    bActual : BOOL;
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR_OUTPUT
+    bAlreadyReported : BOOL;
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="ReportResult_USINT" Id="{f5288779-4edb-4f73-854e-735fb005e27b}">
+      <Declaration><![CDATA[METHOD PUBLIC ReportResult_USINT
+VAR_INPUT
+    nExpected : USINT;
+    nActual : USINT;
+    sMessage : Tc2_System.T_MaxString;
+    sTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR_OUTPUT
+    bAlreadyReported : BOOL := FALSE;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
