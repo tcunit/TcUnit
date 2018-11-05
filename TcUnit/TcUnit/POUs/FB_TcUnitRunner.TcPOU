@@ -31,6 +31,9 @@ END_VAR]]></Declaration>
 VAR
     nCounter : UINT := 0;
     nTestFunctionBlocksFinished : UINT := 0;
+	nTestCases : UINT := 0;
+	nFailedTestCases : UINT := 0;
+	nSuccessfulTestCases : UINT := 0;
     sIntermediateString : STRING;
 END_VAR]]></Declaration>
       <Implementation>
@@ -38,6 +41,9 @@ END_VAR]]></Declaration>
     FOR nCounter := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
 		IF aRunnableTestFunctionBlockResults[nCounter] = E_TestFunctionBlockRunState.FINISHED THEN
             nTestFunctionBlocksFinished := nTestFunctionBlocksFinished + 1;
+			nTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfTests() + nTestCases;
+			nFailedTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfFailedTests() + nFailedTestCases;
+			nSuccessfulTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfSuccessfulTests() + nSuccessfulTestCases;
         ELSE
 			GVL.pCurrentTestFunctionBlockBeingCalled := GVL.pTestFunctionBlockAddressess[nCounter];
 			aRunnableTestFunctionBlockResults[nCounter] := GVL.pCurrentTestFunctionBlockBeingCalled.GetRunnable().RunTests();
@@ -50,9 +56,21 @@ END_VAR]]></Declaration>
                      msgFmtStr := '=================TESTS FINISHED RUNNING=======================',
                      strArg := '');
         sIntermediateString := Tc2_Utilities.CONCAT(STR1 := 'Total amount of test function blocks : ',
-                                                    STR2 := UINT_TO_STRING(nTestFunctionBlocksFinished));
+                                                    STR2 := UINT_TO_STRING(nTestFunctionBlocksFinished));													
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := sIntermediateString, strArg := '');
+		sIntermediateString := Tc2_Utilities.CONCAT(STR1 := 'Total amount of tests : ',
+                                                    STR2 := UINT_TO_STRING(nTestCases));						
+		Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+							 msgFmtStr := sIntermediateString, strArg := '');
+		sIntermediateString := Tc2_Utilities.CONCAT(STR1 := 'Total amount of successful tests : ',
+                                                    STR2 := UINT_TO_STRING(nSuccessfulTestCases));
+		Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+							 msgFmtStr := sIntermediateString, strArg := '');
+		sIntermediateString := Tc2_Utilities.CONCAT(STR1 := 'Total amount of failed tests : ',
+                                                    STR2 := UINT_TO_STRING(nFailedTestCases));
+		Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+							 msgFmtStr := sIntermediateString, strArg := '');
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                      msgFmtStr := '==============================================================',
                      strArg := '');
@@ -67,6 +85,8 @@ END_IF]]></ST>
       <LineId Id="10" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="86" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="63" Count="0" />
@@ -78,6 +98,12 @@ END_IF]]></ST>
       <LineId Id="49" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="45" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="88" Count="1" />
+      <LineId Id="91" Count="1" />
+      <LineId Id="94" Count="2" />
+      <LineId Id="93" Count="0" />
       <LineId Id="43" Count="1" />
       <LineId Id="42" Count="0" />
       <LineId Id="25" Count="0" />
