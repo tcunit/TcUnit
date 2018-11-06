@@ -19,7 +19,8 @@
     <Title>TcUnit</Title>
     <ProjectVersion>0.0.1.0</ProjectVersion>
     <DefaultNamespace>TcUnit</DefaultNamespace>
-    <Description>www.tcunit.org</Description>
+    <Description>TwinCAT unit testing framework.
+Documentation and examples are available at www.tcunit.org</Description>
     <LibraryCategories>
       <LibraryCategory>
         <Id>{78515825-a6f1-476c-a7b7-6595f51e6013}</Id>
@@ -67,9 +68,6 @@
     <Compile Include="GVLs\GVL_AssertResult.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="ITFs\I_AssertResult.TcIO">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_TcUnitRunner.TcIO">
       <SubType>Code</SubType>

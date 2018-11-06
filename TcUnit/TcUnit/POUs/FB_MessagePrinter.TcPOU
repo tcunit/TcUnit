@@ -17,13 +17,14 @@ VAR_INPUT
     sTestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    sTestInstancePathCleaned : STRING;
+    sTestInstancePathCleaned : Tc2_System.T_MaxString;
     sFinalMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[sTestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(sTestInstancePath);
 sFinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', sTestInstancePathCleaned);
 sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, '$'');
+
 IF Tc2_Standard.LEN(STR := sExpected) > 0 THEN
     sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', EXP: ');
     sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, sExpected);
@@ -41,13 +42,13 @@ Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
       </Implementation>
     </Method>
     <Method Name="RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{60392e51-c21c-4caa-851a-442a6a14bf1d}">
-      <Declaration><![CDATA[METHOD PRIVATE RemoveInstancePathAndProjectNameFromTestInstancePath : STRING
+      <Declaration><![CDATA[METHOD PRIVATE RemoveInstancePathAndProjectNameFromTestInstancePath : Tc2_System.T_MaxString
 VAR_INPUT
     sTestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
     nCharacterPositionOfProjectName : INT;
-    sProjectNameWithDot : STRING;
+    sProjectNameWithDot : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Add the '.' character to the project name for search
@@ -83,6 +84,7 @@ RemoveInstancePathAndProjectNameFromTestInstancePath := sTestInstancePath;]]></S
       <LineId Id="27" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="23" Count="0" />
+      <LineId Id="62" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="45" Count="0" />

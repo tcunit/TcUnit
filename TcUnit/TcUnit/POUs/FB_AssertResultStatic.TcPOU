@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic IMPLEMENTS I_AssertResult
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic
 VAR
     aAssertResults : ARRAY[1..cStartSizeOfArray] OF ST_AssertResult;
     nFailuresCount : UINT := 0;

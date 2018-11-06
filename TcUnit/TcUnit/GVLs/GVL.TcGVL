@@ -10,9 +10,6 @@ VAR_GLOBAL
 	
 	bTestFunctionBlockAssertRegistered : BOOL;
 	
-	(* Amount of function blocks that have declared tests *)
-	//nAmountOfTestFunctionBlocks : UINT := 0;
-	
 	(* Current test function block being called *)
 	pCurrentTestFunctionBlockBeingCalled : I_TestFunctionBlock;
 	

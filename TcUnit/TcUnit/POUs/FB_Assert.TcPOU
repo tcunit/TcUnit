@@ -8,7 +8,7 @@ DESCRIPTION: This function block is responsible for providing all the assert-met
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
 VAR
-    AssertResults : I_AssertResult := GVL.fbAssertResultStatic;
+    AssertResults : FB_AssertResultStatic := GVL.fbAssertResultStatic;
     fbMessagePrinter : FB_MessagePrinter;
 END_VAR]]></Declaration>
     <Implementation>
@@ -95,6 +95,8 @@ ELSIF bDataContentNotEquals THEN
 END_IF
 
 IF bDataTypesNotEquals OR bDataSizeNotEquals OR bDataContentNotEquals THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := sExpectedDataString,
                                      sActual := sActualDataString,
                                      sMessage := sMessage,
@@ -123,6 +125,8 @@ AssertResults.ReportResult(Expected := bExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND bExpected <> bActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := BOOL_TO_STRING(bExpected),
                                      sActual := BOOL_TO_STRING(bActual),
                                      sMessage := sMessage,
@@ -151,6 +155,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
                                                          STR1 := '0x',
                                                          STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := nExpected,
@@ -187,6 +193,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+	
     fbMessagePrinter.LogMessageError(sExpected := DINT_TO_STRING(nExpected),
                                      sActual := DINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -215,6 +223,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
                                                          STR1 := '0x',
                                                          STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := nExpected,
@@ -251,6 +261,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := INT_TO_STRING(nExpected),
                                      sActual := INT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -279,6 +291,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+	
     fbMessagePrinter.LogMessageError(sExpected := LINT_TO_STRING(nExpected),
                                      sActual := LINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -308,6 +322,8 @@ AssertResults.ReportResult(Expected := fExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND ABS(fExpected - fActual) > fDelta THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := LREAL_TO_STRING(fExpected),
                                      sActual := LREAL_TO_STRING(fActual),
                                      sMessage := sMessage,
@@ -336,6 +352,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
                                                          STR1 := '0x',
                                                          STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := nExpected,
@@ -373,6 +391,8 @@ AssertResults.ReportResult(Expected := fExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND ABS(fExpected - fActual) > fDelta THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := REAL_TO_STRING(fExpected),
                                      sActual := REAL_TO_STRING(fActual),
                                      sMessage := sMessage,
@@ -401,6 +421,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := SINT_TO_STRING(nExpected),
                                      sActual := SINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -429,6 +451,8 @@ AssertResults.ReportResult(Expected := sExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND (Tc2_Standard.LEN(sExpected) <> Tc2_Standard.LEN(sActual) OR (sExpected <> sActual)) THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := sExpected,
                                      sActual := sActual,
                                      sMessage := sMessage,
@@ -457,6 +481,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := UDINT_TO_STRING(nExpected),
                                      sActual := UDINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -485,6 +511,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := UINT_TO_STRING(nExpected),
                                      sActual := UINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -513,6 +541,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := ULINT_TO_STRING(nExpected),
                                      sActual := ULINT_TO_STRING(nActual),
                                      sMessage := sMessage,
@@ -541,7 +571,6 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	// Log test as failed
 	SetTestFailed();
 	
     fbMessagePrinter.LogMessageError(sExpected := USINT_TO_STRING(nExpected),
@@ -600,6 +629,8 @@ IF NOT bEquals THEN
         sActualString := CONCAT(sActualString, USINT_TO_STRING(aActual[nIndex]));
 	END_IF
 
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := sExpectedString,
                                      sActual := sActualString,
                                      sMessage := sMessage,
@@ -628,6 +659,8 @@ AssertResults.ReportResult(Expected := nExpected,
                            bAlreadyReported => bAlreadyReported);
 
 IF NOT bAlreadyReported AND nExpected <> nActual THEN
+	SetTestFailed();
+
     fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
                                                          STR1 := '0x',
                                                          STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := nExpected,
@@ -749,7 +782,9 @@ END_FOR]]></ST>
       <LineId Id="53" Count="0" />
       <LineId Id="61" Count="0" />
       <LineId Id="29" Count="0" />
-      <LineId Id="94" Count="4" />
+      <LineId Id="94" Count="1" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="96" Count="2" />
       <LineId Id="93" Count="0" />
       <LineId Id="99" Count="0" />
     </LineIds>
@@ -760,6 +795,7 @@ END_FOR]]></ST>
       <LineId Id="25" Count="0" />
       <LineId Id="60" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="70" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="2" />
       <LineId Id="10" Count="0" />
@@ -771,6 +807,7 @@ END_FOR]]></ST>
       <LineId Id="52" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="66" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -789,6 +826,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -801,6 +839,7 @@ END_FOR]]></ST>
       <LineId Id="47" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -820,6 +859,7 @@ END_FOR]]></ST>
       <LineId Id="43" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -832,6 +872,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -845,6 +886,7 @@ END_FOR]]></ST>
       <LineId Id="46" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="61" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -857,6 +899,7 @@ END_FOR]]></ST>
       <LineId Id="47" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -876,6 +919,7 @@ END_FOR]]></ST>
       <LineId Id="45" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="65" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -888,6 +932,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -900,6 +945,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -912,6 +958,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -924,6 +971,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -936,6 +984,7 @@ END_FOR]]></ST>
       <LineId Id="42" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -949,7 +998,7 @@ END_FOR]]></ST>
       <LineId Id="41" Count="0" />
       <LineId Id="77" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="61" Count="2" />
+      <LineId Id="62" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -976,7 +1025,9 @@ END_FOR]]></ST>
       <LineId Id="66" Count="7" />
       <LineId Id="65" Count="0" />
       <LineId Id="49" Count="0" />
+      <LineId Id="140" Count="0" />
       <LineId Id="56" Count="0" />
+      <LineId Id="141" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="74" Count="2" />
       <LineId Id="43" Count="0" />
@@ -987,6 +1038,7 @@ END_FOR]]></ST>
       <LineId Id="47" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
