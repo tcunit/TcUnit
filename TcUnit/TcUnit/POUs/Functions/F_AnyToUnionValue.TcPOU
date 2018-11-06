@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="F_AnyToUnionValue" Id="{04a97242-7600-4a30-a234-b9e3b1c2770c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
+VAR_INPUT
+    AnyValue : ANY;
+END_VAR
+VAR
+    nTempDWORD : DWORD;
+    ptREAL : POINTER TO REAL;
+    nTempLWORD : LWORD;
+    ptLREAL : POINTER TO LREAL;
+    ptTIME : POINTER TO TIME;
+    ptLTIME : POINTER TO LTIME;
+
+    nCount : DINT;
+    sString : T_MaxString;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE UDINT_TO_INT(AnyValue.TypeClass) OF
+    IBaseLibrary.TypeClass.TYPE_BOOL :
+        F_AnyToUnionValue.bExpectedOrActual := BYTE_TO_BOOL(AnyValue.pValue[0]);
+
+    IBaseLibrary.TypeClass.TYPE_BIT :
+        F_AnyToUnionValue.biExpectedOrActual := BYTE_TO_BIT(AnyValue.pValue[0]);
+
+    IBaseLibrary.TypeClass.TYPE_BYTE :
+        F_AnyToUnionValue.nbExpectedOrActual := AnyValue.pValue[0];
+
+    IBaseLibrary.TypeClass.TYPE_WORD :
+        F_AnyToUnionValue.nWExpectedOrActual :=
+            (SHL(BYTE_TO_WORD(AnyValue.pValue[1]), 8) OR
+                 BYTE_TO_WORD(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_DWORD :
+        F_AnyToUnionValue.nDWExpectedOrActual :=
+            (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
+                         BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
+                         BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
+                         BYTE_TO_DWORD(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_LWORD :
+        F_AnyToUnionValue.nLWExpectedOrActual :=
+        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_SINT :
+        F_AnyToUnionValue.nSExpectedOrActual := BYTE_TO_SINT(AnyValue.pValue[0]);
+
+    IBaseLibrary.TypeClass.TYPE_INT :
+        F_AnyToUnionValue.nExpectedOrActual := 
+                (SHL(BYTE_TO_INT(AnyValue.pValue[1]), 8) OR
+                     BYTE_TO_INT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_DINT :
+        F_AnyToUnionValue.nDExpectedOrActual :=
+            (SHL(SHL(SHL(BYTE_TO_DINT(AnyValue.pValue[3]), 8) OR
+                         BYTE_TO_DINT(AnyValue.pValue[2]), 8) OR
+                         BYTE_TO_DINT(AnyValue.pValue[1]), 8) OR
+                         BYTE_TO_DINT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_LINT :
+         F_AnyToUnionValue.nLExpectedOrActual :=
+        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LINT(AnyValue.pValue[7]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[6]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[5]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[4]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[3]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[2]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[1]), 8) OR
+                                     BYTE_TO_LINT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_USINT :
+        F_AnyToUnionValue.nUSExpectedOrActual := BYTE_TO_USINT(AnyValue.pValue[0]);
+
+    IBaseLibrary.TypeClass.TYPE_UINT :
+        F_AnyToUnionValue.nUExpectedOrActual := 
+                (SHL(BYTE_TO_UINT(AnyValue.pValue[1]), 8) OR
+                     BYTE_TO_UINT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_UDINT :
+        F_AnyToUnionValue.nUDExpectedOrActual :=
+            (SHL(SHL(SHL(BYTE_TO_UDINT(AnyValue.pValue[3]), 8) OR
+                         BYTE_TO_UDINT(AnyValue.pValue[2]), 8) OR
+                         BYTE_TO_UDINT(AnyValue.pValue[1]), 8) OR
+                         BYTE_TO_UDINT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_ULINT :
+        F_AnyToUnionValue.nULExpectedOrActual :=
+        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_ULINT(AnyValue.pValue[7]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[6]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[5]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[4]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[3]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[2]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[1]), 8) OR
+                                     BYTE_TO_ULINT(AnyValue.pValue[0]));
+
+    IBaseLibrary.TypeClass.TYPE_REAL :
+        nTempDWord := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[0]));
+        ptReal := ADR(nTempDWord);
+        F_AnyToUnionValue.fExpectedOrActual := ptReal^;
+
+    IBaseLibrary.TypeClass.TYPE_LREAL :
+        nTempLWORD := 
+        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
+        ptLREAL := ADR(nTempLWORD);
+        F_AnyToUnionValue.fLExpectedOrActual := ptLREAL^;
+
+    IBaseLibrary.TypeClass.TYPE_STRING :
+        FOR nCount := 0 TO MIN(AnyValue.diSize-1, 254) BY 1 DO
+            IF Tc2_System.F_ToCHR(AnyValue.pValue[nCount]) = '$00' THEN
+                EXIT;
+            END_IF
+            sString := Tc2_Standard.CONCAT(STR1 := sString, STR2 := Tc2_System.F_ToCHR(AnyValue.pValue[nCount]));
+        END_FOR
+        F_AnyToUnionValue.sExpectedOrActual := sString;
+
+    IBaseLibrary.TypeClass.TYPE_WSTRING :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_TIME :
+        nTempDWord := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
+                                   BYTE_TO_DWORD(AnyValue.pValue[0]));
+        ptTIME := ADR(nTempDWord);
+        F_AnyToUnionValue.tExpectedOrActual := ptTIME^;
+
+    IBaseLibrary.TypeClass.TYPE_DATE :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_POINTER :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_REFERENCE :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_SUBRANGE :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ENUM :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ARRAY :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_PARAMS :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_USERDEF :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_NONE :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANY :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANYBIT :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANYDATE :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANYINT :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANYNUM :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_ANYREAL :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_LAZY :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_LTIME :
+        nTempLWord := 
+        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
+                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
+        ptLTIME := ADR(nTempLWORD);
+        F_AnyToUnionValue.ltExpectedOrActual := ptLTIME^;
+
+    IBaseLibrary.TypeClass.TYPE_BITCONST :
+        //
+
+    IBaseLibrary.TypeClass.TYPE_INTERFACE :
+        //
+
+    ELSE
+        //
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="F_AnyToUnionValue">
+      <LineId Id="130" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="11" Count="32" />
+      <LineId Id="45" Count="4" />
+      <LineId Id="192" Count="3" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="196" Count="7" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="132" Count="4" />
+      <LineId Id="205" Count="1" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="138" Count="1" />
+      <LineId Id="207" Count="3" />
+      <LineId Id="140" Count="2" />
+      <LineId Id="211" Count="7" />
+      <LineId Id="143" Count="2" />
+      <LineId Id="222" Count="2" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="228" Count="1" />
+      <LineId Id="147" Count="1" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="236" Count="6" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="244" Count="0" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="151" Count="1" />
+      <LineId Id="281" Count="2" />
+      <LineId Id="263" Count="1" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="153" Count="4" />
+      <LineId Id="297" Count="2" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="300" Count="1" />
+      <LineId Id="159" Count="10" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="170" Count="0" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="172" Count="0" />
+      <LineId Id="83" Count="1" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="89" Count="1" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="91" Count="1" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="97" Count="1" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="101" Count="1" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="183" Count="0" />
+      <LineId Id="105" Count="1" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="302" Count="9" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="185" Count="0" />
+      <LineId Id="109" Count="1" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="113" Count="1" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -64,6 +64,10 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="GVLs\GVL_AssertResult.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="ITFs\I_AssertResult.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -85,13 +89,25 @@
     <Compile Include="POUs\FB_MessagePrinter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FB_ResultPrinter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\FB_TcUnitRunner.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TestFunctionBlock.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\F_AnyComparator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\F_AnyToUnionValue.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\F_AnyTypeClassToString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\F_IsAnyEqualToUnionValue.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\RUN.TcPOU">

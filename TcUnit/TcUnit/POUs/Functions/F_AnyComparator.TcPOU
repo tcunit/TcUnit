@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="F_AnyComparator" Id="{e4f95c0d-0ece-47a8-977f-f9d45a4f920e}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This function compares two instances of any object type and returns whether they are the same or not *)
+FUNCTION F_AnyComparator
+VAR_INPUT
+    AnyValueOne : ANY;
+    AnyValueTwo : ANY;
+END_VAR
+VAR_OUTPUT
+    bDataTypesNotEquals : BOOL;
+    bDataSizeNotEquals : BOOL;
+    bDataContentNotEquals : BOOL;
+END_VAR
+VAR
+    nCount : DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF AnyValueOne.TypeClass <> AnyValueTwo.TypeClass THEN
+    bDataTypesNotEquals := TRUE;
+END_IF
+
+IF NOT bDataTypesNotEquals THEN
+    IF (AnyValueOne.diSize <> AnyValueTwo.diSize) THEN
+        bDataSizeNotEquals := TRUE;
+	END_IF
+END_IF
+
+(* Even though the data type and size are equals, the contents may still differ *)
+IF NOT bDataTypesNotEquals AND NOT bDataSizeNotEquals THEN
+    // Compare each byte in the ANY-types
+    FOR nCount := 0 TO AnyValueOne.diSize-1 BY 1 DO
+        IF (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_STRING) OR
+            (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_WSTRING) THEN
+            IF F_ToChr(c := AnyValueOne.pValue[nCount]) = '$00' THEN
+                EXIT;
+		    END_IF
+		END_IF
+
+        IF AnyValueOne.pValue[nCount] <> AnyValueTwo.pValue[nCount] THEN
+            bDataContentNotEquals := TRUE;
+            EXIT;
+	    END_IF
+    END_FOR
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="F_AnyComparator">
+      <LineId Id="13" Count="8" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="22" Count="3" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="49" Count="1" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="26" Count="4" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

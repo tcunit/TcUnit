@@ -6,10 +6,10 @@ VAR
     aAssertResults : ARRAY[1..cStartSizeOfArray] OF ST_AssertResult;
     nFailuresCount : UINT := 0;
     nSuccessCount : UINT := 0;
-    nTotalCount : UINT := 0;
+    nAssertTotalCount : UINT := 0;
 END_VAR
 VAR CONSTANT
-    cStartSizeOfArray : UINT := 100;
+    cStartSizeOfArray : UINT := 300;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -29,8 +29,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
-IF nTotalCount > 0 THEN
-    FOR nCounter := 1 TO nTotalCount BY 1 DO
+IF nAssertTotalCount > 0 THEN
+    FOR nCounter := 1 TO nAssertTotalCount BY 1 DO
         IF sMessage = aAssertResults[nCounter].sMessage AND
             sTestInstancePath = aAssertResults[nCounter].sTestInstancePath THEN
             FindMessageAndTestInstancePathEquals := nCounter;
@@ -40,11 +40,11 @@ IF nTotalCount > 0 THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ReportResult_BOOL" Id="{6b9b378f-8601-4280-b87e-19959f7271bd}">
-      <Declaration><![CDATA[METHOD PUBLIC ReportResult_BOOL
+    <Method Name="ReportResult" Id="{675e4dfe-54f1-4dc0-a6fd-481bc63973c5}">
+      <Declaration><![CDATA[METHOD PUBLIC ReportResult
 VAR_INPUT
-    bExpected : BOOL;
-    bActual : BOOL;
+    Expected : ANY;
+    Actual : ANY;
     sMessage : Tc2_System.T_MaxString;
     sTestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -53,56 +53,35 @@ VAR_OUTPUT
 END_VAR
 VAR
     nLocation : UDINT;
+    bDataTypesNotEquals : BOOL;
+    bDataSizeNotEquals : BOOL;
+    bDataContentNotEquals : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Check if we can find any existing match of the report
-IF ((nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0) OR_ELSE
-    (aAssertResults[nLocation].uExpected.bExpectedOrActual <> bExpected OR
-       aAssertResults[nLocation].uActual.bExpectedOrActual <> bActual) THEN
-    IF bExpected <> bActual THEN
-        nFailuresCount := nFailuresCount + 1;
+IF (nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0 OR_ELSE
+    (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uExpected,
+                                 ExpectedOrActual := Expected) OR
+    NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uActual,
+                                 ExpectedOrActual := Actual)) THEN
+
+    // No existing match found, create a new entry
+    F_AnyComparator(AnyValueOne := Expected,
+                    AnyValueTwo := Actual,
+                    bDataTypesNotEquals => bDataTypesNotEquals,
+                    bDataSizeNotEquals => bDataSizeNotEquals,
+                    bDataContentNotEquals => bDataContentNotEquals);
+
+    IF bDataTypesNotEquals OR bDataSizeNotEquals OR bDataContentNotEquals THEN
+        GVL_AssertResult.nAssertFailuresCount := GVL_AssertResult.nAssertFailuresCount + 1;
     ELSE
-        nSuccessCount := nSuccessCount + 1;
+        GVL_AssertResult.nAssertSuccessCount := GVL_AssertResult.nAssertSuccessCount + 1;
 	END_IF
-    nTotalCount := nTotalCount + 1;
-    aAssertResults[nTotalCount].uExpected.bExpectedOrActual := bExpected;
-    aAssertResults[nTotalCount].uActual.bExpectedOrActual := bActual;
-    aAssertResults[nTotalCount].sMessage := sMessage;
-    aAssertResults[nTotalCount].sTestInstancePath := sTestInstancePath;
-ELSE
-    bAlreadyReported := TRUE;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="ReportResult_USINT" Id="{e2917775-ee70-432e-a727-d868a612315b}">
-      <Declaration><![CDATA[METHOD PUBLIC ReportResult_USINT
-VAR_INPUT
-    nExpected : USINT;
-    nActual : USINT;
-    sMessage : Tc2_System.T_MaxString;
-    sTestInstancePath : Tc2_System.T_MaxString;
-END_VAR
-VAR_OUTPUT
-    bAlreadyReported : BOOL := FALSE;
-END_VAR
-VAR
-    nLocation : UDINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Check if we can find any existing match of the report
-IF ((nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0) OR_ELSE
-    (aAssertResults[nLocation].uExpected.nUSExpectedOrActual <> nExpected OR
-       aAssertResults[nLocation].uActual.nUSExpectedOrActual <> nActual) THEN
-    IF nExpected <> nActual THEN
-        nFailuresCount := nFailuresCount + 1;
-    ELSE
-        nSuccessCount := nSuccessCount + 1;
-	END_IF
-    nTotalCount := nTotalCount + 1;
-    aAssertResults[nTotalCount].uExpected.nUSExpectedOrActual := nExpected;
-    aAssertResults[nTotalCount].uActual.nUSExpectedOrActual := nActual;
-    aAssertResults[nTotalCount].sMessage := sMessage;
-    aAssertResults[nTotalCount].sTestInstancePath := sTestInstancePath;
+    nAssertTotalCount := nAssertTotalCount + 1;
+    aAssertResults[nAssertTotalCount].uExpected := F_AnyToUnionValue(AnyValue := Expected);
+    aAssertResults[nAssertTotalCount].uActual := F_AnyToUnionValue(AnyValue := Actual);
+    aAssertResults[nAssertTotalCount].sMessage := sMessage;
+    aAssertResults[nAssertTotalCount].sTestInstancePath := sTestInstancePath;
 ELSE
     bAlreadyReported := TRUE;
 END_IF]]></ST>
@@ -122,20 +101,23 @@ END_IF]]></ST>
       <LineId Id="14" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AssertResultStatic.ReportResult_BOOL">
+    <LineIds Name="FB_AssertResultStatic.ReportResult">
       <LineId Id="67" Count="0" />
       <LineId Id="53" Count="0" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="68" Count="8" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="85" Count="1" />
-      <LineId Id="64" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.ReportResult_USINT">
-      <LineId Id="67" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="68" Count="8" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="125" Count="1" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="68" Count="5" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="76" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="85" Count="1" />
       <LineId Id="64" Count="0" />

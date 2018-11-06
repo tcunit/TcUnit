@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <GVL Name="GVL_AssertResult" Id="{e58ca29c-1ff3-4ff2-ac0d-06192d9ad9fb}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+    nAssertFailuresCount : UINT;
+    nAssertSuccessCount : UINT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
