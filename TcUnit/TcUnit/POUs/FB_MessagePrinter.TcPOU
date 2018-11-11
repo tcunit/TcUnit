@@ -57,11 +57,10 @@ sProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.Project
 // Find the character position of the beginning of the first occurence of the project name
 nCharacterPositionOfProjectName := FIND(sTestInstancePath, sProjectNameWithDot);
 
-
 IF nCharacterPositionOfProjectName > 0 THEN
     sTestInstancePath := DELETE(STR := sTestInstancePath,
-                                LEN := LEN(sProjectNameWithDot),
-                                POS := nCharacterPositionOfProjectName);
+								LEN := nCharacterPositionOfProjectName-1 + LEN(sProjectNameWithDot),
+								POS := 1);
 END_IF
 
 // Check if the project name happens to be the same as namespace, and in that case, remove that as well
@@ -70,8 +69,8 @@ nCharacterPositionOfProjectName := FIND(sTestInstancePath,
 
 IF nCharacterPositionOfProjectName > 0 THEN
     sTestInstancePath := DELETE(STR := sTestInstancePath,
-                                LEN := LEN(sProjectNameWithDot),
-                                POS := nCharacterPositionOfProjectName);
+								LEN := nCharacterPositionOfProjectName-1 + LEN(sProjectNameWithDot),
+								POS := 1);
 END_IF
 
 RemoveInstancePathAndProjectNameFromTestInstancePath := sTestInstancePath;]]></ST>
@@ -104,21 +103,18 @@ RemoveInstancePathAndProjectNameFromTestInstancePath := sTestInstancePath;]]></S
       <LineId Id="49" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="42" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="30" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="44" Count="0" />
+      <LineId Id="87" Count="1" />
       <LineId Id="31" Count="0" />
       <LineId Id="34" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="27" Count="0" />
-      <LineId Id="43" Count="0" />
+      <LineId Id="76" Count="0" />
       <LineId Id="35" Count="1" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="47" Count="0" />
+      <LineId Id="89" Count="1" />
       <LineId Id="54" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="61" Count="0" />
