@@ -6,77 +6,78 @@ DESCRIPTION: This function block reports the results from the tests
 *)
 FUNCTION_BLOCK FB_ResultPrinter
 VAR_INPUT
-    nTestFunctionBlocks : UINT;
-	nTestCases : UINT;
-	nSuccessfulTestCases : UINT;
-	nFailedTestCases : UINT;
+    AmountOfTestFunctionBlocks : UINT;
+    AmountOfTestCases : UINT;
+    AmountOfSuccessfulTestCases : UINT;
+    AmountOfFailedTestCases : UINT;
 END_VAR
 VAR_OUTPUT
-    bFinishedPrinting : BOOL;
+    FinishedPrinting : BOOL;
 END_VAR
 VAR
     (* Although we can print a message no #1 prior to message no #2, the message #2 can still be displayed before
        message #1, most likely because of some delay of the ADS data. To workaround this, we add a small delay between
        transmission of the ADS messages. *)
-    fbADSDelayTimer : TON := (PT := T#300MS);
-    nLastPrintState : USINT := 0;
-    nPrintState : USINT := 0;
+    ADSDelayTimer : TON := (PT := T#300MS);
+    LastPrintState : USINT := 0;
+    PrintState : USINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE nPrintState OF
+      <ST><![CDATA[CASE PrintState OF
     0 :
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
     1 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '%s', strArg := '| ==========TESTS FINISHED RUNNING==========');
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
     2 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Test function blocks: %s',
-                             strArg := UINT_TO_STRING(nTestFunctionBlocks));
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
-		
-	3 :
-	    Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Tests: %s',
-                             strArg := UINT_TO_STRING(nTestCases));
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+                             strArg := UINT_TO_STRING(AmountOfTestFunctionBlocks));
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
-    4 :					
-		Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-							 msgFmtStr := '| Successful tests: %s',
-							 strArg := UINT_TO_STRING((nSuccessfulTestCases)));
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+    3 :
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                             msgFmtStr := '| Tests: %s',
+                             strArg := UINT_TO_STRING(AmountOfTestCases));
+        LastPrintstate := PrintState;
+        PrintState := 100;
+
+    4 :
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                             msgFmtStr := '| Successful tests: %s',
+                             strArg := UINT_TO_STRING((AmountOfSuccessfulTestCases)));
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
     5 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Failed tests : %s',
-                             strArg := UINT_TO_STRING(nFailedTestCases));
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+                             strArg := UINT_TO_STRING(AmountOfFailedTestCases));
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
     6 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '%s', strArg := '| ======================================');
-        nLastPrintstate := nPrintState;
-        nPrintState := 100;
+                             msgFmtStr := '%s',
+                             strArg := '| ======================================');
+        LastPrintstate := PrintState;
+        PrintState := 100;
 
     7 :
-        bFinishedPrinting := TRUE;
+        FinishedPrinting := TRUE;
 
     100 :
-        fbADSDelayTimer(IN := TRUE);
-        IF fbADSDelayTimer.Q THEN
-            fbADSDelayTimer(IN := FALSE);
-            nPrintState := nLastPrintState + 1;
-		END_IF
+        ADSDelayTimer(IN := TRUE);
+        IF ADSDelayTimer.Q THEN
+            ADSDelayTimer(IN := FALSE);
+            PrintState := LastPrintState + 1;
+        END_IF
 
 END_CASE]]></ST>
     </Implementation>
@@ -114,6 +115,7 @@ END_CASE]]></ST>
       <LineId Id="20" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="47" Count="0" />
+      <LineId Id="162" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="89" Count="0" />

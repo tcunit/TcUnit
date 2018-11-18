@@ -21,8 +21,8 @@ END_VAR]]></Declaration>
 *)
 METHOD PRIVATE FindMessageAndTestInstancePathEquals : UDINT
 VAR_INPUT
-    sMessage : Tc2_System.T_MaxString;
-    sTestInstancePath : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
     nCounter : UDINT;
@@ -31,12 +31,12 @@ END_VAR]]></Declaration>
         <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
 IF nAssertTotalCount > 0 THEN
     FOR nCounter := 1 TO nAssertTotalCount BY 1 DO
-        IF sMessage = aAssertResults[nCounter].sMessage AND
-            sTestInstancePath = aAssertResults[nCounter].sTestInstancePath THEN
+        IF Message = aAssertResults[nCounter].Message AND
+            TestInstancePath = aAssertResults[nCounter].TestInstancePath THEN
             FindMessageAndTestInstancePathEquals := nCounter;
             EXIT;
         END_IF
-	END_FOR
+    END_FOR
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -45,11 +45,11 @@ END_IF]]></ST>
 VAR_INPUT
     Expected : ANY;
     Actual : ANY;
-    sMessage : Tc2_System.T_MaxString;
-    sTestInstancePath : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR_OUTPUT
-    bAlreadyReported : BOOL := FALSE;
+    AlreadyReported : BOOL := FALSE;
 END_VAR
 VAR
     nLocation : UDINT;
@@ -59,7 +59,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Check if we can find any existing match of the report
-IF (nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePath)) = 0 OR_ELSE
+IF (nLocation := FindMessageAndTestInstancePathEquals(Message, TestInstancePath)) = 0 OR_ELSE
     (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uExpected,
                                  ExpectedOrActual := Expected) OR
     NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uActual,
@@ -76,14 +76,14 @@ IF (nLocation := FindMessageAndTestInstancePathEquals(sMessage, sTestInstancePat
         GVL_AssertResult.nAssertFailuresCount := GVL_AssertResult.nAssertFailuresCount + 1;
     ELSE
         GVL_AssertResult.nAssertSuccessCount := GVL_AssertResult.nAssertSuccessCount + 1;
-	END_IF
+    END_IF
     nAssertTotalCount := nAssertTotalCount + 1;
     aAssertResults[nAssertTotalCount].uExpected := F_AnyToUnionValue(AnyValue := Expected);
     aAssertResults[nAssertTotalCount].uActual := F_AnyToUnionValue(AnyValue := Actual);
-    aAssertResults[nAssertTotalCount].sMessage := sMessage;
-    aAssertResults[nAssertTotalCount].sTestInstancePath := sTestInstancePath;
+    aAssertResults[nAssertTotalCount].Message := Message;
+    aAssertResults[nAssertTotalCount].TestInstancePath := TestInstancePath;
 ELSE
-    bAlreadyReported := TRUE;
+    AlreadyReported := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>

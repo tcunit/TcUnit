@@ -11,69 +11,69 @@ FUNCTION_BLOCK FB_MessagePrinter]]></Declaration>
     <Method Name="LogMessageError" Id="{bab195d7-5e96-4c3f-8266-c59551de8d0d}">
       <Declaration><![CDATA[METHOD PUBLIC LogMessageError
 VAR_INPUT
-    sExpected : STRING;
-    sActual : STRING;
-    sMessage : Tc2_System.T_MaxString;
-    sTestInstancePath : Tc2_System.T_MaxString;
+    Expected : STRING;
+    Actual : STRING;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
     sTestInstancePathCleaned : Tc2_System.T_MaxString;
     sFinalMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(sTestInstancePath);
+        <ST><![CDATA[sTestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
 sFinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', sTestInstancePathCleaned);
 sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, '$'');
 
-IF Tc2_Standard.LEN(STR := sExpected) > 0 THEN
+IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
     sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', EXP: ');
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, sExpected);
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, Expected);
 END_IF
-IF Tc2_Standard.LEN(STR := sActual) > 0 THEN
+IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
     sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', ACT: ');
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, sActual);
+    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, Actual);
 END_IF
-IF Tc2_Standard.LEN(STR := sMessage) > 0 THEN
+IF Tc2_Standard.LEN(STR := Message) > 0 THEN
     sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', MSG: %s ');
 END_IF
 Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                      msgFmtStr := sFinalMessage,
-                     strArg := sMessage);]]></ST>
+                     strArg := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{60392e51-c21c-4caa-851a-442a6a14bf1d}">
       <Declaration><![CDATA[METHOD PRIVATE RemoveInstancePathAndProjectNameFromTestInstancePath : Tc2_System.T_MaxString
 VAR_INPUT
-    sTestInstancePath : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    nCharacterPositionOfProjectName : INT;
-    sProjectNameWithDot : Tc2_System.T_MaxString;
+    CharacterPositionOfProjectName : INT;
+    ProjectNameWithDot : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Add the '.' character to the project name for search
-sProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
+ProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
 
 // Find the character position of the beginning of the first occurence of the project name
-nCharacterPositionOfProjectName := FIND(sTestInstancePath, sProjectNameWithDot);
+CharacterPositionOfProjectName := FIND(TestInstancePath, ProjectNameWithDot);
 
-IF nCharacterPositionOfProjectName > 0 THEN
-    sTestInstancePath := DELETE(STR := sTestInstancePath,
-								LEN := nCharacterPositionOfProjectName-1 + LEN(sProjectNameWithDot),
-								POS := 1);
+IF CharacterPositionOfProjectName > 0 THEN
+    TestInstancePath := DELETE(STR := TestInstancePath,
+                               LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
+                               POS := 1);
 END_IF
 
 // Check if the project name happens to be the same as namespace, and in that case, remove that as well
-nCharacterPositionOfProjectName := FIND(sTestInstancePath,
-                                        sProjectNameWithDot);
+CharacterPositionOfProjectName := FIND(TestInstancePath,
+                                       ProjectNameWithDot);
 
-IF nCharacterPositionOfProjectName > 0 THEN
-    sTestInstancePath := DELETE(STR := sTestInstancePath,
-								LEN := nCharacterPositionOfProjectName-1 + LEN(sProjectNameWithDot),
-								POS := 1);
+IF CharacterPositionOfProjectName > 0 THEN
+    TestInstancePath := DELETE(STR := TestInstancePath,
+                               LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
+                               POS := 1);
 END_IF
 
-RemoveInstancePathAndProjectNameFromTestInstancePath := sTestInstancePath;]]></ST>
+RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MessagePrinter">

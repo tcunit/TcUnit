@@ -5,8 +5,8 @@
 STRUCT
     uExpected : U_ExpectedOrActual;
     uActual : U_ExpectedOrActual;
-    sMessage : Tc2_System.T_MaxString;
-    sTestInstancePath : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

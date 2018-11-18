@@ -8,8 +8,8 @@ DESCRIPTION: This function block is responsible for providing all the assert-met
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
 VAR
-    AssertResults : FB_AssertResultStatic := GVL.fbAssertResultStatic;
-    fbMessagePrinter : FB_MessagePrinter;
+    AssertResults : FB_AssertResultStatic := GVL.AssertResultStatic;
+    MessagePrinter : FB_MessagePrinter;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -17,14 +17,14 @@ END_VAR]]></Declaration>
     <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
       <Declaration><![CDATA[METHOD PRIVATE AddTestNameToInstancePath : Tc2_Utilities.T_MaxString
 VAR_INPUT
-	sTestInstancePath : Tc2_Utilities.T_MaxString;
+    TestInstancePath : Tc2_Utilities.T_MaxString;
 END_VAR
 VAR
-	sCompleteTestInstancePath : T_MaxString;
+    CompleteTestInstancePath : Tc2_Utilities.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sCompleteTestInstancePath := Tc2_Utilities.CONCAT(STR1 := sTestInstancePath, STR2 := '@');
-AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := sCompleteTestInstancePath, STR2 := GVL.sCurrentTestNameBeingCalled);]]></ST>
+        <ST><![CDATA[CompleteTestInstancePath := Tc2_Utilities.CONCAT(STR1 := TestInstancePath, STR2 := '@');
+AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePath, STR2 := GVL.CurrentTestNameBeingCalled);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals" Id="{092092ee-35b6-45cc-a1ac-e428e5d747ba}">
@@ -32,681 +32,681 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := sCompleteTestInstanceP
 VAR_INPUT
     Expected : ANY;
     Actual : ANY;
-    sMessage : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    nCount : DINT;
-    bDataTypesNotEquals : BOOL := FALSE;
-    bDataSizeNotEquals : BOOL := FALSE;
-    bDataContentNotEquals : BOOL := FALSE;
-    sExpectedDataString : STRING(80);
-    sActualDataString : STRING(80);
-	sTestInstancePath : Tc2_System.T_MaxString;
+    Count : DINT;
+    DataTypesNotEquals : BOOL := FALSE;
+    DataSizeNotEquals : BOOL := FALSE;
+    DataContentNotEquals : BOOL := FALSE;
+    ExpectedDataString : STRING(80);
+    ActualDataString : STRING(80);
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
 IF Expected.TypeClass <> Actual.TypeClass THEN
-    bDataTypesNotEquals := TRUE;
+    DataTypesNotEquals := TRUE;
 END_IF
 
-IF NOT bDataTypesNotEquals THEN
+IF NOT DataTypesNotEquals THEN
     IF (Expected.diSize <> Actual.diSize) THEN
-        bDataSizeNotEquals := TRUE;
-	END_IF
+        DataSizeNotEquals := TRUE;
+    END_IF
 END_IF
 
-IF NOT bDataTypesNotEquals AND NOT bDataTypesNotEquals THEN
+IF NOT DataTypesNotEquals AND NOT DataTypesNotEquals THEN
     // Compare each byte in the ANY-types
-    FOR nCount := 0 TO Expected.diSize-1 BY 1 DO
-        IF Expected.pValue[nCount] <> Actual.pValue[nCount] THEN
-            bDataContentNotEquals := TRUE;
+    FOR Count := 0 TO Expected.diSize-1 BY 1 DO
+        IF Expected.pValue[Count] <> Actual.pValue[Count] THEN
+            DataContentNotEquals := TRUE;
             EXIT;
-	    END_IF
+        END_IF
     END_FOR
 END_IF
 
-IF bDataTypesNotEquals THEN
-    sExpectedDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString((Expected.TypeClass)));
-    sExpectedDataString := Tc2_Standard.CONCAT(sExpectedDataString, ')');
-    sActualDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString(Actual.TypeClass));
-    sActualDataString := Tc2_Standard.CONCAT(sActualDataString, ')');
-ELSIF bDataSizeNotEquals THEN
-    sExpectedDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Expected.diSize));
-    sExpectedDataString := Tc2_Standard.CONCAT(sExpectedDataString, ')');
-    sActualDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Actual.diSize));
-    sActualDataString := Tc2_Standard.CONCAT(sActualDataString, ')');
-ELSIF bDataContentNotEquals THEN
-    FOR nCount := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
-        sExpectedDataString := Tc2_Standard.CONCAT(STR1 := sExpectedDataString,
-                                                   STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expected.pValue[nCount],
-                                                                                        iPrecision := 2,
-                                                                                        bLoCase := FALSE));
-	END_FOR
-    sExpectedDataString := Tc2_Standard.CONCAT(STR1 := '0x', STR2 := sExpectedDataString);
+IF DataTypesNotEquals THEN
+    ExpectedDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString((Expected.TypeClass)));
+    ExpectedDataString := Tc2_Standard.CONCAT(ExpectedDataString, ')');
+    ActualDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString(Actual.TypeClass));
+    ActualDataString := Tc2_Standard.CONCAT(ActualDataString, ')');
+ELSIF DataSizeNotEquals THEN
+    ExpectedDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Expected.diSize));
+    ExpectedDataString := Tc2_Standard.CONCAT(ExpectedDataString, ')');
+    ActualDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Actual.diSize));
+    ActualDataString := Tc2_Standard.CONCAT(ActualDataString, ')');
+ELSIF DataContentNotEquals THEN
+    FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
+        ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString,
+                                                  STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expected.pValue[Count],
+                                                                                       iPrecision := 2,
+                                                                                       bLoCase := FALSE));
+    END_FOR
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '0x', STR2 := ExpectedDataString);
 
-    FOR nCount := 0 TO MIN(Actual.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
-        sActualDataString := Tc2_Standard.CONCAT(STR1 := sActualDataString,
-                                                 STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual.pValue[nCount],
-                                                                                      iPrecision := 2,
-                                                                                      bLoCase := FALSE));
-	END_FOR
-    sActualDataString := Tc2_Standard.CONCAT(STR1 := '0x', STR2 := sActualDataString);
+    FOR Count := 0 TO MIN(Actual.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
+        ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString,
+                                                STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual.pValue[Count],
+                                                                                     iPrecision := 2,
+                                                                                     bLoCase := FALSE));
+    END_FOR
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := '0x', STR2 := ActualDataString);
 END_IF
 
-IF bDataTypesNotEquals OR bDataSizeNotEquals OR bDataContentNotEquals THEN
-	SetTestFailed();
+IF DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := sExpectedDataString,
-                                     sActual := sActualDataString,
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := ExpectedDataString,
+                                   Actual := ActualDataString,
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BOOL" Id="{0c41b405-ea35-4450-93cc-7c3349bdf754}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_BOOL
 VAR_INPUT
-    bExpected : BOOL;
-    bActual : BOOL;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : BOOL;
+    Actual : BOOL;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    bAlreadyReported : BOOL;
-	sTestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := bExpected,
-                           Actual := bActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND bExpected <> bActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := BOOL_TO_STRING(bExpected),
-                                     sActual := BOOL_TO_STRING(bActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := BOOL_TO_STRING(Expected),
+                                   Actual := BOOL_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BYTE" Id="{c039f3f1-9c41-4f5e-93a3-393ce160979a}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_BYTE
 VAR_INPUT
-    nExpected : BYTE;
-    nActual : BYTE;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : BYTE;
+    Actual : BYTE;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
-                                                         STR1 := '0x',
-                                                         STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := nExpected,
-                                                                                              iPrecision := 2,
-                                                                                              bLoCase := FALSE)),
-                                     sActual := Tc2_Standard.CONCAT(
+    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := nActual,
+                                                       STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expected,
                                                                                             iPrecision := 2,
                                                                                             bLoCase := FALSE)),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+                                   Actual := Tc2_Standard.CONCAT(
+                                                     STR1 := '0x',
+                                                     STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual,
+                                                                                          iPrecision := 2,
+                                                                                          bLoCase := FALSE)),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DINT" Id="{b7177b75-64df-4021-85c6-c366f61f5f89}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_DINT
 VAR_INPUT
-    nExpected : DINT;
-    nActual : DINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : DINT;
+    Actual : DINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
-	
-    fbMessagePrinter.LogMessageError(sExpected := DINT_TO_STRING(nExpected),
-                                     sActual := DINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    MessagePrinter.LogMessageError(Expected := DINT_TO_STRING(Expected),
+                                   Actual := DINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DWORD" Id="{3ce6ba77-0ab2-46fc-a7c9-978b376b93be}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_DWORD
 VAR_INPUT
-    nExpected : DWORD;
-    nActual : DWORD;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : DWORD;
+    Actual : DWORD;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
-                                                         STR1 := '0x',
-                                                         STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := nExpected,
-                                                                                               iPrecision := 8,
-                                                                                               bLoCase := FALSE)),
-                                     sActual := Tc2_Standard.CONCAT(
+    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := nActual,
+                                                       STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Expected,
                                                                                              iPrecision := 8,
                                                                                              bLoCase := FALSE)),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+                                   Actual := Tc2_Standard.CONCAT(
+                                                     STR1 := '0x',
+                                                     STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Actual,
+                                                                                           iPrecision := 8,
+                                                                                           bLoCase := FALSE)),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_INT" Id="{7c61106e-9bcd-4577-a949-ab96d8862e41}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_INT
 VAR_INPUT
-    nExpected : INT;
-    nActual : INT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : INT;
+    Actual : INT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := INT_TO_STRING(nExpected),
-                                     sActual := INT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := INT_TO_STRING(Expected),
+                                   Actual := INT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LINT" Id="{9dc34017-cbc7-41a9-83a2-941f39cc7271}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LINT
 VAR_INPUT
-    nExpected : LINT;
-    nActual : LINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : LINT;
+    Actual : LINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
-	
-    fbMessagePrinter.LogMessageError(sExpected := LINT_TO_STRING(nExpected),
-                                     sActual := LINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    MessagePrinter.LogMessageError(Expected := LINT_TO_STRING(Expected),
+                                   Actual := LINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LREAL" Id="{205d107c-0a2d-44f7-b68a-eb06720b6a6b}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LREAL
 VAR_INPUT
-    fExpected : LREAL;
-    fActual : LREAL;
-    fDelta : LREAL; // the maximum delta between expected and actual for which both numbers are still considered equal
-    sMessage : Tc2_System.T_MaxString;
+    Expected : LREAL;
+    Actual : LREAL;
+    Delta : LREAL; // the maximum delta between expected and actual for which both numbers are still considered equal
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := fExpected,
-                           Actual := fActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND ABS(fExpected - fActual) > fDelta THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := LREAL_TO_STRING(fExpected),
-                                     sActual := LREAL_TO_STRING(fActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := LREAL_TO_STRING(Expected),
+                                   Actual := LREAL_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LWORD" Id="{08b090fb-911b-49fa-a51a-7f5edfd3dd2c}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LWORD
 VAR_INPUT
-    nExpected : WORD;
-    nActual : WORD;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : WORD;
+    Actual : WORD;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
-                                                         STR1 := '0x',
-                                                         STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := nExpected,
-                                                                                              iPrecision := 16,
-                                                                                              bLoCase := FALSE)),
-                                     sActual := Tc2_Standard.CONCAT(
+    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := nActual,
+                                                       STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Expected,
                                                                                              iPrecision := 16,
                                                                                              bLoCase := FALSE)),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+                                   Actual := Tc2_Standard.CONCAT(
+                                                     STR1 := '0x',
+                                                     STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Actual,
+                                                                                           iPrecision := 16,
+                                                                                           bLoCase := FALSE)),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_REAL" Id="{fba4feaf-27d0-4f8b-9014-3895f7bb9cc7}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_REAL
 VAR_INPUT
-    fExpected : REAL;
-    fActual : REAL;
-    fDelta : REAL; // the maximum delta between expected and actual for which both numbers are still considered equal
-    sMessage : Tc2_System.T_MaxString;
+    Expected : REAL;
+    Actual : REAL;
+    Delta : REAL; // the maximum delta between expected and actual for which both numbers are still considered equal
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := fExpected,
-                           Actual := fActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND ABS(fExpected - fActual) > fDelta THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := REAL_TO_STRING(fExpected),
-                                     sActual := REAL_TO_STRING(fActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := REAL_TO_STRING(Expected),
+                                   Actual := REAL_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_SINT" Id="{10052dfe-cfcb-4a5a-aa97-151e272ce217}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_SINT
 VAR_INPUT
-    nExpected : SINT;
-    nActual : SINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : SINT;
+    Actual : SINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := SINT_TO_STRING(nExpected),
-                                     sActual := SINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := SINT_TO_STRING(Expected),
+                                   Actual := SINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_STRING" Id="{cad7fed3-5db3-4371-9240-856c3c740489}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_STRING
 VAR_INPUT
-    sExpected : STRING;
-    sActual : STRING;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : STRING;
+    Actual : STRING;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := sExpected,
-                           Actual := sActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND (Tc2_Standard.LEN(sExpected) <> Tc2_Standard.LEN(sActual) OR (sExpected <> sActual)) THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND (Tc2_Standard.LEN(Expected) <> Tc2_Standard.LEN(Actual) OR (Expected <> Actual)) THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := sExpected,
-                                     sActual := sActual,
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := Expected,
+                                   Actual := Actual,
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UDINT" Id="{9c21e8db-62d7-4e5c-8e00-cd508f4f5abc}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_UDINT
 VAR_INPUT
-    nExpected : UDINT;
-    nActual : UDINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : UDINT;
+    Actual : UDINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := UDINT_TO_STRING(nExpected),
-                                     sActual := UDINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := UDINT_TO_STRING(Expected),
+                                   Actual := UDINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UINT" Id="{86b960b9-ebc0-46af-91ed-94a423f501dc}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_UINT
 VAR_INPUT
-    nExpected : UINT;
-    nActual : UINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : UINT;
+    Actual : UINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := UINT_TO_STRING(nExpected),
-                                     sActual := UINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := UINT_TO_STRING(Expected),
+                                   Actual := UINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_ULINT" Id="{6f1e7566-33c3-4f9c-b92d-7828feb26211}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_ULINT
 VAR_INPUT
-    nExpected : ULINT;
-    nActual : ULINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : ULINT;
+    Actual : ULINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-	sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := ULINT_TO_STRING(nExpected),
-                                     sActual := ULINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := ULINT_TO_STRING(Expected),
+                                   Actual := ULINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT" Id="{7f12117a-f0ab-475b-ba47-c8a5c801a9ac}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT
 VAR_INPUT
-    nExpected : USINT;
-    nActual : USINT;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : USINT;
+    Actual : USINT;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    bAlreadyReported : BOOL;
-	sTestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
-	
-    fbMessagePrinter.LogMessageError(sExpected := USINT_TO_STRING(nExpected),
-                                     sActual := USINT_TO_STRING(nActual),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    MessagePrinter.LogMessageError(Expected := USINT_TO_STRING(Expected),
+                                   Actual := USINT_TO_STRING(Actual),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT_ARRAY" Id="{735445c1-1ceb-4a2f-ac18-dfb62e637ab6}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT_ARRAY
 VAR_IN_OUT
-    aExpected : ARRAY[*] OF USINT;
-    aActual : ARRAY[*] OF USINT;
+    Expected : ARRAY[*] OF USINT;
+    Actual : ARRAY[*] OF USINT;
 END_VAR
 VAR_INPUT
-    sMessage : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    bEquals : BOOL := TRUE;
-    bSizeEquals : BOOL := TRUE;
-    nIndex : DINT;
-    sExpectedString : STRING;
-    sActualString : STRING;
-	sTestInstancePath : Tc2_System.T_MaxString;
+    Equals : BOOL := TRUE;
+    SizeEquals : BOOL := TRUE;
+    Index : DINT;
+    ExpectedString : STRING;
+    ActualString : STRING;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-IF (LOWER_BOUND(aExpected, 1) <> LOWER_BOUND(aActual, 1)) OR
-   (UPPER_BOUND(aExpected, 1) <> UPPER_BOUND(aActual, 1)) THEN
-    bEquals := FALSE;
-    bSizeEquals := FALSE;
+IF (LOWER_BOUND(Expected, 1) <> LOWER_BOUND(Actual, 1)) OR
+   (UPPER_BOUND(Expected, 1) <> UPPER_BOUND(Actual, 1)) THEN
+    Equals := FALSE;
+    SizeEquals := FALSE;
 ELSE
-    FOR nIndex := LOWER_BOUND(aExpected, 1) TO UPPER_BOUND(aExpected, 1) DO
-        IF aExpected[nIndex] <> aActual[nIndex] THEN
-            bEquals := FALSE;
+    FOR Index := LOWER_BOUND(Expected, 1) TO UPPER_BOUND(Expected, 1) DO
+        IF Expected[Index] <> Actual[Index] THEN
+            Equals := FALSE;
             EXIT;
-	    END_IF
+        END_IF
     END_FOR
 END_IF
 
 // TODO: ADD CODE TO CHECK IF ALREADY REPORTED?!?
-IF NOT bEquals THEN
-    IF NOT bSizeEquals THEN
-        sMessage := CONCAT(STR1 := sMessage, ', size of arrays not matching');
+IF NOT Equals THEN
+    IF NOT SizeEquals THEN
+        Message := CONCAT(STR1 := Message, ', size of arrays not matching');
     ELSE
-        sExpectedString := 'ARRAY[';
-        sExpectedString := CONCAT(sExpectedString, DINT_TO_STRING(nIndex));
-        sExpectedString := CONCAT(sExpectedString, '] = ');
-        sExpectedString := CONCAT(sExpectedString, USINT_TO_STRING(aExpected[nIndex]));
+        ExpectedString := 'ARRAY[';
+        ExpectedString := CONCAT(ExpectedString, DINT_TO_STRING(Index));
+        ExpectedString := CONCAT(ExpectedString, '] = ');
+        ExpectedString := CONCAT(ExpectedString, USINT_TO_STRING(Expected[Index]));
 
-        sActualString := 'ARRAY[';
-        sActualString := CONCAT(sActualString, DINT_TO_STRING(nIndex));
-        sActualString := CONCAT(sActualString, '] = ');
-        sActualString := CONCAT(sActualString, USINT_TO_STRING(aActual[nIndex]));
-	END_IF
+        ActualString := 'ARRAY[';
+        ActualString := CONCAT(ActualString, DINT_TO_STRING(Index));
+        ActualString := CONCAT(ActualString, '] = ');
+        ActualString := CONCAT(ActualString, USINT_TO_STRING(Actual[Index]));
+    END_IF
 
-	SetTestFailed();
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := sExpectedString,
-                                     sActual := sActualString,
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+    MessagePrinter.LogMessageError(Expected := ExpectedString,
+                                   Actual := ActualString,
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WORD" Id="{85132cdb-0553-4070-be9a-976fcddd873d}">
       <Declaration><![CDATA[METHOD PUBLIC AssertEquals_WORD
 VAR_INPUT
-    nExpected : WORD;
-    nActual : WORD;
-    sMessage : Tc2_System.T_MaxString;
+    Expected : WORD;
+    Actual : WORD;
+    Message : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    sTestInstancePath : Tc2_System.T_MaxString;
-    bAlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
-AssertResults.ReportResult(Expected := nExpected,
-                           Actual := nActual,
-                           sMessage := sMessage,
-                           sTestInstancePath := sTestInstancePath,
-                           bAlreadyReported => bAlreadyReported);
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
 
-IF NOT bAlreadyReported AND nExpected <> nActual THEN
-	SetTestFailed();
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
 
-    fbMessagePrinter.LogMessageError(sExpected := Tc2_Standard.CONCAT(
-                                                         STR1 := '0x',
-                                                         STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := nExpected,
-                                                                                              iPrecision := 4,
-                                                                                              bLoCase := FALSE)),
-                                     sActual := Tc2_Standard.CONCAT(
+    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := nActual,
+                                                       STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Expected,
                                                                                             iPrecision := 4,
                                                                                             bLoCase := FALSE)),
-                                     sMessage := sMessage,
-                                     sTestInstancePath := sTestInstancePath);
+                                   Actual := Tc2_Standard.CONCAT(
+                                                     STR1 := '0x',
+                                                     STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Actual,
+                                                                                          iPrecision := 4,
+                                                                                          bLoCase := FALSE)),
+                                   Message := Message,
+                                   TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertFalse" Id="{022665a8-9003-4aaa-8ef4-bd39fe196883}">
       <Declaration><![CDATA[METHOD PUBLIC AssertFalse
 VAR_INPUT
-    bActual : BOOL;
-    sMessage : Tc2_System.T_MaxString;
+    Actual : BOOL;
+    Message : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(FALSE, bActual, sMessage);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(FALSE, Actual, Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertTrue" Id="{c415013c-c271-42ba-83ad-6c2c653d8f2e}">
       <Declaration><![CDATA[METHOD PUBLIC AssertTrue
 VAR_INPUT
-    bActual : BOOL;
-    sMessage : Tc2_System.T_MaxString;
+    Actual : BOOL;
+    Message : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(TRUE, bActual, sMessage);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(TRUE, Actual, Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindTestFunctionBlockInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
       <Declaration><![CDATA[(* Searches for the instance path of the calling function block *)
 METHOD PRIVATE FindTestFunctionBlockInstancePath : Tc2_System.T_MaxString
 VAR
-	nCounter : UINT;
+    Counter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR nCounter := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
-	IF GVL.pTestFunctionBlockAssertAddressess[nCounter] = ADR(THIS^) THEN
-		FindTestFunctionBlockInstancePath := GVL.pTestFunctionBlockAddressess[nCounter].GetInstancePath();
-	END_IF
+        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
+    IF GVL.TestFunctionBlockAssertAddressess[Counter] = ADR(THIS^) THEN
+        FindTestFunctionBlockInstancePath := GVL.TestFunctionBlockAddressess[Counter].GetInstancePath();
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -714,24 +714,24 @@ END_FOR]]></ST>
       <Declaration><![CDATA[{attribute 'call_after_init'}
 METHOD PRIVATE Initialize]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT GVL.bTestFunctionBlockAssertRegistered THEN
-	(* If this assert function block has not been initialized, we can safely assume that we will have 
-	   a test function block initialized after this initialization, as a test-FB will initialize the assert-FB *)
-	GVL.pTestFunctionBlockAssertAddressess[GVL.nInitializedTestFunctionBlocks+1] := ADR(THIS^);
-	GVL.bTestFunctionBlockAssertRegistered := TRUE;
+        <ST><![CDATA[IF NOT GVL.TestFunctionBlockAssertRegistered THEN
+    (* If this assert function block has not been initialized, we can safely assume that we will have 
+       a test function block initialized after this initialization, as a test-FB will initialize the assert-FB *)
+    GVL.TestFunctionBlockAssertAddressess[GVL.AmountOfInitializedTestFunctionBlocks+1] := ADR(THIS^);
+    GVL.TestFunctionBlockAssertRegistered := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{c2757184-608e-481d-a06c-8cfa6484c04d}">
       <Declaration><![CDATA[METHOD PRIVATE SetTestFailed
 VAR
-	nCounter : UINT;
+    Counter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR nCounter := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
-	IF GVL.pTestFunctionBlockAssertAddressess[nCounter] = ADR(THIS^) THEN
-		GVL.pTestFunctionBlockAddressess[nCounter].SetTestFailed(GVL.sCurrentTestNameBeingCalled);
-	END_IF
+        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
+    IF GVL.TestFunctionBlockAssertAddressess[Counter] = ADR(THIS^) THEN
+        GVL.TestFunctionBlockAddressess[Counter].SetTestFailed(GVL.CurrentTestNameBeingCalled);
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>

@@ -55,26 +55,26 @@ END_VAR]]></Declaration>
 
     IBaseLibrary.TypeClass.TYPE_INT :
         F_AnyToUnionValue.nExpectedOrActual := 
-                (SHL(BYTE_TO_INT(AnyValue.pValue[1]), 8) OR
-                     BYTE_TO_INT(AnyValue.pValue[0]));
+                UINT_TO_INT(SHL(BYTE_TO_UINT(AnyValue.pValue[1]), 8) OR
+                                BYTE_TO_UINT(AnyValue.pValue[0]));
 
     IBaseLibrary.TypeClass.TYPE_DINT :
         F_AnyToUnionValue.nDExpectedOrActual :=
-            (SHL(SHL(SHL(BYTE_TO_DINT(AnyValue.pValue[3]), 8) OR
-                         BYTE_TO_DINT(AnyValue.pValue[2]), 8) OR
-                         BYTE_TO_DINT(AnyValue.pValue[1]), 8) OR
-                         BYTE_TO_DINT(AnyValue.pValue[0]));
+            UDINT_TO_DINT(SHL(SHL(SHL(BYTE_TO_UDINT(AnyValue.pValue[3]), 8) OR
+                                      BYTE_TO_UDINT(AnyValue.pValue[2]), 8) OR
+                                      BYTE_TO_UDINT(AnyValue.pValue[1]), 8) OR
+                                      BYTE_TO_UDINT(AnyValue.pValue[0]));
 
     IBaseLibrary.TypeClass.TYPE_LINT :
          F_AnyToUnionValue.nLExpectedOrActual :=
-        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LINT(AnyValue.pValue[7]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[6]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[5]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[4]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[3]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[2]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[1]), 8) OR
-                                     BYTE_TO_LINT(AnyValue.pValue[0]));
+        ULINT_TO_LINT(SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_ULINT(AnyValue.pValue[7]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[6]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[5]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[4]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[3]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[2]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[1]), 8) OR
+                                                  BYTE_TO_ULINT(AnyValue.pValue[0]));
 
     IBaseLibrary.TypeClass.TYPE_USINT :
         F_AnyToUnionValue.nUSExpectedOrActual := BYTE_TO_USINT(AnyValue.pValue[0]);

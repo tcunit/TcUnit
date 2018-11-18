@@ -3,7 +3,7 @@
   <POU Name="RUN" Id="{bd49b256-e7ba-4b73-b669-380d1f428417}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION RUN : BOOL]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL.fbTcUnitRunner.RunFunctionBlocksTests();]]></ST>
+      <ST><![CDATA[GVL.TcUnitRunner.RunFunctionBlocksTests();]]></ST>
     </Implementation>
     <LineIds Name="RUN">
       <LineId Id="7" Count="0" />

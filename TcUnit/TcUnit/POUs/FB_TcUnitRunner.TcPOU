@@ -3,28 +3,28 @@
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
 DESCRIPTION: This function block is responsible for holding track of the tests
-			 and executing them.
+             and executing them.
 *)
 FUNCTION_BLOCK FB_TcUnitRunner IMPLEMENTS I_TcUnitRunner
 VAR
-	(* There can be one or more tests (testnames) for every test function
-	   block instance *)
-	aRunnableTestFunctionBlockResults : ARRAY[1..cSizeOfStaticArray] OF E_TestFunctionBlockRunState;
-	
-	(* Inidication of whether all test FBs have reported that they are finished *)
-    bAllTestFunctionBlocksFinished : BOOL := FALSE;
+    (* There can be one or more tests (testnames) for every test function
+       block instance *)
+    RunnableTestFunctionBlockResults : ARRAY[1..SizeOfStaticArray] OF E_TestFunctionBlockRunState;
+
+    (* Inidication of whether all test FBs have reported that they are finished *)
+    AllTestFunctionBlocksFinished : BOOL := FALSE;
     
     (* Prints the results to ADS so that Visual Studio can display then *)
-    fbResultPrinter : FB_ResultPrinter;
-	
-	(* These variables (statistics) are occupied once all tests are complete *)
-	nTestFunctionBlocksFinished : UINT := 0;
-	nTestCases : UINT := 0;
-	nFailedTestCases : UINT := 0;
-	nSuccessfulTestCases : UINT := 0;
+    ResultPrinter : FB_ResultPrinter;
+
+    (* These variables (statistics) are occupied once all tests are complete *)
+    AmountOfTestFunctionBlocksFinished : UINT := 0;
+    AmountOfTestCases : UINT := 0;
+    AmountOfFailedTestCases : UINT := 0;
+    AmountOfSuccessfulTestCases : UINT := 0;
 END_VAR
 VAR CONSTANT
-    cSizeOfStaticArray : UINT := 300;
+    SizeOfStaticArray : UINT := 300;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -32,33 +32,37 @@ END_VAR]]></Declaration>
     <Method Name="RunFunctionBlocksTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
       <Declaration><![CDATA[METHOD RunFunctionBlocksTests
 VAR
-    nCounter : UINT := 0;
+    Counter : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT bAllTestFunctionBlocksFinished AND GVL.nInitializedTestFunctionBlocks > 0 THEN
-    FOR nCounter := 1 TO GVL.nInitializedTestFunctionBlocks BY 1 DO
-		IF aRunnableTestFunctionBlockResults[nCounter] = E_TestFunctionBlockRunState.FINISHED THEN
-            nTestFunctionBlocksFinished := nTestFunctionBlocksFinished + 1;
-			nTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfTests() + nTestCases;
-			nFailedTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfFailedTests() + nFailedTestCases;
-			nSuccessfulTestCases := GVL.pTestFunctionBlockAddressess[nCounter].GetAmountOfSuccessfulTests() + nSuccessfulTestCases;
-        ELSE
-			GVL.pCurrentTestFunctionBlockBeingCalled := GVL.pTestFunctionBlockAddressess[nCounter];
-			aRunnableTestFunctionBlockResults[nCounter] := GVL.pCurrentTestFunctionBlockBeingCalled.GetRunnable().RunTests();
+        <ST><![CDATA[IF NOT AllTestFunctionBlocksFinished THEN
+    IF GVL.AmountOfInitializedTestFunctionBlocks = 0 THEN
+        AllTestFunctionBlocksFinished := TRUE;
+    ELSIF GVL.AmountOfInitializedTestFunctionBlocks > 0 THEN
+        FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
+            IF RunnableTestFunctionBlockResults[Counter] = E_TestFunctionBlockRunState.FINISHED THEN
+                AmountOfTestFunctionBlocksFinished := AmountOfTestFunctionBlocksFinished + 1;
+                AmountOfTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfTests() + AmountOfTestCases;
+                AmountOfFailedTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases;
+                AmountOfSuccessfulTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases;
+            ELSE
+                GVL.CurrentTestFunctionBlockBeingCalled := GVL.TestFunctionBlockAddressess[Counter];
+                RunnableTestFunctionBlockResults[Counter] := GVL.CurrentTestFunctionBlockBeingCalled.GetRunnable().RunTests();
+            END_IF
+        END_FOR
+        IF AmountOfTestFunctionBlocksFinished = GVL.AmountOfInitializedTestFunctionBlocks THEN
+            AllTestFunctionBlocksFinished := TRUE;
         END_IF
-	END_FOR
-    IF nTestFunctionBlocksFinished = GVL.nInitializedTestFunctionBlocks THEN
-        bAllTestFunctionBlocksFinished := TRUE;
-	END_IF
+    END_IF
 END_IF
 
-IF bAllTestFunctionBlocksFinished THEN
-    IF NOT fbResultPrinter.bFinishedPrinting THEN
-        fbResultPrinter(nTestFunctionBlocks := nTestFunctionBlocksFinished,
-						nTestCases := nTestCases,
-						nSuccessfulTestCases := nSuccessfulTestCases,
-						nFailedTestCases := nFailedTestCases);
-	END_IF
+IF AllTestFunctionBlocksFinished THEN
+    IF NOT ResultPrinter.FinishedPrinting THEN
+        ResultPrinter(AmountOfTestFunctionBlocks := AmountOfTestFunctionBlocksFinished,
+                      AmountOfTestCases := AmountOfTestCases,
+                      AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases,
+                      AmountOfFailedTestCases := AmountOfFailedTestCases);
+    END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -66,6 +70,8 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_TcUnitRunner.RunFunctionBlocksTests">
+      <LineId Id="131" Count="0" />
+      <LineId Id="128" Count="1" />
       <LineId Id="10" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="22" Count="0" />
@@ -78,6 +84,7 @@ END_IF]]></ST>
       <LineId Id="14" Count="0" />
       <LineId Id="23" Count="2" />
       <LineId Id="12" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="106" Count="3" />
       <LineId Id="124" Count="0" />
       <LineId Id="119" Count="1" />
