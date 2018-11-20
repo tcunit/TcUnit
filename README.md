@@ -3,6 +3,8 @@
 
 Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff TwinCAT3](https://www.beckhoff.com/english.asp?twincat/twincat-3.htm).
 
+![TcUnit logo][logo]
+
 **Main documentation site is available on:**  
 **[www.tcunit.org](https://www.tcunit.org)**
 
@@ -14,3 +16,5 @@ Read the programming example: [https://tcunit.org/programming-example-introducti
 
 **Want to download a precompiled version of the library?**  
 Go here: [https://tcunit.org/download/](https://tcunit.org/download/).
+
+[logo]: https://tcunit.org/wp-content/uploads/2018/11/TcUnit-logo-for-github.jpg "TcUnit logo"
