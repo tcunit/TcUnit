@@ -581,7 +581,8 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT_ARRAY" Id="{735445c1-1ceb-4a2f-ac18-dfb62e637ab6}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT_ARRAY
+      <Declaration><![CDATA[{warning 'add method implementation'}
+METHOD PUBLIC AssertEquals_USINT_ARRAY
 VAR_IN_OUT
     Expected : ARRAY[*] OF USINT;
     Actual : ARRAY[*] OF USINT;
@@ -598,7 +599,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[(*TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
 IF (LOWER_BOUND(Expected, 1) <> LOWER_BOUND(Actual, 1)) OR
    (UPPER_BOUND(Expected, 1) <> UPPER_BOUND(Actual, 1)) THEN
@@ -635,7 +636,7 @@ IF NOT Equals THEN
                                    Actual := ActualString,
                                    Message := Message,
                                    TestInstancePath := TestInstancePath);
-END_IF]]></ST>
+END_IF *)]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WORD" Id="{85132cdb-0553-4070-be9a-976fcddd873d}">

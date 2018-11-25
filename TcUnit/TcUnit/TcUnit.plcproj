@@ -17,7 +17,7 @@
     <CombineIds>false</CombineIds>
     <Released>true</Released>
     <Title>TcUnit</Title>
-    <ProjectVersion>0.0.1.0</ProjectVersion>
+    <ProjectVersion>0.1.0.0</ProjectVersion>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Description>TwinCAT unit testing framework.
 Documentation and examples are available at www.tcunit.org</Description>
