@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION TEST
+    <Declaration><![CDATA[(*
+    This function runs all the test function blocks (test suites) that have been initialized.
+*)
+FUNCTION TEST
 VAR_INPUT
     TestName : Tc2_Utilities.T_MaxString;
 END_VAR
@@ -15,11 +18,15 @@ END_VAR]]></Declaration>
 (* Mark this test as the current one being executed *)
 GVL.CurrentTestNameBeingCalled := TestName;
 
-(* Check if combination of address for the test function block and test name already 
-   exists. If so, don't add it to the available tests. If not found, add it to the available
+(* Check if combination of address for the test function block and test name already exists.
+   For every test function block all tests cases need to be unique.
+   If so, don't add it to the available tests. If not found, add it to the available
    tests *)
+
 FOR CounterTestFunctionBlockAddress := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
+    (* Look for the test function block by comparing to the one that is currently running*)
     IF GVL.TestFunctionBlockAddressess[CounterTestFunctionBlockAddress] = GVL.CurrentTestFunctionBlockBeingCalled THEN
+        (* Make sure there are no other tests with the same name already added *)
         GVL.TestFunctionBlockAddressess[CounterTestFunctionBlockAddress].AddTest(TestName := TestName);
         RETURN;
     END_IF
@@ -31,9 +38,15 @@ END_FOR]]></ST>
       <LineId Id="75" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="77" Count="0" />
-      <LineId Id="79" Count="1" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="114" Count="0" />
       <LineId Id="76" Count="0" />
-      <LineId Id="98" Count="1" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="120" Count="0" />
       <LineId Id="101" Count="0" />
       <LineId Id="103" Count="0" />
       <LineId Id="102" Count="0" />

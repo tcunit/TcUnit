@@ -61,7 +61,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[// Check if we can find any existing match of the report
 IF (nLocation := FindMessageAndTestInstancePathEquals(Message, TestInstancePath)) = 0 OR_ELSE
     (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uExpected,
-                                 ExpectedOrActual := Expected) OR
+                                  ExpectedOrActual := Expected) OR
     NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uActual,
                                  ExpectedOrActual := Actual)) THEN
 

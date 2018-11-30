@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="F_AnyToUnionValue" Id="{04a97242-7600-4a30-a234-b9e3b1c2770c}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
+    <Declaration><![CDATA[(*
+    
+*)
+FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
 VAR_INPUT
     AnyValue : ANY;
 END_VAR
@@ -14,7 +17,7 @@ VAR
     ptLTIME : POINTER TO LTIME;
 
     nCount : DINT;
-    sString : T_MaxString;
+    sString : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE UDINT_TO_INT(AnyValue.TypeClass) OF

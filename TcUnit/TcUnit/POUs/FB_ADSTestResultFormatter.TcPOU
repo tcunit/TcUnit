@@ -1,19 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <POU Name="FB_ResultPrinter" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
+  <POU Name="FB_ADSTestResultFormatter" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-DESCRIPTION: This function block reports the results from the tests 
+    This function block reports the results from the tests using the built-in ADSLOGSTR functionality
+    provided by the Tc2_System library. This sends the result using ADS, which is consumed by the error list
+    of Visual Studio.
 *)
-FUNCTION_BLOCK FB_ResultPrinter
-VAR_INPUT
-    AmountOfTestFunctionBlocks : UINT;
-    AmountOfTestCases : UINT;
-    AmountOfSuccessfulTestCases : UINT;
-    AmountOfFailedTestCases : UINT;
-END_VAR
-VAR_OUTPUT
-    FinishedPrinting : BOOL;
-END_VAR
+FUNCTION_BLOCK FB_ADSTestResultFormatter IMPLEMENTS I_TestResultFormatter
 VAR
     (* Although we can print a message no #1 prior to message no #2, the message #2 can still be displayed before
        message #1, most likely because of some delay of the ADS data. To workaround this, we add a small delay between
@@ -23,109 +16,93 @@ VAR
     PrintState : USINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE PrintState OF
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Format" Id="{dba8c729-8b99-4be3-97cd-3a4fea4cd051}">
+      <Declaration><![CDATA[METHOD Format
+VAR_INPUT
+    (* The total amount of test function blocks*)
+    AmountOfTestFunctionBlocks	: UINT;
+    (* The total amount of test cases (for all test function blocks)*)
+    AmountOfTestCases	: UINT;
+    (* The total amount of test cases that had all ASSERTS successful*)
+    AmountOfSuccessfulTestCases	: UINT;
+    (* The total amount of test cases that had at least one ASSERT failed*)
+    AmountOfFailedTestCases	: UINT;
+END_VAR
+VAR_OUTPUT
+    Busy : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE PrintState OF
     0 :
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     1 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '%s', strArg := '| ==========TESTS FINISHED RUNNING==========');
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     2 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Test function blocks: %s',
                              strArg := UINT_TO_STRING(AmountOfTestFunctionBlocks));
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     3 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Tests: %s',
                              strArg := UINT_TO_STRING(AmountOfTestCases));
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     4 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Successful tests: %s',
                              strArg := UINT_TO_STRING((AmountOfSuccessfulTestCases)));
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     5 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '| Failed tests : %s',
                              strArg := UINT_TO_STRING(AmountOfFailedTestCases));
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     6 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := '%s',
                              strArg := '| ======================================');
         LastPrintstate := PrintState;
         PrintState := 100;
-
+        Busy := TRUE;
     7 :
-        FinishedPrinting := TRUE;
-
+        Busy := FALSE;
     100 :
         ADSDelayTimer(IN := TRUE);
         IF ADSDelayTimer.Q THEN
             ADSDelayTimer(IN := FALSE);
             PrintState := LastPrintState + 1;
         END_IF
-
+        Busy := TRUE;
 END_CASE]]></ST>
-    </Implementation>
-    <LineIds Name="FB_ResultPrinter">
-      <LineId Id="9" Count="0" />
-      <LineId Id="82" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="85" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="43" Count="1" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="134" Count="1" />
-      <LineId Id="137" Count="3" />
-      <LineId Id="136" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="63" Count="4" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="49" Count="1" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="32" Count="2" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="35" Count="1" />
-      <LineId Id="91" Count="0" />
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ADSTestResultFormatter">
       <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ADSTestResultFormatter.Format">
+      <LineId Id="18" Count="3" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="23" Count="4" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="29" Count="35" />
+      <LineId Id="66" Count="7" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

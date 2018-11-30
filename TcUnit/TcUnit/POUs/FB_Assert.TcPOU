@@ -2,8 +2,8 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="FB_Assert" Id="{6d47daa2-fba1-435c-bae3-f81b2b35f9e8}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-DESCRIPTION: This function block is responsible for providing all the assert-methods for
-             asserting different data types.
+    This function block is responsible for providing all the assert-methods for
+    asserting different data types.
 *)
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
@@ -28,11 +28,14 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
       </Implementation>
     </Method>
     <Method Name="AssertEquals" Id="{092092ee-35b6-45cc-a1ac-e428e5d747ba}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals
+      <Declaration><![CDATA[(*
+    Asserts that two objects (of any type) are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
-    Message : Tc2_System.T_MaxString;
+    Expected : ANY; // Expected value
+    Actual : ANY; // The value to check against expected
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     Count : DINT;
@@ -105,11 +108,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BOOL" Id="{0c41b405-ea35-4450-93cc-7c3349bdf754}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_BOOL
+      <Declaration><![CDATA[(*
+    Asserts that two BOOLs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_BOOL
 VAR_INPUT
-    Expected : BOOL;
-    Actual : BOOL;
-    Message : Tc2_System.T_MaxString;
+    Expected : BOOL; // BOOL expected value
+    Actual : BOOL; // BOOL actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     AlreadyReported : BOOL;
@@ -135,11 +141,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BYTE" Id="{c039f3f1-9c41-4f5e-93a3-393ce160979a}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_BYTE
+      <Declaration><![CDATA[(*
+    Asserts that two BYTEs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_BYTE
 VAR_INPUT
-    Expected : BYTE;
-    Actual : BYTE;
-    Message : Tc2_System.T_MaxString;
+    Expected : BYTE; // BYTE expected value
+    Actual : BYTE; // BYTE actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -173,11 +182,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DINT" Id="{b7177b75-64df-4021-85c6-c366f61f5f89}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_DINT
+      <Declaration><![CDATA[(*
+    Asserts that two DINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_DINT
 VAR_INPUT
-    Expected : DINT;
-    Actual : DINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : DINT; // DINT expected value
+    Actual : DINT; // DINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -203,11 +215,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DWORD" Id="{3ce6ba77-0ab2-46fc-a7c9-978b376b93be}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_DWORD
+      <Declaration><![CDATA[(*
+    Asserts that two DWORDs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_DWORD
 VAR_INPUT
-    Expected : DWORD;
-    Actual : DWORD;
-    Message : Tc2_System.T_MaxString;
+    Expected : DWORD; // DWORD expected value
+    Actual : DWORD; // DWORD actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -241,11 +256,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_INT" Id="{7c61106e-9bcd-4577-a949-ab96d8862e41}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_INT
+      <Declaration><![CDATA[(*
+    Asserts that two INTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_INT
 VAR_INPUT
-    Expected : INT;
-    Actual : INT;
-    Message : Tc2_System.T_MaxString;
+    Expected : INT; // INT expected value
+    Actual : INT; // INT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -271,11 +289,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LINT" Id="{9dc34017-cbc7-41a9-83a2-941f39cc7271}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LINT
+      <Declaration><![CDATA[(*
+    Asserts that two LINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_LINT
 VAR_INPUT
-    Expected : LINT;
-    Actual : LINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : LINT; // LINT expected value
+    Actual : LINT; // LINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -301,12 +322,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LREAL" Id="{205d107c-0a2d-44f7-b68a-eb06720b6a6b}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LREAL
+      <Declaration><![CDATA[(*
+    Asserts that two LREALs are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_LREAL
 VAR_INPUT
-    Expected : LREAL;
-    Actual : LREAL;
-    Delta : LREAL; // the maximum delta between expected and actual for which both numbers are still considered equal
-    Message : Tc2_System.T_MaxString;
+    Expected : LREAL; // LREAL expected value
+    Actual : LREAL; // LREAL actual value
+    Delta : LREAL; // The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -332,11 +356,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LWORD" Id="{08b090fb-911b-49fa-a51a-7f5edfd3dd2c}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_LWORD
+      <Declaration><![CDATA[(*
+    Asserts that two LWORDs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_LWORD
 VAR_INPUT
-    Expected : WORD;
-    Actual : WORD;
-    Message : Tc2_System.T_MaxString;
+    Expected : LWORD; // LWORD expected value
+    Actual : LWORD; // LWORD actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -370,12 +397,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_REAL" Id="{fba4feaf-27d0-4f8b-9014-3895f7bb9cc7}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_REAL
+      <Declaration><![CDATA[(*
+    Asserts that two REALs are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_REAL
 VAR_INPUT
-    Expected : REAL;
-    Actual : REAL;
-    Delta : REAL; // the maximum delta between expected and actual for which both numbers are still considered equal
-    Message : Tc2_System.T_MaxString;
+    Expected : REAL; // REAL expected value
+    Actual : REAL; // REAL actual value
+    Delta : REAL;  // The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -401,11 +431,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_SINT" Id="{10052dfe-cfcb-4a5a-aa97-151e272ce217}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_SINT
+      <Declaration><![CDATA[(*
+    Asserts that two SINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_SINT
 VAR_INPUT
-    Expected : SINT;
-    Actual : SINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : SINT; // SINT expected value
+    Actual : SINT; // SINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -431,11 +464,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_STRING" Id="{cad7fed3-5db3-4371-9240-856c3c740489}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_STRING
+      <Declaration><![CDATA[(*
+    Asserts that two STRINGs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_STRING
 VAR_INPUT
-    Expected : STRING;
-    Actual : STRING;
-    Message : Tc2_System.T_MaxString;
+    Expected : Tc2_System.T_MaxString; // STRING expected value
+    Actual : Tc2_System.T_MaxString; // STRING actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -461,11 +497,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UDINT" Id="{9c21e8db-62d7-4e5c-8e00-cd508f4f5abc}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_UDINT
+      <Declaration><![CDATA[(*
+    Asserts that two UDINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_UDINT
 VAR_INPUT
-    Expected : UDINT;
-    Actual : UDINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : UDINT; // UDINT expected value
+    Actual : UDINT; // UDINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -491,11 +530,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UINT" Id="{86b960b9-ebc0-46af-91ed-94a423f501dc}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_UINT
+      <Declaration><![CDATA[(*
+    Asserts that two UINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_UINT
 VAR_INPUT
-    Expected : UINT;
-    Actual : UINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : UINT; // UINT expected value
+    Actual : UINT; // UINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -521,11 +563,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_ULINT" Id="{6f1e7566-33c3-4f9c-b92d-7828feb26211}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_ULINT
+      <Declaration><![CDATA[(*
+    Asserts that two ULINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_ULINT
 VAR_INPUT
-    Expected : ULINT;
-    Actual : ULINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : ULINT; // ULINT expected value
+    Actual : ULINT; // ULINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -551,11 +596,14 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT" Id="{7f12117a-f0ab-475b-ba47-c8a5c801a9ac}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT
+      <Declaration><![CDATA[(*
+    Asserts that two USINTs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_USINT
 VAR_INPUT
-    Expected : USINT;
-    Actual : USINT;
-    Message : Tc2_System.T_MaxString;
+    Expected : USINT; // USINT expected value
+    Actual : USINT; // USINT actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     AlreadyReported : BOOL;
@@ -640,11 +688,14 @@ END_IF *)]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WORD" Id="{85132cdb-0553-4070-be9a-976fcddd873d}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_WORD
+      <Declaration><![CDATA[(*
+    Asserts that two WORDs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_WORD
 VAR_INPUT
-    Expected : WORD;
-    Actual : WORD;
-    Message : Tc2_System.T_MaxString;
+    Expected : WORD; // WORD expected value
+    Actual : WORD; // WORD actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
@@ -678,23 +729,29 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertFalse" Id="{022665a8-9003-4aaa-8ef4-bd39fe196883}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertFalse
+      <Declaration><![CDATA[(*
+    Asserts that a condition is false. If it is not, an assertion error is created.
+*)
+METHOD PUBLIC AssertFalse
 VAR_INPUT
-    Actual : BOOL;
-    Message : Tc2_System.T_MaxString;
+    Condition : BOOL; // Condition to be checked
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(FALSE, Actual, Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(FALSE, Condition, Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertTrue" Id="{c415013c-c271-42ba-83ad-6c2c653d8f2e}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertTrue
+      <Declaration><![CDATA[(*
+    Asserts that a condition is true. If it is not, an assertion error is created.
+*)
+METHOD PUBLIC AssertTrue
 VAR_INPUT
-    Actual : BOOL;
-    Message : Tc2_System.T_MaxString;
+    Condition : BOOL; // Condition to be checked
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(TRUE, Actual, Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(TRUE, Condition, Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindTestFunctionBlockInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
