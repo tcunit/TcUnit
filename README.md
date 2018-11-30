@@ -8,11 +8,14 @@ Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff T
 **Main documentation site is available on:**  
 **[www.tcunit.org](https://www.tcunit.org)**
 
-**Want to know how to get started?**  
-Read the user guide: [https://tcunit.org/user-guide/](https://tcunit.org/user-guide/).
+**Unit testing... huh?**  
+Familiarize yourself with the basic concepts and specifics for TcUnit: [https://tcunit.org/unit-testing-concepts/](https://tcunit.org/unit-testing-concepts/)
 
-**Want to see a more advanced example?**  
-Read the programming example: [https://tcunit.org/programming-example-introduction/](https://tcunit.org/programming-example-introduction/).
+**Want to know how to get started?**  
+Read the user guide: [https://tcunit.org/introduction-user-guide/](https://tcunit.org/introduction-user-guide/)
+
+**Want to see a more advanced programming example?**  
+Read the programming example: [https://tcunit.org/programming-example-introduction/](https://tcunit.org/programming-example-introduction/)
 
 **Want to download a precompiled version of the library?**  
-Go here: [https://tcunit.org/download/](https://tcunit.org/download/).
+Go here: [https://tcunit.org/download/](https://tcunit.org/download/)
