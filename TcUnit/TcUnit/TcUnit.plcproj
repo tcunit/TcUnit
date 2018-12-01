@@ -69,6 +69,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ITFs\I_TcUnitRunner.TcIO">
       <SubType>Code</SubType>
     </Compile>
@@ -90,7 +93,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_AssertResultStatic.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_MessagePrinter.TcPOU">
+    <Compile Include="POUs\FB_ADSAssertMessageFormatter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TcUnitRunner.TcPOU">

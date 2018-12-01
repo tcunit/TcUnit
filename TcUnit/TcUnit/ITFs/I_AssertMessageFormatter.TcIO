@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <Itf Name="I_AssertMessageFormatter" Id="{71246e7e-3534-44b1-a788-c1f37427a096}">
+    <Declaration><![CDATA[INTERFACE I_AssertMessageFormatter
+]]></Declaration>
+    <Method Name="LogAssertFailure" Id="{35efab01-6ac8-46a5-a5e1-adb4f1f5f9b2}">
+      <Declaration><![CDATA[METHOD LogAssertFailure
+VAR_INPUT
+    Expected : STRING;
+    Actual : STRING;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

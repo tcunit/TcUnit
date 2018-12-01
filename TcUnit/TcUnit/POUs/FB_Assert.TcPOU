@@ -3,13 +3,17 @@
   <POU Name="FB_Assert" Id="{6d47daa2-fba1-435c-bae3-f81b2b35f9e8}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for providing all the assert-methods for
-    asserting different data types.
+    asserting different data types. Only failed assertions are recorded.
 *)
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
 VAR
     AssertResults : FB_AssertResultStatic := GVL.AssertResultStatic;
-    MessagePrinter : FB_MessagePrinter;
+
+    (* Prints the failed asserts to ADS so that Visual Studio can display the assert message.
+       This assert formatter can be replaced with something else than ADS *)
+    ADSAssertMessageFormatter : FB_ADSAssertMessageFormatter;
+    AssertMessageFormatter : I_AssertMessageFormatter := ADSAssertMessageFormatter;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -100,10 +104,10 @@ END_IF
 IF DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := ExpectedDataString,
-                                   Actual := ActualDataString,
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
+                                            Actual := ActualDataString,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -133,10 +137,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := BOOL_TO_STRING(Expected),
-                                   Actual := BOOL_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := BOOL_TO_STRING(Expected),
+                                            Actual := BOOL_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -166,18 +170,18 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
+    AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
                                                        STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expected,
                                                                                             iPrecision := 2,
                                                                                             bLoCase := FALSE)),
-                                   Actual := Tc2_Standard.CONCAT(
-                                                     STR1 := '0x',
-                                                     STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual,
-                                                                                          iPrecision := 2,
-                                                                                          bLoCase := FALSE)),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+                                            Actual := Tc2_Standard.CONCAT(
+                                                       STR1 := '0x',
+                                                       STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual,
+                                                                                            iPrecision := 2,
+                                                                                            bLoCase := FALSE)),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -207,10 +211,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := DINT_TO_STRING(Expected),
-                                   Actual := DINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := DINT_TO_STRING(Expected),
+                                            Actual := DINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -240,18 +244,18 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
-                                                       STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Expected,
-                                                                                             iPrecision := 8,
-                                                                                             bLoCase := FALSE)),
-                                   Actual := Tc2_Standard.CONCAT(
-                                                     STR1 := '0x',
-                                                     STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Actual,
-                                                                                           iPrecision := 8,
-                                                                                           bLoCase := FALSE)),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+                                                            STR1 := '0x',
+                                                            STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Expected,
+                                                                                                  iPrecision := 8,
+                                                                                                  bLoCase := FALSE)),
+                                            Actual := Tc2_Standard.CONCAT(
+                                                           STR1 := '0x',
+                                                           STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Actual,
+                                                                                                 iPrecision := 8,
+                                                                                                 bLoCase := FALSE)),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -281,10 +285,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := INT_TO_STRING(Expected),
-                                   Actual := INT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := INT_TO_STRING(Expected),
+                                            Actual := INT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -314,10 +318,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := LINT_TO_STRING(Expected),
-                                   Actual := LINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := LINT_TO_STRING(Expected),
+                                            Actual := LINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -348,10 +352,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := LREAL_TO_STRING(Expected),
-                                   Actual := LREAL_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
+                                            Actual := LREAL_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -381,18 +385,18 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
-                                                       STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Expected,
-                                                                                             iPrecision := 16,
-                                                                                             bLoCase := FALSE)),
-                                   Actual := Tc2_Standard.CONCAT(
-                                                     STR1 := '0x',
-                                                     STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Actual,
-                                                                                           iPrecision := 16,
-                                                                                           bLoCase := FALSE)),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+                                                            STR1 := '0x',
+                                                            STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Expected,
+                                                                                                  iPrecision := 16,
+                                                                                                  bLoCase := FALSE)),
+                                            Actual := Tc2_Standard.CONCAT(
+                                                            STR1 := '0x',
+                                                            STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Actual,
+                                                                                                  iPrecision := 16,
+                                                                                                  bLoCase := FALSE)),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -423,10 +427,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := REAL_TO_STRING(Expected),
-                                   Actual := REAL_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
+                                            Actual := REAL_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -456,10 +460,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := SINT_TO_STRING(Expected),
-                                   Actual := SINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := SINT_TO_STRING(Expected),
+                                            Actual := SINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -489,10 +493,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND (Tc2_Standard.LEN(Expected) <> Tc2_Standard.LEN(Actual) OR (Expected <> Actual)) THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := Expected,
-                                   Actual := Actual,
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := Expected,
+                                            Actual := Actual,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -522,10 +526,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := UDINT_TO_STRING(Expected),
-                                   Actual := UDINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := UDINT_TO_STRING(Expected),
+                                            Actual := UDINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -555,10 +559,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := UINT_TO_STRING(Expected),
-                                   Actual := UINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := UINT_TO_STRING(Expected),
+                                            Actual := UINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -588,10 +592,10 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := ULINT_TO_STRING(Expected),
-                                   Actual := ULINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := ULINT_TO_STRING(Expected),
+                                            Actual := ULINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -621,16 +625,15 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := USINT_TO_STRING(Expected),
-                                   Actual := USINT_TO_STRING(Actual),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := USINT_TO_STRING(Expected),
+                                            Actual := USINT_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT_ARRAY" Id="{735445c1-1ceb-4a2f-ac18-dfb62e637ab6}">
-      <Declaration><![CDATA[{warning 'add method implementation'}
-METHOD PUBLIC AssertEquals_USINT_ARRAY
+      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT_ARRAY
 VAR_IN_OUT
     Expected : ARRAY[*] OF USINT;
     Actual : ARRAY[*] OF USINT;
@@ -644,10 +647,11 @@ VAR
     Index : DINT;
     ExpectedString : STRING;
     ActualString : STRING;
+    AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(*TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
 
 IF (LOWER_BOUND(Expected, 1) <> LOWER_BOUND(Actual, 1)) OR
    (UPPER_BOUND(Expected, 1) <> UPPER_BOUND(Actual, 1)) THEN
@@ -662,10 +666,17 @@ ELSE
     END_FOR
 END_IF
 
-// TODO: ADD CODE TO CHECK IF ALREADY REPORTED?!?
-IF NOT Equals THEN
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND NOT Equals THEN
+    SetTestFailed();
+    
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, ', size of arrays not matching');
+        Message := CONCAT(STR1 := Message, ', size of arrays not matching.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(ExpectedString, DINT_TO_STRING(Index));
@@ -678,13 +689,11 @@ IF NOT Equals THEN
         ActualString := CONCAT(ActualString, USINT_TO_STRING(Actual[Index]));
     END_IF
 
-    SetTestFailed();
-
-    MessagePrinter.LogMessageError(Expected := ExpectedString,
-                                   Actual := ActualString,
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
-END_IF *)]]></ST>
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+                                            Actual := ActualString,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WORD" Id="{85132cdb-0553-4070-be9a-976fcddd873d}">
@@ -713,18 +722,18 @@ AssertResults.ReportResult(Expected := Expected,
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
 
-    MessagePrinter.LogMessageError(Expected := Tc2_Standard.CONCAT(
-                                                       STR1 := '0x',
-                                                       STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Expected,
-                                                                                            iPrecision := 4,
-                                                                                            bLoCase := FALSE)),
-                                   Actual := Tc2_Standard.CONCAT(
-                                                     STR1 := '0x',
-                                                     STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Actual,
-                                                                                          iPrecision := 4,
-                                                                                          bLoCase := FALSE)),
-                                   Message := Message,
-                                   TestInstancePath := TestInstancePath);
+    AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+                                                            STR1 := '0x',
+                                                            STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Expected,
+                                                                                                 iPrecision := 4,
+                                                                                                 bLoCase := FALSE)),
+                                            Actual := Tc2_Standard.CONCAT(
+                                                            STR1 := '0x',
+                                                            STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Actual,
+                                                                                                 iPrecision := 4,
+                                                                                                 bLoCase := FALSE)),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1065,30 +1074,20 @@ END_FOR]]></ST>
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_USINT_ARRAY">
       <LineId Id="92" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="32" Count="1" />
-      <LineId Id="35" Count="3" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="66" Count="7" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="140" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="141" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="74" Count="2" />
-      <LineId Id="43" Count="0" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="178" Count="10" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="164" Count="4" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="192" Count="11" />
+      <LineId Id="191" Count="0" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="173" Count="2" />
+      <LineId Id="170" Count="1" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_WORD">
       <LineId Id="29" Count="0" />

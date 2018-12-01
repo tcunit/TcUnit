@@ -1,13 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <POU Name="FB_MessagePrinter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
+  <POU Name="FB_ADSAssertMessageFormatter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-DESCRIPTION: This function block is responsible for printing the results of the tests to a defined output.
+    This function block is responsible for printing the results of the assertions using the built-in
+    ADSLOGSTR functionality provided by the Tc2_System library. This sends the result using ADS, which
+    is consumed by the error list of Visual Studio.
 *)
-FUNCTION_BLOCK FB_MessagePrinter]]></Declaration>
+FUNCTION_BLOCK FB_ADSAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="LogAssertFailure" Id="{48cbc6b0-5380-44b8-a045-57b6ad9f189d}">
+      <Declaration><![CDATA[METHOD LogAssertFailure
+VAR_INPUT
+    Expected : STRING;
+    Actual : STRING;
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    TestInstancePathCleaned : Tc2_System.T_MaxString;
+    FinalMessage : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
+FinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', TestInstancePathCleaned);
+FinalMessage := Tc2_Standard.CONCAT(FinalMessage, '$'');
+
+IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', EXP: ');
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Expected);
+END_IF
+IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', ACT: ');
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Actual);
+END_IF
+IF Tc2_Standard.LEN(STR := Message) > 0 THEN
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
+END_IF
+Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                     msgFmtStr := FinalMessage,
+                     strArg := Message);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="LogMessageError" Id="{bab195d7-5e96-4c3f-8266-c59551de8d0d}">
       <Declaration><![CDATA[METHOD PUBLIC LogMessageError
 VAR_INPUT
@@ -51,10 +86,10 @@ VAR
     ProjectNameWithDot : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Add the '.' character to the project name for search
+        <ST><![CDATA[(* Add the '.' character to the project name for search *)
 ProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
 
-// Find the character position of the beginning of the first occurence of the project name
+(* Find the character position of the beginning of the first occurence of the project name *)
 CharacterPositionOfProjectName := FIND(TestInstancePath, ProjectNameWithDot);
 
 IF CharacterPositionOfProjectName > 0 THEN
@@ -63,7 +98,7 @@ IF CharacterPositionOfProjectName > 0 THEN
                                POS := 1);
 END_IF
 
-// Check if the project name happens to be the same as namespace, and in that case, remove that as well
+(* Check if the project name happens to be the same as namespace, and in that case, remove that as well *)
 CharacterPositionOfProjectName := FIND(TestInstancePath,
                                        ProjectNameWithDot);
 
@@ -76,10 +111,14 @@ END_IF
 RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_MessagePrinter">
+    <LineIds Name="FB_ADSAssertMessageFormatter">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_MessagePrinter.LogMessageError">
+    <LineIds Name="FB_ADSAssertMessageFormatter.LogAssertFailure">
+      <LineId Id="15" Count="16" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ADSAssertMessageFormatter.LogMessageError">
       <LineId Id="27" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="23" Count="0" />
@@ -98,7 +137,7 @@ RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST
       <LineId Id="41" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_MessagePrinter.RemoveInstancePathAndProjectNameFromTestInstancePath">
+    <LineIds Name="FB_ADSAssertMessageFormatter.RemoveInstancePathAndProjectNameFromTestInstancePath">
       <LineId Id="39" Count="1" />
       <LineId Id="49" Count="0" />
       <LineId Id="13" Count="0" />
