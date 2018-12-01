@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <DUT Name="E_TestFunctionBlockRunState" Id="{d610d037-ee39-449d-9dc9-2e1f8303e75d}">
+  <DUT Name="E_TestSuiteRunState" Id="{d610d037-ee39-449d-9dc9-2e1f8303e75d}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
-TYPE E_TestFunctionBlockRunState :
+TYPE E_TestSuiteRunState :
 (
     IDLE := 0,
 	RUNNING := 1,

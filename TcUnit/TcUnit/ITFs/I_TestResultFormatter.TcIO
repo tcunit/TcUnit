@@ -5,15 +5,14 @@
     <Method Name="Format" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">
       <Declaration><![CDATA[METHOD Format
 VAR_INPUT
-    AmountOfTestFunctionBlocks : UINT; // The total amount of test function blocks
-    AmountOfTestCases : UINT; // The total amount of test cases (for all test function blocks)
+    AmountOfTestSuites : UINT; // The total amount of test suites
+    AmountOfTestCases : UINT; // The total amount of test cases (for all test suites)
     AmountOfSuccessfulTestCases : UINT; // The total amount of test cases that had all ASSERTS successful
     AmountOfFailedTestCases : UINT; // The total amount of test cases that had at least one ASSERT failed
 END_VAR
 VAR_OUTPUT
     Busy : BOOL;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>

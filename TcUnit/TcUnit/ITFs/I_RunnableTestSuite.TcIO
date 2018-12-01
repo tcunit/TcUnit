@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <Itf Name="I_RunnableTestSuite" Id="{b4cb3522-b646-42db-9aab-52e064bbc290}">
+    <Declaration><![CDATA[INTERFACE I_RunnableTestSuite]]></Declaration>
+    <Method Name="RunTests" Id="{984eeed7-7a78-402f-ae44-0c7d72008dda}">
+      <Declaration><![CDATA[METHOD RunTests : E_TestSuiteRunState]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -2,25 +2,23 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-DESCRIPTION: This function block is responsible for holding track of the tests
-             and executing them.
+    This function block is responsible for holding track of the tests and executing them.
 *)
 FUNCTION_BLOCK FB_TcUnitRunner IMPLEMENTS I_TcUnitRunner
 VAR
-    (* There can be one or more tests (testnames) for every test function
-       block instance *)
-    RunnableTestFunctionBlockResults : ARRAY[1..SizeOfStaticArray] OF E_TestFunctionBlockRunState;
+    (* There can be one or more tests (testnames) for every test suite instance *)
+    RunnableTestSuiteResults : ARRAY[1..SizeOfStaticArray] OF E_TestSuiteRunState;
 
-    (* Inidication of whether all test FBs have reported that they are finished *)
-    AllTestFunctionBlocksFinished : BOOL := FALSE;
-    
+    (* Inidication of whether all test suites have reported that they are finished *)
+    AllTestSuitesFinished : BOOL := FALSE;
+
     (* Prints the results to ADS so that Visual Studio can display the results.
        This test result formatter can be replaced with something else than ADS *)
     fbADSTestResultFormatter : FB_ADSTestResultFormatter;
     TestResultPrinter : I_TestResultFormatter := fbADSTestResultFormatter;
 
     (* These variables (statistics) are occupied once all tests are complete *)
-    AmountOfTestFunctionBlocksFinished : UINT := 0;
+    AmountOfTestSuitesFinished : UINT := 0;
     AmountOfTestCases : UINT := 0;
     AmountOfFailedTestCases : UINT := 0;
     AmountOfSuccessfulTestCases : UINT := 0;
@@ -34,37 +32,37 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="RunFunctionBlocksTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
-      <Declaration><![CDATA[METHOD RunFunctionBlocksTests
+    <Method Name="RunTestSuiteTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
+      <Declaration><![CDATA[METHOD RunTestSuiteTests
 VAR
     Counter : UINT := 0;
     BusyPrinting : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT AllTestFunctionBlocksFinished THEN
-    IF GVL.AmountOfInitializedTestFunctionBlocks = 0 THEN
-        AllTestFunctionBlocksFinished := TRUE;
-    ELSIF GVL.AmountOfInitializedTestFunctionBlocks > 0 THEN
-        FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
-            IF RunnableTestFunctionBlockResults[Counter] = E_TestFunctionBlockRunState.FINISHED THEN
-                AmountOfTestFunctionBlocksFinished := AmountOfTestFunctionBlocksFinished + 1;
-                AmountOfTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfTests() + AmountOfTestCases;
-                AmountOfFailedTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases;
-                AmountOfSuccessfulTestCases := GVL.TestFunctionBlockAddressess[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases;
+        <ST><![CDATA[IF NOT AllTestSuitesFinished THEN
+    IF GVL.AmountOfInitializedTestSuites = 0 THEN
+        AllTestSuitesFinished := TRUE;
+    ELSIF GVL.AmountOfInitializedTestSuites > 0 THEN
+        FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
+            IF RunnableTestSuiteResults[Counter] = E_TestSuiteRunState.FINISHED THEN
+                AmountOfTestSuitesFinished := AmountOfTestSuitesFinished + 1;
+                AmountOfTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfTests() + AmountOfTestCases;
+                AmountOfFailedTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases;
+                AmountOfSuccessfulTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases;
             ELSE
-                GVL.CurrentTestFunctionBlockBeingCalled := GVL.TestFunctionBlockAddressess[Counter];
-                RunnableTestFunctionBlockResults[Counter] := GVL.CurrentTestFunctionBlockBeingCalled.GetRunnable().RunTests();
+                GVL.CurrentTestSuiteBeingCalled := GVL.TestSuiteAddresses[Counter];
+                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled.GetRunnable().RunTests();
             END_IF
         END_FOR
-        IF AmountOfTestFunctionBlocksFinished = GVL.AmountOfInitializedTestFunctionBlocks THEN
-            AllTestFunctionBlocksFinished := TRUE;
+        IF AmountOfTestSuitesFinished = GVL.AmountOfInitializedTestSuites THEN
+            AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
 END_IF
 
-IF AllTestFunctionBlocksFinished THEN
+IF AllTestSuitesFinished THEN
     IF NOT DonePrintingTestResults THEN
-        TestResultPrinter.Format(AmountOfTestFunctionBlocks := AmountOfTestFunctionBlocksFinished,
+        TestResultPrinter.Format(AmountOfTestSuites := AmountOfTestSuitesFinished,
                                  AmountOfTestCases := AmountOfTestCases,
                                  AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases,
                                  AmountOfFailedTestCases := AmountOfFailedTestCases,
@@ -77,7 +75,7 @@ END_IF]]></ST>
     <LineIds Name="FB_TcUnitRunner">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TcUnitRunner.RunFunctionBlocksTests">
+    <LineIds Name="FB_TcUnitRunner.RunTestSuiteTests">
       <LineId Id="131" Count="0" />
       <LineId Id="128" Count="1" />
       <LineId Id="10" Count="1" />

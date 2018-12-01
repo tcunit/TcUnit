@@ -51,7 +51,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 IF Expected.TypeClass <> Actual.TypeClass THEN
     DataTypesNotEquals := TRUE;
@@ -126,7 +126,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -159,7 +159,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -200,7 +200,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -233,7 +233,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -274,7 +274,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -307,7 +307,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -341,7 +341,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -374,7 +374,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -416,7 +416,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -449,7 +449,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -482,7 +482,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -515,7 +515,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -548,7 +548,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -581,7 +581,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -614,7 +614,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -651,7 +651,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 IF (LOWER_BOUND(Expected, 1) <> LOWER_BOUND(Actual, 1)) OR
    (UPPER_BOUND(Expected, 1) <> UPPER_BOUND(Actual, 1)) THEN
@@ -711,7 +711,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestFunctionBlockInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -763,16 +763,16 @@ END_VAR]]></Declaration>
         <ST><![CDATA[AssertEquals_BOOL(TRUE, Condition, Message);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FindTestFunctionBlockInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
+    <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
       <Declaration><![CDATA[(* Searches for the instance path of the calling function block *)
-METHOD PRIVATE FindTestFunctionBlockInstancePath : Tc2_System.T_MaxString
+METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString
 VAR
     Counter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
-    IF GVL.TestFunctionBlockAssertAddressess[Counter] = ADR(THIS^) THEN
-        FindTestFunctionBlockInstancePath := GVL.TestFunctionBlockAddressess[Counter].GetInstancePath();
+        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
+    IF GVL.TestSuiteAssertAddresses[Counter] = ADR(THIS^) THEN
+        FindTestSuiteInstancePath := GVL.TestSuiteAddresses[Counter].GetInstancePath();
     END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -781,11 +781,11 @@ END_FOR]]></ST>
       <Declaration><![CDATA[{attribute 'call_after_init'}
 METHOD PRIVATE Initialize]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT GVL.TestFunctionBlockAssertRegistered THEN
-    (* If this assert function block has not been initialized, we can safely assume that we will have 
-       a test function block initialized after this initialization, as a test-FB will initialize the assert-FB *)
-    GVL.TestFunctionBlockAssertAddressess[GVL.AmountOfInitializedTestFunctionBlocks+1] := ADR(THIS^);
-    GVL.TestFunctionBlockAssertRegistered := TRUE;
+        <ST><![CDATA[IF NOT GVL.TestSuiteAssertRegistered THEN
+    (* If this assert function block has not been initialized, we can safely assume that we will have
+       a test suite initialized after this initialization, as a test-FB will initialize the assert-FB *)
+    GVL.TestSuiteAssertAddresses[GVL.AmountOfInitializedTestSuites+1] := ADR(THIS^);
+    GVL.TestSuiteAssertRegistered := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -795,9 +795,9 @@ VAR
     Counter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
-    IF GVL.TestFunctionBlockAssertAddressess[Counter] = ADR(THIS^) THEN
-        GVL.TestFunctionBlockAddressess[Counter].SetTestFailed(GVL.CurrentTestNameBeingCalled);
+        <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
+    IF GVL.TestSuiteAssertAddresses[Counter] = ADR(THIS^) THEN
+        GVL.TestSuiteAddresses[Counter].SetTestFailed(GVL.CurrentTestNameBeingCalled);
     END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -1114,7 +1114,7 @@ END_FOR]]></ST>
     <LineIds Name="FB_Assert.AssertTrue">
       <LineId Id="12" Count="0" />
     </LineIds>
-    <LineIds Name="FB_Assert.FindTestFunctionBlockInstancePath">
+    <LineIds Name="FB_Assert.FindTestSuiteInstancePath">
       <LineId Id="33" Count="0" />
       <LineId Id="35" Count="0" />
       <LineId Id="37" Count="1" />

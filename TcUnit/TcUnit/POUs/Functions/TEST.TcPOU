@@ -9,7 +9,7 @@ VAR_INPUT
     TestName : Tc2_Utilities.T_MaxString;
 END_VAR
 VAR
-    CounterTestFunctionBlockAddress : UINT;
+    CounterTestSuiteAddress : UINT;
     CounterTestName : UINT;
 END_VAR]]></Declaration>
     <Implementation>
@@ -18,16 +18,16 @@ END_VAR]]></Declaration>
 (* Mark this test as the current one being executed *)
 GVL.CurrentTestNameBeingCalled := TestName;
 
-(* Check if combination of address for the test function block and test name already exists.
-   For every test function block all tests cases need to be unique.
+(* Check if combination of address for the test suite and test name already exists.
+   For every test suite all tests cases need to be unique.
    If so, don't add it to the available tests. If not found, add it to the available
    tests *)
 
-FOR CounterTestFunctionBlockAddress := 1 TO GVL.AmountOfInitializedTestFunctionBlocks BY 1 DO
-    (* Look for the test function block by comparing to the one that is currently running*)
-    IF GVL.TestFunctionBlockAddressess[CounterTestFunctionBlockAddress] = GVL.CurrentTestFunctionBlockBeingCalled THEN
+FOR CounterTestSuiteAddress := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
+    (* Look for the test suite by comparing to the one that is currently running *)
+    IF GVL.TestSuiteAddresses[CounterTestSuiteAddress] = GVL.CurrentTestSuiteBeingCalled THEN
         (* Make sure there are no other tests with the same name already added *)
-        GVL.TestFunctionBlockAddressess[CounterTestFunctionBlockAddress].AddTest(TestName := TestName);
+        GVL.TestSuiteAddresses[CounterTestSuiteAddress].AddTest(TestName := TestName);
         RETURN;
     END_IF
 END_FOR]]></ST>

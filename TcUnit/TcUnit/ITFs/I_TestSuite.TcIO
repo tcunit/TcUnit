@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <Itf Name="I_TestFunctionBlock" Id="{fabfa969-ab32-4ba2-961d-04367de5e5dc}">
-    <Declaration><![CDATA[INTERFACE I_TestFunctionBlock
+  <Itf Name="I_TestSuite" Id="{fabfa969-ab32-4ba2-961d-04367de5e5dc}">
+    <Declaration><![CDATA[INTERFACE I_TestSuite
 ]]></Declaration>
     <Method Name="AddTest" Id="{b1967430-7a18-45f6-a848-c24f8e3214cd}">
       <Declaration><![CDATA[METHOD PUBLIC AddTest
 VAR_INPUT
-    TestName : T_MaxString;
+    TestName : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
     </Method>
     <Method Name="GetAmountOfFailedTests" Id="{61a062f9-f37a-4424-96ae-de91ff83afb5}">
@@ -22,7 +22,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD GetInstancePath : Tc2_Utilities.T_MaxString]]></Declaration>
     </Method>
     <Method Name="GetRunnable" Id="{608fa14a-a1d0-4c7f-ba01-8c9a22b16686}">
-      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestFunctionBlock]]></Declaration>
+      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestSuite]]></Declaration>
     </Method>
     <Method Name="SetTestFailed" Id="{fe3fa7bb-7999-49ed-9295-a12b7993e593}">
       <Declaration><![CDATA[METHOD SetTestFailed

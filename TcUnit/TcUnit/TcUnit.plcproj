@@ -46,16 +46,16 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DUTs\E_TestFunctionBlockRunState.TcDUT">
+    <Compile Include="DUTs\E_TestSuiteRunState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_AssertResult.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\ST_TestFunctionBlockInstance.TcDUT">
+    <Compile Include="DUTs\ST_TestSuiteInstance.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\ST_TestFunctionBlock.TcDUT">
+    <Compile Include="DUTs\ST_TestSuite.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\U_ExpectedOrActual.TcDUT">
@@ -75,10 +75,10 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="ITFs\I_TcUnitRunner.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_RunnableTestFunctionBlock.TcIO">
+    <Compile Include="ITFs\I_RunnableTestSuite.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_TestFunctionBlock.TcIO">
+    <Compile Include="ITFs\I_TestSuite.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_TestResultFormatter.TcIO">
@@ -99,7 +99,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_TcUnitRunner.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_TestFunctionBlock.TcPOU">
+    <Compile Include="POUs\FB_TestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_AnyComparator.TcPOU">

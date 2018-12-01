@@ -7,19 +7,20 @@ VAR_GLOBAL
     AssertResultStatic : FB_AssertResultStatic;
     TcUnitRunner : FB_TcUnitRunner;
 
-    TestFunctionBlockAssertRegistered : BOOL;
+    (* Indication of whether the last instantiated test suite has an assert instance created *)
+    TestSuiteAssertRegistered : BOOL;
 
-    (* Current test function block being called *)
-    CurrentTestFunctionBlockBeingCalled : I_TestFunctionBlock;
+    (* Current test suite being called *)
+    CurrentTestSuiteBeingCalled : I_TestSuite;
 
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_Utilities.T_MaxString;
 
-    (* The function block assert instance should be 1:1 mapped to
-       the test function block instance path. *)
-    AmountOfInitializedTestFunctionBlocks : UINT := 0;
-    TestFunctionBlockAssertAddressess : ARRAY[1..300] OF PVOID;
-    TestFunctionBlockAddressess : ARRAY[1..300] OF I_TestFunctionBlock;
+    (* The assert function block instance should be 1:1 mapped to
+       the test suite instance path. *)
+    AmountOfInitializedTestSuites : UINT := 0;
+    TestSuiteAssertAddresses : ARRAY[1..300] OF PVOID;
+    TestSuiteAddresses : ARRAY[1..300] OF I_TestSuite;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

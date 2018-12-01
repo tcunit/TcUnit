@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <POU Name="FB_TestFunctionBlock" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
+  <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the function block that
    has the different tests in it (i.e. test-FB). Every test-FB can have one or more tests, and
    each test can do one or more asserts.
 *)
 {attribute 'call_after_init'}
 {attribute 'reflection'}
-FUNCTION_BLOCK FB_TestFunctionBlock IMPLEMENTS I_TestFunctionBlock
+FUNCTION_BLOCK FB_TestSuite IMPLEMENTS I_TestSuite
 VAR
     {attribute 'instance-path'}
     {attribute 'noinit'}
@@ -16,7 +16,7 @@ VAR
     (* This is a interface-pointer to the child-object that inherits this object
        in order for us to have a reference to calling the actual execution of the
        tests *) 
-    RunnableTest : I_RunnableTestFunctionBlock;
+    RunnableTest : I_RunnableTestSuite;
 
     NumberOfTests : UINT := 0;
     TestNames : ARRAY[1..100] OF Tc2_Utilities.T_MaxString;
@@ -84,7 +84,7 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetRunnable" Id="{42018cb6-0640-401b-9af0-45a257049175}">
-      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestFunctionBlock]]></Declaration>
+      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestSuite]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetRunnable := RunnableTest;]]></ST>
       </Implementation>
@@ -93,20 +93,20 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
       <Declaration><![CDATA[{attribute 'call_after_init'}
 METHOD PRIVATE Initialize]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL.TestFunctionBlockAssertRegistered THEN
-    GVL.AmountOfInitializedTestFunctionBlocks := GVL.AmountOfInitializedTestFunctionBlocks + 1;	
-    GVL.TestFunctionBlockAddressess[GVL.AmountOfInitializedTestFunctionBlocks] := THIS^;
-    GVL.TestFunctionBlockAssertRegistered := FALSE;
+        <ST><![CDATA[IF GVL.TestSuiteAssertRegistered THEN
+    GVL.AmountOfInitializedTestSuites := GVL.AmountOfInitializedTestSuites + 1;	
+    GVL.TestSuiteAddresses[GVL.AmountOfInitializedTestSuites] := THIS^;
+    GVL.TestSuiteAssertRegistered := FALSE;
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterTestFunctionBlock" Id="{5739bc4d-f91e-4513-b43f-1bc828337468}">
-      <Declaration><![CDATA[METHOD PUBLIC RegisterTestFunctionBlock
+    <Method Name="RegisterTestSuite" Id="{5739bc4d-f91e-4513-b43f-1bc828337468}">
+      <Declaration><![CDATA[METHOD PUBLIC RegisterTestSuite
 VAR_INPUT
-	RunnableTestFunctionBlock : I_RunnableTestFunctionBlock;
+	RunnableTestSuite : I_RunnableTestSuite;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[RunnableTest := RunnableTestFunctionBlock;]]></ST>
+        <ST><![CDATA[RunnableTest := RunnableTestSuite;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -127,10 +127,10 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_TestFunctionBlock">
+    <LineIds Name="FB_TestSuite">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.AddTest">
+    <LineIds Name="FB_TestSuite.AddTest">
       <LineId Id="15" Count="0" />
       <LineId Id="10" Count="3" />
       <LineId Id="9" Count="0" />
@@ -139,32 +139,32 @@ END_IF]]></ST>
       <LineId Id="30" Count="0" />
       <LineId Id="32" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.GetAmountOfFailedTests">
+    <LineIds Name="FB_TestSuite.GetAmountOfFailedTests">
       <LineId Id="10" Count="7" />
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.GetAmountOfSuccessfulTests">
+    <LineIds Name="FB_TestSuite.GetAmountOfSuccessfulTests">
       <LineId Id="18" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.GetAmountOfTests">
+    <LineIds Name="FB_TestSuite.GetAmountOfTests">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.GetInstancePath">
+    <LineIds Name="FB_TestSuite.GetInstancePath">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.GetRunnable">
+    <LineIds Name="FB_TestSuite.GetRunnable">
       <LineId Id="4" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.Initialize">
+    <LineIds Name="FB_TestSuite.Initialize">
       <LineId Id="14" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="18" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.RegisterTestFunctionBlock">
+    <LineIds Name="FB_TestSuite.RegisterTestSuite">
       <LineId Id="11" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestFunctionBlock.SetTestFailed">
+    <LineIds Name="FB_TestSuite.SetTestFailed">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="12" Count="0" />

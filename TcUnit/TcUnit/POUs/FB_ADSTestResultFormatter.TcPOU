@@ -21,13 +21,13 @@ END_VAR]]></Declaration>
     <Method Name="Format" Id="{dba8c729-8b99-4be3-97cd-3a4fea4cd051}">
       <Declaration><![CDATA[METHOD Format
 VAR_INPUT
-    (* The total amount of test function blocks*)
-    AmountOfTestFunctionBlocks	: UINT;
-    (* The total amount of test cases (for all test function blocks)*)
+    (* The total amount of test suites *)
+    AmountOfTestSuites	: UINT;
+    (* The total amount of test cases (for all test function blocks) *)
     AmountOfTestCases	: UINT;
-    (* The total amount of test cases that had all ASSERTS successful*)
+    (* The total amount of test cases that had all ASSERTS successful *)
     AmountOfSuccessfulTestCases	: UINT;
-    (* The total amount of test cases that had at least one ASSERT failed*)
+    (* The total amount of test cases that had at least one ASSERT failed *)
     AmountOfFailedTestCases	: UINT;
 END_VAR
 VAR_OUTPUT
@@ -47,8 +47,8 @@ END_VAR]]></Declaration>
         Busy := TRUE;
     2 :
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Test function blocks: %s',
-                             strArg := UINT_TO_STRING(AmountOfTestFunctionBlocks));
+                             msgFmtStr := '| Test suites: %s',
+                             strArg := UINT_TO_STRING(AmountOfTestSuites));
         LastPrintstate := PrintState;
         PrintState := 100;
         Busy := TRUE;
