@@ -4,6 +4,7 @@
     <Declaration><![CDATA[PROGRAM PRG_TEST
 VAR
     fbPrimitiveTypesTest : FB_PrimitiveTypes_Test;
+    fbAssertTrueFalse_Test : FB_AssertTrueFalse_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>

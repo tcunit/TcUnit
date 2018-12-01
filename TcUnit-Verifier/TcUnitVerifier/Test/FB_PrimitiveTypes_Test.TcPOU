@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="FB_PrimitiveTypes_Test" Id="{d6f75dd1-f045-4082-8776-85982b0ae74c}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'call_after_init'}
-FUNCTION_BLOCK FB_PrimitiveTypes_Test EXTENDS TcUnit.FB_TestFunctionBlock IMPLEMENTS TcUnit.I_RunnableTestFunctionBlock
+FUNCTION_BLOCK FB_PrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
 END_VAR
@@ -17,11 +17,11 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[SUPER^.RegisterTestFunctionBlock(THIS^);]]></ST>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
       </Implementation>
     </Method>
     <Method Name="RunTests" Id="{51e3c313-22b0-4136-aa19-eb0a388627dc}">
-      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestFunctionBlockRunState
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Test_ANY_Equals();
@@ -52,14 +52,18 @@ Test_UDINT_Equals();
 Test_UDINT_Differ();
 Test_UINT_Equals();
 Test_UINT_Differ();
-
+Test_ULINT_Equals();
+Test_ULINT_Differ();
 Test_USINT_Equals();
 Test_USINT_Differ();
-Test_USINT_Array_Equals();
-Test_USINT_Array_Differ_Size();
-Test_USINT_Array_Differ_Content();
+Test_WORD_Equals();
+Test_WORD_Differ();
 
-RunTests := TCUNIT.E_TestFunctionBlockRunState.FINISHED;]]></ST>
+//Test_USINT_Array_Equals();
+//Test_USINT_Array_Differ_Size();
+//Test_USINT_Array_Differ_Content();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_Differ_DataType" Id="{727d1587-a665-48c7-a3e8-8439592b1864}">
@@ -477,6 +481,36 @@ Assert.AssertEquals_UINT(Expected := a,
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Test_ULINT_Differ" Id="{0d0d9e30-1840-46c4-a3ac-cf0cd182d193}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ULINT_Differ
+VAR
+    a : ULINT := 10000;
+    b : ULINT := 53685437234;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ULINT_Differ');
+
+Assert.AssertEquals_ULINT(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ULINT_Equals" Id="{77c931b5-b02f-44a9-aa1d-9b1c38d24d32}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ULINT_Equals
+VAR
+    a : ULINT := 45683838383;
+    b : ULINT := 45683838383;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ULINT_Equals');
+
+Assert.AssertEquals_ULINT(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Test_USINT_Array_Differ_Content" Id="{ddb84736-c28a-4d10-83f2-3109bc6fd03d}">
       <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Array_Differ_Content
 VAR
@@ -528,8 +562,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_USINT_Differ');
 
-Assert.AssertTrue(Condition := (a <> b),
-                  Message := 'Values are equal');]]></ST>
+Assert.AssertEquals_USINT(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_USINT_Equals" Id="{cde72b40-2fd6-4a92-a04b-0269b424b2b7}">
@@ -545,6 +580,35 @@ Assert.AssertEquals_USINT(Expected := a,
                           Actual := b,
                           Message := 'Values differ');
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WORD_Differ" Id="{317e9494-4efd-4b73-a4a1-57f443dfc0a8}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_WORD_Differ
+VAR
+    a : WORD := 16#EF01;
+    b : WORD := 16#2345;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WORD_Differ');
+
+Assert.AssertEquals_WORD(Expected := a,
+                         Actual := b,
+                         Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WORD_Equals" Id="{4e51651a-d7d1-4780-80a3-72ea1ca78f2b}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_WORD_Equals
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#ABCD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WORD_Equals');
+
+Assert.AssertEquals_WORD(Expected := a,
+                         Actual := b,
+                         Message := 'Values differ');]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_PrimitiveTypes_Test">
@@ -564,8 +628,12 @@ Assert.AssertEquals_USINT(Expected := a,
       <LineId Id="29" Count="0" />
       <LineId Id="31" Count="3" />
       <LineId Id="36" Count="7" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="5" Count="5" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="5" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="7" Count="3" />
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_ANY_Differ_DataType">
@@ -740,6 +808,18 @@ Assert.AssertEquals_USINT(Expected := a,
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="2" />
     </LineIds>
+    <LineIds Name="FB_PrimitiveTypes_Test.Test_ULINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_PrimitiveTypes_Test.Test_ULINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Array_Differ_Content">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
@@ -761,7 +841,7 @@ Assert.AssertEquals_USINT(Expected := a,
     <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
+      <LineId Id="22" Count="1" />
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Equals">
@@ -769,6 +849,18 @@ Assert.AssertEquals_USINT(Expected := a,
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_PrimitiveTypes_Test.Test_WORD_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_PrimitiveTypes_Test.Test_WORD_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

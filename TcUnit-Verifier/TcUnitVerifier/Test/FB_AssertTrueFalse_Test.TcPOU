@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_AssertTrueFalse_Test" Id="{4a344c15-007d-4e24-b34e-25e793163fe6}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AssertTrueFalse_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AssertThatINTsAreEqual" Id="{e329edff-158b-47b8-b448-4482e312fc51}">
+      <Declaration><![CDATA[METHOD PRIVATE AssertThatINTsAreEqual
+VAR
+    a : INT := -33;
+    b : INT := -44;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('AssertThatINTsAreEqual');
+
+Assert.AssertFalse(Condition := (a <> b),
+                   Message := 'INTs are equal');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertThatINTsAreNotEqual" Id="{e9713416-6687-4536-b3eb-d0e312881039}">
+      <Declaration><![CDATA[METHOD PRIVATE AssertThatINTsAreNotEqual
+VAR
+    a : INT := -33;
+    b : INT := -44;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('AssertThatINTsAreNotEqual');
+
+Assert.AssertFalse(Condition := (a = b),
+                   Message := 'INTs are equal');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertThatWORDsAreEqual" Id="{cb8a8728-6b7f-485b-9255-e9e2c3d7b1b4}">
+      <Declaration><![CDATA[METHOD PRIVATE AssertThatWORDsAreEqual
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#0123;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('AssertThatWORDsAreEqual');
+
+Assert.AssertTrue(Condition := (a = b),
+                  Message := 'WORDs are not equal');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertThatWORDsAreNotEqual" Id="{7f2e9dc0-aaa1-4524-9220-4e31b7d76d84}">
+      <Declaration><![CDATA[METHOD PRIVATE AssertThatWORDsAreNotEqual
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#0123;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('AssertThatWORDsAreNotEqual');
+
+Assert.AssertTrue(Condition := (a <> b),
+                  Message := 'WORDs are equal');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{d9c8d1d8-437d-4506-86dc-1943db55bc24}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{f30a7ae9-e875-48f2-9a5e-ace6bb6be399}">
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AssertThatINTsAreEqual();
+AssertThatINTsAreNotEqual();
+AssertThatWORDsAreEqual();
+AssertThatWORDsAreNotEqual();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AssertTrueFalse_Test">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.AssertThatINTsAreEqual">
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.AssertThatINTsAreNotEqual">
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.AssertThatWORDsAreEqual">
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.AssertThatWORDsAreNotEqual">
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertTrueFalse_Test.RunTests">
+      <LineId Id="51" Count="0" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
