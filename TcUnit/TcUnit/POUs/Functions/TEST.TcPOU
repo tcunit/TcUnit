@@ -13,7 +13,8 @@ VAR
     CounterTestName : UINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// TODO: Check if test has unique name. To do this we need to check whether the call to this has been made in the same cycle.
+      <ST><![CDATA[// TODO: Check if test has unique name in the test suite.
+// To do this we need to check whether the call to this has been made in the same cycle.
 
 (* Mark this test as the current one being executed *)
 GVL.CurrentTestNameBeingCalled := TestName;
@@ -34,6 +35,7 @@ END_FOR]]></ST>
     </Implementation>
     <LineIds Name="TEST">
       <LineId Id="9" Count="0" />
+      <LineId Id="131" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="74" Count="0" />

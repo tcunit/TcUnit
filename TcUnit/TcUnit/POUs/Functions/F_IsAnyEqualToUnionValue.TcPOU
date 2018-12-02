@@ -105,6 +105,10 @@ CASE UDINT_TO_INT(ExpectedOrActual.TypeClass) OF
         F_IsAnyEqualToUnionValue := FALSE;
 
     IBaseLibrary.TypeClass.TYPE_ANY :
+        (* Even though the data input of the ExpectedOrActual is ANY, this CASE-switch will never
+           enter this case, but instead the type-class that it is an instance of. So for instance,
+           if the ExpectedOrActual is an instance of INT, this case-switch will enter the 
+           IBaseLibrary.TypeClass.TYPE_INT case. *)
         F_IsAnyEqualToUnionValue := FALSE;
 
     IBaseLibrary.TypeClass.TYPE_ANYBIT :
@@ -205,7 +209,9 @@ END_CASE]]></ST>
       <LineId Id="152" Count="0" />
       <LineId Id="70" Count="1" />
       <LineId Id="153" Count="0" />
-      <LineId Id="72" Count="1" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="195" Count="3" />
+      <LineId Id="73" Count="0" />
       <LineId Id="154" Count="0" />
       <LineId Id="74" Count="1" />
       <LineId Id="155" Count="0" />

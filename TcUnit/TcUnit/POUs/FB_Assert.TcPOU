@@ -49,6 +49,7 @@ VAR
     ExpectedDataString : STRING(80);
     ActualDataString : STRING(80);
     TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
@@ -101,7 +102,13 @@ ELSIF DataContentNotEquals THEN
     ActualDataString := Tc2_Standard.CONCAT(STR1 := '0x', STR2 := ActualDataString);
 END_IF
 
-IF DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals THEN
+AssertResults.ReportResult(Expected := Expected,
+                           Actual := Actual,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND (DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals) THEN
     SetTestFailed();
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
@@ -849,6 +856,8 @@ END_FOR]]></ST>
       <LineId Id="53" Count="0" />
       <LineId Id="61" Count="0" />
       <LineId Id="29" Count="0" />
+      <LineId Id="152" Count="4" />
+      <LineId Id="151" Count="0" />
       <LineId Id="94" Count="1" />
       <LineId Id="132" Count="1" />
       <LineId Id="96" Count="2" />

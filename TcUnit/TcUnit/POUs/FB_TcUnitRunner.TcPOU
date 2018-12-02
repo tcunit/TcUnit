@@ -37,6 +37,15 @@ END_VAR]]></Declaration>
 VAR
     Counter : UINT := 0;
     BusyPrinting : BOOL;
+
+    (* We need to hold a temporary state of the statistics (failed, successful, total amount of test cases etc)
+       as we don't consider the tests to be completely finished until all test suites have executed completely.
+       The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
+       are finished (which might take many cycles), do we gather correct statistics *)
+    AmountOfTestSuitesFinished_Temp : UINT := 0;
+    AmountOfTestCases_Temp : UINT := 0;
+    AmountOfFailedTestCases_Temp : UINT := 0;
+    AmountOfSuccessfulTestCases_Temp : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT AllTestSuitesFinished THEN
@@ -45,16 +54,21 @@ END_VAR]]></Declaration>
     ELSIF GVL.AmountOfInitializedTestSuites > 0 THEN
         FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
             IF RunnableTestSuiteResults[Counter] = E_TestSuiteRunState.FINISHED THEN
-                AmountOfTestSuitesFinished := AmountOfTestSuitesFinished + 1;
-                AmountOfTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfTests() + AmountOfTestCases;
-                AmountOfFailedTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases;
-                AmountOfSuccessfulTestCases := GVL.TestSuiteAddresses[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases;
+                AmountOfTestSuitesFinished_Temp := AmountOfTestSuitesFinished_Temp + 1;
+                AmountOfTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfTests() + AmountOfTestCases_Temp;
+                AmountOfFailedTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
+                AmountOfSuccessfulTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
             ELSE
                 GVL.CurrentTestSuiteBeingCalled := GVL.TestSuiteAddresses[Counter];
                 RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled.GetRunnable().RunTests();
             END_IF
         END_FOR
-        IF AmountOfTestSuitesFinished = GVL.AmountOfInitializedTestSuites THEN
+        IF AmountOfTestSuitesFinished_Temp = GVL.AmountOfInitializedTestSuites THEN
+            (* Copy the final results over *)
+            AmountOfTestSuitesFinished := AmountOfTestSuitesFinished_Temp;
+            AmountOfTestCases := AmountOfTestCases_Temp;
+            AmountOfFailedTestCases := AmountOfFailedTestCases_Temp;
+            AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases_Temp;
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
@@ -88,7 +102,11 @@ END_IF]]></ST>
       <LineId Id="63" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="14" Count="0" />
-      <LineId Id="23" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="166" Count="2" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="24" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="106" Count="1" />

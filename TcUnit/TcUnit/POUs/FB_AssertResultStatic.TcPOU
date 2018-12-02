@@ -58,14 +58,26 @@ VAR
     bDataContentNotEquals : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Check if we can find any existing match of the report
+        <ST><![CDATA[(* Check if we can find any existing match of the report.
+   First check whether we can find the combination of test message and test instance path.
+   If this combination is not found, we know for a fact that this report has not been included before and don't
+   need to continue checking. If however the test message and instance path have been found, we need to check whether
+   both the expected and actual values have been logged for this combination. Only if we have found the total
+   combination of:
+   - Test message
+   - Test instance path
+   - Expected value
+   - Actual value
+   We can consider to have a hit, otherwise we need to create it
+*)
+
 IF (nLocation := FindMessageAndTestInstancePathEquals(Message, TestInstancePath)) = 0 OR_ELSE
     (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uExpected,
                                   ExpectedOrActual := Expected) OR
     NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uActual,
                                  ExpectedOrActual := Actual)) THEN
 
-    // No existing match found, create a new entry
+    (* No existing match found, create a new entry *)
     F_AnyComparator(AnyValueOne := Expected,
                     AnyValueTwo := Actual,
                     bDataTypesNotEquals => bDataTypesNotEquals,
@@ -103,6 +115,11 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.ReportResult">
       <LineId Id="67" Count="0" />
+      <LineId Id="260" Count="6" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="267" Count="0" />
+      <LineId Id="269" Count="1" />
+      <LineId Id="259" Count="0" />
       <LineId Id="53" Count="0" />
       <LineId Id="184" Count="0" />
       <LineId Id="114" Count="0" />
