@@ -21,6 +21,9 @@
     <Compile Include="Test\FB_AssertEveryFailedTestTwice.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_CreateTwoTestsWithSameName.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_PrimitiveTypes_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>

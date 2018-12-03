@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_CreateTwoTestsWithSameName" Id="{7b1f39ab-8960-43b8-8ec6-8f13e574f736}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_CreateTwoTestsWithSameName EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{10367bbb-5caa-4524-936d-517e6525e89c}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{77d08c3d-574c-4b3d-8da4-13a3c806b4ed}">
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestOne();
+TestOne_Again();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne" Id="{a0db3538-83d9-431d-9b73-12250812435f}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+Assert.AssertEquals_INT(Expected := a,
+                        Actual := b,
+                        Message := 'A does not equal B');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne_Again" Id="{01798474-e702-41c3-94c8-ec7fd2bc4723}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_Again
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+Assert.AssertEquals_INT(Expected := a,
+                        Actual := b,
+                        Message := 'A does not equal B again');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CreateTwoTestsWithSameName">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateTwoTestsWithSameName.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateTwoTestsWithSameName.RunTests">
+      <LineId Id="51" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="62" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateTwoTestsWithSameName.TestOne">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_CreateTwoTestsWithSameName.TestOne_Again">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
