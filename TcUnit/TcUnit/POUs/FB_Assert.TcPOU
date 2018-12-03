@@ -788,11 +788,14 @@ END_FOR]]></ST>
       <Declaration><![CDATA[{attribute 'call_after_init'}
 METHOD PRIVATE Initialize]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT GVL.TestSuiteAssertRegistered THEN
+        <ST><![CDATA[(* This makes sure that it's not possible to initialize more than one assert function block for every test suite.
+   This is possible because every test suite clears this flag once it has been initialized, which is done after
+   all the initializations of the assert function blocks are complete *)
+IF NOT GVL.TestSuiteAssertRegistered THEN 
     (* If this assert function block has not been initialized, we can safely assume that we will have
-       a test suite initialized after this initialization, as a test-FB will initialize the assert-FB *)
-    GVL.TestSuiteAssertAddresses[GVL.AmountOfInitializedTestSuites+1] := ADR(THIS^);
-    GVL.TestSuiteAssertRegistered := TRUE;
+       a test suite initialized after this initialization, as a test suite will initialize the assert-FB *)
+    GVL.TestSuiteAssertAddresses[GVL.AmountOfInitializedTestSuites + 1] := ADR(THIS^);
+    GVL.TestSuiteAssertRegistered := TRUE; (* This flag will be set to FALSE by the owning function block once it has been initialized *)
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1130,11 +1133,12 @@ END_FOR]]></ST>
       <LineId Id="36" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.Initialize">
-      <LineId Id="10" Count="0" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="22" Count="0" />
       <LineId Id="18" Count="1" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
-      <LineId Id="14" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.SetTestFailed">
       <LineId Id="6" Count="3" />

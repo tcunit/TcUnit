@@ -11,15 +11,14 @@ FUNCTION_BLOCK FB_TestSuite IMPLEMENTS I_TestSuite
 VAR
     {attribute 'instance-path'}
     {attribute 'noinit'}
-    InstancePath : Tc2_Utilities.T_MaxString;
+    InstancePath : Tc2_System.T_MaxString;
 
     (* This is a interface-pointer to the child-object that inherits this object
-       in order for us to have a reference to calling the actual execution of the
-       tests *) 
+       in order for us to have a reference to calling the actual execution of the tests *) 
     RunnableTest : I_RunnableTestSuite;
 
     NumberOfTests : UINT := 0;
-    TestNames : ARRAY[1..100] OF Tc2_Utilities.T_MaxString;
+    TestNames : ARRAY[1..100] OF Tc2_System.T_MaxString;
     TestFailed : ARRAY[1..100] OF BOOL;
 END_VAR]]></Declaration>
     <Implementation>
@@ -32,12 +31,20 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestName : UINT;
+    ErrorMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Check if the test name already exists *)
 FOR CounterTestName := 1 TO NumberOfTests BY 1 DO
     IF TestNames[CounterTestName] = TestName THEN
-        RETURN; // Found
+        ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
+        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
+        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, '$'');
+        (* A test with this name already exists for this test suite *)
+        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                             msgFmtStr := ErrorMessage,
+                             strArg := TestName);
+        RETURN;
     END_IF
 END_FOR
 
@@ -77,7 +84,7 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
-      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_Utilities.T_MaxString
+      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_System.T_MaxString
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
@@ -93,7 +100,9 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
       <Declaration><![CDATA[{attribute 'call_after_init'}
 METHOD PRIVATE Initialize]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL.TestSuiteAssertRegistered THEN
+        <ST><![CDATA[(* The reason we want to do a separate initialization of the function block outside of the normal
+   FB_init is in order for  *)
+IF GVL.TestSuiteAssertRegistered THEN
     GVL.AmountOfInitializedTestSuites := GVL.AmountOfInitializedTestSuites + 1;	
     GVL.TestSuiteAddresses[GVL.AmountOfInitializedTestSuites] := THIS^;
     GVL.TestSuiteAssertRegistered := FALSE;
@@ -132,7 +141,14 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="FB_TestSuite.AddTest">
       <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="3" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="12" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="0" />
@@ -156,6 +172,7 @@ END_IF]]></ST>
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.Initialize">
+      <LineId Id="30" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="28" Count="0" />
       <LineId Id="24" Count="1" />
