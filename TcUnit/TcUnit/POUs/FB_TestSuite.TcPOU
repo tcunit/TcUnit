@@ -32,13 +32,15 @@ END_VAR
 VAR
     CounterTestName : UINT;
     ErrorMessage : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Check if the test name already exists *)
 FOR CounterTestName := 1 TO NumberOfTests BY 1 DO
     IF TestNames[CounterTestName] = TestName THEN
+        TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
         ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
-        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
+        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
         ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, '$'');
         (* A test with this name already exists for this test suite *)
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
@@ -121,7 +123,7 @@ END_VAR]]></Declaration>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
       <Declaration><![CDATA[METHOD PUBLIC SetTestFailed
 VAR_INPUT
-    TestName : Tc2_Utilities.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
     Counter : UINT;
@@ -142,6 +144,7 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.AddTest">
       <LineId Id="15" Count="0" />
       <LineId Id="10" Count="1" />
+      <LineId Id="67" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="56" Count="1" />
       <LineId Id="39" Count="0" />

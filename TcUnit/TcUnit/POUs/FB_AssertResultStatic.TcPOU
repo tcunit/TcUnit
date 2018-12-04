@@ -3,13 +3,13 @@
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic
 VAR
-    aAssertResults : ARRAY[1..cStartSizeOfArray] OF ST_AssertResult;
-    nFailuresCount : UINT := 0;
-    nSuccessCount : UINT := 0;
-    nAssertTotalCount : UINT := 0;
+    AssertResults : ARRAY[1..StartSizeOfArray] OF ST_AssertResult;
+    FailuresCount : UINT := 0;
+    SuccessCount : UINT := 0;
+    AssertTotalCount : UINT := 0;
 END_VAR
 VAR CONSTANT
-    cStartSizeOfArray : UINT := 300;
+    StartSizeOfArray : UINT := 300;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -25,15 +25,15 @@ VAR_INPUT
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    nCounter : UDINT;
+    Counter : UDINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
-IF nAssertTotalCount > 0 THEN
-    FOR nCounter := 1 TO nAssertTotalCount BY 1 DO
-        IF Message = aAssertResults[nCounter].Message AND
-            TestInstancePath = aAssertResults[nCounter].TestInstancePath THEN
-            FindMessageAndTestInstancePathEquals := nCounter;
+IF AssertTotalCount > 0 THEN
+    FOR Counter := 1 TO AssertTotalCount BY 1 DO
+        IF Message = AssertResults[Counter].Message AND
+            TestInstancePath = AssertResults[Counter].TestInstancePath THEN
+            FindMessageAndTestInstancePathEquals := Counter;
             EXIT;
         END_IF
     END_FOR
@@ -52,10 +52,10 @@ VAR_OUTPUT
     AlreadyReported : BOOL := FALSE;
 END_VAR
 VAR
-    nLocation : UDINT;
-    bDataTypesNotEquals : BOOL;
-    bDataSizeNotEquals : BOOL;
-    bDataContentNotEquals : BOOL;
+    LocationIndex : UDINT;
+    DataTypesNotEquals : BOOL;
+    DataSizeNotEquals : BOOL;
+    DataContentNotEquals : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Check if we can find any existing match of the report.
@@ -71,29 +71,24 @@ END_VAR]]></Declaration>
    We can consider to have a hit, otherwise we need to create it
 *)
 
-IF (nLocation := FindMessageAndTestInstancePathEquals(Message, TestInstancePath)) = 0 OR_ELSE
-    (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uExpected,
+IF (LocationIndex := FindMessageAndTestInstancePathEquals(Message, TestInstancePath)) = 0 OR_ELSE
+    (NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResults[LocationIndex].Expected,
                                   ExpectedOrActual := Expected) OR
-    NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := aAssertResults[nLocation].uActual,
+    NOT F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResults[LocationIndex].Actual,
                                  ExpectedOrActual := Actual)) THEN
 
     (* No existing match found, create a new entry *)
     F_AnyComparator(AnyValueOne := Expected,
                     AnyValueTwo := Actual,
-                    bDataTypesNotEquals => bDataTypesNotEquals,
-                    bDataSizeNotEquals => bDataSizeNotEquals,
-                    bDataContentNotEquals => bDataContentNotEquals);
+                    bDataTypesNotEquals => DataTypesNotEquals,
+                    bDataSizeNotEquals => DataSizeNotEquals,
+                    bDataContentNotEquals => DataContentNotEquals);
 
-    IF bDataTypesNotEquals OR bDataSizeNotEquals OR bDataContentNotEquals THEN
-        GVL_AssertResult.nAssertFailuresCount := GVL_AssertResult.nAssertFailuresCount + 1;
-    ELSE
-        GVL_AssertResult.nAssertSuccessCount := GVL_AssertResult.nAssertSuccessCount + 1;
-    END_IF
-    nAssertTotalCount := nAssertTotalCount + 1;
-    aAssertResults[nAssertTotalCount].uExpected := F_AnyToUnionValue(AnyValue := Expected);
-    aAssertResults[nAssertTotalCount].uActual := F_AnyToUnionValue(AnyValue := Actual);
-    aAssertResults[nAssertTotalCount].Message := Message;
-    aAssertResults[nAssertTotalCount].TestInstancePath := TestInstancePath;
+    AssertTotalCount := AssertTotalCount + 1;
+    AssertResults[AssertTotalCount].Expected := F_AnyToUnionValue(AnyValue := Expected);
+    AssertResults[AssertTotalCount].Actual := F_AnyToUnionValue(AnyValue := Actual);
+    AssertResults[AssertTotalCount].Message := Message;
+    AssertResults[AssertTotalCount].TestInstancePath := TestInstancePath;
 ELSE
     AlreadyReported := TRUE;
 END_IF]]></ST>
@@ -130,8 +125,8 @@ END_IF]]></ST>
       <LineId Id="118" Count="0" />
       <LineId Id="243" Count="0" />
       <LineId Id="125" Count="1" />
-      <LineId Id="123" Count="1" />
-      <LineId Id="68" Count="5" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="72" Count="1" />
       <LineId Id="134" Count="0" />
       <LineId Id="150" Count="0" />
       <LineId Id="76" Count="0" />

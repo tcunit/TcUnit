@@ -27,7 +27,7 @@ END_VAR]]></Declaration>
     <Method Name="SetTestFailed" Id="{fe3fa7bb-7999-49ed-9295-a12b7993e593}">
       <Declaration><![CDATA[METHOD SetTestFailed
 VAR_INPUT
-    TestName : Tc2_Utilities.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
     </Method>
   </Itf>

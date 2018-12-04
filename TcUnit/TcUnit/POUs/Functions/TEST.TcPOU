@@ -6,17 +6,14 @@
 *)
 FUNCTION TEST
 VAR_INPUT
-    TestName : Tc2_Utilities.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
     CounterTestName : UINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// TODO: Check if test has unique name in the test suite.
-// To do this we need to check whether the call to this has been made in the same cycle.
-
-(* Mark this test as the current one being executed *)
+      <ST><![CDATA[(* Mark this test as the current one being executed *)
 GVL.CurrentTestNameBeingCalled := TestName;
 
 (* Check if combination of address for the test suite and test name already exists.
@@ -34,9 +31,6 @@ FOR CounterTestSuiteAddress := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
 END_FOR]]></ST>
     </Implementation>
     <LineIds Name="TEST">
-      <LineId Id="9" Count="0" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="78" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="77" Count="0" />

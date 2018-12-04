@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="F_RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{7816860e-5623-4ff0-b466-902e340371e3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_RemoveInstancePathAndProjectNameFromTestInstancePath : Tc2_System.T_MaxString
+VAR_INPUT
+    TestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    CharacterPositionOfProjectName : INT;
+    ProjectNameWithDot : Tc2_System.T_MaxString;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Add the '.' character to the project name for search *)
+ProjectNameWithDot := Tc2_Standard.CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
+
+(* Find the character position of the beginning of the first occurence of the project name *)
+CharacterPositionOfProjectName := Tc2_Standard.FIND(STR1 := TestInstancePath, STR2 := ProjectNameWithDot);
+
+IF CharacterPositionOfProjectName > 0 THEN
+    TestInstancePath := Tc2_Standard.DELETE(STR := TestInstancePath,
+                                            LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
+                                            POS := 1);
+END_IF
+
+(* Check if the project name happens to be the same as namespace, and in that case, remove that as well *)
+CharacterPositionOfProjectName := Tc2_Standard.FIND(STR1 := TestInstancePath,
+                                                    STR2 := ProjectNameWithDot);
+
+IF CharacterPositionOfProjectName > 0 THEN
+    TestInstancePath := Tc2_Standard.DELETE(STR := TestInstancePath,
+                                            LEN := CharacterPositionOfProjectName - 1 + 
+                                                Tc2_Standard.LEN(STR := ProjectNameWithDot),
+                                            POS := 1);
+END_IF
+
+F_RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>
+    </Implementation>
+    <LineIds Name="F_RemoveInstancePathAndProjectNameFromTestInstancePath">
+      <LineId Id="13" Count="18" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="32" Count="2" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

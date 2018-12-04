@@ -23,9 +23,9 @@ VAR
     FinalMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
-FinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', TestInstancePathCleaned);
-FinalMessage := Tc2_Standard.CONCAT(FinalMessage, '$'');
+        <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
+FinalMessage := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
+FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := '$'');
 
 IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
     FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', EXP: ');
@@ -56,7 +56,7 @@ VAR
     sFinalMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePathCleaned := RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
+        <ST><![CDATA[sTestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
 sFinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', sTestInstancePathCleaned);
 sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, '$'');
 
@@ -74,41 +74,6 @@ END_IF
 Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                      msgFmtStr := sFinalMessage,
                      strArg := Message);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{60392e51-c21c-4caa-851a-442a6a14bf1d}">
-      <Declaration><![CDATA[METHOD PRIVATE RemoveInstancePathAndProjectNameFromTestInstancePath : Tc2_System.T_MaxString
-VAR_INPUT
-    TestInstancePath : Tc2_System.T_MaxString;
-END_VAR
-VAR
-    CharacterPositionOfProjectName : INT;
-    ProjectNameWithDot : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[(* Add the '.' character to the project name for search *)
-ProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
-
-(* Find the character position of the beginning of the first occurence of the project name *)
-CharacterPositionOfProjectName := FIND(TestInstancePath, ProjectNameWithDot);
-
-IF CharacterPositionOfProjectName > 0 THEN
-    TestInstancePath := DELETE(STR := TestInstancePath,
-                               LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
-                               POS := 1);
-END_IF
-
-(* Check if the project name happens to be the same as namespace, and in that case, remove that as well *)
-CharacterPositionOfProjectName := FIND(TestInstancePath,
-                                       ProjectNameWithDot);
-
-IF CharacterPositionOfProjectName > 0 THEN
-    TestInstancePath := DELETE(STR := TestInstancePath,
-                               LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
-                               POS := 1);
-END_IF
-
-RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ADSAssertMessageFormatter">
@@ -136,27 +101,6 @@ RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST
       <LineId Id="34" Count="0" />
       <LineId Id="41" Count="1" />
       <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ADSAssertMessageFormatter.RemoveInstancePathAndProjectNameFromTestInstancePath">
-      <LineId Id="39" Count="1" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="87" Count="1" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="32" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="35" Count="1" />
-      <LineId Id="89" Count="1" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="61" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

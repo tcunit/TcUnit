@@ -19,12 +19,12 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
-      <Declaration><![CDATA[METHOD PRIVATE AddTestNameToInstancePath : Tc2_Utilities.T_MaxString
+      <Declaration><![CDATA[METHOD PRIVATE AddTestNameToInstancePath : Tc2_System.T_MaxString
 VAR_INPUT
-    TestInstancePath : Tc2_Utilities.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    CompleteTestInstancePath : Tc2_Utilities.T_MaxString;
+    CompleteTestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CompleteTestInstancePath := Tc2_Utilities.CONCAT(STR1 := TestInstancePath, STR2 := '@');
