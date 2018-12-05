@@ -65,9 +65,6 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_TcUnitRunner.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ITFs\I_RunnableTestSuite.TcIO">
       <SubType>Code</SubType>
     </Compile>

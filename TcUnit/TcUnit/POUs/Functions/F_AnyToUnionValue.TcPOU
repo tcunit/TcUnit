@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="F_AnyToUnionValue" Id="{04a97242-7600-4a30-a234-b9e3b1c2770c}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    
-*)
-FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
+    <Declaration><![CDATA[FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
 VAR_INPUT
     AnyValue : ANY;
 END_VAR
@@ -16,7 +13,7 @@ VAR
     ptTIME : POINTER TO TIME;
     ptLTIME : POINTER TO LTIME;
 
-    nCount : DINT;
+    IteratorCounter : DINT;
     sString : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
     <Implementation>
@@ -127,16 +124,16 @@ END_VAR]]></Declaration>
         F_AnyToUnionValue.fLExpectedOrActual := ptLREAL^;
 
     IBaseLibrary.TypeClass.TYPE_STRING :
-        FOR nCount := 0 TO MIN(AnyValue.diSize-1, 254) BY 1 DO
-            IF Tc2_System.F_ToCHR(AnyValue.pValue[nCount]) = '$00' THEN
+        FOR IteratorCounter := 0 TO MIN(AnyValue.diSize - 1, 254) BY 1 DO
+            IF Tc2_System.F_ToCHR(c := AnyValue.pValue[IteratorCounter]) = '$00' THEN
                 EXIT;
             END_IF
-            sString := Tc2_Standard.CONCAT(STR1 := sString, STR2 := Tc2_System.F_ToCHR(AnyValue.pValue[nCount]));
+            sString := Tc2_Standard.CONCAT(STR1 := sString, STR2 := Tc2_System.F_ToCHR(c := AnyValue.pValue[IteratorCounter]));
         END_FOR
         F_AnyToUnionValue.sExpectedOrActual := sString;
 
     IBaseLibrary.TypeClass.TYPE_WSTRING :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_TIME :
         nTempDWord := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
@@ -147,58 +144,58 @@ END_VAR]]></Declaration>
         F_AnyToUnionValue.tExpectedOrActual := ptTIME^;
 
     IBaseLibrary.TypeClass.TYPE_DATE :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_REFERENCE :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_SUBRANGE :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ENUM :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ARRAY :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_PARAMS :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_USERDEF :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_NONE :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANY :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANYBIT :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANYDATE :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANYINT :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANYNUM :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_ANYREAL :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_LAZY :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
         nTempLWord := 
@@ -214,13 +211,13 @@ END_VAR]]></Declaration>
         F_AnyToUnionValue.ltExpectedOrActual := ptLTIME^;
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
-        //
+        (* None *)
 
     IBaseLibrary.TypeClass.TYPE_INTERFACE :
-        //
+        (* None *)
 
     ELSE
-        //
+        (* None *)
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="F_AnyToUnionValue">

@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
 *)
-FUNCTION_BLOCK FB_TcUnitRunner IMPLEMENTS I_TcUnitRunner
+FUNCTION_BLOCK FB_TcUnitRunner
 VAR
     (* There can be one or more tests (testnames) for every test suite instance *)
     RunnableTestSuiteResults : ARRAY[1..SizeOfStaticArray] OF E_TestSuiteRunState;
@@ -14,8 +14,8 @@ VAR
 
     (* Prints the results to ADS so that Visual Studio can display the results.
        This test result formatter can be replaced with something else than ADS *)
-    fbADSTestResultFormatter : FB_ADSTestResultFormatter;
-    TestResultPrinter : I_TestResultFormatter := fbADSTestResultFormatter;
+    ADSTestResultFormatter : FB_ADSTestResultFormatter;
+    TestResultPrinter : I_TestResultFormatter := ADSTestResultFormatter;
 
     (* These variables (statistics) are occupied once all tests are complete *)
     AmountOfTestSuitesFinished : UINT := 0;
@@ -81,7 +81,7 @@ IF AllTestSuitesFinished THEN
                                  AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases,
                                  AmountOfFailedTestCases := AmountOfFailedTestCases,
                                  Busy => BusyPrinting);
-    DonePrintingTestResults := NOT BusyPrinting;
+        DonePrintingTestResults := NOT BusyPrinting;
     END_IF
 END_IF]]></ST>
       </Implementation>

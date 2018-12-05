@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE ST_TestSuite :
 STRUCT
 	NumberOfTests : UINT;
-	TestNames : ARRAY[0..100] OF T_MaxString;
+	TestNames : ARRAY[0..100] OF Tc2_System.T_MaxString;
 	TestSuiteRunState : E_TestSuiteRunState := E_TestSuiteRunState.IDLE;
 END_STRUCT
 END_TYPE]]></Declaration>

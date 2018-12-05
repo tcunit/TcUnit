@@ -13,39 +13,39 @@ VAR_INPUT
     AnyValueTwo : ANY;
 END_VAR
 VAR_OUTPUT
-    bDataTypesNotEquals : BOOL; // The data type of the two ANY input parameters are not equal
-    bDataSizeNotEquals : BOOL; // The data size of the two ANY input parameters are not equal
-    bDataContentNotEquals : BOOL; // The data content of the two ANY input parameters are not equal
+    DataTypesNotEquals : BOOL; // The data type of the two ANY input parameters are not equal
+    DataSizeNotEquals : BOOL; // The data size of the two ANY input parameters are not equal
+    DataContentNotEquals : BOOL; // The data content of the two ANY input parameters are not equal
 END_VAR
 VAR
-    nCount : DINT;
+    IteratorCounter : DINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Check whether the type of the inputs differs *)
 IF AnyValueOne.TypeClass <> AnyValueTwo.TypeClass THEN
-    bDataTypesNotEquals := TRUE;
+    DataTypesNotEquals := TRUE;
 END_IF
 
 (* Check whether the size of the inputs differs *)
-IF NOT bDataTypesNotEquals THEN
+IF NOT DataTypesNotEquals THEN
     IF (AnyValueOne.diSize <> AnyValueTwo.diSize) THEN
-        bDataSizeNotEquals := TRUE;
+        DataSizeNotEquals := TRUE;
     END_IF
 END_IF
 
 (* Even though the data type and size are equals, the contents may still differ *)
-IF NOT bDataTypesNotEquals AND NOT bDataSizeNotEquals THEN
+IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
     (* Compare each byte in the ANY-types *)
-    FOR nCount := 0 TO AnyValueOne.diSize-1 BY 1 DO
+    FOR IteratorCounter := 0 TO AnyValueOne.diSize - 1 BY 1 DO
         IF (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_STRING) OR
             (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_WSTRING) THEN
-            IF F_ToChr(c := AnyValueOne.pValue[nCount]) = '$00' THEN
+            IF F_ToChr(c := AnyValueOne.pValue[IteratorCounter]) = '$00' THEN
                 EXIT;
             END_IF
         END_IF
 
-        IF AnyValueOne.pValue[nCount] <> AnyValueTwo.pValue[nCount] THEN
-            bDataContentNotEquals := TRUE;
+        IF AnyValueOne.pValue[IteratorCounter] <> AnyValueTwo.pValue[IteratorCounter] THEN
+            DataContentNotEquals := TRUE;
             EXIT;
         END_IF
     END_FOR

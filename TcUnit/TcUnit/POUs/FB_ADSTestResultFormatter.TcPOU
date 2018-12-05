@@ -11,7 +11,7 @@ VAR
     (* Although we can print a message no #1 prior to message no #2, the message #2 can still be displayed before
        message #1, most likely because of some delay of the ADS data. To workaround this, we add a small delay between
        transmission of the ADS messages. *)
-    ADSDelayTimer : TON := (PT := T#300MS);
+    ADSDelayTimer : Tc2_Standard.TON := (PT := T#300MS);
     LastPrintState : USINT := 0;
     PrintState : USINT := 0;
 END_VAR]]></Declaration>

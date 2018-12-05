@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <Itf Name="I_TcUnitRunner" Id="{ee464aaf-65d4-40d9-bd96-c7f35154f639}">
-    <Declaration><![CDATA[INTERFACE I_TcUnitRunner]]></Declaration>
-    <Method Name="RunTestSuiteTests" Id="{553a8982-7df2-4993-817e-99230c9d6489}">
-      <Declaration><![CDATA[METHOD RunTestSuiteTests]]></Declaration>
-    </Method>
-  </Itf>
-</TcPlcObject>

@@ -41,7 +41,7 @@ FOR CounterTestName := 1 TO NumberOfTests BY 1 DO
         TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
         ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
         ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
-        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, '$'');
+        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
         (* A test with this name already exists for this test suite *)
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := ErrorMessage,

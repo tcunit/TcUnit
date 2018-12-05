@@ -52,27 +52,27 @@ VAR_INPUT
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    sTestInstancePathCleaned : Tc2_System.T_MaxString;
-    sFinalMessage : Tc2_System.T_MaxString;
+    TestInstancePathCleaned : Tc2_System.T_MaxString;
+    FinalMessage : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[sTestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
-sFinalMessage := Tc2_Standard.CONCAT('FAILED TEST $'', sTestInstancePathCleaned);
-sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, '$'');
+        <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
+FinalMessage := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
+FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := '$'');
 
 IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', EXP: ');
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, Expected);
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 :=  ', EXP: ');
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Expected);
 END_IF
 IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', ACT: ');
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, Actual);
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', ACT: ');
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Actual);
 END_IF
 IF Tc2_Standard.LEN(STR := Message) > 0 THEN
-    sFinalMessage := Tc2_Standard.CONCAT(sFinalMessage, ', MSG: %s ');
+    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
 END_IF
 Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                     msgFmtStr := sFinalMessage,
+                     msgFmtStr := FinalMessage,
                      strArg := Message);]]></ST>
       </Implementation>
     </Method>

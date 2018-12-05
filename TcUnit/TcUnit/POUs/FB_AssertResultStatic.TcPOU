@@ -80,9 +80,9 @@ IF (LocationIndex := FindMessageAndTestInstancePathEquals(Message, TestInstanceP
     (* No existing match found, create a new entry *)
     F_AnyComparator(AnyValueOne := Expected,
                     AnyValueTwo := Actual,
-                    bDataTypesNotEquals => DataTypesNotEquals,
-                    bDataSizeNotEquals => DataSizeNotEquals,
-                    bDataContentNotEquals => DataContentNotEquals);
+                    DataTypesNotEquals => DataTypesNotEquals,
+                    DataSizeNotEquals => DataSizeNotEquals,
+                    DataContentNotEquals => DataContentNotEquals);
 
     AssertTotalCount := AssertTotalCount + 1;
     AssertResults[AssertTotalCount].Expected := F_AnyToUnionValue(AnyValue := Expected);

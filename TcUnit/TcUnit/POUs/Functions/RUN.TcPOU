@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(*
     This function runs all the test function blocks (test suites) that have been initialized.
 *)
-FUNCTION RUN : BOOL]]></Declaration>
+FUNCTION RUN]]></Declaration>
     <Implementation>
       <ST><![CDATA[GVL.TcUnitRunner.RunTestSuiteTests();]]></ST>
     </Implementation>

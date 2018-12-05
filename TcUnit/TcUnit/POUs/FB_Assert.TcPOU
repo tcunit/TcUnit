@@ -52,7 +52,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 IF Expected.TypeClass <> Actual.TypeClass THEN
     DataTypesNotEquals := TRUE;
@@ -75,15 +75,15 @@ IF NOT DataTypesNotEquals AND NOT DataTypesNotEquals THEN
 END_IF
 
 IF DataTypesNotEquals THEN
-    ExpectedDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString((Expected.TypeClass)));
-    ExpectedDataString := Tc2_Standard.CONCAT(ExpectedDataString, ')');
-    ActualDataString := Tc2_Standard.CONCAT('(Type class = ', F_AnyTypeClassToString(Actual.TypeClass));
-    ActualDataString := Tc2_Standard.CONCAT(ActualDataString, ')');
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString((Expected.TypeClass)));
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString(Actual.TypeClass));
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF DataSizeNotEquals THEN
-    ExpectedDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Expected.diSize));
-    ExpectedDataString := Tc2_Standard.CONCAT(ExpectedDataString, ')');
-    ActualDataString := Tc2_Standard.CONCAT('Data size = ', DINT_TO_STRING(Actual.diSize));
-    ActualDataString := Tc2_Standard.CONCAT(ActualDataString, ')');
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF DataContentNotEquals THEN
     FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
         ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString,
@@ -133,7 +133,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -166,7 +166,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -207,7 +207,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -240,7 +240,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -281,7 +281,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -314,7 +314,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -348,7 +348,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -381,7 +381,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -423,7 +423,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -456,7 +456,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -489,7 +489,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -497,7 +497,7 @@ AssertResults.ReportResult(Expected := Expected,
                            TestInstancePath := TestInstancePath,
                            AlreadyReported => AlreadyReported);
 
-IF NOT AlreadyReported AND (Tc2_Standard.LEN(Expected) <> Tc2_Standard.LEN(Actual) OR (Expected <> Actual)) THEN
+IF NOT AlreadyReported AND (Tc2_Standard.LEN(STR := Expected) <> Tc2_Standard.LEN(STR := Actual) OR (Expected <> Actual)) THEN
     SetTestFailed();
 
     AssertMessageFormatter.LogAssertFailure(Expected := Expected,
@@ -522,7 +522,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -555,7 +555,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -588,7 +588,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -621,7 +621,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -634,70 +634,6 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
 
     AssertMessageFormatter.LogAssertFailure(Expected := USINT_TO_STRING(Expected),
                                             Actual := USINT_TO_STRING(Actual),
-                                            Message := Message,
-                                            TestInstancePath := TestInstancePath);
-END_IF]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="AssertEquals_USINT_ARRAY" Id="{735445c1-1ceb-4a2f-ac18-dfb62e637ab6}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertEquals_USINT_ARRAY
-VAR_IN_OUT
-    Expected : ARRAY[*] OF USINT;
-    Actual : ARRAY[*] OF USINT;
-END_VAR
-VAR_INPUT
-    Message : Tc2_System.T_MaxString;
-END_VAR
-VAR
-    Equals : BOOL := TRUE;
-    SizeEquals : BOOL := TRUE;
-    Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
-    AlreadyReported : BOOL;
-    TestInstancePath : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
-
-IF (LOWER_BOUND(Expected, 1) <> LOWER_BOUND(Actual, 1)) OR
-   (UPPER_BOUND(Expected, 1) <> UPPER_BOUND(Actual, 1)) THEN
-    Equals := FALSE;
-    SizeEquals := FALSE;
-ELSE
-    FOR Index := LOWER_BOUND(Expected, 1) TO UPPER_BOUND(Expected, 1) DO
-        IF Expected[Index] <> Actual[Index] THEN
-            Equals := FALSE;
-            EXIT;
-        END_IF
-    END_FOR
-END_IF
-
-AssertResults.ReportResult(Expected := Expected,
-                           Actual := Actual,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
-
-IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
-    
-    IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, ', size of arrays not matching.');
-    ELSE
-        ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(ExpectedString, DINT_TO_STRING(Index));
-        ExpectedString := CONCAT(ExpectedString, '] = ');
-        ExpectedString := CONCAT(ExpectedString, USINT_TO_STRING(Expected[Index]));
-
-        ActualString := 'ARRAY[';
-        ActualString := CONCAT(ActualString, DINT_TO_STRING(Index));
-        ActualString := CONCAT(ActualString, '] = ');
-        ActualString := CONCAT(ActualString, USINT_TO_STRING(Actual[Index]));
-    END_IF
-
-    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
-                                            Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
 END_IF]]></ST>
@@ -718,7 +654,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -754,7 +690,7 @@ VAR_INPUT
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(FALSE, Condition, Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(Expected := FALSE, Actual := Condition, Message := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertTrue" Id="{c415013c-c271-42ba-83ad-6c2c653d8f2e}">
@@ -767,7 +703,7 @@ VAR_INPUT
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(TRUE, Condition, Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(Expected := TRUE, Actual := Condition, Message := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
@@ -807,7 +743,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
     IF GVL.TestSuiteAssertAddresses[Counter] = ADR(THIS^) THEN
-        GVL.TestSuiteAddresses[Counter].SetTestFailed(GVL.CurrentTestNameBeingCalled);
+        GVL.TestSuiteAddresses[Counter].SetTestFailed(TestName := GVL.CurrentTestNameBeingCalled);
     END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -1083,23 +1019,6 @@ END_FOR]]></ST>
       <LineId Id="12" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Assert.AssertEquals_USINT_ARRAY">
-      <LineId Id="92" Count="0" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="178" Count="10" />
-      <LineId Id="177" Count="0" />
-      <LineId Id="164" Count="4" />
-      <LineId Id="161" Count="0" />
-      <LineId Id="169" Count="0" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="189" Count="0" />
-      <LineId Id="204" Count="0" />
-      <LineId Id="192" Count="11" />
-      <LineId Id="191" Count="0" />
-      <LineId Id="190" Count="0" />
-      <LineId Id="173" Count="2" />
-      <LineId Id="170" Count="1" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_WORD">
       <LineId Id="29" Count="0" />
