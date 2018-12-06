@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-    This function runs all the test function blocks (test suites) that have been initialized.
+    This function declares a new test (if it has not been already declared in an earlier cycle)
 *)
 FUNCTION TEST
 VAR_INPUT
@@ -17,14 +17,13 @@ END_VAR]]></Declaration>
 GVL.CurrentTestNameBeingCalled := TestName;
 
 (* Check if combination of address for the test suite and test name already exists.
-   For every test suite all tests cases need to be unique.
-   If so, don't add it to the available tests. If not found, add it to the available
-   tests *)
+   For every test suite the name of the test case needs to be unique.
+   If a test with this name already exists, don't add it to the available tests.
+   Otherwise, add it to the available tests *)
 
 FOR CounterTestSuiteAddress := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL.TestSuiteAddresses[CounterTestSuiteAddress] = GVL.CurrentTestSuiteBeingCalled THEN
-        (* Make sure there are no other tests with the same name already added *)
         GVL.TestSuiteAddresses[CounterTestSuiteAddress].AddTest(TestName := TestName);
         RETURN;
     END_IF
@@ -37,12 +36,11 @@ END_FOR]]></ST>
       <LineId Id="79" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="114" Count="0" />
-      <LineId Id="76" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="116" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="118" Count="0" />
       <LineId Id="99" Count="0" />
-      <LineId Id="120" Count="0" />
       <LineId Id="101" Count="0" />
       <LineId Id="103" Count="0" />
       <LineId Id="102" Count="0" />

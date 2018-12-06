@@ -3,13 +3,8 @@
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic
 VAR
-    AssertResults : ARRAY[1..StartSizeOfArray] OF ST_AssertResult;
-    FailuresCount : UINT := 0;
-    SuccessCount : UINT := 0;
-    AssertTotalCount : UINT := 0;
-END_VAR
-VAR CONSTANT
-    StartSizeOfArray : UINT := 300;
+    AssertResults : ARRAY[1..GVL_Constants.MaxAmountOfAsserts] OF ST_AssertResult;
+    TotalAsserts : UINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -29,8 +24,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
-IF AssertTotalCount > 0 THEN
-    FOR Counter := 1 TO AssertTotalCount BY 1 DO
+IF TotalAsserts > 0 THEN
+    FOR Counter := 1 TO TotalAsserts BY 1 DO
         IF Message = AssertResults[Counter].Message AND
             TestInstancePath = AssertResults[Counter].TestInstancePath THEN
             FindMessageAndTestInstancePathEquals := Counter;
@@ -84,11 +79,11 @@ IF (LocationIndex := FindMessageAndTestInstancePathEquals(Message, TestInstanceP
                     DataSizeNotEquals => DataSizeNotEquals,
                     DataContentNotEquals => DataContentNotEquals);
 
-    AssertTotalCount := AssertTotalCount + 1;
-    AssertResults[AssertTotalCount].Expected := F_AnyToUnionValue(AnyValue := Expected);
-    AssertResults[AssertTotalCount].Actual := F_AnyToUnionValue(AnyValue := Actual);
-    AssertResults[AssertTotalCount].Message := Message;
-    AssertResults[AssertTotalCount].TestInstancePath := TestInstancePath;
+    TotalAsserts := TotalAsserts + 1;
+    AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnyValue := Expected);
+    AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnyValue := Actual);
+    AssertResults[TotalAsserts].Message := Message;
+    AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;
 ELSE
     AlreadyReported := TRUE;
 END_IF]]></ST>

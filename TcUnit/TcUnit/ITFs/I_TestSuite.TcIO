@@ -21,8 +21,8 @@ END_VAR]]></Declaration>
     <Method Name="GetInstancePath" Id="{5094a4b1-13cc-4403-8245-d0e51307e14a}">
       <Declaration><![CDATA[METHOD GetInstancePath : Tc2_System.T_MaxString]]></Declaration>
     </Method>
-    <Method Name="GetRunnable" Id="{608fa14a-a1d0-4c7f-ba01-8c9a22b16686}">
-      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestSuite]]></Declaration>
+    <Method Name="GetRunnableTestSuite" Id="{608fa14a-a1d0-4c7f-ba01-8c9a22b16686}">
+      <Declaration><![CDATA[METHOD GetRunnableTestSuite : I_RunnableTestSuite]]></Declaration>
     </Method>
     <Method Name="SetTestFailed" Id="{fe3fa7bb-7999-49ed-9295-a12b7993e593}">
       <Declaration><![CDATA[METHOD SetTestFailed

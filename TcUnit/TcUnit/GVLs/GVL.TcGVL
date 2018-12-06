@@ -19,8 +19,8 @@ VAR_GLOBAL
     (* The assert function block instance should be 1:1 mapped to
        the test suite instance path. *)
     AmountOfInitializedTestSuites : UINT := 0;
-    TestSuiteAssertAddresses : ARRAY[1..300] OF PVOID;
-    TestSuiteAddresses : ARRAY[1..300] OF I_TestSuite;
+    TestSuiteAssertAddresses : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF PVOID;
+    TestSuiteAddresses : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF I_TestSuite;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

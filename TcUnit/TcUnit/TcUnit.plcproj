@@ -17,7 +17,6 @@
     <CombineIds>false</CombineIds>
     <Released>true</Released>
     <Title>TcUnit</Title>
-    <ProjectVersion>0.1.0.0</ProjectVersion>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Description>TwinCAT unit testing framework.
 Documentation and examples are available at www.tcunit.org</Description>
@@ -33,6 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski</Author>
+    <ProjectVersion>1.0.0.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->
@@ -59,6 +59,10 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GVLs\GVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="GVLs\GVL_Constants.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>

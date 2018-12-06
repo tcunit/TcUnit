@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
-    <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the function block that
-   has the different tests in it (i.e. test-FB). Every test-FB can have one or more tests, and
-   each test can do one or more asserts.
+    <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
+   Every test suite can have one or more tests, and every test can do one or more asserts.
 *)
 {attribute 'call_after_init'}
 {attribute 'reflection'}
@@ -13,13 +12,13 @@ VAR
     {attribute 'noinit'}
     InstancePath : Tc2_System.T_MaxString;
 
-    (* This is a interface-pointer to the child-object that inherits this object
+    (* This is a interface-pointer to the child object that inherits this object
        in order for us to have a reference to calling the actual execution of the tests *) 
-    RunnableTest : I_RunnableTestSuite;
+    _RunnableTestSuite : I_RunnableTestSuite;
 
     NumberOfTests : UINT := 0;
-    TestNames : ARRAY[1..100] OF Tc2_System.T_MaxString;
-    TestFailed : ARRAY[1..100] OF BOOL;
+    TestNames : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_System.T_MaxString;
+    TestFailed : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -30,19 +29,22 @@ VAR_INPUT
     TestName : T_MaxString;
 END_VAR
 VAR
-    CounterTestName : UINT;
+    IteratorCounter : UINT;
     ErrorMessage : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Check if the test name already exists *)
-FOR CounterTestName := 1 TO NumberOfTests BY 1 DO
-    IF TestNames[CounterTestName] = TestName THEN
+        <ST><![CDATA[(* Check if the test name already exists Make sure there are no other tests with the same name already
+   added for this test suite *)
+
+(* Iterate all the test names that up to this point have been added for this test suite *)
+FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+    IF TestNames[IteratorCounter] = TestName THEN
+        (* A test with this name already exists for this test suite. Send a message notification. *)
         TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
         ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
         ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
         ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
-        (* A test with this name already exists for this test suite *)
         Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                              msgFmtStr := ErrorMessage,
                              strArg := TestName);
@@ -50,8 +52,8 @@ FOR CounterTestName := 1 TO NumberOfTests BY 1 DO
     END_IF
 END_FOR
 
-(* Not found. Add it. *)
-TestNames[CounterTestName] := TestName;
+(* Test has not been found. Add it. *)
+TestNames[IteratorCounter] := TestName;
 NumberOfTests := NumberOfTests + 1;]]></ST>
       </Implementation>
     </Method>
@@ -92,10 +94,10 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
         <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetRunnable" Id="{42018cb6-0640-401b-9af0-45a257049175}">
-      <Declaration><![CDATA[METHOD GetRunnable : I_RunnableTestSuite]]></Declaration>
+    <Method Name="GetRunnableTestSuite" Id="{42018cb6-0640-401b-9af0-45a257049175}">
+      <Declaration><![CDATA[METHOD GetRunnableTestSuite : I_RunnableTestSuite]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetRunnable := RunnableTest;]]></ST>
+        <ST><![CDATA[GetRunnableTestSuite := _RunnableTestSuite;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialize" Id="{1c3645b8-e9b0-4963-8e9e-6ea2327dddf4}">
@@ -117,7 +119,7 @@ VAR_INPUT
 	RunnableTestSuite : I_RunnableTestSuite;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[RunnableTest := RunnableTestSuite;]]></ST>
+        <ST><![CDATA[_RunnableTestSuite := RunnableTestSuite;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -143,11 +145,14 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="FB_TestSuite.AddTest">
       <LineId Id="15" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="77" Count="0" />
       <LineId Id="10" Count="1" />
+      <LineId Id="80" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="56" Count="1" />
-      <LineId Id="39" Count="0" />
       <LineId Id="41" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="46" Count="0" />
@@ -171,7 +176,7 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.GetInstancePath">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestSuite.GetRunnable">
+    <LineIds Name="FB_TestSuite.GetRunnableTestSuite">
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.Initialize">
