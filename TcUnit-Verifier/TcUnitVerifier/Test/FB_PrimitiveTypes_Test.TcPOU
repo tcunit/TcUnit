@@ -59,10 +59,6 @@ Test_USINT_Differ();
 Test_WORD_Equals();
 Test_WORD_Differ();
 
-//Test_USINT_Array_Equals();
-//Test_USINT_Array_Differ_Size();
-//Test_USINT_Array_Differ_Content();
-
 RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
       </Implementation>
     </Method>
@@ -511,48 +507,6 @@ Assert.AssertEquals_ULINT(Expected := a,
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_USINT_Array_Differ_Content" Id="{ddb84736-c28a-4d10-83f2-3109bc6fd03d}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Array_Differ_Content
-VAR
-    a : ARRAY[1..5] OF USINT := [1,5,3,4,6];
-    b : ARRAY[1..5] OF USINT := [1,2,3,4,5];
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_USINT_Array_Differ_Content');
-
-Assert.AssertEquals_USINT_ARRAY(Expected := a,
-                                Actual := b,
-                                Message := 'Arrays differ');]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_USINT_Array_Differ_Size" Id="{f3238d98-ed0b-49b0-a61e-4d86e4372527}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Array_Differ_Size
-VAR
-    a : ARRAY[1..6] OF USINT := [1,2,3,4,5,6];
-    b : ARRAY[1..5] OF USINT := [1,2,3,4,5];
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_USINT_Array_Differ_Size');
-
-Assert.AssertEquals_USINT_ARRAY(Expected := a,
-                                Actual := b,
-                                Message := 'Arrays differ');]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_USINT_Array_Equals" Id="{42ca8683-5207-42a3-98ff-baccd7c35523}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Array_Equals
-VAR
-    a : ARRAY[1..5] OF USINT := [1,2,3,4,5];
-    b : ARRAY[1..5] OF USINT := [1,2,3,4,5];
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_USINT_Array_Equals');
-
-Assert.AssertEquals_USINT_ARRAY(Expected := a,
-                                Actual := b,
-                                Message := 'Arrays differ');]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Test_USINT_Differ" Id="{b15f330c-b7f1-4831-a041-9baf2e7afb7f}">
       <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Differ
 VAR
@@ -632,8 +586,7 @@ Assert.AssertEquals_WORD(Expected := a,
       <LineId Id="5" Count="1" />
       <LineId Id="49" Count="0" />
       <LineId Id="48" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="7" Count="3" />
+      <LineId Id="10" Count="0" />
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_ANY_Differ_DataType">
@@ -819,24 +772,6 @@ Assert.AssertEquals_WORD(Expected := a,
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="2" />
-    </LineIds>
-    <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Array_Differ_Content">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Array_Differ_Size">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Array_Equals">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
     </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_USINT_Differ">
       <LineId Id="5" Count="0" />
