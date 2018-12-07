@@ -11,24 +11,24 @@ END_VAR]]></Declaration>
     </Implementation>
     <Method Name="FindMessageAndTestInstancePathEquals" Id="{33a89dae-77cc-43e7-920d-ea254b349a40}">
       <Declaration><![CDATA[(* This method searches for any already added additions of the combination of
-   assertion message and assertion instance paths. It returns the location of
+   assertion message and assertion test instance paths. It returns the location of
    the addition. If it is not found, it returns 0.
 *)
-METHOD PRIVATE FindMessageAndTestInstancePathEquals : UDINT
+METHOD PRIVATE FindMessageAndTestInstancePathEquals : UINT
 VAR_INPUT
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    Counter : UDINT;
+    IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindMessageAndTestInstancePathEquals := 0;
 IF TotalAsserts > 0 THEN
-    FOR Counter := 1 TO TotalAsserts BY 1 DO
-        IF Message = AssertResults[Counter].Message AND
-            TestInstancePath = AssertResults[Counter].TestInstancePath THEN
-            FindMessageAndTestInstancePathEquals := Counter;
+    FOR IteratorCounter := 1 TO TotalAsserts BY 1 DO
+        IF Message = AssertResults[IteratorCounter].Message AND
+            TestInstancePath = AssertResults[IteratorCounter].TestInstancePath THEN
+            FindMessageAndTestInstancePathEquals := IteratorCounter;
             EXIT;
         END_IF
     END_FOR

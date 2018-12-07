@@ -37,9 +37,9 @@ END_IF
 IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
     (* Compare each byte in the ANY-types *)
     FOR IteratorCounter := 0 TO AnyValueOne.diSize - 1 BY 1 DO
-        IF (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_STRING) OR
-            (UDINT_TO_DINT(AnyValueOne.TypeClass) = IBaseLibrary.TYPE_WSTRING) THEN
-            IF F_ToChr(c := AnyValueOne.pValue[IteratorCounter]) = '$00' THEN
+        IF (UDINT_TO_INT(AnyValueOne.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING) OR
+            (UDINT_TO_INT(AnyValueOne.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING) THEN
+            IF Tc2_System.F_ToCHR(c := AnyValueOne.pValue[IteratorCounter]) = '$00' THEN
                 EXIT;
             END_IF
         END_IF

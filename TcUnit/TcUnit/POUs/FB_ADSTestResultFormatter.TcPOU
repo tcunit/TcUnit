@@ -32,52 +32,56 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
     Busy : BOOL;
+END_VAR
+VAR
+    ErrorCode : DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE PrintState OF
     0 :
-        LastPrintstate := PrintState;
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     1 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '%s', strArg := '| ==========TESTS FINISHED RUNNING==========');
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '%s',
+                                          strArg := '| ==========TESTS FINISHED RUNNING==========');
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     2 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Test suites: %s',
-                             strArg := UINT_TO_STRING(AmountOfTestSuites));
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '| Test suites: %s',
+                                          strArg := UINT_TO_STRING(AmountOfTestSuites));
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     3 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Tests: %s',
-                             strArg := UINT_TO_STRING(AmountOfTestCases));
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '| Tests: %s',
+                                          strArg := UINT_TO_STRING(AmountOfTestCases));
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     4 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Successful tests: %s',
-                             strArg := UINT_TO_STRING((AmountOfSuccessfulTestCases)));
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '| Successful tests: %s',
+                                          strArg := UINT_TO_STRING((AmountOfSuccessfulTestCases)));
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     5 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '| Failed tests : %s',
-                             strArg := UINT_TO_STRING(AmountOfFailedTestCases));
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '| Failed tests : %s',
+                                          strArg := UINT_TO_STRING(AmountOfFailedTestCases));
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     6 :
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := '%s',
-                             strArg := '| ======================================');
-        LastPrintstate := PrintState;
+        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                          msgFmtStr := '%s',
+                                          strArg := '| ======================================');
+        LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     7 :
@@ -98,7 +102,9 @@ END_CASE]]></ST>
     <LineIds Name="FB_ADSTestResultFormatter.Format">
       <LineId Id="18" Count="3" />
       <LineId Id="74" Count="0" />
-      <LineId Id="23" Count="4" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="26" Count="1" />
       <LineId Id="75" Count="0" />
       <LineId Id="29" Count="35" />
       <LineId Id="66" Count="7" />

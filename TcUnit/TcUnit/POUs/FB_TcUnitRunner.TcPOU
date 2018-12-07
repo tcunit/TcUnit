@@ -7,7 +7,7 @@
 FUNCTION_BLOCK FB_TcUnitRunner
 VAR
     (* There can be one or more tests (testnames) for every test suite instance *)
-    RunnableTestSuiteResults : ARRAY[1..SizeOfStaticArray] OF E_TestSuiteRunState;
+    RunnableTestSuiteResults : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF E_TestSuiteRunState;
 
     (* Inidication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
@@ -25,9 +25,6 @@ VAR
 
     (* Indication of that the printing of test results is complete *)
     DonePrintingTestResults : BOOL;
-END_VAR
-VAR CONSTANT
-    SizeOfStaticArray : UINT := 300;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
