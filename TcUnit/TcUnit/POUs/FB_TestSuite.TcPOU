@@ -17,8 +17,8 @@ VAR
     _RunnableTestSuite : I_RunnableTestSuite;
 
     NumberOfTests : UINT := 0;
-    TestNames : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_System.T_MaxString;
-    TestFailed : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF BOOL;
+    Tests : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
+    TestDuplicateNameTrigger : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG; // Rising trigger of whether we have already notified the user of that the test name pointed to by the current position is a duplicate
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -32,6 +32,7 @@ VAR
     IteratorCounter : UINT;
     ErrorMessage : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
+    FunctionCallResult : DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Check if the test name already exists Make sure there are no other tests with the same name already
@@ -39,21 +40,26 @@ END_VAR]]></Declaration>
 
 (* Iterate all the test names that up to this point have been added for this test suite *)
 FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
-    IF TestNames[IteratorCounter] = TestName THEN
-        (* A test with this name already exists for this test suite. Send a message notification. *)
-        TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
-        ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
-        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
-        ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
-        Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                             msgFmtStr := ErrorMessage,
-                             strArg := TestName);
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        (* A test with this name already exists for this test suite. *)
+        (* Send a message notification, but only if we have not done so already. *)
+        TestDuplicateNameTrigger[IteratorCounter](CLK := TRUE);
+        IF TestDuplicateNameTrigger[IteratorCounter].Q THEN // Rising edge detected. We have not reported this before
+            TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath :=
+                                                                                       GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
+            ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
+            ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
+            ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
+            FunctionCallResult := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                                       msgFmtStr := ErrorMessage,
+                                                       strArg := TestName);
+        END_IF
         RETURN;
     END_IF
 END_FOR
 
 (* Test has not been found. Add it. *)
-TestNames[IteratorCounter] := TestName;
+Tests[IteratorCounter].SetName(Name := TestName);
 NumberOfTests := NumberOfTests + 1;]]></ST>
       </Implementation>
     </Method>
@@ -66,7 +72,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR Counter := 1 TO GetAmountOfTests() BY 1 DO
-        IF TestFailed[Counter] = TRUE THEN
+        IF Tests[Counter].IsFailed() THEN
             FailedTestsCount := FailedTestsCount + 1;
         END_IF
     END_FOR
@@ -128,14 +134,14 @@ VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    Counter : UINT;
+    IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO NumberOfTests BY 1 DO
-        IF TestNames[Counter] = TestName THEN
-            TestFailed[Counter] := TRUE;
-        END_IF
+    FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+        IF Tests[IteratorCounter].GetName() = TestName THEN
+            Tests[IteratorCounter].SetFailed();
+		END_IF
     END_FOR
 END_IF]]></ST>
       </Implementation>
@@ -148,23 +154,31 @@ END_IF]]></ST>
       <LineId Id="79" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="77" Count="0" />
-      <LineId Id="10" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="90" Count="0" />
       <LineId Id="80" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="93" Count="0" />
       <LineId Id="67" Count="0" />
+      <LineId Id="95" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="56" Count="1" />
       <LineId Id="41" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="46" Count="0" />
-      <LineId Id="12" Count="1" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="13" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="0" />
-      <LineId Id="30" Count="0" />
+      <LineId Id="91" Count="0" />
       <LineId Id="32" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetAmountOfFailedTests">
-      <LineId Id="10" Count="7" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="13" Count="4" />
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetAmountOfSuccessfulTests">
@@ -192,8 +206,7 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.SetTestFailed">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="14" Count="1" />
+      <LineId Id="22" Count="2" />
       <LineId Id="13" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>

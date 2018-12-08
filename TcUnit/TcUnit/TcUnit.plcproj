@@ -31,7 +31,7 @@ Documentation and examples are available at www.tcunit.org</Description>
       <Id>{78515825-a6f1-476c-a7b7-6595f51e6013}</Id>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
-    <Author>Jakob Sagatowski</Author>
+    <Author>Jakob Sagatowski and other contributors, see AUTHORS file on www.github.com/tcunit/TcUnit</Author>
     <ProjectVersion>1.0.0.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
@@ -50,9 +50,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_AssertResult.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\ST_TestSuite.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\U_ExpectedOrActual.TcDUT">
@@ -91,6 +88,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TcUnitRunner.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TestSuite.TcPOU">
@@ -148,8 +148,8 @@ Documentation and examples are available at www.tcunit.org</Description>
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -204,14 +204,14 @@ Documentation and examples are available at www.tcunit.org</Description>
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
   <!-- 
