@@ -103,12 +103,12 @@ END_VAR]]></Declaration>
                                      BYTE_TO_ULINT(AnyValue.pValue[0]));
 
     IBaseLibrary.TypeClass.TYPE_REAL :
-        nTempDWord := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
+        nTempDWORD := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[0]));
-        ptReal := ADR(nTempDWord);
-        F_AnyToUnionValue.fExpectedOrActual := ptReal^;
+        ptREAL := ADR(nTempDWORD);
+        F_AnyToUnionValue.fExpectedOrActual := ptREAL^;
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
         nTempLWORD := 
@@ -136,11 +136,11 @@ END_VAR]]></Declaration>
         (* None *)
 
     IBaseLibrary.TypeClass.TYPE_TIME :
-        nTempDWord := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
+        nTempDWORD := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
                                    BYTE_TO_DWORD(AnyValue.pValue[0]));
-        ptTIME := ADR(nTempDWord);
+        ptTIME := ADR(nTempDWORD);
         F_AnyToUnionValue.tExpectedOrActual := ptTIME^;
 
     IBaseLibrary.TypeClass.TYPE_DATE :
@@ -198,7 +198,7 @@ END_VAR]]></Declaration>
         (* None *)
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
-        nTempLWord := 
+        nTempLWORD := 
         (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
                                      BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
                                      BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR

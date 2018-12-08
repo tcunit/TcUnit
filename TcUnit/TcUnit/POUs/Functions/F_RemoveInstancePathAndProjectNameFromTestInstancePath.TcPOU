@@ -19,7 +19,7 @@ CharacterPositionOfProjectName := Tc2_Standard.FIND(STR1 := TestInstancePath, ST
 
 IF CharacterPositionOfProjectName > 0 THEN
     TestInstancePath := Tc2_Standard.DELETE(STR := TestInstancePath,
-                                            LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
+                                            LEN := CharacterPositionOfProjectName-1 + Tc2_Standard.LEN(ProjectNameWithDot),
                                             POS := 1);
 END_IF
 

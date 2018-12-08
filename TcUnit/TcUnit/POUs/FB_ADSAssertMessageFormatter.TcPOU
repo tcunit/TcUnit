@@ -21,6 +21,7 @@ END_VAR
 VAR
     TestInstancePathCleaned : Tc2_System.T_MaxString;
     FinalMessage : Tc2_System.T_MaxString;
+    ReturnValue : DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
@@ -38,9 +39,9 @@ END_IF
 IF Tc2_Standard.LEN(STR := Message) > 0 THEN
     FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
 END_IF
-Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                     msgFmtStr := FinalMessage,
-                     strArg := Message);]]></ST>
+ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    msgFmtStr := FinalMessage,
+                                    strArg := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="LogMessageError" Id="{bab195d7-5e96-4c3f-8266-c59551de8d0d}">
@@ -54,6 +55,7 @@ END_VAR
 VAR
     TestInstancePathCleaned : Tc2_System.T_MaxString;
     FinalMessage : Tc2_System.T_MaxString;
+    ReturnValue : DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
@@ -71,9 +73,9 @@ END_IF
 IF Tc2_Standard.LEN(STR := Message) > 0 THEN
     FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
 END_IF
-Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                     msgFmtStr := FinalMessage,
-                     strArg := Message);]]></ST>
+ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    msgFmtStr := FinalMessage,
+                                    strArg := Message);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ADSAssertMessageFormatter">

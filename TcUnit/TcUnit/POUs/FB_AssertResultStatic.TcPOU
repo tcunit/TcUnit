@@ -47,7 +47,7 @@ VAR_OUTPUT
     AlreadyReported : BOOL := FALSE;
 END_VAR
 VAR
-    LocationIndex : UDINT;
+    LocationIndex : UINT;
     DataTypesNotEquals : BOOL;
     DataSizeNotEquals : BOOL;
     DataContentNotEquals : BOOL;
