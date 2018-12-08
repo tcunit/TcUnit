@@ -13,6 +13,13 @@
     <Implicit_KindOfTask>{424b1ddb-7bea-4656-802e-4b39db2ac42c}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{f2896e88-052e-4a15-ac60-c9b84e88ab61}</Implicit_Jitter_Distribution>
     <LibraryReferences>{12163167-c0ff-4680-bd10-5e1569d3b925}</LibraryReferences>
+    <CombineIds>false</CombineIds>
+    <Company>www.tcunit.org</Company>
+    <Released>true</Released>
+    <Title>TcUnit verifier</Title>
+    <ProjectVersion>0.1.0.0</ProjectVersion>
+    <DefaultNamespace>TcUnit</DefaultNamespace>
+    <Author>Jakob Sagatowski</Author>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PlcTask.TcTTO">
@@ -21,7 +28,7 @@
     <Compile Include="Test\FB_AssertEveryFailedTestTwice.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_CreateTwoTestsWithSameName.TcPOU">
+    <Compile Include="Test\FB_CreateFourTestsWithSameName.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_PrimitiveTypes_Test.TcPOU">

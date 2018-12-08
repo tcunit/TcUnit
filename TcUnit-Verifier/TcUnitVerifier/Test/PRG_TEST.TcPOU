@@ -6,7 +6,7 @@ VAR
     fbPrimitiveTypesTest : FB_PrimitiveTypes_Test;
     fbAssertTrueFalse_Test : FB_AssertTrueFalse_Test;
     fbAssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
-    fbCreateTwoTestsWithSameName : FB_CreateTwoTestsWithSameName;
+    fbCreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>

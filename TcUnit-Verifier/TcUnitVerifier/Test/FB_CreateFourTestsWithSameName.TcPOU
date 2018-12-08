@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <POU Name="FB_CreateTwoTestsWithSameName" Id="{7b1f39ab-8960-43b8-8ec6-8f13e574f736}" SpecialFunc="None">
+  <POU Name="FB_CreateFourTestsWithSameName" Id="{7b1f39ab-8960-43b8-8ec6-8f13e574f736}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'call_after_init'}
-FUNCTION_BLOCK FB_CreateTwoTestsWithSameName EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+FUNCTION_BLOCK FB_CreateFourTestsWithSameName EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
 END_VAR]]></Declaration>
@@ -24,6 +24,8 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestOne();
 TestOne_Again();
+TestOne_AgainAgain();
+TestOne_AgainAgainAgain();
 
 RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
       </Implementation>
@@ -58,25 +60,68 @@ Assert.AssertEquals_INT(Expected := a,
                         Message := 'A does not equal B again');]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_CreateTwoTestsWithSameName">
+    <Method Name="TestOne_AgainAgain" Id="{f97b8825-364c-4046-983a-104d2c070686}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_AgainAgain
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+Assert.AssertEquals_INT(Expected := a,
+                        Actual := b,
+                        Message := 'A does not equal B again');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne_AgainAgainAgain" Id="{2d274c02-8a97-4c6e-806e-1f05be2e2af3}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_AgainAgainAgain
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+Assert.AssertEquals_INT(Expected := a,
+                        Actual := b,
+                        Message := 'A does not equal B again');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CreateFourTestsWithSameName">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CreateTwoTestsWithSameName.FB_init">
+    <LineIds Name="FB_CreateFourTestsWithSameName.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CreateTwoTestsWithSameName.RunTests">
+    <LineIds Name="FB_CreateFourTestsWithSameName.RunTests">
       <LineId Id="51" Count="0" />
       <LineId Id="61" Count="0" />
+      <LineId Id="64" Count="1" />
       <LineId Id="63" Count="0" />
       <LineId Id="62" Count="0" />
     </LineIds>
-    <LineIds Name="FB_CreateTwoTestsWithSameName.TestOne">
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne">
       <LineId Id="5" Count="0" />
       <LineId Id="201" Count="0" />
       <LineId Id="200" Count="0" />
       <LineId Id="202" Count="1" />
     </LineIds>
-    <LineIds Name="FB_CreateTwoTestsWithSameName.TestOne_Again">
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_Again">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgain">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgainAgain">
       <LineId Id="5" Count="0" />
       <LineId Id="201" Count="0" />
       <LineId Id="200" Count="0" />
