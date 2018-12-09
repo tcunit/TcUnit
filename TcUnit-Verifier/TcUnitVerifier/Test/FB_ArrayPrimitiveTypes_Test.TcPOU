@@ -33,6 +33,15 @@ Test_BYTE_Array_DiffersInContent();
 Test_DINT_Array_Equals();
 Test_DINT_Array_DifferInSize();
 Test_DINT_Array_DifferInContent();
+Test_DWORD_Array_Equals();
+Test_DWORD_Array_DifferInSize();
+Test_DWORD_Array_DifferInContent();
+Test_INT_Array_Equals();
+Test_INT_Array_DifferInSize();
+Test_INT_Array_DifferInContent();
+Test_LINT_Array_Equals();
+Test_LINT_Array_DifferInSize();
+Test_LINT_Array_DifferInContent();
 
 RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
       </Implementation>
@@ -163,6 +172,132 @@ Assert.AssertArrayEquals_DINT(Expecteds := a,
                               Message := 'Arrays differ');]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Test_DWORD_Array_DifferInContent" Id="{f7dc0453-b8e0-4434-a8ea-0a0c1ad42e07}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DWORD_Array_DifferInContent
+VAR
+    a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EFAA2346, 16#ABABABAB, 16#EEEEEEEE];
+    b : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#ABABABAB, 16#EEEEEEEE];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DWORD_Array_DifferInContent');
+
+Assert.AssertArrayEquals_DWORD(Expecteds := a,
+                               Actuals := b,
+                               Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_DWORD_Array_DifferInSize" Id="{c334c67b-514e-4468-90d8-4277568b0b2a}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DWORD_Array_DifferInSize
+VAR
+    a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#67890ABC, 16#DDDDDDDD];
+    b : ARRAY[-3..-2] OF DWORD := [16#6789ABCD, 16#EF012345];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DWORD_Array_DifferInSize');
+
+Assert.AssertArrayEquals_DWORD(Expecteds := a,
+                               Actuals := b,
+                               Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_DWORD_Array_Equals" Id="{b0c44502-c8cc-4726-8b79-ef1c800cbe36}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DWORD_Array_Equals
+VAR
+    a : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
+    b : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012345];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DWORD_Array_Equals');
+
+Assert.AssertArrayEquals_DWORD(Expecteds := a,
+                               Actuals := b,
+                               Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_INT_Array_DifferInContent" Id="{b81da39f-9c49-4b61-a088-a3afaeda8830}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_INT_Array_DifferInContent
+VAR
+    a : ARRAY[-8..-6] OF INT := [42, -23, -32768];
+    b : ARRAY[1..3] OF INT := [42, 24, -32768];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_INT_Array_DifferInContent');
+
+Assert.AssertArrayEquals_INT(Expecteds := a,
+                             Actuals := b,
+                             Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_INT_Array_DifferInSize" Id="{33a9368b-fc55-4cd4-8de0-0f331d4f93ed}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_INT_Array_DifferInSize
+VAR
+    a : ARRAY[-4..3] OF INT := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
+    b : ARRAY[1..5] OF INT := [64, 98, -32768, 32767, 5478];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_INT_Array_DifferInSize');
+
+Assert.AssertArrayEquals_INT(Expecteds := a,
+                             Actuals := b,
+                             Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_INT_Array_Equals" Id="{ff6e4d4a-b40e-4bcd-b765-ce99ddf56df3}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_INT_Array_Equals
+VAR
+    a : ARRAY[-5..1] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+    b : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_INT_Array_Equals');
+
+Assert.AssertArrayEquals_INT(Expecteds := a,
+                             Actuals := b,
+                             Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LINT_Array_DifferInContent" Id="{2698005b-e405-4442-b11f-bb5aab8920b0}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LINT_Array_DifferInContent
+VAR
+    a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_853_775_808, 55];
+    b : ARRAY[4..6] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LINT_Array_DifferInContent');
+
+Assert.AssertArrayEquals_LINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LINT_Array_DifferInSize" Id="{63ab26dc-0fab-4888-8aea-e3bd038f5016}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LINT_Array_DifferInSize
+VAR
+    a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
+    b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LINT_Array_DifferInSize');
+
+Assert.AssertArrayEquals_LINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LINT_Array_Equals" Id="{4bdfad96-2390-412b-a1a3-fa1e514fb731}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LINT_Array_Equals
+VAR
+    a : ARRAY[-1..0] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+    b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LINT_Array_Equals');
+
+Assert.AssertArrayEquals_LINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_ArrayPrimitiveTypes_Test">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -175,7 +310,13 @@ Assert.AssertArrayEquals_DINT(Expecteds := a,
       <LineId Id="55" Count="1" />
       <LineId Id="58" Count="0" />
       <LineId Id="61" Count="1" />
+      <LineId Id="64" Count="2" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="69" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="72" Count="0" />
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DiffersInContent">
@@ -211,6 +352,42 @@ Assert.AssertArrayEquals_DINT(Expecteds := a,
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_DifferInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_DifferInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_DifferInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_DifferInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_DifferInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_DifferInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
