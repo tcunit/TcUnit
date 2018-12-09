@@ -18,4 +18,4 @@ Read the user guide: [https://tcunit.org/introduction-user-guide/](https://tcuni
 Read the programming example: [https://tcunit.org/programming-example-introduction/](https://tcunit.org/programming-example-introduction/)
 
 **Want to download a precompiled version of the library?**  
-Go here: [https://tcunit.org/download/](https://tcunit.org/download/)
+Go to the [releases](https://github.com/tcunit/TcUnit/releases).
