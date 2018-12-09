@@ -31,6 +31,241 @@ END_VAR]]></Declaration>
 AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePath, STR2 := GVL.CurrentTestNameBeingCalled);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="AssertArrayEquals_BOOL" Id="{3d4059ab-c241-4859-9a9f-090cab6db606}">
+      <Declaration><![CDATA[(*
+    Asserts that two BOOL arrays are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArrayEquals_BOOL
+VAR_IN_OUT
+    Expecteds : ARRAY[*] OF BOOL; // BOOL array with expected values
+    Actuals : ARRAY[*] OF BOOL; // BOOL array with actual values
+END_VAR
+VAR_INPUT
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    Equals : BOOL := TRUE;
+    SizeEquals : BOOL := TRUE;
+    Index : DINT;
+    ExpectedString : STRING;
+    ActualString : STRING;
+    AlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    SizeOfExpecteds : DINT;
+    SizeOfActuals : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+
+IF (LOWER_BOUND(Expecteds, 1) <> LOWER_BOUND(Actuals, 1)) OR
+   (UPPER_BOUND(Expecteds, 1) <> UPPER_BOUND(Actuals, 1)) THEN
+    SizeOfExpecteds := UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1) + 1;
+    SizeOfActuals := UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1) + 1;
+    Equals := FALSE;
+    SizeEquals := FALSE;
+ELSE
+    FOR Index := LOWER_BOUND(Expecteds, 1) TO UPPER_BOUND(Expecteds, 1) DO
+        IF Expecteds[Index] <> Actuals[Index] THEN
+            Equals := FALSE;
+            EXIT;
+        END_IF
+    END_FOR
+END_IF
+
+AssertResults.ReportResult(Expected := Expecteds,
+                           Actual := Actuals,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND NOT Equals THEN
+    SetTestFailed();
+    
+    IF NOT SizeEquals THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        ExpectedString := 'SIZE = ';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ActualString := 'SIZE = ';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+    ELSE
+        ExpectedString := 'ARRAY[';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Index));
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := BOOL_TO_STRING(Expecteds[Index]));
+
+        ActualString := 'ARRAY[';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Index));
+        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := CONCAT(STR1 := ActualString, STR2 := BOOL_TO_STRING(Actuals[Index]));
+    END_IF
+
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+                                            Actual := ActualString,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertArrayEquals_BYTE" Id="{375a5287-a3e9-4833-ac17-bab8f3f0fdc9}">
+      <Declaration><![CDATA[(*
+    Asserts that two BYTE arrays are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArrayEquals_BYTE
+VAR_IN_OUT
+    Expecteds : ARRAY[*] OF BYTE; // BYTE array with expected values
+    Actuals : ARRAY[*] OF BYTE; // BYTE array with actual values
+END_VAR
+VAR_INPUT
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    Equals : BOOL := TRUE;
+    SizeEquals : BOOL := TRUE;
+    Index : DINT;
+    ExpectedString : STRING;
+    ActualString : STRING;
+    AlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    SizeOfExpecteds : DINT;
+    SizeOfActuals : DINT;
+    ExpectedByteString : STRING;
+    ActualByteString : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+
+IF (LOWER_BOUND(Expecteds, 1) <> LOWER_BOUND(Actuals, 1)) OR
+   (UPPER_BOUND(Expecteds, 1) <> UPPER_BOUND(Actuals, 1)) THEN
+    SizeOfExpecteds := UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1) + 1;
+    SizeOfActuals := UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1) + 1;
+    Equals := FALSE;
+    SizeEquals := FALSE;
+ELSE
+    FOR Index := LOWER_BOUND(Expecteds, 1) TO UPPER_BOUND(Expecteds, 1) DO
+        IF Expecteds[Index] <> Actuals[Index] THEN
+            Equals := FALSE;
+            EXIT;
+        END_IF
+    END_FOR
+END_IF
+
+AssertResults.ReportResult(Expected := Expecteds,
+                           Actual := Actuals,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND NOT Equals THEN
+    SetTestFailed();
+    
+    IF NOT SizeEquals THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        ExpectedString := 'SIZE = ';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ActualString := 'SIZE = ';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+    ELSE
+        ExpectedByteString := Tc2_Standard.CONCAT(STR1 := '0x',
+                                                  STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expecteds[Index],
+                                                                                       iPrecision := 2,
+                                                                                       bLoCase := FALSE));
+        ExpectedString := 'ARRAY[';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Index));
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ExpectedByteString);
+
+        ActualByteString := Tc2_Standard.CONCAT(STR1 := '0x',
+                                                STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actuals[Index],
+                                                                                     iPrecision := 2,
+                                                                                     bLoCase := FALSE));
+        ActualString := 'ARRAY[';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Index));
+        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := CONCAT(STR1 := ActualString, STR2 := ActualByteString);
+    END_IF
+
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+                                            Actual := ActualString,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertArrayEquals_DINT" Id="{4f0d9b20-0c78-467d-a52a-6badbd5d37cc}">
+      <Declaration><![CDATA[(*
+    Asserts that two DINT arrays are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArrayEquals_DINT
+VAR_IN_OUT
+    Expecteds : ARRAY[*] OF DINT; // DINT array with expected values
+    Actuals : ARRAY[*] OF DINT; // DINT array with actual values
+END_VAR
+VAR_INPUT
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    Equals : BOOL := TRUE;
+    SizeEquals : BOOL := TRUE;
+    Index : DINT;
+    ExpectedString : STRING;
+    ActualString : STRING;
+    AlreadyReported : BOOL;
+    TestInstancePath : Tc2_System.T_MaxString;
+    SizeOfExpecteds : DINT;
+    SizeOfActuals : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+
+IF (LOWER_BOUND(Expecteds, 1) <> LOWER_BOUND(Actuals, 1)) OR
+   (UPPER_BOUND(Expecteds, 1) <> UPPER_BOUND(Actuals, 1)) THEN
+    SizeOfExpecteds := UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1) + 1;
+    SizeOfActuals := UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1) + 1;
+    Equals := FALSE;
+    SizeEquals := FALSE;
+ELSE
+    FOR Index := LOWER_BOUND(Expecteds, 1) TO UPPER_BOUND(Expecteds, 1) DO
+        IF Expecteds[Index] <> Actuals[Index] THEN
+            Equals := FALSE;
+            EXIT;
+        END_IF
+    END_FOR
+END_IF
+
+AssertResults.ReportResult(Expected := Expecteds,
+                           Actual := Actuals,
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND NOT Equals THEN
+    SetTestFailed();
+    
+    IF NOT SizeEquals THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        ExpectedString := 'SIZE = ';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ActualString := 'SIZE = ';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+    ELSE
+        ExpectedString := 'ARRAY[';
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Index));
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Expecteds[Index]));
+
+        ActualString := 'ARRAY[';
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Index));
+        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Actuals[Index]));
+    END_IF
+
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+                                            Actual := ActualString,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="AssertEquals" Id="{092092ee-35b6-45cc-a1ac-e428e5d747ba}">
       <Declaration><![CDATA[(*
     Asserts that two objects (of any type) are equal. If they are not, an assertion error is created.
@@ -754,6 +989,45 @@ END_FOR]]></ST>
     <LineIds Name="FB_Assert.AddTestNameToInstancePath">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertArrayEquals_BOOL">
+      <LineId Id="89" Count="3" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="93" Count="21" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="115" Count="15" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertArrayEquals_BYTE">
+      <LineId Id="89" Count="3" />
+      <LineId Id="192" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="93" Count="21" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="116" Count="3" />
+      <LineId Id="165" Count="3" />
+      <LineId Id="120" Count="10" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertArrayEquals_DINT">
+      <LineId Id="89" Count="3" />
+      <LineId Id="140" Count="1" />
+      <LineId Id="93" Count="21" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="154" Count="1" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="116" Count="14" />
+      <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals">
       <LineId Id="117" Count="0" />
