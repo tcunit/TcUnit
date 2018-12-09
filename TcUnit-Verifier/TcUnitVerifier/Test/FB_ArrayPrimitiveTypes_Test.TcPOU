@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+  <POU Name="FB_ArrayPrimitiveTypes_Test" Id="{50358d3a-b100-454e-8d82-abe092455655}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_ArrayPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{ad625ebc-7f00-45bd-a67e-a0cb28bb9c95}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{b4c761e3-27f8-46cc-83de-70a5ae991658}">
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Test_BOOL_Array_Equals();
+Test_BOOL_Array_DiffersInSize();
+Test_BOOL_Array_DiffersInContent();
+Test_BYTE_Array_Equals();
+Test_BYTE_Array_DiffersInSize();
+Test_BYTE_Array_DiffersInContent();
+Test_DINT_Array_Equals();
+Test_DINT_Array_DifferInSize();
+Test_DINT_Array_DifferInContent();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BOOL_Array_DiffersInContent" Id="{7b271ca5-8f9a-4fcf-9207-0915581f4c7c}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DiffersInContent
+VAR
+    a : ARRAY[0..5] OF BOOL := [TRUE, TRUE, FALSE, TRUE, FALSE, TRUE];
+    b : ARRAY[0..5] OF BOOL := [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BOOL_Array_DiffersInContent');
+
+Assert.AssertArrayEquals_BOOL(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BOOL_Array_DiffersInSize" Id="{41caa71a-6ab3-4490-bc09-94996e7d75ba}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DiffersInSize
+VAR
+    a : ARRAY[1..6] OF BOOL := [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE];
+    b : ARRAY[1..4] OF BOOL := [TRUE, TRUE, TRUE, TRUE];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BOOL_Array_DiffersInSize');
+
+Assert.AssertArrayEquals_BOOL(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BOOL_Array_Equals" Id="{602dc3c1-d714-446a-b1c9-fe3db70e04f2}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_Equals
+VAR
+    a : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
+    b : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BOOL_Array_Equals');
+
+Assert.AssertArrayEquals_BOOL(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BYTE_Array_DiffersInContent" Id="{5a3fc488-ce8e-4416-afcb-989908d1a477}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DiffersInContent
+VAR
+    a : ARRAY[0..3] OF BYTE := [16#AB, 16#AA, 16#BB, 16#89];
+    b : ARRAY[0..3] OF BYTE := [16#AB, 16#CD, 16#BB, 16#89];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BYTE_Array_DiffersInContent');
+
+Assert.AssertArrayEquals_BYTE(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BYTE_Array_DiffersInSize" Id="{adf0d435-012a-46fa-86ef-fb8e0dd23d8d}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DiffersInSize
+VAR
+    a : ARRAY[1..2] OF BYTE := [16#AB, 16#CD];
+    b : ARRAY[1..5] OF BYTE := [16#AB, 16#CD, 16#EF, 16#01, 16#23];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BYTE_Array_DiffersInSize');
+
+Assert.AssertArrayEquals_BYTE(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BYTE_Array_Equals" Id="{8cb3cfd1-77fc-469e-8ac9-576771a3f2ca}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_Equals
+VAR
+    a : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
+    b : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_BYTE_Array_Equals');
+
+Assert.AssertArrayEquals_BYTE(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_DINT_Array_DifferInContent" Id="{21b235e1-384f-4032-a872-5b20bb0909a6}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DINT_Array_DifferInContent
+VAR
+    a : ARRAY[3..5] OF DINT := [-4746, -2147483645, 0];
+    b : ARRAY[3..5] OF DINT := [-4746, -2147483641, 0];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DINT_Array_DifferInContent');
+
+Assert.AssertArrayEquals_DINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_DINT_Array_DifferInSize" Id="{86eb5976-92fb-4ce3-948d-bdf07eb99e3e}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DINT_Array_DifferInSize
+VAR
+    a : ARRAY[3..4] OF DINT := [-11, 2147483647];
+    b : ARRAY[4..6] OF DINT := [-11, 2147483647, 0];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DINT_Array_DifferInSize');
+
+Assert.AssertArrayEquals_DINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_DINT_Array_Equals" Id="{6c304295-4f17-4c57-8891-0f1fad1602aa}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_DINT_Array_Equals
+VAR
+    a : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+    b : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_DINT_Array_Equals');
+
+Assert.AssertArrayEquals_DINT(Expecteds := a,
+                              Actuals := b,
+                              Message := 'Arrays differ');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.RunTests">
+      <LineId Id="48" Count="0" />
+      <LineId Id="51" Count="2" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="61" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DiffersInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DiffersInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DiffersInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DiffersInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_DifferInContent">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_DifferInSize">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_Equals">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
