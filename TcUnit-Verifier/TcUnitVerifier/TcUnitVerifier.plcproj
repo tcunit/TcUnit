@@ -17,7 +17,7 @@
     <Company>www.tcunit.org</Company>
     <Released>true</Released>
     <Title>TcUnit verifier</Title>
-    <ProjectVersion>0.3.0.0</ProjectVersion>
+    <ProjectVersion>0.4.0.0</ProjectVersion>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Author>Jakob Sagatowski</Author>
     <Description>This project is can be used to verify the different functions of TcUnit. It has various test suites to test different functions in TcUnit. By making sure to comment out everything except the test suite that is interesting it is possible to test only the specific function of TcUnit that is interesting.</Description>

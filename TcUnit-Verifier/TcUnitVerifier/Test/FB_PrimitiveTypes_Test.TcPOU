@@ -97,7 +97,7 @@ VAR
     b : BOOL := FALSE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_BOOL_Equals');
+        <ST><![CDATA[TEST('Test_BOOL_Differ');
 
 Assert.AssertEquals_BOOL(Expected := a,
                          Actual := b,
