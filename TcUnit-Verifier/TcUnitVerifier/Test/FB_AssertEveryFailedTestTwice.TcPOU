@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_AssertEveryFailedTestTwice" Id="{3bea6e4d-8d08-467b-90da-24a784807eae}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'call_after_init'}
+    <Declaration><![CDATA[(*
+    In this testsuite we are running the same testcase over two cycles, and thus calling every assert method twice.
+    This is in order to verify that we don't print every FAILED assert twice.
+*)
+{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
-    nAssertCount : USINT := 0;
+    AssertCount : USINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -26,8 +30,8 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TwiceAssertCall();
 
-nAssertCount := nAssertCount + 1;
-IF (nAssertCount) = 2 THEN
+AssertCount := AssertCount + 1;
+IF AssertCount = 2 THEN
     RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;
 END_IF]]></ST>
       </Implementation>

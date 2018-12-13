@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_PrimitiveTypes_Test" Id="{d6f75dd1-f045-4082-8776-85982b0ae74c}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'call_after_init'}
+    <Declaration><![CDATA[(*
+    This testsuite tests the different assert-functions for all the different data types in TwinCAT.
+    For every data type at least three different tests have been defined:
+        1. One test that succeeds (Expected and actual are equal)
+        2. One test that fails (Expected and actual are false).
+*)
+{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_PrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

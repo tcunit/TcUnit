@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_CreateFourTestsWithSameName" Id="{7b1f39ab-8960-43b8-8ec6-8f13e574f736}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'call_after_init'}
+    <Declaration><![CDATA[(*
+    This testsuite creates four tests in the same testsuite with the same name. Every test in a testsuite should have
+    an unique name. Every assert should be ignored if a duplicate test is being run.
+*)
+{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_CreateFourTestsWithSameName EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
