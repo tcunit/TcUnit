@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -16,9 +16,20 @@ VAR
        in order for us to have a reference to calling the actual execution of the tests *) 
     _RunnableTestSuite : I_RunnableTestSuite;
 
+    (* We need to have access to specific information of the current task that this test suite
+       is executed in. This is for instance necessary when we need to know whether a test is
+       defined already. The definition of a test that is defined already is that we call on it
+       with the same name twice in the same cycle *)
+    GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
+
     NumberOfTests : UINT := 0;
     Tests : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
-    TestDuplicateNameTrigger : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG; // Rising trigger of whether we have already notified the user of that the test name pointed to by the current position is a duplicate
+    (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
+       position is a duplicate *)
+    TestDuplicateNameTrigger : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
+    (* Last cycle count index for a specific test. Used to detect whether this test has already been run defined in the
+       current test suite *)
+    TestCycleCountIndex : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF UDINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -33,34 +44,46 @@ VAR
     ErrorMessage : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
     FunctionCallResult : DINT;
+    CycleCount : UDINT;
+    TestWithThisNameAlreadyExists : BOOL := FALSE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Check if the test name already exists Make sure there are no other tests with the same name already
+        <ST><![CDATA[GetCurrentTaskIndex(); // Gets the task index of where this function block instance is being run in
+
+(* Check if the test name already exists. Make sure there are no other tests with the same name already
    added for this test suite *)
+
+CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
 
 (* Iterate all the test names that up to this point have been added for this test suite *)
 FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
-        (* A test with this name already exists for this test suite. *)
-        (* Send a message notification, but only if we have not done so already. *)
-        TestDuplicateNameTrigger[IteratorCounter](CLK := TRUE);
-        IF TestDuplicateNameTrigger[IteratorCounter].Q THEN // Rising edge detected. We have not reported this before
-            TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath :=
-                                                                                       GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
-            ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
-            ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
-            ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
-            FunctionCallResult := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                       msgFmtStr := ErrorMessage,
-                                                       strArg := TestName);
+        TestWithThisNameAlreadyExists := TRUE;
+        (* Check if a test with this name has already been called in this cycle *)
+        IF TestCycleCountIndex[IteratorCounter] = CycleCount THEN
+            (* A test with this name already exists for this test suite and has already been called in this cycle.
+               Send a message notification, but only if we have not done so already. *)
+            TestDuplicateNameTrigger[IteratorCounter](CLK := TRUE);
+            IF TestDuplicateNameTrigger[IteratorCounter].Q THEN // Rising edge detected. We have not reported this before
+                TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath :=
+                                                                                           GVL.CurrentTestSuiteBeingCalled.GetInstancePath());
+                ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
+                ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
+                ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
+                FunctionCallResult := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                                           msgFmtStr := ErrorMessage,
+                                                           strArg := TestName);
+            END_IF
         END_IF
-        RETURN;
     END_IF
+    TestCycleCountIndex[IteratorCounter] := CycleCount;
 END_FOR
 
-(* Test has not been found. Add it. *)
-Tests[IteratorCounter].SetName(Name := TestName);
-NumberOfTests := NumberOfTests + 1;]]></ST>
+IF NOT TestWithThisNameAlreadyExists THEN
+    (* Test has not been found. Add it. *)
+    Tests[IteratorCounter].SetName(Name := TestName);
+    NumberOfTests := NumberOfTests + 1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetAmountOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
@@ -150,12 +173,19 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AddTest">
+      <LineId Id="108" Count="0" />
+      <LineId Id="110" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="79" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="129" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="77" Count="0" />
       <LineId Id="10" Count="0" />
       <LineId Id="90" Count="0" />
+      <LineId Id="142" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="125" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="94" Count="0" />
@@ -167,13 +197,17 @@ END_IF]]></ST>
       <LineId Id="41" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="46" Count="0" />
-      <LineId Id="96" Count="1" />
+      <LineId Id="96" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="122" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="143" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="32" Count="0" />
+      <LineId Id="144" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetAmountOfFailedTests">
       <LineId Id="10" Count="1" />

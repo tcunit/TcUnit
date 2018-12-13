@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <GVL Name="GVL" Id="{78472b76-c9a4-4b27-a580-8e7898edc3d7}">
     <Declaration><![CDATA[{attribute 'no_assign'}
 {attribute 'qualified_only'}
@@ -15,6 +15,11 @@ VAR_GLOBAL
 
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
+
+    (* This is a flag that indicates that the current test should be ignored, and
+       thus that all assertions under it should be ignored as well. A test can be ignored either
+       because the user has requested so, or because the test is a duplicate name *)
+    IgnoreCurrentTest : BOOL;
 
     (* The assert function block instance should be 1:1 mapped to
        the test suite instance path. *)
