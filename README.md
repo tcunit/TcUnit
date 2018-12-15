@@ -19,3 +19,6 @@ Read the programming example: [https://tcunit.org/programming-example-introducti
 
 **Want to download a precompiled version of the library?**  
 Go to the [releases](https://github.com/tcunit/TcUnit/releases).
+
+**Want to contribute to the project?**  
+That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
