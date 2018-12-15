@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="FB_CreateDisabledTest" Id="{3f1093ff-32d2-455a-8cf0-190014c55a4c}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite runs two tests. One that is enabled (and that is supposed to fail), and one that is disabled (and
+    even though it also is failing is not supposed to run).
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_CreateDisabledTest EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{301e9f58-092a-49ca-8343-33e6bc16c7de}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{c91bd153-d1fb-4a6a-8ec2-77d6ab3f7087}">
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestEnabled();
+TestDisabled();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestDisabled" Id="{773db475-8255-416d-8669-8526d3357b4d}">
+      <Declaration><![CDATA[METHOD PRIVATE TestDisabled
+VAR
+    a : BOOL := FALSE;
+    b : BOOL := TRUE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('DISABLED_ThisShouldNotExecute');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'A does not equal B');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestEnabled" Id="{aaa74956-ecdb-40ff-a4da-e0ad237c9503}">
+      <Declaration><![CDATA[METHOD PRIVATE TestEnabled
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestEnabled');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'A does not equal B');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CreateDisabledTest">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.RunTests">
+      <LineId Id="51" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="62" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.TestDisabled">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.TestEnabled">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -53,7 +53,7 @@ Assert.AssertEquals_INT(Expected := a,
       <Declaration><![CDATA[METHOD PRIVATE TestOne_Again
 VAR
     a : INT := 55;
-    b : INT := 55;
+    b : INT := 54;
 END_VAR
 ]]></Declaration>
       <Implementation>

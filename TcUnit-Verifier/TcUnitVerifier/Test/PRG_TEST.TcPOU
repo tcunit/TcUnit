@@ -8,6 +8,7 @@ VAR
     fbAssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
     fbCreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
     fbArrayPrimitiveTypes_Test : FB_ArrayPrimitiveTypes_Test;
+    fbCreateDisabledTest : FB_CreateDisabledTest;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>
