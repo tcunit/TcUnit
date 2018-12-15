@@ -27,7 +27,7 @@ VAR
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
        position is a duplicate *)
     TestDuplicateNameTrigger : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
-    (* Last cycle count index for a specific test. Used to detect whether this test has already been run defined in the
+    (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
     TestCycleCountIndex : ARRAY[1..GVL_Constants.MaxAmountOfTestsForEachTestSuite] OF UDINT;
 END_VAR]]></Declaration>
@@ -37,7 +37,7 @@ END_VAR]]></Declaration>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
       <Declaration><![CDATA[METHOD PUBLIC AddTest
 VAR_INPUT
-    TestName : T_MaxString;
+    TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -46,9 +46,23 @@ VAR
     FunctionCallResult : DINT;
     CycleCount : UDINT;
     TestWithThisNameAlreadyExists : BOOL := FALSE;
+    LowerCasedTestName : Tc2_System.T_MaxString;
+    TrimmedTestName : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCurrentTaskIndex(); // Gets the task index of where this function block instance is being run in
+        <ST><![CDATA[GVL.IgnoreCurrentTest := FALSE; // Reset the ignore current test flag
+
+TrimmedTestName := Tc2_Utilities.F_LTrim(in := TestName);
+TrimmedTestName := Tc2_Utilities.F_RTrim(in := TrimmedTestName);
+LowerCasedTestName := Tc2_Utilities.F_ToLCase(in := TrimmedTestName);
+
+(* Check if this test should be disabled *)
+IF Tc2_Utilities.FIND(STR1 := LowerCasedTestName, STR2 := 'disabled_') = 1 THEN
+    GVL.IgnoreCurrentTest := TRUE;
+    RETURN;
+END_IF
+
+GetCurrentTaskIndex(); // Gets the task index of where this function block instance is being run in
 
 (* Check if the test name already exists. Make sure there are no other tests with the same name already
    added for this test suite *)
@@ -57,10 +71,11 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
 
 (* Iterate all the test names that up to this point have been added for this test suite *)
 FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
-    IF Tests[IteratorCounter].GetName() = TestName THEN
+    IF Tests[IteratorCounter].GetName() = TrimmedTestName THEN
         TestWithThisNameAlreadyExists := TRUE;
-        (* Check if a test with this name has already been called in this cycle *)
+        (* Check if a test with this name has already been called in this PLC cycle *)
         IF TestCycleCountIndex[IteratorCounter] = CycleCount THEN
+            GVL.IgnoreCurrentTest := TRUE;
             (* A test with this name already exists for this test suite and has already been called in this cycle.
                Send a message notification, but only if we have not done so already. *)
             TestDuplicateNameTrigger[IteratorCounter](CLK := TRUE);
@@ -72,17 +87,18 @@ FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
                 ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
                 FunctionCallResult := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                                            msgFmtStr := ErrorMessage,
-                                                           strArg := TestName);
+                                                           strArg := TrimmedTestName);
             END_IF
         END_IF
+        TestCycleCountIndex[IteratorCounter] := CycleCount;
     END_IF
-    TestCycleCountIndex[IteratorCounter] := CycleCount;
 END_FOR
 
 IF NOT TestWithThisNameAlreadyExists THEN
     (* Test has not been found. Add it. *)
-    Tests[IteratorCounter].SetName(Name := TestName);
+    Tests[IteratorCounter].SetName(Name := TrimmedTestName);
     NumberOfTests := NumberOfTests + 1;
+    TestCycleCountIndex[NumberOfTests] := CycleCount;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -173,6 +189,17 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AddTest">
+      <LineId Id="157" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="167" Count="1" />
+      <LineId Id="170" Count="0" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="158" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="15" Count="0" />
@@ -186,6 +213,7 @@ END_IF]]></ST>
       <LineId Id="142" Count="0" />
       <LineId Id="127" Count="0" />
       <LineId Id="125" Count="0" />
+      <LineId Id="159" Count="0" />
       <LineId Id="80" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="94" Count="0" />
@@ -199,14 +227,15 @@ END_IF]]></ST>
       <LineId Id="46" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="201" Count="0" />
       <LineId Id="126" Count="0" />
-      <LineId Id="122" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="143" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="32" Count="0" />
+      <LineId Id="203" Count="0" />
       <LineId Id="144" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetAmountOfFailedTests">

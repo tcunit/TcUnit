@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_Assert" Id="{6d47daa2-fba1-435c-bae3-f81b2b35f9e8}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for providing all the assert-methods for
@@ -57,7 +57,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -142,7 +146,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -233,7 +241,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -318,7 +330,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -409,7 +425,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -492,7 +512,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -577,7 +601,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -668,7 +696,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -751,7 +783,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -834,7 +870,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -917,7 +957,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1000,7 +1044,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1085,7 +1133,11 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1171,7 +1223,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 IF Expected.TypeClass <> Actual.TypeClass THEN
     DataTypesNotEquals := TRUE;
@@ -1252,7 +1308,11 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1285,7 +1345,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1326,7 +1390,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1359,7 +1427,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1400,7 +1472,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1433,7 +1509,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1467,7 +1547,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1500,7 +1584,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1542,7 +1630,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1575,7 +1667,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1608,7 +1704,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1641,7 +1741,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1674,7 +1778,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1707,7 +1815,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1740,7 +1852,11 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1773,7 +1889,11 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
 AssertResults.ReportResult(Expected := Expected,
                            Actual := Actual,
@@ -1875,6 +1995,7 @@ END_FOR]]></ST>
       <LineId Id="8" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_BOOL">
+      <LineId Id="243" Count="3" />
       <LineId Id="199" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1884,6 +2005,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_BYTE">
+      <LineId Id="263" Count="1" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="265" Count="0" />
       <LineId Id="216" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1899,6 +2023,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_DINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1909,6 +2036,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_DWORD">
+      <LineId Id="261" Count="1" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="263" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="216" Count="1" />
       <LineId Id="90" Count="0" />
@@ -1938,6 +2068,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_INT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1948,6 +2081,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_LINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1958,6 +2094,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_LWORD">
+      <LineId Id="261" Count="1" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="263" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="216" Count="1" />
       <LineId Id="90" Count="0" />
@@ -1987,6 +2126,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_SINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -1997,6 +2139,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_UDINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -2007,6 +2152,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_UINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -2017,6 +2165,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_ULINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -2027,6 +2178,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_USINT">
+      <LineId Id="257" Count="1" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
       <LineId Id="102" Count="12" />
       <LineId Id="149" Count="0" />
@@ -2037,6 +2191,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertArrayEquals_WORD">
+      <LineId Id="261" Count="1" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="263" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="216" Count="1" />
       <LineId Id="90" Count="0" />
@@ -2066,6 +2223,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals">
+      <LineId Id="176" Count="1" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="178" Count="0" />
       <LineId Id="117" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="62" Count="0" />
@@ -2114,6 +2274,9 @@ END_FOR]]></ST>
       <LineId Id="99" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_BOOL">
+      <LineId Id="85" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="87" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="56" Count="3" />
@@ -2126,6 +2289,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_BYTE">
+      <LineId Id="81" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="53" Count="3" />
@@ -2146,6 +2312,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_DINT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2159,6 +2328,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_DWORD">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="48" Count="4" />
       <LineId Id="47" Count="0" />
@@ -2178,6 +2350,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_INT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="44" Count="3" />
@@ -2192,6 +2367,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_LINT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2205,6 +2383,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_LREAL">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="45" Count="0" />
       <LineId Id="47" Count="3" />
@@ -2219,6 +2400,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_LWORD">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="48" Count="4" />
       <LineId Id="47" Count="0" />
@@ -2238,6 +2422,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_REAL">
+      <LineId Id="81" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="51" Count="3" />
@@ -2252,6 +2439,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_SINT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2265,6 +2455,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_STRING">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2278,6 +2471,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_UDINT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2291,6 +2487,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_UINT">
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2304,6 +2503,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_ULINT">
+      <LineId Id="73" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="75" Count="0" />
       <LineId Id="24" Count="0" />
       <LineId Id="43" Count="4" />
       <LineId Id="42" Count="0" />
@@ -2317,6 +2519,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_USINT">
+      <LineId Id="91" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="93" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="73" Count="3" />
@@ -2331,6 +2536,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_WORD">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="48" Count="4" />
       <LineId Id="47" Count="0" />
