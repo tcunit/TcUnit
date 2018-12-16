@@ -10,6 +10,7 @@ VAR
     ArrayPrimitiveTypes_Test : FB_ArrayPrimitiveTypes_Test;
     CreateDisabledTest : FB_CreateDisabledTest;
     AnyPrimitiveTypes_Test : FB_AnyPrimitiveTypes_Test;
+    AssertEveryFailedTestTwice_ArrayVersion : FB_AssertEveryFailedTestTwice_ArrayVersion;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>
