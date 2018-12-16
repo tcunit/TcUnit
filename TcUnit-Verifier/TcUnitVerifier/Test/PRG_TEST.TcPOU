@@ -3,12 +3,13 @@
   <POU Name="PRG_TEST" Id="{35d0cb91-f449-41c5-be41-3ca0dfe074f2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_TEST
 VAR
-    fbPrimitiveTypesTest : FB_PrimitiveTypes_Test;
-    fbAssertTrueFalse_Test : FB_AssertTrueFalse_Test;
-    fbAssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
-    fbCreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
-    fbArrayPrimitiveTypes_Test : FB_ArrayPrimitiveTypes_Test;
-    fbCreateDisabledTest : FB_CreateDisabledTest;
+    PrimitiveTypesTest : FB_PrimitiveTypes_Test;
+    AssertTrueFalse_Test : FB_AssertTrueFalse_Test;
+    AssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
+    CreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
+    ArrayPrimitiveTypes_Test : FB_ArrayPrimitiveTypes_Test;
+    CreateDisabledTest : FB_CreateDisabledTest;
+    AnyPrimitiveTypes_Test : FB_AnyPrimitiveTypes_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>

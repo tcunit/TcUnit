@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="FB_AnyPrimitiveTypes_Test" Id="{bf0ad75f-805b-4448-a5e9-9fafb9350eaa}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite tests the different assert-functions for all the primitive data types in TwinCAT, but using the
+    ANY-version of the Assert-method.
+    For every data type at least two different tests have been defined:
+        1. One test that succeeds (Expected and actual are equal)
+        2. One test that fails (Expected and actual are false).
+    For every failing test the printed value should be the same as if we were using the primitive data type assert
+    directly. 
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_AnyPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{f4fabba4-8e3d-4529-8229-9ea6af2d97c2}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{86db1431-1a4b-401d-aa9e-b53d550c9f14}">
+      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Test_ANY_BYTE_Equals();
+Test_ANY_BYTE_Differ();
+Test_ANY_BOOL_Equals();
+Test_ANY_BOOL_Differ();
+Test_ANY_DINT_Equals();
+Test_ANY_DINT_Differ();
+Test_ANY_DWORD_Equals();
+Test_ANY_DWORD_Differ();
+Test_ANY_INT_Equals();
+Test_ANY_INT_Differ();
+Test_ANY_LINT_Equals();
+Test_ANY_LINT_Differ();
+Test_ANY_LREAL_Equals();
+Test_ANY_LREAL_Differ();
+Test_ANY_LWORD_Equals();
+Test_ANY_LWORD_Differ();
+Test_ANY_REAL_Equals();
+Test_ANY_REAL_Differ();
+Test_ANY_SINT_Equals();
+Test_ANY_SINT_Differ();
+Test_ANY_STRING_Equals();
+Test_ANY_STRING_Differ();
+Test_ANY_UDINT_Equals();
+Test_ANY_UDINT_Differ();
+Test_ANY_UINT_Equals();
+Test_ANY_UINT_Differ();
+Test_ANY_ULINT_Equals();
+Test_ANY_ULINT_Differ();
+Test_ANY_USINT_Equals();
+Test_ANY_USINT_Differ();
+Test_ANY_WORD_Equals();
+Test_ANY_WORD_Differ();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_BOOL_Differ" Id="{9def4202-9b1d-4fca-a694-7baecaa73c6d}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BOOL_Differ
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := FALSE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_BOOL_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_BOOL_Equals" Id="{24b88842-0df5-436f-8f65-86f62612214c}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BOOL_Equals
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := TRUE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_BOOL_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_BYTE_Differ" Id="{dd37329d-bb06-4679-abf4-e4d04399c232}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BYTE_Differ
+VAR
+    a : BYTE := 16#AB;
+    b : BYTE := 16#CD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_BYTE_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_BYTE_Equals" Id="{2f42883b-2905-4fcf-ab87-5d19e1fac7b2}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BYTE_Equals
+VAR
+    a : BYTE := 16#CD;
+    b : BYTE := 16#CD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_BYTE_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DINT_Differ" Id="{cb70e186-1a96-4b29-985d-60f5f4684775}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DINT_Differ
+VAR
+    a : DINT := -55555;
+    b : DINT := 70000;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DINT_Equals" Id="{ac4e8032-dccc-4a7e-9803-44020c8533e4}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DINT_Equals
+VAR
+    a : DINT := -80000;
+    b : DINT := -80000;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DWORD_Differ" Id="{23ed3054-fb0f-4676-a33d-13cb685f2f27}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DWORD_Differ
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DWORD_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DWORD_Equals" Id="{5708854e-5f0b-4ac2-80a1-0b3d9009a3ed}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DWORD_Equals
+VAR
+    a : DWORD := 16#7890ABCD;
+    b : DWORD := 16#7890ABCD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DWORD_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_INT_Differ" Id="{3902bfc9-94f5-457a-8cf1-bf8e15c96e38}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_INT_Differ
+VAR
+    a : INT := -32000;
+    b : INT := 15423;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_INT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_INT_Equals" Id="{16ed816c-bec6-46ce-a406-42d965e0fb31}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_INT_Equals
+VAR
+    a : INT := -12345;
+    b : INT := -12345;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_INT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LINT_Differ" Id="{fb115c0d-34a2-4d3c-af00-30e036afd5d7}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LINT_Differ
+VAR
+    a : LINT := -451416345;
+    b : LINT := 589532453;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LINT_Equals" Id="{668fbd05-1b2c-4b08-8d52-d1aaaa059802}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LINT_Equals
+VAR
+    a : LINT := -123456789;
+    b : LINT := -123456789;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LREAL_Differ" Id="{c7618ef1-aae1-478a-8d43-1bb5a958b641}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LREAL_Differ
+VAR
+    a : LREAL := 1234567.89;
+    b : LREAL := 1234567.76;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LREAL_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LREAL_Equals" Id="{d886c391-4ffc-42ba-aacc-8f8f2b3a5e54}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LREAL_Equals
+VAR
+    a : LREAL := 1234567.89;
+    b : LREAL := 1234567.89;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LREAL_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LWORD_Differ" Id="{ef3f03f1-1a53-4489-8c36-c28660c1e7b7}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LWORD_Differ
+VAR
+    a : LWORD := 16#0123656789ABCBEC;
+    b : LWORD := 16#0123256789ABCAEE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LWORD_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LWORD_Equals" Id="{19993f03-49d7-4cee-97a1-88ff9d9eb2e6}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LWORD_Equals
+VAR
+    a : LWORD := 16#0123456789ABCDEF;
+    b : LWORD := 16#0123456789ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LWORD_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_REAL_Differ" Id="{f2472e3d-089e-474c-b4b8-54a3d353ad64}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_REAL_Differ
+VAR
+    a : REAL := 1234.5;
+    b : REAL := 1234.4;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_REAL_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_REAL_Equals" Id="{8290f811-4b5b-4e83-b6ee-422a2bd05e2b}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_REAL_Equals
+VAR
+    a : REAL := 1234.5;
+    b : REAL := 1234.5;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_REAL_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_SINT_Differ" Id="{b0f8ac71-681f-4f1a-94dd-32b085f23744}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_SINT_Differ
+VAR
+    a : SINT := 127;
+    b : SINT := -30;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_SINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_SINT_Equals" Id="{630cc9a7-6d4d-40eb-ab44-a0a4844068f6}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_SINT_Equals
+VAR
+    a : SINT := -128;
+    b : SINT := -128;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_SINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_STRING_Differ" Id="{8384ce7c-1f54-4249-9dc0-3b2f1dfa1e90}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_STRING_Differ
+VAR
+    a : STRING := 'This is a string';
+    b : STRING := 'This is another string';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_STRING_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_STRING_Equals" Id="{45fb731e-62a5-4739-983d-66e18d9850be}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_STRING_Equals
+VAR
+    a : STRING := 'Hello there';
+    b : STRING := 'Hello there';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_STRING_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_UDINT_Differ" Id="{e30459bf-ebf3-48ab-a1c1-3d0dd57a829e}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_UDINT_Differ
+VAR
+    a : UDINT := 34124214;
+    b : UDINT := 52343244;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_UDINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_UDINT_Equals" Id="{9c466d83-1d0b-48d6-a187-0404dcd7fc0c}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_UDINT_Equals
+VAR
+    a : UDINT := 21845123;
+    b : UDINT := 21845123;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_UDINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_UINT_Differ" Id="{6fcb372c-bdc6-4fa3-bdd8-941d914d6b3a}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_UINT_Differ
+VAR
+    a : UINT := 64322;
+    b : UINT := 32312;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_UINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_UINT_Equals" Id="{9e678934-ef5b-42e1-a53f-17737ee06d35}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_UINT_Equals
+VAR
+    a : UINT := 65535;
+    b : UINT := 65535;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_UINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_ULINT_Differ" Id="{dae19af6-fcc2-42c1-aaca-8dc7c861bdcc}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_ULINT_Differ
+VAR
+    a : ULINT := 10000;
+    b : ULINT := 53685437234;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_ULINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_ULINT_Equals" Id="{f13de1a5-523a-4c9d-8e7e-8c0b2840de93}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_ULINT_Equals
+VAR
+    a : ULINT := 45683838383;
+    b : ULINT := 45683838383;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_ULINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_USINT_Differ" Id="{feb2c66c-f754-4a55-ba64-e1fdc77ddce6}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_USINT_Differ
+VAR
+    a : USINT := 3;
+    b : USINT := 7;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_USINT_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_USINT_Equals" Id="{44a01ea7-d3cf-4d20-aeb7-e4787721e931}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_USINT_Equals
+VAR
+    a : USINT := 5;
+    b : USINT := 5;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_USINT_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_WORD_Differ" Id="{684677fe-b88b-4336-9954-f4e16d3d3cf5}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_WORD_Differ
+VAR
+    a : WORD := 16#EF01;
+    b : WORD := 16#2345;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_WORD_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_WORD_Equals" Id="{962442d1-3576-440d-880d-7ca8abee0ca2}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_WORD_Equals
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#ABCD;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_WORD_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.RunTests">
+      <LineId Id="18" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="20" Count="7" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="31" Count="3" />
+      <LineId Id="36" Count="7" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="5" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -44,6 +44,9 @@
     <Compile Include="Test\FB_AssertTrueFalse_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_AnyPrimitiveTypes_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\PRG_TEST.TcPOU">
       <SubType>Code</SubType>
     </Compile>

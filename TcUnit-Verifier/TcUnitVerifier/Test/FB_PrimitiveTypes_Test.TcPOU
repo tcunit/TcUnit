@@ -3,7 +3,7 @@
   <POU Name="FB_PrimitiveTypes_Test" Id="{d6f75dd1-f045-4082-8776-85982b0ae74c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the different assert-functions for all the different data types in TwinCAT.
-    For every data type at least three different tests have been defined:
+    For every data type at least two different tests have been defined:
         1. One test that succeeds (Expected and actual are equal)
         2. One test that fails (Expected and actual are false).
 *)
