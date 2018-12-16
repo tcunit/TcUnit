@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <POU Name="F_AnyComparator" Id="{e4f95c0d-0ece-47a8-977f-f9d45a4f920e}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="FB_AnyComparator" Id="{e4f95c0d-0ece-47a8-977f-f9d45a4f920e}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-    This function compares two instances of any object type and returns whether they
+    This FB compares two instances of any object type and returns whether they
     are the same type, size and value or not. This is necessary for two reasons:
     1. So that we can know exactly what differs between the two input parameters
     2. It's not possible to do a comparison (= or <>) between two instances of ANY.
 *)
-FUNCTION F_AnyComparator
+FUNCTION_BLOCK FB_AnyComparator
 VAR_INPUT
     AnyValueOne : ANY;
     AnyValueTwo : ANY;
@@ -21,7 +21,12 @@ VAR
     IteratorCounter : DINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Check whether the type of the inputs differs *)
+      <ST><![CDATA[(* Reset the outputs *)
+DataTypesNotEquals := FALSE;
+DataSizeNotEquals := FALSE;
+DataContentNotEquals := FALSE;
+
+(* Check whether the type of the inputs differs *)
 IF AnyValueOne.TypeClass <> AnyValueTwo.TypeClass THEN
     DataTypesNotEquals := TRUE;
 END_IF
@@ -35,15 +40,8 @@ END_IF
 
 (* Even though the data type and size are equals, the contents may still differ *)
 IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
-    (* Compare each byte in the ANY-types *)
+    // Compare each byte in the ANY-types
     FOR IteratorCounter := 0 TO AnyValueOne.diSize - 1 BY 1 DO
-        IF (UDINT_TO_INT(AnyValueOne.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING) OR
-            (UDINT_TO_INT(AnyValueOne.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING) THEN
-            IF Tc2_System.F_ToCHR(c := AnyValueOne.pValue[IteratorCounter]) = '$00' THEN
-                EXIT;
-            END_IF
-        END_IF
-
         IF AnyValueOne.pValue[IteratorCounter] <> AnyValueTwo.pValue[IteratorCounter] THEN
             DataContentNotEquals := TRUE;
             EXIT;
@@ -51,19 +49,16 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
     END_FOR
 END_IF]]></ST>
     </Implementation>
-    <LineIds Name="F_AnyComparator">
+    <LineIds Name="FB_AnyComparator">
+      <LineId Id="127" Count="0" />
+      <LineId Id="123" Count="3" />
       <LineId Id="95" Count="0" />
       <LineId Id="13" Count="2" />
       <LineId Id="96" Count="0" />
       <LineId Id="16" Count="5" />
       <LineId Id="79" Count="0" />
-      <LineId Id="22" Count="3" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="49" Count="1" />
-      <LineId Id="47" Count="1" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="26" Count="4" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="115" Count="7" />
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>

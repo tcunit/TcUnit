@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic
 VAR
@@ -73,12 +73,6 @@ IF (LocationIndex := FindMessageAndTestInstancePathEquals(Message, TestInstanceP
                                  ExpectedOrActual := Actual)) THEN
 
     (* No existing match found, create a new entry *)
-    F_AnyComparator(AnyValueOne := Expected,
-                    AnyValueTwo := Actual,
-                    DataTypesNotEquals => DataTypesNotEquals,
-                    DataSizeNotEquals => DataSizeNotEquals,
-                    DataContentNotEquals => DataContentNotEquals);
-
     TotalAsserts := TotalAsserts + 1;
     AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnyValue := Expected);
     AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnyValue := Actual);
@@ -117,11 +111,7 @@ END_IF]]></ST>
       <LineId Id="116" Count="0" />
       <LineId Id="242" Count="0" />
       <LineId Id="99" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="243" Count="0" />
-      <LineId Id="125" Count="1" />
-      <LineId Id="123" Count="0" />
-      <LineId Id="72" Count="1" />
+      <LineId Id="73" Count="0" />
       <LineId Id="134" Count="0" />
       <LineId Id="150" Count="0" />
       <LineId Id="76" Count="0" />

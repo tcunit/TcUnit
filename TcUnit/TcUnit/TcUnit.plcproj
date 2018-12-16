@@ -78,6 +78,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_ADSTestResultFormatter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FB_AnyComparator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\FB_Assert.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -94,9 +97,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TestSuite.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Functions\F_AnyComparator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_AnyToUnionValue.TcPOU">

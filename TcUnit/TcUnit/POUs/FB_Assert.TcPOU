@@ -1205,6 +1205,8 @@ END_IF]]></ST>
     <Method Name="AssertEquals" Id="{092092ee-35b6-45cc-a1ac-e428e5d747ba}">
       <Declaration><![CDATA[(*
     Asserts that two objects (of any type) are equal. If they are not, an assertion error is created.
+    For REAL and LREAL it's recommended to use the AssertEquals_REAL or AssertEquals_LREAL respectively
+    as these give the possibility to specify a delta between the expected and actual value.
 *)
 METHOD PUBLIC AssertEquals
 VAR_INPUT
@@ -1214,52 +1216,202 @@ VAR_INPUT
 END_VAR
 VAR
     Count : DINT;
-    DataTypesNotEquals : BOOL := FALSE;
-    DataSizeNotEquals : BOOL := FALSE;
-    DataContentNotEquals : BOOL := FALSE;
     ExpectedDataString : STRING(80);
     ActualDataString : STRING(80);
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
+    AnyComparator : FB_AnyComparator;
+
+    boolExpected : BOOL;
+    boolActual : BOOL;
+    byteExpected : BYTE;
+    byteActual : BYTE;
+    dintExpected : DINT;
+    dintActual : DINT;
+    dwordExpected : DWORD;
+    dwordActual : DWORD;
+    intExpected : INT;
+    intActual : INT;
+    lintExpected : LINT;
+    lintActual : LINT;
+    lrealExpected : LREAL;
+    lrealActual : LREAL;
+    lwordExpected : LWORD;
+    lwordActual : LWORD;
+    realExpected : REAL;
+    realActual : REAL;
+    sintExpected : SINT;
+    sintActual : SINT;
+    stringExpected : Tc2_System.T_MaxString;
+    stringActual : Tc2_System.T_MaxString;
+    udintExpected : UDINT;
+    udintActual : UDINT;
+    uintExpected : UINT;
+    uintActual : UINT;
+    ulintExpected : ULINT;
+    ulintActual : ULINT;
+    usintExpected : USINT;
+    usintActual : USINT;
+    wordExpected : WORD;
+    wordActual : WORD;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+        <ST><![CDATA[AnyComparator(AnyValueOne := Expected,
+              AnyValueTwo := Actual);
+
+(* First check whether the input data are any of the standard data types that are supported by TcUnit.
+   In this case call the standard Assert-methods for that data. *)
+IF NOT AnyComparator.DataTypesNotEquals OR NOT AnyComparator.DataSizeNotEquals OR NOT AnyComparator.DataContentNotEquals THEN
+
+    (* BOOL *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_BOOL THEN
+        Tc2_System.MEMCPY(destAddr := ADR(boolExpected), srcAddr := Expected.pValue, n := SIZEOF(BOOL));
+        Tc2_System.MEMCPY(destAddr := ADR(boolActual), srcAddr := Actual.pValue, n := SIZEOF(BOOL));
+        AssertEquals_BOOL(Expected := boolExpected, Actual := boolActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* BYTE *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_BYTE THEN
+        Tc2_System.MEMCPY(destAddr := ADR(byteExpected), srcAddr := Expected.pValue, n := SIZEOF(BYTE));
+        Tc2_System.MEMCPY(destAddr := ADR(byteActual), srcAddr := Actual.pValue, n := SIZEOF(BYTE));
+        AssertEquals_BYTE(Expected := byteExpected, Actual := byteActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* DINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(dintExpected), srcAddr := Expected.pValue, n := SIZEOF(DINT));
+        Tc2_System.MEMCPY(destAddr := ADR(dintActual), srcAddr := Actual.pValue, n := SIZEOF(DINT));
+        AssertEquals_DINT(Expected := dintExpected, Actual := dintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* DWORD *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DWORD THEN
+        Tc2_System.MEMCPY(destAddr := ADR(dwordExpected), srcAddr := Expected.pValue, n := SIZEOF(DWORD));
+        Tc2_System.MEMCPY(destAddr := ADR(dwordActual), srcAddr := Actual.pValue, n := SIZEOF(DWORD));
+        AssertEquals_DWORD(Expected := dwordExpected, Actual := dwordActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* INT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_INT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(intExpected), srcAddr := Expected.pValue, n := SIZEOF(INT));
+        Tc2_System.MEMCPY(destAddr := ADR(intActual), srcAddr := Actual.pValue, n := SIZEOF(INT));
+        AssertEquals_INT(Expected := intExpected, Actual := intActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* LINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(lintExpected), srcAddr := Expected.pValue, n := SIZEOF(LINT));
+        Tc2_System.MEMCPY(destAddr := ADR(lintActual), srcAddr := Actual.pValue, n := SIZEOF(LINT));
+        AssertEquals_LINT(Expected := lintExpected, Actual := lintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* LREAL *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LREAL THEN
+        Tc2_System.MEMCPY(destAddr := ADR(lrealExpected), srcAddr := Expected.pValue, n := SIZEOF(LREAL));
+        Tc2_System.MEMCPY(destAddr := ADR(lrealActual), srcAddr := Actual.pValue, n := SIZEOF(LREAL));
+        AssertEquals_LREAL(Expected := lrealExpected, Actual := lrealActual, Delta := 0.0, Message := Message);
+        RETURN;
+    END_IF
+
+    (* LWORD *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LWORD THEN
+        Tc2_System.MEMCPY(destAddr := ADR(lwordExpected), srcAddr := Expected.pValue, n := SIZEOF(LWORD));
+        Tc2_System.MEMCPY(destAddr := ADR(lwordActual), srcAddr := Actual.pValue, n := SIZEOF(LWORD));
+        AssertEquals_LWORD(Expected := lwordExpected, Actual := lwordActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* REAL *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_REAL THEN
+        Tc2_System.MEMCPY(destAddr := ADR(realExpected), srcAddr := Expected.pValue, n := SIZEOF(REAL));
+        Tc2_System.MEMCPY(destAddr := ADR(realActual), srcAddr := Actual.pValue, n := SIZEOF(REAL));
+        AssertEquals_REAL(Expected := realExpected, Actual := realActual, Delta := 0.0, Message := Message);
+        RETURN;
+    END_IF
+
+    (* SINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_SINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(sintExpected), srcAddr := Expected.pValue, n := SIZEOF(SINT));
+        Tc2_System.MEMCPY(destAddr := ADR(sintActual), srcAddr := Actual.pValue, n := SIZEOF(SINT));
+        AssertEquals_SINT(Expected := sintExpected, Actual := sintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* STRING *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(stringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(stringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        AssertEquals_STRING(Expected := stringExpected, Actual := stringActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* UDINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_UDINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(udintExpected), srcAddr := Expected.pValue, n := SIZEOF(UDINT));
+        Tc2_System.MEMCPY(destAddr := ADR(udintActual), srcAddr := Actual.pValue, n := SIZEOF(UDINT));
+        AssertEquals_UDINT(Expected := udintExpected, Actual := udintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* UINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_UINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(uintExpected), srcAddr := Expected.pValue, n := SIZEOF(UINT));
+        Tc2_System.MEMCPY(destAddr := ADR(uintActual), srcAddr := Actual.pValue, n := SIZEOF(UINT));
+        AssertEquals_UINT(Expected := uintExpected, Actual := uintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* ULINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_ULINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(ulintExpected), srcAddr := Expected.pValue, n := SIZEOF(ULINT));
+        Tc2_System.MEMCPY(destAddr := ADR(ulintActual), srcAddr := Actual.pValue, n := SIZEOF(ULINT));
+        AssertEquals_ULINT(Expected := ulintExpected, Actual := ulintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* USINT *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_USINT THEN
+        Tc2_System.MEMCPY(destAddr := ADR(usintExpected), srcAddr := Expected.pValue, n := SIZEOF(USINT));
+        Tc2_System.MEMCPY(destAddr := ADR(usintActual), srcAddr := Actual.pValue, n := SIZEOF(USINT));
+        AssertEquals_USINT(Expected := usintExpected, Actual := usintActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* WORD *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WORD THEN
+        Tc2_System.MEMCPY(destAddr := ADR(wordExpected), srcAddr := Expected.pValue, n := SIZEOF(WORD));
+        Tc2_System.MEMCPY(destAddr := ADR(wordActual), srcAddr := Actual.pValue, n := SIZEOF(WORD));
+        AssertEquals_WORD(Expected := wordExpected, Actual := wordActual, Message := Message);
+        RETURN;
+    END_IF
+
+END_IF
+
+(* If we've come to this row, it means that the data input is not any of the standard primitive data types, and thus
+   we need to do special handling *)
+IF GVL.IgnoreCurrentTest THEN
     RETURN;
 END_IF
 
 TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
 
-IF Expected.TypeClass <> Actual.TypeClass THEN
-    DataTypesNotEquals := TRUE;
-END_IF
-
-IF NOT DataTypesNotEquals THEN
-    IF (Expected.diSize <> Actual.diSize) THEN
-        DataSizeNotEquals := TRUE;
-    END_IF
-END_IF
-
-IF NOT DataTypesNotEquals AND NOT DataTypesNotEquals THEN
-    // Compare each byte in the ANY-types
-    FOR Count := 0 TO Expected.diSize-1 BY 1 DO
-        IF Expected.pValue[Count] <> Actual.pValue[Count] THEN
-            DataContentNotEquals := TRUE;
-            EXIT;
-        END_IF
-    END_FOR
-END_IF
-
-IF DataTypesNotEquals THEN
+IF AnyComparator.DataTypesNotEquals THEN
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString((Expected.TypeClass)));
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
     ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString(Actual.TypeClass));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
-ELSIF DataSizeNotEquals THEN
+ELSIF AnyComparator.DataSizeNotEquals THEN
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
     ActualDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
-ELSIF DataContentNotEquals THEN
+ELSIF AnyComparator.DataContentNotEquals THEN
     FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
         ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString,
                                                   STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expected.pValue[Count],
@@ -1283,7 +1435,7 @@ AssertResults.ReportResult(Expected := Expected,
                            TestInstancePath := TestInstancePath,
                            AlreadyReported => AlreadyReported);
 
-IF NOT AlreadyReported AND (DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals) THEN
+IF NOT AlreadyReported AND (AnyComparator.DataTypesNotEquals OR AnyComparator.DataSizeNotEquals OR AnyComparator.DataContentNotEquals) THEN
     SetTestFailed();
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
@@ -2223,27 +2375,72 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals">
-      <LineId Id="176" Count="1" />
+      <LineId Id="233" Count="1" />
+      <LineId Id="304" Count="0" />
+      <LineId Id="238" Count="0" />
+      <LineId Id="305" Count="0" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="306" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="244" Count="1" />
+      <LineId Id="247" Count="4" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="264" Count="0" />
+      <LineId Id="266" Count="5" />
+      <LineId Id="265" Count="0" />
+      <LineId Id="295" Count="0" />
+      <LineId Id="297" Count="5" />
+      <LineId Id="296" Count="0" />
+      <LineId Id="307" Count="0" />
+      <LineId Id="309" Count="5" />
+      <LineId Id="308" Count="0" />
+      <LineId Id="315" Count="0" />
+      <LineId Id="317" Count="5" />
+      <LineId Id="316" Count="0" />
+      <LineId Id="389" Count="0" />
+      <LineId Id="391" Count="5" />
+      <LineId Id="390" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="325" Count="5" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="401" Count="5" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="333" Count="5" />
+      <LineId Id="332" Count="0" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="382" Count="5" />
+      <LineId Id="381" Count="0" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="342" Count="5" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="350" Count="5" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="358" Count="5" />
+      <LineId Id="357" Count="0" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="366" Count="5" />
+      <LineId Id="365" Count="0" />
+      <LineId Id="373" Count="6" />
+      <LineId Id="372" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="239" Count="0" />
+      <LineId Id="256" Count="0" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="257" Count="0" />
+      <LineId Id="254" Count="1" />
       <LineId Id="175" Count="0" />
       <LineId Id="178" Count="0" />
       <LineId Id="117" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="64" Count="1" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="71" Count="1" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="20" Count="1" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="24" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="76" Count="0" />
       <LineId Id="78" Count="0" />
