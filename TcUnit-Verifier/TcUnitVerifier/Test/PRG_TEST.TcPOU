@@ -11,6 +11,7 @@ VAR
     CreateDisabledTest : FB_CreateDisabledTest;
     AnyPrimitiveTypes_Test : FB_AnyPrimitiveTypes_Test;
     AssertEveryFailedTestTwice_ArrayVersion : FB_AssertEveryFailedTestTwice_ArrayVersion;
+    AnyToUnionValue_Test : FB_AnyToUnionValue_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>

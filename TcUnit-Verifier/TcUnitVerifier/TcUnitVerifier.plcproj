@@ -26,6 +26,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_AnyToUnionValue_Test.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_ArrayPrimitiveTypes_Test.TcPOU">
       <SubType>Code</SubType>
     </Compile>
