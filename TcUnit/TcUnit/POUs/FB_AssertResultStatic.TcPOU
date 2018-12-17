@@ -55,9 +55,9 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Check if we can find any existing match of the report.
    First check whether we can find the combination of test message and test instance path.
-   If this combination is not found, we know for a fact that this report has not been included before and don't
-   need to continue checking. If however the test message and instance path have been found, we need to check whether
-   both the expected and actual values have been logged for this combination. Only if we have found the total
+   If this combination is not found, we know for a fact that this report has not been included before and thus we
+   need not to continue checking. If however the test message and instance path have been found, we need to check
+   whether both the expected and actual values have been logged for this combination. Only if we have found the total
    combination of:
    - Test message
    - Test instance path
@@ -99,7 +99,9 @@ END_IF]]></ST>
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.ReportResult">
       <LineId Id="67" Count="0" />
-      <LineId Id="260" Count="6" />
+      <LineId Id="260" Count="1" />
+      <LineId Id="286" Count="1" />
+      <LineId Id="264" Count="2" />
       <LineId Id="268" Count="0" />
       <LineId Id="267" Count="0" />
       <LineId Id="269" Count="1" />

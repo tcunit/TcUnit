@@ -1,156 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="F_AnyToUnionValue" Id="{04a97242-7600-4a30-a234-b9e3b1c2770c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
 VAR_INPUT
     AnyValue : ANY;
-END_VAR
-VAR
-    nTempDWORD : DWORD;
-    ptREAL : POINTER TO REAL;
-    nTempLWORD : LWORD;
-    ptLREAL : POINTER TO LREAL;
-    ptTIME : POINTER TO TIME;
-    ptLTIME : POINTER TO LTIME;
-
-    IteratorCounter : DINT;
-    sString : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE UDINT_TO_INT(AnyValue.TypeClass) OF
     IBaseLibrary.TypeClass.TYPE_BOOL :
-        F_AnyToUnionValue.bExpectedOrActual := BYTE_TO_BOOL(AnyValue.pValue[0]);
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.boolExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_BIT :
-        F_AnyToUnionValue.biExpectedOrActual := BYTE_TO_BIT(AnyValue.pValue[0]);
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.bitExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_BYTE :
-        F_AnyToUnionValue.nbExpectedOrActual := AnyValue.pValue[0];
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.byteExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_WORD :
-        F_AnyToUnionValue.nWExpectedOrActual :=
-            (SHL(BYTE_TO_WORD(AnyValue.pValue[1]), 8) OR
-                 BYTE_TO_WORD(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.wordExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_DWORD :
-        F_AnyToUnionValue.nDWExpectedOrActual :=
-            (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
-                         BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
-                         BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
-                         BYTE_TO_DWORD(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dwordExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_LWORD :
-        F_AnyToUnionValue.nLWExpectedOrActual :=
-        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lwordExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_SINT :
-        F_AnyToUnionValue.nSExpectedOrActual := BYTE_TO_SINT(AnyValue.pValue[0]);
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.sintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_INT :
-        F_AnyToUnionValue.nExpectedOrActual := 
-                UINT_TO_INT(SHL(BYTE_TO_UINT(AnyValue.pValue[1]), 8) OR
-                                BYTE_TO_UINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.intExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_DINT :
-        F_AnyToUnionValue.nDExpectedOrActual :=
-            UDINT_TO_DINT(SHL(SHL(SHL(BYTE_TO_UDINT(AnyValue.pValue[3]), 8) OR
-                                      BYTE_TO_UDINT(AnyValue.pValue[2]), 8) OR
-                                      BYTE_TO_UDINT(AnyValue.pValue[1]), 8) OR
-                                      BYTE_TO_UDINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_LINT :
-         F_AnyToUnionValue.nLExpectedOrActual :=
-        ULINT_TO_LINT(SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_ULINT(AnyValue.pValue[7]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[6]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[5]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[4]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[3]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[2]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[1]), 8) OR
-                                                  BYTE_TO_ULINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_USINT :
-        F_AnyToUnionValue.nUSExpectedOrActual := BYTE_TO_USINT(AnyValue.pValue[0]);
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.usintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_UINT :
-        F_AnyToUnionValue.nUExpectedOrActual := 
-                (SHL(BYTE_TO_UINT(AnyValue.pValue[1]), 8) OR
-                     BYTE_TO_UINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.uintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_UDINT :
-        F_AnyToUnionValue.nUDExpectedOrActual :=
-            (SHL(SHL(SHL(BYTE_TO_UDINT(AnyValue.pValue[3]), 8) OR
-                         BYTE_TO_UDINT(AnyValue.pValue[2]), 8) OR
-                         BYTE_TO_UDINT(AnyValue.pValue[1]), 8) OR
-                         BYTE_TO_UDINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.udintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_ULINT :
-        F_AnyToUnionValue.nULExpectedOrActual :=
-        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_ULINT(AnyValue.pValue[7]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[6]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[5]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[4]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[3]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[2]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[1]), 8) OR
-                                     BYTE_TO_ULINT(AnyValue.pValue[0]));
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.ulintExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_REAL :
-        nTempDWORD := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[0]));
-        ptREAL := ADR(nTempDWORD);
-        F_AnyToUnionValue.fExpectedOrActual := ptREAL^;
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.realExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
-        nTempLWORD := 
-        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
-        ptLREAL := ADR(nTempLWORD);
-        F_AnyToUnionValue.fLExpectedOrActual := ptLREAL^;
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lrealExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_STRING :
-        FOR IteratorCounter := 0 TO MIN(AnyValue.diSize - 1, 254) BY 1 DO
-            IF Tc2_System.F_ToCHR(c := AnyValue.pValue[IteratorCounter]) = '$00' THEN
-                EXIT;
-            END_IF
-            sString := Tc2_Standard.CONCAT(STR1 := sString, STR2 := Tc2_System.F_ToCHR(c := AnyValue.pValue[IteratorCounter]));
-        END_FOR
-        F_AnyToUnionValue.sExpectedOrActual := sString;
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.stringExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_WSTRING :
-        (* None *)
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.wstringExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_TIME :
-        nTempDWORD := (SHL(SHL(SHL(BYTE_TO_DWORD(AnyValue.pValue[3]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[2]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[1]), 8) OR
-                                   BYTE_TO_DWORD(AnyValue.pValue[0]));
-        ptTIME := ADR(nTempDWORD);
-        F_AnyToUnionValue.tExpectedOrActual := ptTIME^;
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_DATE :
-        (* None *)
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
-        (* None *)
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateandtimeExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
-        (* None *)
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeofdayExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
         (* None *)
@@ -198,17 +163,9 @@ END_VAR]]></Declaration>
         (* None *)
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
-        nTempLWORD := 
-        (SHL(SHL(SHL(SHL(SHL(SHL(SHL(BYTE_TO_LWORD(AnyValue.pValue[7]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[6]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[5]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[4]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[3]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[2]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[1]), 8) OR
-                                     BYTE_TO_LWORD(AnyValue.pValue[0]));
-        ptLTIME := ADR(nTempLWORD);
-        F_AnyToUnionValue.ltExpectedOrActual := ptLTIME^;
+        Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.ltimeExpectedOrActual),
+                          srcAddr := AnyValue.pValue,
+                          n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         (* None *)
@@ -222,43 +179,62 @@ END_CASE]]></ST>
     </Implementation>
     <LineIds Name="F_AnyToUnionValue">
       <LineId Id="130" Count="0" />
-      <LineId Id="9" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="345" Count="1" />
+      <LineId Id="344" Count="0" />
       <LineId Id="115" Count="0" />
-      <LineId Id="11" Count="32" />
-      <LineId Id="45" Count="4" />
-      <LineId Id="192" Count="3" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="347" Count="1" />
+      <LineId Id="12" Count="2" />
+      <LineId Id="349" Count="1" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="351" Count="1" />
+      <LineId Id="20" Count="2" />
+      <LineId Id="353" Count="1" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="355" Count="1" />
+      <LineId Id="38" Count="2" />
+      <LineId Id="357" Count="1" />
+      <LineId Id="41" Count="2" />
+      <LineId Id="359" Count="1" />
+      <LineId Id="47" Count="2" />
+      <LineId Id="361" Count="1" />
       <LineId Id="191" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="51" Count="0" />
-      <LineId Id="196" Count="7" />
+      <LineId Id="363" Count="1" />
       <LineId Id="52" Count="0" />
-      <LineId Id="132" Count="4" />
-      <LineId Id="205" Count="1" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="365" Count="1" />
+      <LineId Id="134" Count="2" />
+      <LineId Id="367" Count="1" />
       <LineId Id="204" Count="0" />
       <LineId Id="138" Count="1" />
-      <LineId Id="207" Count="3" />
+      <LineId Id="369" Count="1" />
       <LineId Id="140" Count="2" />
-      <LineId Id="211" Count="7" />
+      <LineId Id="371" Count="1" />
       <LineId Id="143" Count="2" />
-      <LineId Id="222" Count="2" />
-      <LineId Id="146" Count="0" />
-      <LineId Id="228" Count="1" />
+      <LineId Id="378" Count="1" />
+      <LineId Id="229" Count="0" />
       <LineId Id="147" Count="1" />
-      <LineId Id="243" Count="0" />
-      <LineId Id="236" Count="6" />
-      <LineId Id="235" Count="0" />
-      <LineId Id="247" Count="0" />
+      <LineId Id="380" Count="1" />
       <LineId Id="244" Count="0" />
       <LineId Id="227" Count="0" />
-      <LineId Id="151" Count="1" />
-      <LineId Id="281" Count="2" />
-      <LineId Id="263" Count="1" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="382" Count="1" />
       <LineId Id="266" Count="0" />
-      <LineId Id="153" Count="4" />
-      <LineId Id="297" Count="2" />
-      <LineId Id="158" Count="0" />
-      <LineId Id="300" Count="1" />
-      <LineId Id="159" Count="10" />
+      <LineId Id="153" Count="2" />
+      <LineId Id="327" Count="1" />
+      <LineId Id="156" Count="1" />
+      <LineId Id="384" Count="1" />
+      <LineId Id="301" Count="0" />
+      <LineId Id="159" Count="1" />
+      <LineId Id="329" Count="1" />
+      <LineId Id="161" Count="2" />
+      <LineId Id="331" Count="1" />
+      <LineId Id="164" Count="1" />
+      <LineId Id="341" Count="2" />
+      <LineId Id="167" Count="2" />
       <LineId Id="78" Count="0" />
       <LineId Id="170" Count="0" />
       <LineId Id="79" Count="1" />
@@ -290,7 +266,7 @@ END_CASE]]></ST>
       <LineId Id="105" Count="1" />
       <LineId Id="184" Count="0" />
       <LineId Id="107" Count="0" />
-      <LineId Id="302" Count="9" />
+      <LineId Id="386" Count="1" />
       <LineId Id="108" Count="0" />
       <LineId Id="185" Count="0" />
       <LineId Id="109" Count="1" />
