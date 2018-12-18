@@ -13,9 +13,11 @@ END_VAR]]></Declaration>
                           n := DINT_TO_UDINT(AnyValue.diSize));
 
     IBaseLibrary.TypeClass.TYPE_BIT :
+        {warning disable C0355}
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.bitExpectedOrActual),
                           srcAddr := AnyValue.pValue,
                           n := DINT_TO_UDINT(AnyValue.diSize));
+        {warning enable C0355}
 
     IBaseLibrary.TypeClass.TYPE_BYTE :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.byteExpectedOrActual),
@@ -184,8 +186,11 @@ END_CASE]]></ST>
       <LineId Id="344" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="11" Count="0" />
+      <LineId Id="391" Count="0" />
       <LineId Id="347" Count="1" />
-      <LineId Id="12" Count="2" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="392" Count="0" />
+      <LineId Id="14" Count="0" />
       <LineId Id="349" Count="1" />
       <LineId Id="15" Count="2" />
       <LineId Id="351" Count="1" />
