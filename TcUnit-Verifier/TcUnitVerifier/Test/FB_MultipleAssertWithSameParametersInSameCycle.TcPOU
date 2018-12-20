@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="FB_MultipleAssertWithSameParametersInSameCycle" Id="{9957a11f-d554-4b5d-be35-f56d53aab4f2}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This test-suite runs several asserts with the same parameters (same expected, actual, message) in the same cycle.
+    The reason we want the framework to support this is that theoretically the user could want to do an assert with the
+    same message, in the same test, with the same data values for both expected and actual, although the data that the
+    user does the assert on might be from different data sets.
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycle EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Assert_SeveralTimes" Id="{cd07d59b-c5ef-4bab-a334-9a8ba622ccca}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimes
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SeveralTimes');
+
+Assert.AssertEquals_DWORD(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{efb41198-520b-42d0-bc0b-dbcbcf350121}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{77cf1a7c-08aa-49c0-bcbe-1902ef9f2ce2}">
+      <Declaration><![CDATA[METHOD PUBLIC RunTests : TCUNIT.E_TestSuiteRunState]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Assert_SeveralTimes();
+
+RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.Assert_SeveralTimes">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.RunTests">
+      <LineId Id="5" Count="1" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
