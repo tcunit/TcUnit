@@ -8,7 +8,7 @@
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
 VAR
-    AssertResults : FB_AssertResultStatic := GVL.AssertResultStatic;
+    AssertResults : FB_AssertResultStatic;// := GVL.AssertResultStatic;
 
     (* Prints the failed asserts to ADS so that Visual Studio can display the assert message.
        This assert formatter can be replaced with something else than ADS *)

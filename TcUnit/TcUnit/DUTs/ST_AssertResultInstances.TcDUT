@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <DUT Name="ST_AssertResultInstances" Id="{018c91ab-7038-42ef-b6e4-5007ea06204f}">
+    <Declaration><![CDATA[TYPE ST_AssertResultInstances :
+STRUCT
+    AssertResult : ST_AssertResult;
+    DetectionCount : UINT; // Amount of instances of the "AssertResult"
+    DetectionCountThisCycle : UINT; // Amount of instance of the "AssertResult" in this specific PLC-cycle
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -52,6 +52,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="DUTs\ST_AssertResult.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_AssertResultInstances.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\U_ExpectedOrActual.TcDUT">
       <SubType>Code</SubType>
     </Compile>

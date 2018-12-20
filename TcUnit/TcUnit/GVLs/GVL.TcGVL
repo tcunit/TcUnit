@@ -4,7 +4,7 @@
     <Declaration><![CDATA[{attribute 'no_assign'}
 {attribute 'qualified_only'}
 VAR_GLOBAL
-    AssertResultStatic : FB_AssertResultStatic;
+    //AssertResultStatic : FB_AssertResultStatic;
     TcUnitRunner : FB_TcUnitRunner;
 
     (* Indication of whether the last instantiated test suite has an assert instance created *)
