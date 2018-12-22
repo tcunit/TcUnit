@@ -15,14 +15,17 @@ VAR
     (* The total amount of instances of each of the "AssertResults" *)
     AssertResultInstances : ARRAY[1..GVL_Constants.MaxAmountOfAsserts] OF ST_AssertResultInstances;
 
-    (* The last PLC cycle *)
+    (* The last PLC cycle count *)
     CycleCount : UDINT;
+
+    (* Only run first cycle *)
+    FirstCycleExecuted : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="AddAssert" Id="{22afb213-95b2-4bfd-ada6-e7cf020d9c1d}">
-      <Declaration><![CDATA[METHOD PRIVATE AddAssert
+    <Method Name="AddAssertResult" Id="{22afb213-95b2-4bfd-ada6-e7cf020d9c1d}">
+      <Declaration><![CDATA[METHOD PRIVATE AddAssertResult
 VAR_INPUT
     Expected : ANY;
     Actual : ANY;
@@ -35,9 +38,7 @@ END_VAR
 AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnyValue := Expected);
 AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnyValue := Actual);
 AssertResults[TotalAsserts].Message := Message;
-AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;
-CreateAssertResultInstance(Expected := Expected, Actual := Actual, 
-                           Message := Message, TestInstancePath := TestInstancePath);]]></ST>
+AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;]]></ST>
       </Implementation>
     </Method>
     <Method Name="CopyDetectionCountAndResetDetectionCountInThisCycle" Id="{a8cc95e0-191e-40c8-a6bc-8d58d9231bfa}">
@@ -65,7 +66,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants.MaxAmountOfAsserts BY 1 DO
-    IF AssertResultInstances[IteratorCounter].DetectionCount = 0 THEN
+    IF AssertResultInstances[IteratorCounter].DetectionCount = 0 THEN // Find first free spot
         AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnyValue := Expected);
         AssertResultInstances[IteratorCounter].AssertResult.Actual := F_AnyToUnionValue(AnyValue := Actual);
         AssertResultInstances[IteratorCounter].AssertResult.Message := Message;
@@ -94,7 +95,7 @@ END_VAR]]></Declaration>
         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
                                  ExpectedOrActual := Actual) AND
         AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
-        AssertResultInstances[IteratorCounter].AssertResult.Message = TestInstancePath THEN
+        AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
         GetDetectionCount := AssertResultInstances[IteratorCounter].DetectionCount;
 	END_IF
 END_FOR]]></ST>
@@ -142,8 +143,9 @@ END_VAR]]></Declaration>
         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
                                  ExpectedOrActual := Actual) AND
         AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
-        AssertResultInstances[IteratorCounter].AssertResult.Message = TestInstancePath THEN
-        AssertResultInstances[IteratorCounter].DetectionCountThisCycle := AssertResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
+        AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
+        AssertResultInstances[IteratorCounter].DetectionCountThisCycle :=
+            AssertResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
 	END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -198,44 +200,45 @@ VAR
     AdditionalIdenticalAssert : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCurrentTaskIndex();
+        <ST><![CDATA[IF NOT FirstCycleExecuted THEN
+    GetCurrentTaskIndex();
+    FirstCycleExecuted := TRUE;
+END_IF
+
 CurrentCycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
-(* Is current cycle the same as the last call to this method? 
+(* Is current cycle the same as the last call to this method?
    If not, reset the detection count *)
 IF CurrentCycleCount <> CycleCount THEN
     CopyDetectionCountAndResetDetectionCountInThisCycle();
 END_IF
 
-IF TotalAsserts > 0 THEN
-    FOR IteratorCounter := 1 TO TotalAsserts BY 1 DO
-        IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResults[IteratorCounter].Expected,
-                                    ExpectedOrActual := Expected) AND
-           F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResults[IteratorCounter].Actual,
-                                    ExpectedOrActual := Actual) AND
-           AssertResults[IteratorCounter].Message = Message AND
-           AssertResults[IteratorCounter].TestInstancePath = TestInstancePath THEN
-                FoundOne := TRUE;
-                DetectionCountTemp := DetectionCountTemp + 1;
-                IF DetectionCountTemp > GetDetectionCount(Expected, Actual, Message, TestInstancePath) THEN
-                    // We've have a new assert. We need not to go further
-                    AdditionalIdenticalAssert := TRUE;
-                    EXIT;
-				END_IF
+FOR IteratorCounter := 1 TO TotalAsserts BY 1 DO
+    IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
+                                ExpectedOrActual := Expected) AND
+       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+                                ExpectedOrActual := Actual) AND
+        AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
+        AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
+        AssertResultInstances[IteratorCounter].DetectionCountThisCycle :=
+            AssertResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
+            FoundOne := TRUE;
+        IF AssertResultInstances[IteratorCounter].DetectionCountThisCycle >
+                AssertResultInstances[IteratorCounter].DetectionCount THEN // This assert is new
+                AdditionalIdenticalAssert := TRUE;
         END_IF
-    END_FOR
-END_IF
+        EXIT;
+    END_IF
+END_FOR
 
 (* If not found anything, create the first *)
 IF NOT FoundOne THEN
     (* No existing match found, create a new entry *)
-    AddAssert(Expected, Actual, Message, TestInstancePath);
+    AddAssertResult(Expected, Actual, Message, TestInstancePath);
     CreateAssertResultInstance(Expected := Expected, Actual := Actual, 
                                Message := Message, TestInstancePath := TestInstancePath);
-
 (* An additional instance of this assert needs to be created *)
 ELSIF AdditionalIdenticalAssert THEN
-    AddAssert(Expected, Actual, Message, TestInstancePath);
-    IncreaseDetectionCountThisCycleByOne(Expected, Actual, Message, TestInstancePath);
+    AddAssertResult(Expected, Actual, Message, TestInstancePath);
 (* In all other cases, this assert has already been reported, we don't need to do anything *)
 ELSE
     AlreadyReported := TRUE;
@@ -248,9 +251,8 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
     <LineIds Name="FB_AssertResultStatic">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AssertResultStatic.AddAssert">
-      <LineId Id="11" Count="5" />
-      <LineId Id="5" Count="0" />
+    <LineIds Name="FB_AssertResultStatic.AddAssertResult">
+      <LineId Id="11" Count="4" />
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.CopyDetectionCountAndResetDetectionCountInThisCycle">
       <LineId Id="5" Count="0" />
@@ -291,43 +293,38 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="24" Count="1" />
+      <LineId Id="48" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.ReportResult">
+      <LineId Id="562" Count="0" />
       <LineId Id="464" Count="0" />
+      <LineId Id="564" Count="0" />
+      <LineId Id="563" Count="0" />
+      <LineId Id="561" Count="0" />
       <LineId Id="338" Count="0" />
       <LineId Id="343" Count="1" />
       <LineId Id="340" Count="2" />
+      <LineId Id="613" Count="0" />
       <LineId Id="398" Count="0" />
-      <LineId Id="393" Count="0" />
-      <LineId Id="390" Count="0" />
-      <LineId Id="396" Count="0" />
-      <LineId Id="400" Count="0" />
-      <LineId Id="403" Count="0" />
-      <LineId Id="402" Count="0" />
-      <LineId Id="404" Count="1" />
-      <LineId Id="412" Count="0" />
-      <LineId Id="437" Count="0" />
-      <LineId Id="436" Count="0" />
-      <LineId Id="438" Count="0" />
-      <LineId Id="440" Count="0" />
-      <LineId Id="442" Count="0" />
-      <LineId Id="448" Count="0" />
-      <LineId Id="423" Count="0" />
-      <LineId Id="397" Count="0" />
-      <LineId Id="424" Count="0" />
+      <LineId Id="614" Count="0" />
+      <LineId Id="616" Count="2" />
+      <LineId Id="666" Count="1" />
+      <LineId Id="670" Count="4" />
+      <LineId Id="677" Count="0" />
+      <LineId Id="675" Count="1" />
+      <LineId Id="669" Count="0" />
+      <LineId Id="615" Count="0" />
       <LineId Id="426" Count="0" />
       <LineId Id="425" Count="0" />
       <LineId Id="413" Count="0" />
       <LineId Id="416" Count="0" />
       <LineId Id="414" Count="0" />
       <LineId Id="434" Count="1" />
-      <LineId Id="454" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="458" Count="0" />
-      <LineId Id="513" Count="0" />
       <LineId Id="463" Count="0" />
       <LineId Id="461" Count="1" />
       <LineId Id="451" Count="0" />
