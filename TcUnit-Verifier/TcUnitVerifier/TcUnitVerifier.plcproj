@@ -44,7 +44,13 @@
     <Compile Include="Test\FB_CreateDisabledTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_MultipleAssertWithSameParametersInSameCycle.TcPOU">
+    <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_PrimitiveTypes_Test.TcPOU">

@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
-  <POU Name="FB_MultipleAssertWithSameParametersInSameCycle" Id="{9957a11f-d554-4b5d-be35-f56d53aab4f2}" SpecialFunc="None">
+  <POU Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest" Id="{9957a11f-d554-4b5d-be35-f56d53aab4f2}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-    This test-suite runs several asserts with the same parameters (same expected, actual, message) in the same cycle.
+    This test-suite runs several asserts with the same parameters (same expected, actual, message) in the same cycle
+    and in the same test.
     The reason we want the framework to support this is that theoretically the user could want to do an assert with the
     same message, in the same test, with the same data values for both expected and actual, although the data that the
     user does the assert on might be from different data sets.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycle EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycleWithSameTest EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
 VAR
     Assert : TcUnit.FB_Assert;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -21,6 +21,12 @@ END_VAR
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
+    
+    c : DWORD := 16#12345678;
+    d : DWORD := 16#90ABCDEF;
+    
+    e : DWORD := 16#12345678;
+    f : DWORD := 16#90ABCDEF;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Assert_SeveralTimes');
@@ -29,8 +35,12 @@ Assert.AssertEquals_DWORD(Expected := a,
                           Actual := b,
                           Message := 'Values differ');
 
-Assert.AssertEquals_DWORD(Expected := a,
-                          Actual := b,
+Assert.AssertEquals_DWORD(Expected := c,
+                          Actual := d,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := e,
+                          Actual := f,
                           Message := 'Values differ');]]></ST>
       </Implementation>
     </Method>
@@ -53,21 +63,23 @@ END_VAR
 RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle">
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.Assert_SeveralTimes">
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.Assert_SeveralTimes">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
       <LineId Id="18" Count="2" />
       <LineId Id="13" Count="0" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="25" Count="0" />
     </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.FB_init">
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.FB_init">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycle.RunTests">
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.RunTests">
       <LineId Id="5" Count="1" />
       <LineId Id="4" Count="0" />
     </LineIds>

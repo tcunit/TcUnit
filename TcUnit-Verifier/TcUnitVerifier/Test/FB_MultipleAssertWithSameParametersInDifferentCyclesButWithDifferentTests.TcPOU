@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests" Id="{0b8cb81e-eae8-42e4-b5ff-552a60654ab4}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This test-suite runs several asserts with the same parameters (same expected, actual, message), calling the asserts
+    in different cycles and using different tests.
+    On top of this, we will call new asserts (though with same parameters) in later cycles.
+    The reason we want the framework to support this is that theoretically the user could want to do an assert with the
+    same message, in different tests, with the same data values for both expected and actual, although the data that the
+    user does the assert on might be from different data sets.
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+VAR
+    Assert : TcUnit.FB_Assert;
+    TimerAgain : Tc2_Standard.TON := (PT := T#1S); // Timer to call "AssertSeveralTimesAgain"
+    TimerAgainAgain : Tc2_Standard.TON := (PT := T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
+    CalledAll : BOOL; // Indication of whether we've called all tests
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Assert_SeveralTimes" Id="{5aa8b452-9e18-4334-94e6-939c93281b5b}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimes
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+
+    c : DWORD := 16#12345678;
+    d : DWORD := 16#90ABCDEF;
+
+    e : DWORD := 16#12345678;
+    f : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SeveralTimes');
+
+Assert.AssertEquals_DWORD(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := c,
+                          Actual := d,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := e,
+                          Actual := f,
+                          Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assert_SeveralTimesAgain" Id="{7d562c97-c3cc-4d37-92fc-9c428ab6a443}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimesAgain
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+
+    c : DWORD := 16#12345678;
+    d : DWORD := 16#90ABCDEF;
+
+    e : DWORD := 16#12345678;
+    f : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SeveralTimesAgain');
+
+Assert.AssertEquals_DWORD(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := c,
+                          Actual := d,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := e,
+                          Actual := f,
+                          Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assert_SeveralTimesAgainAgain" Id="{13865f28-fa53-4b31-8e3e-fc9c2f3580da}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimesAgainAgain
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+
+    c : DWORD := 16#12345678;
+    d : DWORD := 16#90ABCDEF;
+
+    e : DWORD := 16#12345678;
+    f : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SeveralTimesAgainAgain');
+
+Assert.AssertEquals_DWORD(Expected := a,
+                          Actual := b,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := c,
+                          Actual := d,
+                          Message := 'Values differ');
+
+Assert.AssertEquals_DWORD(Expected := e,
+                          Actual := f,
+                          Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{3a983e3f-1bac-46b3-9873-762ccc3f6c32}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RunTests" Id="{323fe6d3-9a33-4696-a48f-6369801d9a03}">
+      <Declaration><![CDATA[METHOD PUBLIC RunTests : TCUNIT.E_TestSuiteRunState]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TimerAgain(IN := TRUE);
+
+Assert_SeveralTimes();
+
+IF TimerAgain.Q THEN
+    TimerAgainAgain(IN := TRUE);
+    Assert_SeveralTimesAgain();
+END_IF
+
+IF TimerAgainAgain.Q THEN
+    Assert_SeveralTimesAgainAgain();
+    CalledAll := TRUE;
+END_IF
+
+IF CalledAll THEN
+    RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimes">
+      <LineId Id="32" Count="11" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimesAgain">
+      <LineId Id="32" Count="11" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimesAgainAgain">
+      <LineId Id="32" Count="11" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.RunTests">
+      <LineId Id="22" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
