@@ -82,7 +82,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TwiceAssertCall_Arrays');
-                    
+
 Assert.AssertArrayEquals_BOOL(Expecteds := aBOOL,
                               Actuals := bBOOL,
                               Message := 'Not equal BOOL');
@@ -157,8 +157,9 @@ Assert.AssertArrayEquals_WORD(Expecteds := aWORD,
       <LineId Id="24" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="32" Count="1" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="49" Count="2" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="50" Count="1" />
       <LineId Id="48" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="94" Count="1" />
