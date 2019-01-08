@@ -8,7 +8,8 @@
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_Assert
 VAR
-    AssertResults : FB_AssertResultStatic;// := GVL.AssertResultStatic;
+    AssertResults : FB_AssertResultStatic;
+    AssertArrayResult : FB_AssertArrayResultStatic;
 
     (* Prints the failed asserts to ADS so that Visual Studio can display the assert message.
        This assert formatter can be replaced with something else than ADS *)
@@ -84,11 +85,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_BOOL,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_BOOL,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -173,11 +176,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_BYTE,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_BYTE,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -268,11 +273,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_DINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_DINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -357,11 +364,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_DWORD,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_DWORD,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -452,11 +461,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_INT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_INT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -539,11 +550,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_LINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_LINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -628,11 +641,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_LWORD,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_LWORD,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -723,11 +738,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_SINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_SINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -810,11 +827,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_UDINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_UDINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -897,11 +916,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_UINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_UINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -984,11 +1005,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_ULINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_ULINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -1071,11 +1094,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_USINT,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_USINT,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -1160,11 +1185,13 @@ ELSE
 	END_FOR
 END_IF
 
-AssertResults.ReportResult(Expected := Expecteds,
-                           Actual := Actuals,
-                           Message := Message,
-                           TestInstancePath := TestInstancePath,
-                           AlreadyReported => AlreadyReported);
+AssertArrayResult.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
+                               ExpectedsTypeClass := IBaseLibrary.TypeClass.TYPE_WORD,
+                               ActualsSize := DINT_TO_UDINT(SizeOfActuals),
+                               ActualsTypeClass := IBaseLibrary.TypeClass.TYPE_WORD,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
@@ -2149,7 +2176,13 @@ END_FOR]]></ST>
     <LineIds Name="FB_Assert.AssertArrayEquals_BOOL">
       <LineId Id="243" Count="3" />
       <LineId Id="199" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="270" Count="0" />
+      <LineId Id="272" Count="2" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="275" Count="1" />
+      <LineId Id="109" Count="5" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2161,7 +2194,10 @@ END_FOR]]></ST>
       <LineId Id="262" Count="0" />
       <LineId Id="265" Count="0" />
       <LineId Id="216" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="294" Count="6" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="109" Count="5" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2179,7 +2215,10 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="283" Count="6" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="109" Count="5" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2206,7 +2245,9 @@ END_FOR]]></ST>
       <LineId Id="228" Count="0" />
       <LineId Id="230" Count="0" />
       <LineId Id="229" Count="0" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="289" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2224,7 +2265,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2237,7 +2280,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2264,7 +2309,9 @@ END_FOR]]></ST>
       <LineId Id="228" Count="0" />
       <LineId Id="230" Count="0" />
       <LineId Id="229" Count="0" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="289" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2282,7 +2329,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2295,7 +2344,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2308,7 +2359,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2321,7 +2374,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2334,7 +2389,9 @@ END_FOR]]></ST>
       <LineId Id="256" Count="0" />
       <LineId Id="259" Count="0" />
       <LineId Id="212" Count="20" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="283" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -2361,7 +2418,9 @@ END_FOR]]></ST>
       <LineId Id="228" Count="0" />
       <LineId Id="230" Count="0" />
       <LineId Id="229" Count="0" />
-      <LineId Id="102" Count="12" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="289" Count="5" />
+      <LineId Id="108" Count="6" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />

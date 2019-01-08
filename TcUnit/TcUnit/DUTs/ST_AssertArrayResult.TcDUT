@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <DUT Name="ST_AssertArrayResult" Id="{a97be192-7eab-4934-bf94-f1c1e71902f6}">
+    <Declaration><![CDATA[TYPE ST_AssertArrayResult :
+STRUCT
+    ExpectedsSize : UDINT; // Size in bytes of the expecteds-array
+    ExpectedsTypeClass : IBaseLibrary.TypeClass; // The data type of the expecteds-array
+    ActualsSize : UDINT; // Size in bytes of the actuals-array
+    ActualsTypeClass : IBaseLibrary.TypeClass; // The data type of the actuals-array
+    Message : Tc2_System.T_MaxString;
+    TestInstancePath : Tc2_System.T_MaxString;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

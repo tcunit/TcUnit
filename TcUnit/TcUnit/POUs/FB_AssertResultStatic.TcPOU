@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_AssertResultStatic
+    <Declaration><![CDATA[(*
+    This function block is responsible for keeping track of which asserts that have been made. The reason we need to
+    keep track of these is because if the user does the same assert twice (because of running a test suite over several
+    PLC-cycles) we want to know it so we don't print several times (if the assert fails).
+    An instance of an assert is keyed/identified with the following parameters as key:
+    - Value of expected
+    - Value of actual
+    - Message (string)
+    - Test instance path (string)
+*)
+FUNCTION_BLOCK FB_AssertResultStatic
 VAR
     (* The total amount of instances of each of the "AssertResults" *)
     AssertResults : ARRAY[1..GVL_Constants.MaxAmountOfAsserts] OF ST_AssertResult;
@@ -66,7 +76,8 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants.MaxAmountOfAsserts BY 1 DO
-    IF AssertResultInstances[IteratorCounter].DetectionCount = 0 THEN // Find first free spot
+    IF AssertResultInstances[IteratorCounter].DetectionCount = 0 AND
+        AssertResultInstances[IteratorCounter].DetectionCountThisCycle = 0 THEN // Find first free spot
         AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnyValue := Expected);
         AssertResultInstances[IteratorCounter].AssertResult.Actual := F_AnyToUnionValue(AnyValue := Actual);
         AssertResultInstances[IteratorCounter].AssertResult.Message := Message;
@@ -263,6 +274,7 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
     <LineIds Name="FB_AssertResultStatic.CreateAssertResultInstance">
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
+      <LineId Id="35" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="21" Count="1" />
