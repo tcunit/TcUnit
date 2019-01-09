@@ -19,12 +19,17 @@ VAR_OUTPUT
 END_VAR
 VAR
     IteratorCounter : DINT;
+    jakob1 : __SYSTEM.TYPE_CLASS;
+    jakob2 : __SYSTEM.TYPE_CLASS;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Reset the outputs *)
 DataTypesNotEquals := FALSE;
 DataSizeNotEquals := FALSE;
 DataContentNotEquals := FALSE;
+
+jakob1 := AnyValueOne.TypeClass;
+jakob2 := AnyValueTwo.TypeClass;
 
 (* Check whether the type of the inputs differs *)
 IF AnyValueOne.TypeClass <> AnyValueTwo.TypeClass THEN
@@ -51,7 +56,11 @@ END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_AnyComparator">
       <LineId Id="127" Count="0" />
-      <LineId Id="123" Count="3" />
+      <LineId Id="123" Count="2" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="149" Count="0" />
       <LineId Id="95" Count="0" />
       <LineId Id="13" Count="2" />
       <LineId Id="96" Count="0" />
