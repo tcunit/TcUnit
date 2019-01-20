@@ -1279,6 +1279,10 @@ VAR
     boolActual : BOOL;
     byteExpected : BYTE;
     byteActual : BYTE;
+    dateExpected : DATE;
+    dateActual : DATE;
+    dateAndTimeExpected : DATE_AND_TIME;
+    dateAndTimeActual : DATE_AND_TIME;
     dintExpected : DINT;
     dintActual : DINT;
     dwordExpected : DWORD;
@@ -1289,6 +1293,8 @@ VAR
     lintActual : LINT;
     lrealExpected : LREAL;
     lrealActual : LREAL;
+    ltimeExpected : LTIME;
+    ltimeActual : LTIME;
     lwordExpected : LWORD;
     lwordActual : LWORD;
     realExpected : REAL;
@@ -1297,6 +1303,10 @@ VAR
     sintActual : SINT;
     stringExpected : Tc2_System.T_MaxString;
     stringActual : Tc2_System.T_MaxString;
+    timeExpected : TIME;
+    timeActual : TIME;
+    timeOfDayExpected : TIME_OF_DAY;
+    timeOfDayActual : TIME_OF_DAY;
     udintExpected : UDINT;
     udintActual : UDINT;
     uintExpected : UINT;
@@ -1340,6 +1350,22 @@ IF NOT AnyComparator.DataTypesNotEquals AND NOT AnyComparator.DataSizeNotEquals 
         RETURN;
     END_IF
 
+    (* DATE *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DATE THEN
+        Tc2_System.MEMCPY(destAddr := ADR(dateExpected), srcAddr := Expected.pValue, n := SIZEOF(DATE));
+        Tc2_System.MEMCPY(destAddr := ADR(dateActual), srcAddr := Actual.pValue, n := SIZEOF(DATE));
+        AssertEquals_DATE(Expected := dateExpected, Actual := dateActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* DATE_AND_TIME *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DATEANDTIME THEN
+        Tc2_System.MEMCPY(destAddr := ADR(dateAndTimeExpected), srcAddr := Expected.pValue, n := SIZEOF(DATE_AND_TIME));
+        Tc2_System.MEMCPY(destAddr := ADR(dateAndTimeActual), srcAddr := Actual.pValue, n := SIZEOF(DATE_AND_TIME));
+        AssertEquals_DATE_AND_TIME(Expected := dateAndTimeExpected, Actual := dateAndTimeActual, Message := Message);
+        RETURN;
+    END_IF
+
     (* DINT *)
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DINT THEN
         Tc2_System.MEMCPY(destAddr := ADR(dintExpected), srcAddr := Expected.pValue, n := SIZEOF(DINT));
@@ -1380,6 +1406,14 @@ IF NOT AnyComparator.DataTypesNotEquals AND NOT AnyComparator.DataSizeNotEquals 
         RETURN;
     END_IF
 
+    (* LTIME *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LTIME THEN
+        Tc2_System.MEMCPY(destAddr := ADR(ltimeExpected), srcAddr := Expected.pValue, n := SIZEOF(LTIME));
+        Tc2_System.MEMCPY(destAddr := ADR(ltimeActual), srcAddr := Actual.pValue, n := SIZEOF(LTIME));
+        AssertEquals_LTIME(Expected := ltimeExpected, Actual := ltimeActual, Message := Message);
+        RETURN;
+    END_IF
+
     (* LWORD *)
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LWORD THEN
         Tc2_System.MEMCPY(destAddr := ADR(lwordExpected), srcAddr := Expected.pValue, n := SIZEOF(LWORD));
@@ -1409,6 +1443,22 @@ IF NOT AnyComparator.DataTypesNotEquals AND NOT AnyComparator.DataSizeNotEquals 
         Tc2_System.MEMCPY(destAddr := ADR(stringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
         Tc2_System.MEMCPY(destAddr := ADR(stringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
         AssertEquals_STRING(Expected := stringExpected, Actual := stringActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* TIME *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_TIME THEN
+        Tc2_System.MEMCPY(destAddr := ADR(timeExpected), srcAddr := Expected.pValue, n := SIZEOF(TIME));
+        Tc2_System.MEMCPY(destAddr := ADR(timeActual), srcAddr := Actual.pValue, n := SIZEOF(TIME));
+        AssertEquals_TIME(Expected := timeExpected, Actual := timeActual, Message := Message);
+        RETURN;
+    END_IF
+
+    (* TIME_OF_DAY *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_TIMEOFDAY THEN
+        Tc2_System.MEMCPY(destAddr := ADR(timeOfDayExpected), srcAddr := Expected.pValue, n := SIZEOF(TIME_OF_DAY));
+        Tc2_System.MEMCPY(destAddr := ADR(timeOfDayActual), srcAddr := Actual.pValue, n := SIZEOF(TIME_OF_DAY));
+        AssertEquals_TIME_OF_DAY(Expected := timeOfDayExpected, Actual := timeOfDayActual, Message := Message);
         RETURN;
     END_IF
 
@@ -1585,6 +1635,84 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
                                                        STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actual,
                                                                                             iPrecision := 2,
                                                                                             bLoCase := FALSE)),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertEquals_DATE" Id="{1645ab79-f969-41aa-a170-f589a5757e7f}">
+      <Declaration><![CDATA[(*
+    Asserts that two DATEs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_DATE
+VAR_INPUT
+    Expected : DATE; // DATE expected value
+    Actual : DATE; // DATE actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+IF Expected <> Actual THEN
+    AssertResults.ReportResult(Expected := Expected,
+                               Actual := Actual,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
+END_IF
+
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    AssertMessageFormatter.LogAssertFailure(Expected := DATE_TO_STRING(Expected),
+                                            Actual := DATE_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertEquals_DATE_AND_TIME" Id="{42befc01-2199-49e2-b7ef-cf909b8890f9}">
+      <Declaration><![CDATA[(*
+    Asserts that two DATE_AND_TIMEs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_DATE_AND_TIME
+VAR_INPUT
+    Expected : DATE_AND_TIME; // DATE_AND_TIME expected value
+    Actual : DATE_AND_TIME; // DATE_AND_TIME actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+IF Expected <> Actual THEN
+    AssertResults.ReportResult(Expected := Expected,
+                               Actual := Actual,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
+END_IF
+
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    AssertMessageFormatter.LogAssertFailure(Expected := DT_TO_STRING(Expected),
+                                            Actual := DT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
 END_IF]]></ST>
@@ -1794,6 +1922,45 @@ IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="AssertEquals_LTIME" Id="{05ea6378-c553-40a9-9e6b-8f3736f63098}">
+      <Declaration><![CDATA[(*
+    Asserts that two LTIMEs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_LTIME
+VAR_INPUT
+    Expected : LTIME; // LTIME expected value
+    Actual : LTIME; // LTIME actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+IF Expected <> Actual THEN
+    AssertResults.ReportResult(Expected := Expected,
+                               Actual := Actual,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
+END_IF
+
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    AssertMessageFormatter.LogAssertFailure(Expected := LTIME_TO_STRING(Expected),
+                                            Actual := LTIME_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="AssertEquals_LWORD" Id="{08b090fb-911b-49fa-a51a-7f5edfd3dd2c}">
       <Declaration><![CDATA[(*
     Asserts that two LWORDs are equal. If they are not, an assertion error is created.
@@ -1954,6 +2121,84 @@ IF NOT AlreadyReported AND (Tc2_Standard.LEN(STR := Expected) <> Tc2_Standard.LE
 
     AssertMessageFormatter.LogAssertFailure(Expected := Expected,
                                             Actual := Actual,
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertEquals_TIME" Id="{717a0cdd-16a7-4f45-90f3-f5700dba9369}">
+      <Declaration><![CDATA[(*
+    Asserts that two TIMEs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_TIME
+VAR_INPUT
+    Expected : TIME; // TIME expected value
+    Actual : TIME; // TIME actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+IF Expected <> Actual THEN
+    AssertResults.ReportResult(Expected := Expected,
+                               Actual := Actual,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
+END_IF
+
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    AssertMessageFormatter.LogAssertFailure(Expected := TIME_TO_STRING(Expected),
+                                            Actual := TIME_TO_STRING(Actual),
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AssertEquals_TIME_OF_DAY" Id="{d892dd01-3d32-4eb1-9f95-980dff16616c}">
+      <Declaration><![CDATA[(*
+    Asserts that two TIME_OF_DAYs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_TIME_OF_DAY
+VAR_INPUT
+    Expected : TIME_OF_DAY; // TIME_OF_DAY expected value
+    Actual : TIME_OF_DAY; // TIME_OF_DAY actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL.IgnoreCurrentTest THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+IF Expected <> Actual THEN
+    AssertResults.ReportResult(Expected := Expected,
+                               Actual := Actual,
+                               Message := Message,
+                               TestInstancePath := TestInstancePath,
+                               AlreadyReported => AlreadyReported);
+END_IF
+
+IF NOT AlreadyReported AND Expected <> Actual THEN
+    SetTestFailed();
+
+    AssertMessageFormatter.LogAssertFailure(Expected := TOD_TO_STRING(Expected),
+                                            Actual := TOD_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
 END_IF]]></ST>
@@ -2567,6 +2812,12 @@ END_FOR]]></ST>
       <LineId Id="244" Count="1" />
       <LineId Id="247" Count="4" />
       <LineId Id="246" Count="0" />
+      <LineId Id="575" Count="0" />
+      <LineId Id="577" Count="5" />
+      <LineId Id="576" Count="0" />
+      <LineId Id="585" Count="0" />
+      <LineId Id="587" Count="5" />
+      <LineId Id="586" Count="0" />
       <LineId Id="264" Count="0" />
       <LineId Id="266" Count="5" />
       <LineId Id="265" Count="0" />
@@ -2582,6 +2833,9 @@ END_FOR]]></ST>
       <LineId Id="389" Count="0" />
       <LineId Id="391" Count="5" />
       <LineId Id="390" Count="0" />
+      <LineId Id="597" Count="0" />
+      <LineId Id="599" Count="5" />
+      <LineId Id="598" Count="0" />
       <LineId Id="323" Count="0" />
       <LineId Id="325" Count="5" />
       <LineId Id="324" Count="0" />
@@ -2594,6 +2848,11 @@ END_FOR]]></ST>
       <LineId Id="380" Count="0" />
       <LineId Id="382" Count="5" />
       <LineId Id="381" Count="0" />
+      <LineId Id="606" Count="6" />
+      <LineId Id="605" Count="0" />
+      <LineId Id="615" Count="0" />
+      <LineId Id="617" Count="5" />
+      <LineId Id="616" Count="0" />
       <LineId Id="340" Count="0" />
       <LineId Id="342" Count="5" />
       <LineId Id="341" Count="0" />
@@ -2685,6 +2944,38 @@ END_FOR]]></ST>
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertEquals_DATE">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="3" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertEquals_DATE_AND_TIME">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_DINT">
@@ -2785,6 +3076,22 @@ END_FOR]]></ST>
       <LineId Id="17" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Assert.AssertEquals_LTIME">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="3" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_LWORD">
       <LineId Id="77" Count="1" />
       <LineId Id="76" Count="0" />
@@ -2862,6 +3169,38 @@ END_FOR]]></ST>
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertEquals_TIME">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="3" />
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Assert.AssertEquals_TIME_OF_DAY">
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_Assert.AssertEquals_UDINT">

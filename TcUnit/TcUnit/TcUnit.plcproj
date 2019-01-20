@@ -32,7 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski and other contributors, see CONTRIBUTORS file on www.github.com/tcunit/TcUnit</Author>
-    <ProjectVersion>0.4.1.0</ProjectVersion>
+    <ProjectVersion>0.5.0.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->
