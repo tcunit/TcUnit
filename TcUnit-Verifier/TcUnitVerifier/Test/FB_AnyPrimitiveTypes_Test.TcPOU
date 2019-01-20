@@ -36,6 +36,10 @@ END_VAR]]></Declaration>
 Test_ANY_BYTE_Differ();
 Test_ANY_BOOL_Equals();
 Test_ANY_BOOL_Differ();
+Test_ANY_DATE_Equals();
+Test_ANY_DATE_Differ();
+Test_ANY_DATE_AND_TIME_Equals();
+Test_ANY_DATE_AND_TIME_Differ();
 Test_ANY_DINT_Equals();
 Test_ANY_DINT_Differ();
 Test_ANY_DWORD_Equals();
@@ -46,6 +50,8 @@ Test_ANY_LINT_Equals();
 Test_ANY_LINT_Differ();
 Test_ANY_LREAL_Equals();
 Test_ANY_LREAL_Differ();
+Test_ANY_LTIME_Equals();
+Test_ANY_LTIME_Differ();
 Test_ANY_LWORD_Equals();
 Test_ANY_LWORD_Differ();
 Test_ANY_REAL_Equals();
@@ -54,6 +60,10 @@ Test_ANY_SINT_Equals();
 Test_ANY_SINT_Differ();
 Test_ANY_STRING_Equals();
 Test_ANY_STRING_Differ();
+Test_ANY_TIME_Equals();
+Test_ANY_TIME_Differ();
+Test_ANY_TIME_OF_DAY_Equals();
+TesT_ANY_TIME_OF_DAY_Differ();
 Test_ANY_UDINT_Equals();
 Test_ANY_UDINT_Differ();
 Test_ANY_UINT_Equals();
@@ -121,6 +131,66 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BYTE_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DATE_AND_TIME_Differ" Id="{0d3f804a-d51e-43e6-bd81-f031ee7308e1}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DATE_AND_TIME_Differ
+VAR
+    a : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
+    b : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DATE_AND_TIME_Equals" Id="{3b6f68a1-4ae4-42ef-9963-3b1290dfe7f6}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DATE_AND_TIME_Equals
+VAR
+    a : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
+    b : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DATE_Differ" Id="{cfc83bfe-e5f8-4bb0-9243-3c64bb120dae}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DATE_Differ
+VAR
+    a : DATE := DATE#1996-05-06;
+    b : DATE := DATE#2019-01-20;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DATE_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_DATE_Equals" Id="{d466f1ae-1c99-4517-81d7-ba44ee80c32f}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_DATE_Equals
+VAR
+    a : DATE := DATE#1996-05-06;
+    b : DATE := DATE#1996-05-06;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_DATE_Equals');
 
 Assert.AssertEquals(Expected := a,
                     Actual := b,
@@ -272,6 +342,36 @@ Assert.AssertEquals(Expected := a,
                     Message := 'Values differ');]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Test_ANY_LTIME_Differ" Id="{c72b07c9-bd17-4b41-8647-93f2630ffe0c}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LTIME_Differ
+VAR
+    a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    b : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LTIME_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_LTIME_Equals" Id="{ccdb0dec-fafe-402a-802f-577154e15f12}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LTIME_Equals
+VAR
+    a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    b : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_LTIME_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Test_ANY_LWORD_Differ" Id="{ef3f03f1-1a53-4489-8c36-c28660c1e7b7}">
       <Declaration><![CDATA[METHOD PRIVATE Test_ANY_LWORD_Differ
 VAR
@@ -385,6 +485,66 @@ END_VAR]]></Declaration>
 Assert.AssertEquals(Expected := a,
                     Actual := b,
                     Message := 'Values differ');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_TIME_Differ" Id="{361fa935-4959-4eb6-b25a-f9965f1f30dd}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_TIME_Differ
+VAR
+    a : TIME := T#12H34M15S10MS;
+    b : TIME := T#11H34M13S244MS;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_TIME_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_TIME_Equals" Id="{8b715def-1875-46d4-8b4b-cd8cbb83966f}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_TIME_Equals
+VAR
+    a : TIME := T#11H34M13S244MS;
+    b : TIME := T#11H34M13S244MS;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_TIME_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_TIME_OF_DAY_Differ" Id="{6a1b7492-d6c5-4590-b52d-c2c8e1ee1844}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_TIME_OF_DAY_Differ
+VAR
+    a : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
+    b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Differ');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_TIME_OF_DAY_Equals" Id="{54c634d0-a0c1-46c0-81a9-2d082c52fde4}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_TIME_OF_DAY_Equals
+VAR
+    a : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+    b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Equals');
+
+Assert.AssertEquals(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_UDINT_Differ" Id="{e30459bf-ebf3-48ab-a1c1-3d0dd57a829e}">
@@ -545,11 +705,20 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="18" Count="1" />
       <LineId Id="13" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="53" Count="0" />
       <LineId Id="20" Count="7" />
       <LineId Id="30" Count="0" />
       <LineId Id="29" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="57" Count="0" />
       <LineId Id="31" Count="3" />
-      <LineId Id="36" Count="7" />
+      <LineId Id="36" Count="3" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="40" Count="3" />
       <LineId Id="45" Count="1" />
       <LineId Id="5" Count="1" />
       <LineId Id="49" Count="0" />
@@ -576,6 +745,30 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="11" Count="2" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -641,6 +834,18 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
     </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
@@ -688,6 +893,30 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Differ">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Equals">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="2" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Differ">
       <LineId Id="5" Count="0" />

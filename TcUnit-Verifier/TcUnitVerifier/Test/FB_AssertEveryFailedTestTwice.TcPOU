@@ -48,6 +48,12 @@ VAR
     aBYTE : BYTE := 16#AB;
     bBYTE : BYTE := 16#BA;
 
+    aDATE : DATE := DATE#1996-05-06;
+    bDATE : DATE := DATE#2019-01-20;
+
+    aDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
+    bDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
+
     aDINT : DINT := 4444;
     bDINT : DINT := 3333;
 
@@ -62,6 +68,9 @@ VAR
 
     aLREAL : LREAL := 33.3;
     bLREAL : LREAL := 44.4;
+
+    aLTIME : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    bLTIME : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
 
     aLWORD : LWORD := 16#AAAAAAAAAAAAAAAA;
     bLWORD : LWORD := 16#BBBBBBBBBBBBBBBB;
@@ -87,6 +96,12 @@ VAR
     aUSINT : USINT := 34;
     bUSINT : USINT := 36;
 
+    aTIME : TIME := T#12H34M15S10MS;
+    bTIME : TIME := T#11H34M13S244MS;
+
+    aTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
+    bTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+
     aWORD : WORD := 16#ABCD;
     bWORD : WORD := 16#89EF;
 END_VAR
@@ -105,6 +120,14 @@ Assert.AssertEquals_BOOL(Expected := aBOOL,
 Assert.AssertEquals_BYTE(Expected := aBYTE,
                          Actual := bBYTE,
                          Message := 'Not equal BYTE');
+
+Assert.AssertEquals_DATE(Expected := aDATE,
+                         Actual := bDATE,
+                         Message := 'Not equal DATE');
+
+Assert.AssertEquals_DATE_AND_TIME(Expected := aDATE_AND_TIME,
+                                  Actual := bDATE_AND_TIME,
+                                  Message := 'Not equal DATE_AND_TIME');
 
 Assert.AssertEquals_DINT(Expected := aDINT,
                          Actual := bDINT,
@@ -126,6 +149,10 @@ Assert.AssertEquals_LREAL(Expected := aLREAL,
                          Actual := bLREAL,
                          Delta := 0.1,
                          Message := 'Not equal LREAL');
+
+Assert.AssertEquals_LTIME(Expected := aLTIME,
+                          Actual := bLTIME,
+                          Message := 'Not equal LTIME');
 
 Assert.AssertEquals_LWORD(Expected := aLWORD,
                           Actual := bLWORD,
@@ -160,6 +187,14 @@ Assert.AssertEquals_USINT(Expected := aUSINT,
                           Actual := bUSINT,
                           Message := 'Not equal USINT');
 
+Assert.AssertEquals_TIME(Expected := aTIME,
+                         Actual := bTIME,
+                         Message := 'Not equal TIME');
+
+Assert.AssertEquals_TIME_OF_DAY(Expected := aTIME_OF_DAY,
+                                Actual := bTIME_OF_DAY,
+                                Message := 'Not equal TIME_OF_DAY');
+
 Assert.AssertEquals_WORD(Expected := aWORD,
                           Actual := bWORD,
                           Message := 'Not equal WORD');]]></ST>
@@ -191,6 +226,11 @@ Assert.AssertEquals_WORD(Expected := aWORD,
       <LineId Id="30" Count="0" />
       <LineId Id="32" Count="1" />
       <LineId Id="31" Count="0" />
+      <LineId Id="204" Count="2" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="209" Count="1" />
+      <LineId Id="208" Count="0" />
       <LineId Id="49" Count="2" />
       <LineId Id="48" Count="0" />
       <LineId Id="92" Count="0" />
@@ -205,6 +245,9 @@ Assert.AssertEquals_WORD(Expected := aWORD,
       <LineId Id="104" Count="0" />
       <LineId Id="106" Count="2" />
       <LineId Id="105" Count="0" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="219" Count="1" />
+      <LineId Id="218" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="111" Count="1" />
       <LineId Id="110" Count="0" />
@@ -224,7 +267,12 @@ Assert.AssertEquals_WORD(Expected := aWORD,
       <LineId Id="136" Count="0" />
       <LineId Id="140" Count="2" />
       <LineId Id="139" Count="0" />
-      <LineId Id="144" Count="2" />
+      <LineId Id="221" Count="2" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="231" Count="2" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="145" Count="1" />
       <LineId Id="143" Count="0" />
     </LineIds>
   </POU>
