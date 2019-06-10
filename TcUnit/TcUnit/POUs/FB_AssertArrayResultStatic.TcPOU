@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <POU Name="FB_AssertArrayResultStatic" Id="{b20832df-51fb-47f1-8077-6f683834a939}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for keeping track of which array-asserts that have been made.
@@ -93,7 +93,7 @@ END_VAR]]></Declaration>
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath := TestInstancePath;
         AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle := 1;
         EXIT;
-	END_IF
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -116,10 +116,10 @@ END_VAR]]></Declaration>
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
-	    AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
+        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
         GetDetectionCount := AssertArrayResultInstances[IteratorCounter].DetectionCount;
-	END_IF
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -142,11 +142,11 @@ END_VAR]]></Declaration>
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
-	    AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
+        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
         
         GetDetectionCountThisCycle := AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle;
-	END_IF
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>
@@ -173,7 +173,7 @@ END_VAR]]></Declaration>
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
         AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle :=
             AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
-	END_IF
+    END_IF
 END_FOR]]></ST>
       </Implementation>
     </Method>

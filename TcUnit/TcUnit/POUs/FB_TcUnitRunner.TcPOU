@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -50,14 +50,15 @@ END_VAR]]></Declaration>
         AllTestSuitesFinished := TRUE;
     ELSIF GVL.AmountOfInitializedTestSuites > 0 THEN
         FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
-            IF RunnableTestSuiteResults[Counter] = E_TestSuiteRunState.FINISHED THEN
+            IF GVL.TestSuiteAddresses[Counter]^.AllTestsFinished() THEN
                 AmountOfTestSuitesFinished_Temp := AmountOfTestSuitesFinished_Temp + 1;
-                AmountOfTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfTests() + AmountOfTestCases_Temp;
-                AmountOfFailedTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
-                AmountOfSuccessfulTestCases_Temp := GVL.TestSuiteAddresses[Counter].GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
+                AmountOfTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfTests() + AmountOfTestCases_Temp;
+                AmountOfFailedTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
+                AmountOfSuccessfulTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
             ELSE
                 GVL.CurrentTestSuiteBeingCalled := GVL.TestSuiteAddresses[Counter];
-                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled.GetRunnableTestSuite().RunTests();
+                GVL.CurrentTestSuiteBeingCalled^();
+                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled^.GetRunState();//.GetRunnableTestSuite().RunTests();
             END_IF
         END_FOR
         IF AmountOfTestSuitesFinished_Temp = GVL.AmountOfInitializedTestSuites THEN
@@ -96,6 +97,7 @@ END_IF]]></ST>
       <LineId Id="86" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="55" Count="0" />
+      <LineId Id="183" Count="0" />
       <LineId Id="63" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="14" Count="0" />

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <POU Name="FB_Test" Id="{a51e9086-33ec-4162-acad-93a76961e893}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block holds all data that defines a test.
@@ -8,6 +8,7 @@ FUNCTION_BLOCK FB_Test
 VAR
     TestName : Tc2_System.T_MaxString;
     TestHasFailed : BOOL; // Indication of whether this test has had at least one failed assert
+    TestHasFinished : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -24,10 +25,28 @@ END_VAR]]></Declaration>
         <ST><![CDATA[IsFailed := TestHasFailed;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsFinished" Id="{813a9067-b864-4739-9c14-830160e0eabc}">
+      <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsFinished := TestHasFinished;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="SetFailed" Id="{b840b41b-4045-4fd9-b97d-0bf226c46fb3}">
       <Declaration><![CDATA[METHOD PUBLIC SetFailed]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestHasFailed := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
+      <Declaration><![CDATA[METHOD SetFinished : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestHasFinished := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
@@ -48,7 +67,13 @@ END_VAR]]></Declaration>
     <LineIds Name="FB_Test.IsFailed">
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="FB_Test.IsFinished">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_Test.SetFailed">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Test.SetFinished">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_Test.SetName">

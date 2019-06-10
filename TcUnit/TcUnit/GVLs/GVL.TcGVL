@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <GVL Name="GVL" Id="{78472b76-c9a4-4b27-a580-8e7898edc3d7}">
     <Declaration><![CDATA[{attribute 'no_assign'}
 {attribute 'qualified_only'}
@@ -7,10 +7,10 @@ VAR_GLOBAL
     TcUnitRunner : FB_TcUnitRunner;
 
     (* Indication of whether the last instantiated test suite has an assert instance created *)
-    TestSuiteAssertRegistered : BOOL;
+    TestSuiteIsRegistered : BOOL;
 
-    (* Current test suite being called *)
-    CurrentTestSuiteBeingCalled : I_TestSuite;
+    (* Pointer to current test suite being called *)
+    CurrentTestSuiteBeingCalled : POINTER TO FB_TestSuite;
 
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
@@ -23,8 +23,7 @@ VAR_GLOBAL
     (* The assert function block instance should be 1:1 mapped to
        the test suite instance path. *)
     AmountOfInitializedTestSuites : UINT := 0;
-    TestSuiteAssertAddresses : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF PVOID;
-    TestSuiteAddresses : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF I_TestSuite;
+    TestSuiteAddresses : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF POINTER TO FB_TestSuite;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -12,6 +12,7 @@
 *.compiled-library
 *.compileinfo
 *.tmc
+*.library
 _Boot/
 _CompileInfo/
 _Libraries/

@@ -32,7 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski and other contributors, see CONTRIBUTORS file on www.github.com/tcunit/TcUnit</Author>
-    <ProjectVersion>0.5.0.0</ProjectVersion>
+    <ProjectVersion>0.0.0.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->
@@ -90,9 +90,6 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_AnyComparator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_Assert.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\FB_AssertResultStatic.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -127,6 +124,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\TEST.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\TEST_FINISHED.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Version\Global_Version.TcGVL">
