@@ -58,7 +58,7 @@ END_VAR]]></Declaration>
             ELSE
                 GVL.CurrentTestSuiteBeingCalled := GVL.TestSuiteAddresses[Counter];
                 GVL.CurrentTestSuiteBeingCalled^();
-                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled^.GetRunState();//.GetRunnableTestSuite().RunTests();
+                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled^.GetRunState();
             END_IF
         END_FOR
         IF AmountOfTestSuitesFinished_Temp = GVL.AmountOfInitializedTestSuites THEN

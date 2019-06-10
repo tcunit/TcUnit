@@ -132,7 +132,6 @@ END_VAR]]></Declaration>
 
 IF NumberOfTests > 0 THEN
     AllTestsFinished := TRUE;
-
     FOR Counter := 1 TO GetAmountOfTests() BY 1 DO
         AllTestsFinished := AllTestsFinished AND Tests[Counter].IsFinished();
     END_FOR
@@ -2700,7 +2699,7 @@ END_IF]]></ST>
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="17" Count="1" />
+      <LineId Id="28" Count="0" />
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="4" Count="0" />
