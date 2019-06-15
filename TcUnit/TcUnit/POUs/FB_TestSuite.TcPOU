@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
-    <Declaration><![CDATA[
-(* This function block is responsible for holding the internal state of the test suite.
+    <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
+   It's also responsible for providing all the assert-methods for asserting different data types.
+   Only failed assertions are recorded.
 *)
 {attribute 'call_after_init'}
 {attribute 'reflection'}
@@ -27,9 +28,7 @@ VAR
     (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
     TestCycleCountIndex : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
-    
-    RunState : E_TestSuiteRunState;
-    
+
     AssertResults : FB_AssertResultStatic;
     AssertArrayResult : FB_AssertArrayResultStatic;
 
@@ -2595,15 +2594,6 @@ GetAmountOfFailedTests := FailedTestsCount;]]></ST>
         <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetRunState" Id="{af72217f-bf33-4c9b-9ab0-7b62627fd82b}">
-      <Declaration><![CDATA[METHOD GetRunState : E_TestSuiteRunState
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetRunState := RunState;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
       <Declaration><![CDATA[METHOD PUBLIC SetTestFailed
 VAR
@@ -3548,9 +3538,6 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetInstancePath">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TestSuite.GetRunState">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.SetTestFailed">

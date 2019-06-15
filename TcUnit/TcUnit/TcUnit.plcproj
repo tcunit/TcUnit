@@ -46,9 +46,6 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DUTs\E_TestSuiteRunState.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\ST_AssertResult.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -73,9 +70,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ITFs\I_RunnableTestSuite.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_TestSuite.TcIO">

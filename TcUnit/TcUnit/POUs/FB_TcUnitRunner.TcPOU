@@ -6,10 +6,7 @@
 *)
 FUNCTION_BLOCK FB_TcUnitRunner
 VAR
-    (* There can be one or more tests (testnames) for every test suite instance *)
-    RunnableTestSuiteResults : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestSuites] OF E_TestSuiteRunState;
-
-    (* Inidication of whether all test suites have reported that they are finished *)
+    (* Indication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
 
     (* Prints the results to ADS so that Visual Studio can display the results.
@@ -58,7 +55,6 @@ END_VAR]]></Declaration>
             ELSE
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
-                RunnableTestSuiteResults[Counter] := GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetRunState();
             END_IF
         END_FOR
         IF AmountOfTestSuitesFinished_Temp = GVL_TcUnit.AmountOfInitializedTestSuites THEN
@@ -98,7 +94,6 @@ END_IF]]></ST>
       <LineId Id="21" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="183" Count="0" />
-      <LineId Id="63" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="23" Count="0" />
