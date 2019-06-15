@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -7,7 +7,7 @@
 FUNCTION_BLOCK FB_TcUnitRunner
 VAR
     (* There can be one or more tests (testnames) for every test suite instance *)
-    RunnableTestSuiteResults : ARRAY[1..GVL_Constants.MaxAmountOfTestSuites] OF E_TestSuiteRunState;
+    RunnableTestSuiteResults : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestSuites] OF E_TestSuiteRunState;
 
     (* Inidication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
@@ -46,22 +46,22 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT AllTestSuitesFinished THEN
-    IF GVL.AmountOfInitializedTestSuites = 0 THEN
+    IF GVL_TcUnit.AmountOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
-    ELSIF GVL.AmountOfInitializedTestSuites > 0 THEN
-        FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
-            IF GVL.TestSuiteAddresses[Counter]^.AllTestsFinished() THEN
+    ELSIF GVL_TcUnit.AmountOfInitializedTestSuites > 0 THEN
+        FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+            IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AllTestsFinished() THEN
                 AmountOfTestSuitesFinished_Temp := AmountOfTestSuitesFinished_Temp + 1;
-                AmountOfTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfTests() + AmountOfTestCases_Temp;
-                AmountOfFailedTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
-                AmountOfSuccessfulTestCases_Temp := GVL.TestSuiteAddresses[Counter]^.GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
+                AmountOfTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfTests() + AmountOfTestCases_Temp;
+                AmountOfFailedTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
+                AmountOfSuccessfulTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
             ELSE
-                GVL.CurrentTestSuiteBeingCalled := GVL.TestSuiteAddresses[Counter];
-                GVL.CurrentTestSuiteBeingCalled^();
-                RunnableTestSuiteResults[Counter] := GVL.CurrentTestSuiteBeingCalled^.GetRunState();
+                GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
+                GVL_TcUnit.CurrentTestSuiteBeingCalled^();
+                RunnableTestSuiteResults[Counter] := GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetRunState();
             END_IF
         END_FOR
-        IF AmountOfTestSuitesFinished_Temp = GVL.AmountOfInitializedTestSuites THEN
+        IF AmountOfTestSuitesFinished_Temp = GVL_TcUnit.AmountOfInitializedTestSuites THEN
             (* Copy the final results over *)
             AmountOfTestSuitesFinished := AmountOfTestSuitesFinished_Temp;
             AmountOfTestCases := AmountOfTestCases_Temp;

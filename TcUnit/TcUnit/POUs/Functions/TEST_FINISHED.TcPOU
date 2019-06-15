@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION TEST_FINISHED : BOOL
 VAR_INPUT
@@ -11,12 +11,12 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Grab the currently running test name
-TestName := GVL.CurrentTestNameBeingCalled;
+TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
 
 // Find the test suite and set the test as finished
-FOR Counter := 1 TO GVL.AmountOfInitializedTestSuites BY 1 DO
-    IF GVL.TestSuiteAddresses[Counter] = GVL.CurrentTestSuiteBeingCalled THEN
-        GVL.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := GVL.CurrentTestNameBeingCalled);
+FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+    IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
+        GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := GVL_TcUnit.CurrentTestNameBeingCalled);
     END_IF
 END_FOR]]></ST>
     </Implementation>

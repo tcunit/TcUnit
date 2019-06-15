@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_ADSAssertMessageFormatter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for printing the results of the assertions using the built-in
@@ -19,90 +19,51 @@ VAR_INPUT
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
+    AdjustAssertFailureMessageToMax252CharLength : FB_AdjustAssertFailureMessageToMax252CharLength;
     TestInstancePathCleaned : Tc2_System.T_MaxString;
-    FinalMessage : Tc2_System.T_MaxString;
+    TestInstancePathFinal : Tc2_System.T_MaxString;
     ReturnValue : DINT;
+    TestInstancePathProcessed : Tc2_System.T_MaxString;
+    MessageProcessed : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
-FinalMessage := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
-FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := '$'');
+TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
+TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := '$'');
 
 IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', EXP: ');
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Expected);
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', EXP: ');
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := Expected);
 END_IF
 IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', ACT: ');
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Actual);
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', ACT: ');
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
 END_IF
 IF Tc2_Standard.LEN(STR := Message) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s ');
 END_IF
-ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                    msgFmtStr := FinalMessage,
-                                    strArg := Message);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="LogMessageError" Id="{bab195d7-5e96-4c3f-8266-c59551de8d0d}">
-      <Declaration><![CDATA[METHOD PUBLIC LogMessageError
-VAR_INPUT
-    Expected : STRING;
-    Actual : STRING;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
-END_VAR
-VAR
-    TestInstancePathCleaned : Tc2_System.T_MaxString;
-    FinalMessage : Tc2_System.T_MaxString;
-    ReturnValue : DINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
-FinalMessage := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
-FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := '$'');
 
-IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 :=  ', EXP: ');
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Expected);
-END_IF
-IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', ACT: ');
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := Actual);
-END_IF
-IF Tc2_Standard.LEN(STR := Message) > 0 THEN
-    FinalMessage := Tc2_Standard.CONCAT(STR1 := FinalMessage, STR2 := ', MSG: %s ');
-END_IF
+AdjustAssertFailureMessageToMax252CharLength(MsgFmtString := TestInstancePathFinal,
+                                             StringArg := Message,
+                                             MsgFmtStringProcessed => TestInstancePathProcessed,
+                                             StringArgProcessed => MessageProcessed);
+
 ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                    msgFmtStr := FinalMessage,
-                                    strArg := Message);]]></ST>
+                                    msgFmtStr := TestInstancePathProcessed,
+                                    strArg := MessageProcessed);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ADSAssertMessageFormatter">
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_ADSAssertMessageFormatter.LogAssertFailure">
-      <LineId Id="15" Count="16" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ADSAssertMessageFormatter.LogMessageError">
-      <LineId Id="27" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="28" Count="0" />
+      <LineId Id="15" Count="14" />
       <LineId Id="47" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="41" Count="1" />
-      <LineId Id="9" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="10" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

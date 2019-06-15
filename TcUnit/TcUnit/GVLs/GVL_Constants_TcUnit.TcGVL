@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
-  <GVL Name="GVL_Constants" Id="{798c1086-367a-4b55-afbc-d1cf17a88bb1}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <GVL Name="GVL_Constants_TcUnit" Id="{798c1086-367a-4b55-afbc-d1cf17a88bb1}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
     (* Some constants declared until dynamic arrays/vectors have been implemented *)
