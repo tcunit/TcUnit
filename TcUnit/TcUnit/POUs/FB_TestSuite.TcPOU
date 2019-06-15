@@ -8,7 +8,7 @@
 *)
 {attribute 'call_after_init'}
 {attribute 'reflection'}
-FUNCTION_BLOCK FB_TestSuite IMPLEMENTS I_TestSuite
+FUNCTION_BLOCK FB_TestSuite
 VAR
     {attribute 'instance-path'}
     {attribute 'noinit'}

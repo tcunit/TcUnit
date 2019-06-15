@@ -72,9 +72,6 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_TestSuite.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ITFs\I_TestResultFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
