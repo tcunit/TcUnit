@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AnyPrimitiveTypes_Test" Id="{bf0ad75f-805b-4448-a5e9-9fafb9350eaa}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the different assert-functions for all the primitive data types in TwinCAT, but using the
@@ -11,28 +11,9 @@
     directly. 
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AnyPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
-VAR
-    Assert : TcUnit.FB_Assert;
-END_VAR]]></Declaration>
+FUNCTION_BLOCK FB_AnyPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Method Name="FB_init" Id="{f4fabba4-8e3d-4529-8229-9ea6af2d97c2}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RunTests" Id="{86db1431-1a4b-401d-aa9e-b53d550c9f14}">
-      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Test_ANY_BYTE_Equals();
+      <ST><![CDATA[Test_ANY_BYTE_Equals();
 Test_ANY_BYTE_Differ();
 Test_ANY_BOOL_Equals();
 Test_ANY_BOOL_Differ();
@@ -73,11 +54,8 @@ Test_ANY_ULINT_Differ();
 Test_ANY_USINT_Equals();
 Test_ANY_USINT_Differ();
 Test_ANY_WORD_Equals();
-Test_ANY_WORD_Differ();
-
-RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
-      </Implementation>
-    </Method>
+Test_ANY_WORD_Differ();]]></ST>
+    </Implementation>
     <Method Name="Test_ANY_BOOL_Differ" Id="{9def4202-9b1d-4fca-a694-7baecaa73c6d}">
       <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BOOL_Differ
 VAR
@@ -87,10 +65,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BOOL_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_BOOL_Equals" Id="{24b88842-0df5-436f-8f65-86f62612214c}">
@@ -102,10 +81,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BOOL_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_BYTE_Differ" Id="{dd37329d-bb06-4679-abf4-e4d04399c232}">
@@ -117,10 +97,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BYTE_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_BYTE_Equals" Id="{2f42883b-2905-4fcf-ab87-5d19e1fac7b2}">
@@ -132,10 +113,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BYTE_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DATE_AND_TIME_Differ" Id="{0d3f804a-d51e-43e6-bd81-f031ee7308e1}">
@@ -147,10 +129,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DATE_AND_TIME_Equals" Id="{3b6f68a1-4ae4-42ef-9963-3b1290dfe7f6}">
@@ -162,10 +145,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DATE_Differ" Id="{cfc83bfe-e5f8-4bb0-9243-3c64bb120dae}">
@@ -177,10 +161,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DATE_Equals" Id="{d466f1ae-1c99-4517-81d7-ba44ee80c32f}">
@@ -192,10 +177,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DINT_Differ" Id="{cb70e186-1a96-4b29-985d-60f5f4684775}">
@@ -207,10 +193,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DINT_Equals" Id="{ac4e8032-dccc-4a7e-9803-44020c8533e4}">
@@ -222,10 +209,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DWORD_Differ" Id="{23ed3054-fb0f-4676-a33d-13cb685f2f27}">
@@ -237,10 +225,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DWORD_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_DWORD_Equals" Id="{5708854e-5f0b-4ac2-80a1-0b3d9009a3ed}">
@@ -252,10 +241,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DWORD_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_INT_Differ" Id="{3902bfc9-94f5-457a-8cf1-bf8e15c96e38}">
@@ -267,9 +257,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_INT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_INT_Equals" Id="{16ed816c-bec6-46ce-a406-42d965e0fb31}">
@@ -281,9 +273,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_INT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LINT_Differ" Id="{fb115c0d-34a2-4d3c-af00-30e036afd5d7}">
@@ -295,9 +289,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LINT_Equals" Id="{668fbd05-1b2c-4b08-8d52-d1aaaa059802}">
@@ -309,9 +305,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LREAL_Differ" Id="{c7618ef1-aae1-478a-8d43-1bb5a958b641}">
@@ -323,9 +321,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LREAL_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LREAL_Equals" Id="{d886c391-4ffc-42ba-aacc-8f8f2b3a5e54}">
@@ -337,9 +337,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LREAL_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LTIME_Differ" Id="{c72b07c9-bd17-4b41-8647-93f2630ffe0c}">
@@ -351,10 +353,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LTIME_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LTIME_Equals" Id="{ccdb0dec-fafe-402a-802f-577154e15f12}">
@@ -366,10 +369,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LTIME_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LWORD_Differ" Id="{ef3f03f1-1a53-4489-8c36-c28660c1e7b7}">
@@ -381,10 +385,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LWORD_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_LWORD_Equals" Id="{19993f03-49d7-4cee-97a1-88ff9d9eb2e6}">
@@ -396,9 +401,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LWORD_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_REAL_Differ" Id="{f2472e3d-089e-474c-b4b8-54a3d353ad64}">
@@ -410,9 +417,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_REAL_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_REAL_Equals" Id="{8290f811-4b5b-4e83-b6ee-422a2bd05e2b}">
@@ -424,9 +433,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_REAL_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_SINT_Differ" Id="{b0f8ac71-681f-4f1a-94dd-32b085f23744}">
@@ -438,10 +449,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_SINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_SINT_Equals" Id="{630cc9a7-6d4d-40eb-ab44-a0a4844068f6}">
@@ -453,10 +465,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_SINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_STRING_Differ" Id="{8384ce7c-1f54-4249-9dc0-3b2f1dfa1e90}">
@@ -468,9 +481,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_STRING_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_STRING_Equals" Id="{45fb731e-62a5-4739-983d-66e18d9850be}">
@@ -482,9 +497,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_STRING_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_TIME_Differ" Id="{361fa935-4959-4eb6-b25a-f9965f1f30dd}">
@@ -496,10 +513,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_TIME_Equals" Id="{8b715def-1875-46d4-8b4b-cd8cbb83966f}">
@@ -511,10 +529,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_TIME_OF_DAY_Differ" Id="{6a1b7492-d6c5-4590-b52d-c2c8e1ee1844}">
@@ -526,10 +545,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_TIME_OF_DAY_Equals" Id="{54c634d0-a0c1-46c0-81a9-2d082c52fde4}">
@@ -541,10 +561,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_UDINT_Differ" Id="{e30459bf-ebf3-48ab-a1c1-3d0dd57a829e}">
@@ -556,10 +577,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UDINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_UDINT_Equals" Id="{9c466d83-1d0b-48d6-a187-0404dcd7fc0c}">
@@ -571,10 +593,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UDINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_UINT_Differ" Id="{6fcb372c-bdc6-4fa3-bdd8-941d914d6b3a}">
@@ -586,10 +609,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_UINT_Equals" Id="{9e678934-ef5b-42e1-a53f-17737ee06d35}">
@@ -601,10 +625,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_ULINT_Differ" Id="{dae19af6-fcc2-42c1-aaca-8dc7c861bdcc}">
@@ -616,10 +641,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_ULINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_ULINT_Equals" Id="{f13de1a5-523a-4c9d-8e7e-8c0b2840de93}">
@@ -631,10 +657,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_ULINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_USINT_Differ" Id="{feb2c66c-f754-4a55-ba64-e1fdc77ddce6}">
@@ -646,9 +673,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_USINT_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_USINT_Equals" Id="{44a01ea7-d3cf-4d20-aeb7-e4787721e931}">
@@ -660,10 +689,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_USINT_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_WORD_Differ" Id="{684677fe-b88b-4336-9954-f4e16d3d3cf5}">
@@ -675,10 +705,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WORD_Differ');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');
-]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ANY_WORD_Equals" Id="{962442d1-3576-440d-880d-7ca8abee0ca2}">
@@ -690,293 +721,350 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WORD_Equals');
 
-Assert.AssertEquals(Expected := a,
-                    Actual := b,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AnyPrimitiveTypes_Test">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.RunTests">
-      <LineId Id="18" Count="1" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="20" Count="7" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="31" Count="3" />
-      <LineId Id="36" Count="3" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="60" Count="1" />
-      <LineId Id="40" Count="3" />
-      <LineId Id="45" Count="1" />
-      <LineId Id="5" Count="1" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="4" Count="0" />
+      <LineId Id="23" Count="41" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="17" Count="1" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="22" Count="1" />
       <LineId Id="17" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="2" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

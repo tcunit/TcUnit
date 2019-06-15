@@ -1,34 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AnyToUnionValue_Test" Id="{0cc46357-158c-41b7-afc0-2c79ec82f0f6}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Tests the free function F_AnyToUnionValue.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AnyToUnionValue_Test EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+FUNCTION_BLOCK FB_AnyToUnionValue_Test EXTENDS TcUnit.FB_TestSuite
 VAR
-    Assert : TcUnit.FB_Assert;
-    
     aBit : BIT := 1; // Only structures and function blocks can have BIT defined
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
-    </Implementation>
-    <Method Name="FB_init" Id="{0485650c-1465-4486-a734-95b061eb38ae}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RunTests" Id="{7fda42d2-1918-424a-ba0f-a586afc09af2}">
-      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Test_BOOL();
+      <ST><![CDATA[Test_BOOL();
 Test_BIT();
 Test_BYTE();
 Test_WORD();
@@ -51,11 +33,8 @@ Test_TIME();
 Test_DATE();
 Test_DATE_AND_TIME();
 Test_TIME_OF_DAY();
-Test_LTIME();
-
-RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;]]></ST>
-      </Implementation>
-    </Method>
+Test_LTIME();]]></ST>
+    </Implementation>
     <Method Name="Test_BIT" Id="{2bab70c5-093e-48a7-94e6-ae7f2bb2e7b3}">
       <Declaration><![CDATA[METHOD PRIVATE Test_BIT
 VAR
@@ -66,9 +45,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := aBit);
 
-Assert.AssertEquals(Expected := aBit,
-                    Actual := result.bitExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := aBit,
+             Actual := result.bitExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_BOOL" Id="{48f55beb-9fc1-4336-8784-72fc7eda80de}">
@@ -82,9 +63,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.boolExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.boolExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_BYTE" Id="{226781dc-3660-487a-bcbd-00cc36750e0e}">
@@ -98,9 +81,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.byteExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.byteExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_DATE" Id="{84a5fde1-b357-4804-bf01-5c83bfeb54b3}">
@@ -114,9 +99,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.dateExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.dateExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_DATE_AND_TIME" Id="{76b46507-8743-481c-8853-3b45d1544ad5}">
@@ -130,9 +117,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.dateandtimeExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.dateandtimeExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_DINT" Id="{c81a9536-5ff4-4424-9f7e-1d8c5133b5e3}">
@@ -146,9 +135,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.dintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.dintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_DWORD" Id="{e6dfcf37-a491-45b2-9543-b7fdd8847283}">
@@ -162,9 +153,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.dwordExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.dwordExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_INT" Id="{77ff5bf1-1822-4366-a4ee-34a185c0d47e}">
@@ -178,9 +171,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.intExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.intExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_LINT" Id="{d2a7cc80-d43e-4823-a346-11defa0d180f}">
@@ -194,9 +189,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.lintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.lintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_LREAL" Id="{af2fee48-9d46-49ec-9fe0-6a046d6c2f7d}">
@@ -210,9 +207,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.lrealExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.lrealExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_LTIME" Id="{1affac86-d501-40a0-99f5-4eeb9cd389fd}">
@@ -226,9 +225,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.ltimeExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.ltimeExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_LWORD" Id="{f0464dd4-9a3f-4fed-bf6c-84c05edc34ab}">
@@ -242,9 +243,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.lwordExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.lwordExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_REAL" Id="{5ff5264d-4661-4dc4-8889-01d457341535}">
@@ -258,9 +261,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.realExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.realExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_SINT" Id="{fd59d157-95aa-462e-812a-26f74d790e8c}">
@@ -274,9 +279,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.sintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.sintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_STRING" Id="{825e7694-a502-4c32-9d34-807560d3aa4c}">
@@ -290,9 +297,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.stringExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.stringExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_STRING_2" Id="{1e075eec-d55a-483a-976e-656d4a8d5ac3}">
@@ -306,9 +315,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.stringExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.stringExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_TIME" Id="{e7b3c2aa-6660-47ce-9edf-58924221789c}">
@@ -322,9 +333,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.timeExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.timeExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_TIME_OF_DAY" Id="{55ccbe56-fcd0-4e7f-8497-d0c19c60ad6a}">
@@ -338,9 +351,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.timeofdayExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.timeofdayExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_UDINT" Id="{2ae444f0-9149-4c01-b7ad-2fdcab7bba7c}">
@@ -354,9 +369,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.udintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.udintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_UINT" Id="{3309739e-f1a1-45d7-928b-c636d1592c1c}">
@@ -370,9 +387,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.uintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.uintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ULINT" Id="{5e5e97df-5e62-40a2-b054-3ba7c91cef70}">
@@ -386,9 +405,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.ulintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.ulintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_USINT" Id="{ef948bb4-ae4e-47a7-b963-d71ce86c9997}">
@@ -402,9 +423,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.usintExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.usintExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_WORD" Id="{3859891c-ade4-48ca-89f8-da9a77a2ccbb}">
@@ -418,9 +441,11 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.wordExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.wordExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_WSTRING" Id="{cd24edfa-28c7-4bf7-ad9e-262f073a3ddf}">
@@ -434,27 +459,15 @@ END_VAR]]></Declaration>
 
 result := TcUnit.F_AnyToUnionValue(AnyValue := a);
 
-Assert.AssertEquals(Expected := a,
-                    Actual := result.wstringExpectedOrActual,
-                    Message := 'Values differ');]]></ST>
+AssertEquals(Expected := a,
+             Actual := result.wstringExpectedOrActual,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AnyToUnionValue_Test">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.RunTests">
-      <LineId Id="48" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="54" Count="1" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="56" Count="7" />
-      <LineId Id="65" Count="9" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="4" Count="0" />
+      <LineId Id="19" Count="23" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_BIT">
       <LineId Id="5" Count="0" />
@@ -463,6 +476,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_BOOL">
       <LineId Id="5" Count="0" />
@@ -471,6 +486,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_BYTE">
       <LineId Id="5" Count="0" />
@@ -479,6 +496,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_DATE">
       <LineId Id="5" Count="0" />
@@ -487,6 +506,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_DATE_AND_TIME">
       <LineId Id="5" Count="0" />
@@ -495,6 +516,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_DINT">
       <LineId Id="5" Count="0" />
@@ -503,6 +526,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_DWORD">
       <LineId Id="5" Count="0" />
@@ -511,6 +536,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_INT">
       <LineId Id="5" Count="0" />
@@ -519,6 +546,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_LINT">
       <LineId Id="5" Count="0" />
@@ -527,6 +556,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_LREAL">
       <LineId Id="5" Count="0" />
@@ -535,6 +566,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_LTIME">
       <LineId Id="5" Count="0" />
@@ -543,6 +576,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_LWORD">
       <LineId Id="5" Count="0" />
@@ -551,6 +586,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_REAL">
       <LineId Id="5" Count="0" />
@@ -559,6 +596,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_SINT">
       <LineId Id="5" Count="0" />
@@ -567,6 +606,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_STRING">
       <LineId Id="5" Count="0" />
@@ -575,6 +616,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_STRING_2">
       <LineId Id="5" Count="0" />
@@ -583,6 +626,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_TIME">
       <LineId Id="5" Count="0" />
@@ -591,6 +636,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_TIME_OF_DAY">
       <LineId Id="5" Count="0" />
@@ -599,6 +646,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_UDINT">
       <LineId Id="5" Count="0" />
@@ -607,6 +656,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_UINT">
       <LineId Id="5" Count="0" />
@@ -615,6 +666,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_ULINT">
       <LineId Id="5" Count="0" />
@@ -623,6 +676,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_USINT">
       <LineId Id="5" Count="0" />
@@ -631,6 +686,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_WORD">
       <LineId Id="5" Count="0" />
@@ -639,6 +696,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
     <LineIds Name="FB_AnyToUnionValue_Test.Test_WSTRING">
       <LineId Id="5" Count="0" />
@@ -647,6 +706,8 @@ Assert.AssertEquals(Expected := a,
       <LineId Id="21" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

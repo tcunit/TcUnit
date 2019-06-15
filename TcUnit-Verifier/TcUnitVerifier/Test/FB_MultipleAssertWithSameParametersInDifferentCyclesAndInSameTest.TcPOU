@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest" Id="{b90749b6-04c8-4717-bf88-8db2fbf83f6a}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This test-suite runs several asserts with the same parameters (same expected, actual, message), calling the asserts
@@ -10,15 +10,14 @@
     on different cycles.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest EXTENDS TcUnit.FB_TestSuite
 VAR
-    Assert : TcUnit.FB_Assert;
     TimerAgain : Tc2_Standard.TON := (PT := T#1S); // Timer to call "AssertSeveralTimesAgain"
     TimerAgainAgain : Tc2_Standard.TON := (PT := T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
     CalledAll : BOOL; // Indication of whether we've called all tests
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[Assert_SeveralTimes();]]></ST>
     </Implementation>
     <Method Name="Assert_SeveralTimes" Id="{fec25683-5d3d-4525-82ab-3bcd5de9b899}">
       <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimes
@@ -53,63 +52,42 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Assert_SeveralTimes');
 
-Assert.AssertEquals_DWORD(Expected := a,
-                          Actual := b,
-                          Message := 'Values differ');
-Assert.AssertEquals_DWORD(Expected := c,
-                          Actual := d,
-                          Message := 'Values differ');
-Assert.AssertEquals_DWORD(Expected := e,
-                          Actual := f,
-                          Message := 'Values differ');
+AssertEquals_DWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+AssertEquals_DWORD(Expected := c,
+                   Actual := d,
+                   Message := 'Values differ');
+AssertEquals_DWORD(Expected := e,
+                   Actual := f,
+                   Message := 'Values differ');
 
 TimerAgain(IN := TRUE);
 IF TimerAgain.Q THEN
     TimerAgainAgain(IN := TRUE);
-    Assert.AssertEquals_DWORD(Expected := g,
-                              Actual := h,
-                              Message := 'Values differ');
-    Assert.AssertEquals_DWORD(Expected := i,
-                              Actual := j,
-                              Message := 'Values differ');
-    Assert.AssertEquals_DWORD(Expected := k,
-                              Actual := l,
-                              Message := 'Values differ');
+    AssertEquals_DWORD(Expected := g,
+                       Actual := h,
+                       Message := 'Values differ');
+    AssertEquals_DWORD(Expected := i,
+                       Actual := j,
+                       Message := 'Values differ');
+    AssertEquals_DWORD(Expected := k,
+                       Actual := l,
+                       Message := 'Values differ');
 END_IF
 
 IF TimerAgainAgain.Q THEN
-    Assert.AssertEquals_DWORD(Expected := m,
-                              Actual := n,
-                              Message := 'Values differ');
-    Assert.AssertEquals_DWORD(Expected := o,
-                              Actual := p,
-                              Message := 'Values differ');
-    Assert.AssertEquals_DWORD(Expected := q,
-                              Actual := rr,
-                              Message := 'Values differ');
-    CalledAll := TRUE;    
-END_IF
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="FB_init" Id="{c346e23b-7954-4ef7-af50-5c27d0d11c81}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RunTests" Id="{f05b6079-4de6-4821-af92-17b216f18eeb}">
-      <Declaration><![CDATA[METHOD PUBLIC RunTests : TCUNIT.E_TestSuiteRunState]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Assert_SeveralTimes();
-
-IF CalledAll THEN
-    RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;
+    AssertEquals_DWORD(Expected := m,
+                       Actual := n,
+                       Message := 'Values differ');
+    AssertEquals_DWORD(Expected := o,
+                       Actual := p,
+                       Message := 'Values differ');
+    AssertEquals_DWORD(Expected := q,
+                       Actual := rr,
+                       Message := 'Values differ');
+    CalledAll := TRUE;
+    TEST_FINISHED();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -135,18 +113,9 @@ END_IF]]></ST>
       <LineId Id="66" Count="0" />
       <LineId Id="84" Count="7" />
       <LineId Id="83" Count="0" />
-      <LineId Id="81" Count="1" />
-      <LineId Id="65" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.RunTests">
-      <LineId Id="5" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="4" Count="0" />
-      <LineId Id="26" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="82" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

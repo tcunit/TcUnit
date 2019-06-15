@@ -1,41 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AssertEveryFailedTestTwice" Id="{3bea6e4d-8d08-467b-90da-24a784807eae}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     In this testsuite we are running the same testcase over two cycles, and thus calling every assert method twice.
     This is in order to verify that we don't print every FAILED assert twice.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite IMPLEMENTS TcUnit.I_RunnableTestSuite
+FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite
 VAR
-    Assert : TcUnit.FB_Assert;
     AssertCount : USINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[TwiceAssertCall();]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{ec220df4-f39f-4ff5-8348-a9f7930e9f4a}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
-VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SUPER^.RegisterTestSuite(THIS^);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="RunTests" Id="{67907b15-cc1a-4b64-8465-b6b1fd17bd6d}">
-      <Declaration><![CDATA[METHOD RunTests : TCUNIT.E_TestSuiteRunState
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TwiceAssertCall();
-
-AssertCount := AssertCount + 1;
-IF AssertCount = 2 THEN
-    RunTests := TCUNIT.E_TestSuiteRunState.FINISHED;
-END_IF]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="TwiceAssertCall" Id="{69d3987a-7ce5-4206-ac7a-879b67c9a54d}">
       <Declaration><![CDATA[METHOD PRIVATE TwiceAssertCall
 VAR
@@ -109,110 +86,104 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('TwiceAssertCall');
 
-Assert.AssertEquals(Expected := aANY,
-                    Actual := bANY,
-                    Message := 'Not equal ANY');
-                    
-Assert.AssertEquals_BOOL(Expected := aBOOL,
-                         Actual := bBOOL,
-                         Message := 'Not equal BOOL');
+AssertEquals(Expected := aANY,
+             Actual := bANY,
+             Message := 'Not equal ANY');
 
-Assert.AssertEquals_BYTE(Expected := aBYTE,
-                         Actual := bBYTE,
-                         Message := 'Not equal BYTE');
+AssertEquals_BOOL(Expected := aBOOL,
+                  Actual := bBOOL,
+                  Message := 'Not equal BOOL');
 
-Assert.AssertEquals_DATE(Expected := aDATE,
-                         Actual := bDATE,
-                         Message := 'Not equal DATE');
+AssertEquals_BYTE(Expected := aBYTE,
+                  Actual := bBYTE,
+                  Message := 'Not equal BYTE');
 
-Assert.AssertEquals_DATE_AND_TIME(Expected := aDATE_AND_TIME,
-                                  Actual := bDATE_AND_TIME,
-                                  Message := 'Not equal DATE_AND_TIME');
+AssertEquals_DATE(Expected := aDATE,
+                  Actual := bDATE,
+                  Message := 'Not equal DATE');
 
-Assert.AssertEquals_DINT(Expected := aDINT,
-                         Actual := bDINT,
-                         Message := 'Not equal DINT');
+AssertEquals_DATE_AND_TIME(Expected := aDATE_AND_TIME,
+                           Actual := bDATE_AND_TIME,
+                           Message := 'Not equal DATE_AND_TIME');
 
-Assert.AssertEquals_DWORD(Expected := aDWORD,
-                          Actual := bDWORD,
-                          Message := 'Not equal DWORD');
+AssertEquals_DINT(Expected := aDINT,
+                  Actual := bDINT,
+                  Message := 'Not equal DINT');
 
-Assert.AssertEquals_INT(Expected := aINT,
-                        Actual := bINT,
-                        Message := 'Not equal INT');
+AssertEquals_DWORD(Expected := aDWORD,
+                   Actual := bDWORD,
+                   Message := 'Not equal DWORD');
 
-Assert.AssertEquals_LINT(Expected := aLINT,
-                         Actual := bLINT,
-                         Message := 'Not equal LINT');
+AssertEquals_INT(Expected := aINT,
+                 Actual := bINT,
+                 Message := 'Not equal INT');
 
-Assert.AssertEquals_LREAL(Expected := aLREAL,
-                         Actual := bLREAL,
-                         Delta := 0.1,
-                         Message := 'Not equal LREAL');
+AssertEquals_LINT(Expected := aLINT,
+                  Actual := bLINT,
+                  Message := 'Not equal LINT');
 
-Assert.AssertEquals_LTIME(Expected := aLTIME,
-                          Actual := bLTIME,
-                          Message := 'Not equal LTIME');
+AssertEquals_LREAL(Expected := aLREAL,
+                   Actual := bLREAL,
+                   Delta := 0.1,
+                   Message := 'Not equal LREAL');
 
-Assert.AssertEquals_LWORD(Expected := aLWORD,
-                          Actual := bLWORD,
-                          Message := 'Not equal LWORD');
+AssertEquals_LTIME(Expected := aLTIME,
+                   Actual := bLTIME,
+                   Message := 'Not equal LTIME');
 
-Assert.AssertEquals_REAL(Expected := aREAL,
-                          Actual := bREAL,
-                          Delta := 0.1,
-                          Message := 'Not equal REAL');
+AssertEquals_LWORD(Expected := aLWORD,
+                   Actual := bLWORD,
+                   Message := 'Not equal LWORD');
 
-Assert.AssertEquals_SINT(Expected := aSINT,
-                          Actual := bSINT,
-                          Message := 'Not equal SINT');
+AssertEquals_REAL(Expected := aREAL,
+                  Actual := bREAL,
+                  Delta := 0.1,
+                  Message := 'Not equal REAL');
 
-Assert.AssertEquals_STRING(Expected := aSTRING,
-                           Actual := bSTRING,
-                           Message := 'Not equal STRING');
+AssertEquals_SINT(Expected := aSINT,
+                  Actual := bSINT,
+                  Message := 'Not equal SINT');
 
-Assert.AssertEquals_UDINT(Expected := aUDINT,
-                           Actual := bUDINT,
-                           Message := 'Not equal UDINT');
+AssertEquals_STRING(Expected := aSTRING,
+                    Actual := bSTRING,
+                    Message := 'Not equal STRING');
 
-Assert.AssertEquals_UINT(Expected := aUINT,
-                         Actual := bUINT,
-                         Message := 'Not equal UINT');
+AssertEquals_UDINT(Expected := aUDINT,
+                   Actual := bUDINT,
+                   Message := 'Not equal UDINT');
 
-Assert.AssertEquals_ULINT(Expected := aULINT,
-                          Actual := bULINT,
-                          Message := 'Not equal ULINT');
+AssertEquals_UINT(Expected := aUINT,
+                  Actual := bUINT,
+                  Message := 'Not equal UINT');
 
-Assert.AssertEquals_USINT(Expected := aUSINT,
-                          Actual := bUSINT,
-                          Message := 'Not equal USINT');
+AssertEquals_ULINT(Expected := aULINT,
+                   Actual := bULINT,
+                   Message := 'Not equal ULINT');
 
-Assert.AssertEquals_TIME(Expected := aTIME,
-                         Actual := bTIME,
-                         Message := 'Not equal TIME');
+AssertEquals_USINT(Expected := aUSINT,
+                   Actual := bUSINT,
+                   Message := 'Not equal USINT');
 
-Assert.AssertEquals_TIME_OF_DAY(Expected := aTIME_OF_DAY,
-                                Actual := bTIME_OF_DAY,
-                                Message := 'Not equal TIME_OF_DAY');
+AssertEquals_TIME(Expected := aTIME,
+                  Actual := bTIME,
+                  Message := 'Not equal TIME');
 
-Assert.AssertEquals_WORD(Expected := aWORD,
-                          Actual := bWORD,
-                          Message := 'Not equal WORD');]]></ST>
+AssertEquals_TIME_OF_DAY(Expected := aTIME_OF_DAY,
+                         Actual := bTIME_OF_DAY,
+                         Message := 'Not equal TIME_OF_DAY');
+
+AssertEquals_WORD(Expected := aWORD,
+                  Actual := bWORD,
+                  Message := 'Not equal WORD');
+
+AssertCount := AssertCount + 1;
+IF AssertCount = 2 THEN
+    TEST_FINISHED();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_AssertEveryFailedTestTwice">
       <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertEveryFailedTestTwice.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertEveryFailedTestTwice.RunTests">
-      <LineId Id="51" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="4" Count="0" />
-      <LineId Id="59" Count="0" />
     </LineIds>
     <LineIds Name="FB_AssertEveryFailedTestTwice.TwiceAssertCall">
       <LineId Id="5" Count="0" />
@@ -274,6 +245,9 @@ Assert.AssertEquals_WORD(Expected := aWORD,
       <LineId Id="234" Count="0" />
       <LineId Id="145" Count="1" />
       <LineId Id="143" Count="0" />
+      <LineId Id="305" Count="1" />
+      <LineId Id="303" Count="0" />
+      <LineId Id="307" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>
