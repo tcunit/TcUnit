@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -21,13 +21,13 @@ VAR
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
     NumberOfTests : UINT := 0;
-    Tests : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
+    Tests : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
        position is a duplicate *)
-    TestDuplicateNameTrigger : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
+    TestDuplicateNameTrigger : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
     (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
-    TestCycleCountIndex : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
+    TestCycleCountIndex : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
 
     AssertResults : FB_AssertResultStatic;
     AssertArrayResult : FB_AssertArrayResultStatic;
