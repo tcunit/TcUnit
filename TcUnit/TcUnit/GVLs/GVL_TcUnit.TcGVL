@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
   <GVL Name="GVL_TcUnit" Id="{78472b76-c9a4-4b27-a580-8e7898edc3d7}">
     <Declaration><![CDATA[{attribute 'no_assign'}
 {attribute 'qualified_only'}
@@ -23,7 +23,7 @@ VAR_GLOBAL
     (* The assert function block instance should be 1:1 mapped to
        the test suite instance path. *)
     AmountOfInitializedTestSuites : UINT := 0;
-    TestSuiteAddresses : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestSuites] OF POINTER TO FB_TestSuite;
+    TestSuiteAddresses : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestSuites] OF POINTER TO FB_TestSuite;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
