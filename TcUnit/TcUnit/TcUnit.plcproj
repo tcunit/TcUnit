@@ -31,8 +31,8 @@ Documentation and examples are available at www.tcunit.org</Description>
       <Id>{78515825-a6f1-476c-a7b7-6595f51e6013}</Id>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
-    <Author>Jakob Sagatowski and other contributors, see CONTRIBUTORS file on www.github.com/tcunit/TcUnit</Author>
-    <ProjectVersion>0.9.0.0</ProjectVersion>
+    <Author>Jakob Sagatowski and contributors</Author>
+    <ProjectVersion>0.9.1.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->

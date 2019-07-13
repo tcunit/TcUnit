@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_ADSTestResultFormatter" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block reports the results from the tests using the built-in ADSLOGSTR functionality
@@ -72,7 +72,7 @@ END_VAR]]></Declaration>
         Busy := TRUE;
     5 :
         ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '| Failed tests : %s',
+                                          msgFmtStr := '| Failed tests: %s',
                                           strArg := UINT_TO_STRING(AmountOfFailedTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
