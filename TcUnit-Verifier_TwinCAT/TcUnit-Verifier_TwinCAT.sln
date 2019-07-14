@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TcUnit-Verifier", "TcUnit-Verifier\TcUnit-Verifier.tsproj", "{FB9C2EE8-FD2A-43A6-8160-608A25D051A4}"
+Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TcUnit-Verifier", "TcUnit-Verifier_TwinCAT\TcUnit-Verifier.tsproj", "{FB9C2EE8-FD2A-43A6-8160-608A25D051A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,14 +12,14 @@ FUNCTION_BLOCK FB_PrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite]]></Declaratio
     <Implementation>
       <ST><![CDATA[Test_ANY_Equals();
 Test_ANY_Differ_DataType();
-Test_BYTE_Equals();
-Test_BYTE_Differ();
 Test_BOOL_Equals();
 Test_BOOL_Differ();
-Test_DATE_Equals();
-Test_DATE_Differ();
+Test_BYTE_Equals();
+Test_BYTE_Differ();
 Test_DATE_AND_TIME_Equals();
 Test_DATE_AND_TIME_Differ();
+Test_DATE_Equals();
+Test_DATE_Differ();
 Test_DINT_Equals();
 Test_DINT_Differ();
 Test_DWORD_Equals();
@@ -763,7 +763,14 @@ TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_PrimitiveTypes_Test">
-      <LineId Id="20" Count="43" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="30" Count="33" />
     </LineIds>
     <LineIds Name="FB_PrimitiveTypes_Test.Test_ANY_Differ_DataType">
       <LineId Id="5" Count="0" />
