@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION TEST_FINISHED : BOOL
-VAR_INPUT
-END_VAR
 VAR
     TestName : Tc2_System.T_MaxString;
     Counter : UINT := 0;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Grab the currently running test name
 TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
@@ -18,11 +15,10 @@ TEST_FINISHED := FALSE;
 FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := GVL_TcUnit.CurrentTestNameBeingCalled);
-		TEST_FINISHED := TRUE;
-		RETURN;
+        TEST_FINISHED := TRUE;
+        RETURN;
     END_IF
-END_FOR
-]]></ST>
+END_FOR]]></ST>
     </Implementation>
     <LineIds Name="TEST_FINISHED">
       <LineId Id="20" Count="0" />
@@ -34,7 +30,6 @@ END_FOR
       <LineId Id="31" Count="1" />
       <LineId Id="19" Count="0" />
       <LineId Id="15" Count="0" />
-      <LineId Id="29" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

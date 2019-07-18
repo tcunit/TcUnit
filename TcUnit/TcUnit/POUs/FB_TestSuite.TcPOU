@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -1619,9 +1619,9 @@ IF AnyComparator.DataTypesNotEquals THEN
     ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString(Actual.TypeClass));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF AnyComparator.DataSizeNotEquals THEN
-    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
-    ActualDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF AnyComparator.DataContentNotEquals THEN
     FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
