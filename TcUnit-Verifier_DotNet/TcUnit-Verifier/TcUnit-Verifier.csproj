@@ -11,6 +11,21 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,10 +68,15 @@
   <ItemGroup>
     <Compile Include="AutomationInterface.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FB_AssertEveryFailedTestTwiceArrayVersion_Asserter.cs" />
+    <Compile Include="FB_CreateDisabledTest_Asserter.cs" />
     <Compile Include="FB_CreateFourTestsWithSameName_Asserter.cs" />
     <Compile Include="FB_AssertEveryFailedTestTwice_Asserter.cs" />
     <Compile Include="FB_AssertTrueFalse_Test_Asserter.cs" />
+    <Compile Include="FB_AnyToUnionValue_Test_Asserter.cs" />
     <Compile Include="FB_PrimitiveTypes_Test_Asserter.cs" />
+    <Compile Include="FB_AnyPrimitiveTypes_Test.cs" />
+    <Compile Include="FB_ArrayPrimitiveTypes_Test_Asserter.cs" />
     <Compile Include="MessageFilter.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
@@ -89,6 +109,18 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

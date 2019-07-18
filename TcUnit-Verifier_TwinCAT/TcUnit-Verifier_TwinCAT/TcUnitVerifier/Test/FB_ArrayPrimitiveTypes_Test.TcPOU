@@ -13,11 +13,11 @@
 FUNCTION_BLOCK FB_ArrayPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BOOL_Array_Equals();
-Test_BOOL_Array_DiffersInSize();
-Test_BOOL_Array_DiffersInContent();
+Test_BOOL_Array_DifferInSize();
+Test_BOOL_Array_DifferInContent();
 Test_BYTE_Array_Equals();
-Test_BYTE_Array_DiffersInSize();
-Test_BYTE_Array_DiffersInContent();
+Test_BYTE_Array_DifferInSize();
+Test_BYTE_Array_DifferInContent();
 Test_DINT_Array_Equals();
 Test_DINT_Array_DifferInSize();
 Test_DINT_Array_DifferInContent();
@@ -52,14 +52,14 @@ Test_WORD_Array_Equals();
 Test_WORD_Array_DifferInSize();
 Test_WORD_Array_DifferInContent();]]></ST>
     </Implementation>
-    <Method Name="Test_BOOL_Array_DiffersInContent" Id="{7b271ca5-8f9a-4fcf-9207-0915581f4c7c}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DiffersInContent
+    <Method Name="Test_BOOL_Array_DifferInContent" Id="{7b271ca5-8f9a-4fcf-9207-0915581f4c7c}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DifferInContent
 VAR
     a : ARRAY[0..5] OF BOOL := [TRUE, TRUE, FALSE, TRUE, FALSE, TRUE];
     b : ARRAY[0..5] OF BOOL := [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_BOOL_Array_DiffersInContent');
+        <ST><![CDATA[TEST('Test_BOOL_Array_DifferInContent');
 
 AssertArrayEquals_BOOL(Expecteds := a,
                        Actuals := b,
@@ -68,14 +68,14 @@ AssertArrayEquals_BOOL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_BOOL_Array_DiffersInSize" Id="{41caa71a-6ab3-4490-bc09-94996e7d75ba}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DiffersInSize
+    <Method Name="Test_BOOL_Array_DifferInSize" Id="{41caa71a-6ab3-4490-bc09-94996e7d75ba}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BOOL_Array_DifferInSize
 VAR
     a : ARRAY[1..6] OF BOOL := [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE];
     b : ARRAY[1..4] OF BOOL := [TRUE, TRUE, TRUE, TRUE];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_BOOL_Array_DiffersInSize');
+        <ST><![CDATA[TEST('Test_BOOL_Array_DifferInSize');
 
 AssertArrayEquals_BOOL(Expecteds := a,
                        Actuals := b,
@@ -100,14 +100,14 @@ AssertArrayEquals_BOOL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_BYTE_Array_DiffersInContent" Id="{5a3fc488-ce8e-4416-afcb-989908d1a477}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DiffersInContent
+    <Method Name="Test_BYTE_Array_DifferInContent" Id="{5a3fc488-ce8e-4416-afcb-989908d1a477}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DifferInContent
 VAR
     a : ARRAY[0..3] OF BYTE := [16#AB, 16#AA, 16#BB, 16#89];
     b : ARRAY[0..3] OF BYTE := [16#AB, 16#CD, 16#BB, 16#89];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_BYTE_Array_DiffersInContent');
+        <ST><![CDATA[TEST('Test_BYTE_Array_DifferInContent');
 
 AssertArrayEquals_BYTE(Expecteds := a,
                        Actuals := b,
@@ -116,14 +116,14 @@ AssertArrayEquals_BYTE(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_BYTE_Array_DiffersInSize" Id="{adf0d435-012a-46fa-86ef-fb8e0dd23d8d}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DiffersInSize
+    <Method Name="Test_BYTE_Array_DifferInSize" Id="{adf0d435-012a-46fa-86ef-fb8e0dd23d8d}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_BYTE_Array_DifferInSize
 VAR
     a : ARRAY[1..2] OF BYTE := [16#AB, 16#CD];
     b : ARRAY[1..5] OF BYTE := [16#AB, 16#CD, 16#EF, 16#01, 16#23];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_BYTE_Array_DiffersInSize');
+        <ST><![CDATA[TEST('Test_BYTE_Array_DifferInSize');
 
 AssertArrayEquals_BYTE(Expecteds := a,
                        Actuals := b,
@@ -679,13 +679,13 @@ TEST_FINISHED();]]></ST>
     <LineIds Name="FB_ArrayPrimitiveTypes_Test">
       <LineId Id="22" Count="38" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DiffersInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DiffersInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
@@ -697,13 +697,13 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DiffersInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DiffersInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />

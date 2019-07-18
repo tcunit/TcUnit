@@ -9,8 +9,8 @@ namespace TcUnit.Verifier
 {
     class TestFunctionBlockAssert
     {
-        private ErrorItems _errorItems;
-        private string _testFunctionBlockInstance;
+        protected ErrorItems _errorItems;
+        protected string _testFunctionBlockInstance;
 
         public TestFunctionBlockAssert(ErrorItems errorItems, string testFunctionBlockInstance)
         {
@@ -66,7 +66,7 @@ namespace TcUnit.Verifier
             int actualCount = CountErrorItemsContainingTestMessage(message);
             if (actualCount != messageCount)
             {
-                Console.WriteLine("Test suite " + _testFunctionBlockInstance +" reports message " + actualCount + " times");
+                Console.WriteLine("Test suite " + _testFunctionBlockInstance +" reports message " +message + " " + actualCount + " times");
             }
         }
 

@@ -138,11 +138,15 @@ namespace TcUnit.Verifier
 
 
             /* Insert the test classes here */
-            FB_PrimitiveTypes_Test_Asserter primitiveTypes_Test_Asserter = new FB_PrimitiveTypes_Test_Asserter(errorItems, "PrimitiveTypesTest");
-            FB_AssertTrueFalse_Test_Asserter assertTrueFalse_Test_Asserter = new FB_AssertTrueFalse_Test_Asserter(errorItems, "AssertTrueFalse_Test");
-            FB_AssertEveryFailedTestTwice_Asserter assertEveryFailedTestTwice_Asserter = new FB_AssertEveryFailedTestTwice_Asserter(errorItems, "AssertEveryFailedTestTwice");
+            FB_PrimitiveTypes_Test_Asserter primitiveTypes_Test = new FB_PrimitiveTypes_Test_Asserter(errorItems, "PrimitiveTypesTest");
+            FB_AssertTrueFalse_Test_Asserter assertTrueFalse_Test = new FB_AssertTrueFalse_Test_Asserter(errorItems, "AssertTrueFalse_Test");
+            FB_AssertEveryFailedTestTwice_Asserter assertEveryFailedTestTwice = new FB_AssertEveryFailedTestTwice_Asserter(errorItems, "AssertEveryFailedTestTwice");
             FB_CreateFourTestsWithSameName createFourTestsWithSameName = new FB_CreateFourTestsWithSameName(errorItems, "CreateFourTestsWithSameName");
-
+            FB_ArrayPrimitiveTypes_Test_Asserter arrayPrimitiveTypes_Test = new FB_ArrayPrimitiveTypes_Test_Asserter(errorItems, "ArrayPrimitiveTypes_Test");
+            FB_CreateDisabledTest_Asserter createDisabledTest = new FB_CreateDisabledTest_Asserter(errorItems, "CreateDisabledTest");
+            FB_AnyPrimitiveTypes_Test anyPrimitiveTypesTest = new FB_AnyPrimitiveTypes_Test(errorItems, "AnyPrimitiveTypes_Test");
+            FB_AssertEveryFailedTestTwiceArrayVersion_Asserter assertEveryFailedTestTwiceArrayVersion = new FB_AssertEveryFailedTestTwiceArrayVersion_Asserter(errorItems, "AssertEveryFailedTestTwice_ArrayVersion");
+            FB_AnyToUnionValue_Test_Asserter anyToUnionValue_Test_Asserter = new FB_AnyToUnionValue_Test_Asserter(errorItems, "AnyToUnionValue_Test");
 
             CleanUp();
 

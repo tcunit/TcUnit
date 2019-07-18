@@ -83,7 +83,7 @@ namespace TcUnit.Verifier
 
         private void Test_BYTE_Equals()
         {
-            string testMessage = CreateFailedTestMessage("Test_BYTE_Equals", "0xAB", "0xCD", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_BYTE_Equals", "0xCD", "0xCD", "Values differ");
             AssertDoesNotContainMessage(testMessage);
         }
 
