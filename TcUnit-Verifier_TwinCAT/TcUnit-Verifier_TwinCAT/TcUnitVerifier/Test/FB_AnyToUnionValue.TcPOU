@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_AnyToUnionValue_Test" Id="{0cc46357-158c-41b7-afc0-2c79ec82f0f6}" SpecialFunc="None">
+  <POU Name="FB_AnyToUnionValue" Id="{0cc46357-158c-41b7-afc0-2c79ec82f0f6}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Tests the free function F_AnyToUnionValue.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AnyToUnionValue_Test EXTENDS TcUnit.FB_TestSuite
+FUNCTION_BLOCK FB_AnyToUnionValue EXTENDS TcUnit.FB_TestSuite
 VAR
     aBit : BIT := 1; // Only structures and function blocks can have BIT defined
 END_VAR]]></Declaration>
@@ -466,10 +466,10 @@ AssertEquals(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AnyToUnionValue_Test">
+    <LineIds Name="FB_AnyToUnionValue">
       <LineId Id="19" Count="23" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_BIT">
+    <LineIds Name="FB_AnyToUnionValue.Test_BIT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -479,7 +479,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="23" Count="0" />
       <LineId Id="22" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_BOOL">
+    <LineIds Name="FB_AnyToUnionValue.Test_BOOL">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -489,7 +489,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="24" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_BYTE">
+    <LineIds Name="FB_AnyToUnionValue.Test_BYTE">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -499,7 +499,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_DATE">
+    <LineIds Name="FB_AnyToUnionValue.Test_DATE">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -509,7 +509,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_DATE_AND_TIME">
+    <LineIds Name="FB_AnyToUnionValue.Test_DATE_AND_TIME">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -519,7 +519,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_DINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_DINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -529,7 +529,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_DWORD">
+    <LineIds Name="FB_AnyToUnionValue.Test_DWORD">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -539,7 +539,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_INT">
+    <LineIds Name="FB_AnyToUnionValue.Test_INT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -549,7 +549,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_LINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_LINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -559,7 +559,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_LREAL">
+    <LineIds Name="FB_AnyToUnionValue.Test_LREAL">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -569,7 +569,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_LTIME">
+    <LineIds Name="FB_AnyToUnionValue.Test_LTIME">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -579,7 +579,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_LWORD">
+    <LineIds Name="FB_AnyToUnionValue.Test_LWORD">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -589,7 +589,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_REAL">
+    <LineIds Name="FB_AnyToUnionValue.Test_REAL">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -599,7 +599,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_SINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_SINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -609,7 +609,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_STRING">
+    <LineIds Name="FB_AnyToUnionValue.Test_STRING">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -619,7 +619,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_STRING_2">
+    <LineIds Name="FB_AnyToUnionValue.Test_STRING_2">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -629,7 +629,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_TIME">
+    <LineIds Name="FB_AnyToUnionValue.Test_TIME">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -639,7 +639,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_TIME_OF_DAY">
+    <LineIds Name="FB_AnyToUnionValue.Test_TIME_OF_DAY">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -649,7 +649,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_UDINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_UDINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -659,7 +659,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_UINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_UINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -669,7 +669,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_ULINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_ULINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -679,7 +679,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_USINT">
+    <LineIds Name="FB_AnyToUnionValue.Test_USINT">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -689,7 +689,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_WORD">
+    <LineIds Name="FB_AnyToUnionValue.Test_WORD">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
@@ -699,7 +699,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="27" Count="0" />
       <LineId Id="26" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyToUnionValue_Test.Test_WSTRING">
+    <LineIds Name="FB_AnyToUnionValue.Test_WSTRING">
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />

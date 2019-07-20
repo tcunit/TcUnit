@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_CreateDisabledTest_Asserter : TestFunctionBlockAssert
+    class FB_CreateDisabledTest : TestFunctionBlockAssert
     {
-        public FB_CreateDisabledTest_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_CreateDisabledTest(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             TestEnabled();
             TestDisabled();

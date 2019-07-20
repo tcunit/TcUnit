@@ -23,22 +23,22 @@
     <Description>This project is can be used to verify the different functions of TcUnit. It has various test suites to test different functions in TcUnit. By making sure to comment out everything except the test suite that is interesting it is possible to test only the specific function of TcUnit that is interesting.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FB_AdjustAssertFailureMessageToMax252CharLength_Test.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AnyToUnionValue_Test.TcPOU">
+    <Compile Include="Test\FB_AdjustAssertFailureMessageToMax252CharLengthTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_ArrayPrimitiveTypes_Test.TcPOU">
+    <Compile Include="Test\FB_AnyToUnionValue.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_ArrayPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_AssertEveryFailedTestTwice.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AssertEveryFailedTestTwice_ArrayVersion.TcPOU">
+    <Compile Include="Test\FB_AssertEveryFailedTestTwiceArrayVersion.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_CreateFourTestsWithSameName.TcPOU">
@@ -56,13 +56,13 @@
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_PrimitiveTypes_Test.TcPOU">
+    <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AssertTrueFalse_Test.TcPOU">
+    <Compile Include="Test\FB_AssertTrueFalse.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AnyPrimitiveTypes_Test.TcPOU">
+    <Compile Include="Test\FB_AnyPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\PRG_TEST.TcPOU">

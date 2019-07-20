@@ -30,22 +30,22 @@ VAR
 
     e : DWORD := 16#12345678;
     f : DWORD := 16#90ABCDEF;
-    
+
     g : DWORD := 16#12345678;
     h : DWORD := 16#90ABCDEF;
-    
+
     i : DWORD := 16#12345678;
     j : DWORD := 16#90ABCDEF;
-    
+
     k : DWORD := 16#12345678;
     l : DWORD := 16#90ABCDEF;
-    
+
     m : DWORD := 16#12345678;
     n : DWORD := 16#90ABCDEF;
-    
+
     o : DWORD := 16#12345678;
     p : DWORD := 16#90ABCDEF;
-    
+
     q : DWORD := 16#12345678;
     rr : DWORD := 16#90ABCDEF;
 END_VAR]]></Declaration>

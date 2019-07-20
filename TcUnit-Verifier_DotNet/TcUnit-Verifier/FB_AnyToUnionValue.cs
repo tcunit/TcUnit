@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_AnyToUnionValue_Test_Asserter : TestFunctionBlockAssert
+    class FB_AnyToUnionValue : TestFunctionBlockAssert
     {
-        public FB_AnyToUnionValue_Test_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AnyToUnionValue(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             Test_BOOL();
             Test_BIT();

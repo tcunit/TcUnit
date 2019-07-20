@@ -3,19 +3,19 @@
   <POU Name="PRG_TEST" Id="{35d0cb91-f449-41c5-be41-3ca0dfe074f2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_TEST
 VAR
-    PrimitiveTypesTest : FB_PrimitiveTypes_Test;
-    AssertTrueFalse_Test : FB_AssertTrueFalse_Test;
+    PrimitiveTypes : FB_PrimitiveTypes;
+    AssertTrueFalse : FB_AssertTrueFalse;
     AssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
     CreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
-    ArrayPrimitiveTypes_Test : FB_ArrayPrimitiveTypes_Test;
+    ArrayPrimitiveTypes : FB_ArrayPrimitiveTypes;
     CreateDisabledTest : FB_CreateDisabledTest;
-    AnyPrimitiveTypes_Test : FB_AnyPrimitiveTypes_Test;
-    AssertEveryFailedTestTwice_ArrayVersion : FB_AssertEveryFailedTestTwice_ArrayVersion;
-    AnyToUnionValue_Test : FB_AnyToUnionValue_Test;
-    //MultipleAssertWithSameParametersInSameCycleWithSameTest : FB_MultipleAssertWithSameParametersInSameCycleWithSameTest;
-    //MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests : FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests;
-    //MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest;
-    //AdjustAssertFailureMessageToMax252CharLength_Test : FB_AdjustAssertFailureMessageToMax252CharLength_Test;
+    AnyPrimitiveTypes : FB_AnyPrimitiveTypes;
+    AssertEveryFailedTestTwiceArrayVersion : FB_AssertEveryFailedTestTwiceArrayVersion;
+    AnyToUnionValue : FB_AnyToUnionValue;
+    MultipleAssertWithSameParametersInSameCycleWithSameTest : FB_MultipleAssertWithSameParametersInSameCycleWithSameTest;
+    MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests : FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests;
+    MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest;
+    AdjustAssertFailureMessageToMax252CharLengthTest : FB_AdjustAssertFailureMessageToMax252CharLengthTest;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>

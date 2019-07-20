@@ -19,10 +19,10 @@ FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycleWithSameTest EXTEND
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
-    
+
     c : DWORD := 16#12345678;
     d : DWORD := 16#90ABCDEF;
-    
+
     e : DWORD := 16#12345678;
     f : DWORD := 16#90ABCDEF;
 END_VAR]]></Declaration>

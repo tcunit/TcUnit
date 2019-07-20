@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_PrimitiveTypes_Test_Asserter : TestFunctionBlockAssert
+    class FB_PrimitiveTypes : TestFunctionBlockAssert
     {
-        public FB_PrimitiveTypes_Test_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_PrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             Test_ANY_Equals();
             Test_ANY_Differ_DataType();

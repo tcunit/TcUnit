@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_AnyPrimitiveTypes_Test" Id="{bf0ad75f-805b-4448-a5e9-9fafb9350eaa}" SpecialFunc="None">
+  <POU Name="FB_AnyPrimitiveTypes" Id="{bf0ad75f-805b-4448-a5e9-9fafb9350eaa}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the different assert-functions for all the primitive data types in TwinCAT, but using the
     ANY-version of the Assert-method.
@@ -11,7 +11,7 @@
     directly. 
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AnyPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_AnyPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_ANY_BYTE_Equals();
 Test_ANY_BYTE_Differ();
@@ -728,10 +728,10 @@ AssertEquals(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test">
+    <LineIds Name="FB_AnyPrimitiveTypes">
       <LineId Id="23" Count="41" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_BOOL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -739,7 +739,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BOOL_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_BOOL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -747,7 +747,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_BYTE_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -755,7 +755,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_BYTE_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_BYTE_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -763,7 +763,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DATE_AND_TIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -771,7 +771,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_AND_TIME_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DATE_AND_TIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -779,7 +779,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DATE_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -787,7 +787,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DATE_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DATE_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -795,7 +795,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -803,7 +803,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="19" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -811,7 +811,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DWORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -819,7 +819,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_DWORD_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_DWORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -827,7 +827,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_INT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -835,14 +835,14 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_INT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_INT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="11" Count="1" />
       <LineId Id="17" Count="1" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -850,7 +850,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -858,7 +858,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LREAL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -866,7 +866,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LREAL_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LREAL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -874,7 +874,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LTIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -882,7 +882,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LTIME_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LTIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -890,7 +890,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LWORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -898,7 +898,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_LWORD_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_LWORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -906,7 +906,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_REAL_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -914,7 +914,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_REAL_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_REAL_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -922,7 +922,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_SINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -930,7 +930,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_SINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_SINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -938,7 +938,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_STRING_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -946,7 +946,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_STRING_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_STRING_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -954,7 +954,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_TIME_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -962,7 +962,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_TIME_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -970,7 +970,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_TIME_OF_DAY_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -978,7 +978,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_TIME_OF_DAY_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_TIME_OF_DAY_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -986,7 +986,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_UDINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -994,7 +994,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UDINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_UDINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1002,7 +1002,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_UINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1010,7 +1010,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_UINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_UINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1018,7 +1018,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_ULINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1026,7 +1026,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_ULINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_ULINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1034,7 +1034,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_USINT_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="22" Count="1" />
@@ -1042,7 +1042,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="29" Count="0" />
       <LineId Id="28" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_USINT_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_USINT_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1050,7 +1050,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Differ">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_WORD_Differ">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />
@@ -1058,7 +1058,7 @@ TEST_FINISHED();]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AnyPrimitiveTypes_Test.Test_ANY_WORD_Equals">
+    <LineIds Name="FB_AnyPrimitiveTypes.Test_ANY_WORD_Equals">
       <LineId Id="5" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="8" Count="0" />

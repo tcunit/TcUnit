@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_ArrayPrimitiveTypes_Test_Asserter : TestFunctionBlockAssert
+    class FB_ArrayPrimitiveTypes : TestFunctionBlockAssert
     {
-        public FB_ArrayPrimitiveTypes_Test_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_ArrayPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             Test_BOOL_Array_Equals();
             Test_BOOL_Array_DifferInSize();

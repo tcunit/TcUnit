@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_AssertEveryFailedTestTwice_Asserter : TestFunctionBlockAssert
+    class FB_AssertEveryFailedTestTwice : TestFunctionBlockAssert
     {
-        public FB_AssertEveryFailedTestTwice_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AssertEveryFailedTestTwice(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             TwiceAssertCall();
         }

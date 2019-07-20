@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_AssertTrueFalse_Test_Asserter : TestFunctionBlockAssert
+    class FB_AssertTrueFalse : TestFunctionBlockAssert
     {
-        public FB_AssertTrueFalse_Test_Asserter(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AssertTrueFalse(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             AssertThatINTsAreEqual();
             AssertThatINTsAreNotEqual();

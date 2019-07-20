@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
-    class FB_AnyPrimitiveTypes_Test : TestFunctionBlockAssert
+    class FB_AnyPrimitiveTypes : TestFunctionBlockAssert
     {
-        public FB_AnyPrimitiveTypes_Test(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AnyPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
         {
             Test_ANY_BYTE_Equals();
             Test_ANY_BYTE_Differ();

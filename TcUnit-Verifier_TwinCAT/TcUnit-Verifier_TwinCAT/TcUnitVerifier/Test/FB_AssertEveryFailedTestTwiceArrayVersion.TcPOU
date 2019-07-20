@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_AssertEveryFailedTestTwice_ArrayVersion" Id="{5b8060b0-3687-4b9b-9022-5637e5f78c2d}" SpecialFunc="None">
+  <POU Name="FB_AssertEveryFailedTestTwiceArrayVersion" Id="{5b8060b0-3687-4b9b-9022-5637e5f78c2d}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     In this testsuite we are running the same testcase over two cycles, and thus calling
     every assert method twice. This is in order to verify that we don't print every FAILED assert twice.
     With this version we are doing it with arrays.
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_AssertEveryFailedTestTwice_ArrayVersion EXTENDS TcUnit.FB_TestSuite
+FUNCTION_BLOCK FB_AssertEveryFailedTestTwiceArrayVersion EXTENDS TcUnit.FB_TestSuite
 VAR
     AssertCount : USINT := 0;
 END_VAR]]></Declaration>
@@ -118,10 +118,10 @@ IF AssertCount = 2 THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AssertEveryFailedTestTwice_ArrayVersion">
+    <LineIds Name="FB_AssertEveryFailedTestTwiceArrayVersion">
       <LineId Id="20" Count="0" />
     </LineIds>
-    <LineIds Name="FB_AssertEveryFailedTestTwice_ArrayVersion.TwiceAssertCall_Arrays">
+    <LineIds Name="FB_AssertEveryFailedTestTwiceArrayVersion.TwiceAssertCall_Arrays">
       <LineId Id="5" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="25" Count="1" />

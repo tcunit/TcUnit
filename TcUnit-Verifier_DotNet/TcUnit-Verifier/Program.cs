@@ -138,16 +138,19 @@ namespace TcUnit.Verifier
 
 
             /* Insert the test classes here */
-            FB_PrimitiveTypes_Test_Asserter primitiveTypes_Test = new FB_PrimitiveTypes_Test_Asserter(errorItems, "PrimitiveTypesTest");
-            FB_AssertTrueFalse_Test_Asserter assertTrueFalse_Test = new FB_AssertTrueFalse_Test_Asserter(errorItems, "AssertTrueFalse_Test");
-            FB_AssertEveryFailedTestTwice_Asserter assertEveryFailedTestTwice = new FB_AssertEveryFailedTestTwice_Asserter(errorItems, "AssertEveryFailedTestTwice");
+            FB_PrimitiveTypes primitiveTypes = new FB_PrimitiveTypes(errorItems, "PrimitiveTypes");
+            FB_AssertTrueFalse assertTrueFalse = new FB_AssertTrueFalse(errorItems, "AssertTrueFalse");
+            FB_AssertEveryFailedTestTwice assertEveryFailedTestTwice = new FB_AssertEveryFailedTestTwice(errorItems, "AssertEveryFailedTestTwice");
             FB_CreateFourTestsWithSameName createFourTestsWithSameName = new FB_CreateFourTestsWithSameName(errorItems, "CreateFourTestsWithSameName");
-            FB_ArrayPrimitiveTypes_Test_Asserter arrayPrimitiveTypes_Test = new FB_ArrayPrimitiveTypes_Test_Asserter(errorItems, "ArrayPrimitiveTypes_Test");
-            FB_CreateDisabledTest_Asserter createDisabledTest = new FB_CreateDisabledTest_Asserter(errorItems, "CreateDisabledTest");
-            FB_AnyPrimitiveTypes_Test anyPrimitiveTypesTest = new FB_AnyPrimitiveTypes_Test(errorItems, "AnyPrimitiveTypes_Test");
-            FB_AssertEveryFailedTestTwiceArrayVersion_Asserter assertEveryFailedTestTwiceArrayVersion = new FB_AssertEveryFailedTestTwiceArrayVersion_Asserter(errorItems, "AssertEveryFailedTestTwice_ArrayVersion");
-            FB_AnyToUnionValue_Test_Asserter anyToUnionValue_Test_Asserter = new FB_AnyToUnionValue_Test_Asserter(errorItems, "AnyToUnionValue_Test");
-
+            FB_ArrayPrimitiveTypes arrayPrimitiveTypes = new FB_ArrayPrimitiveTypes(errorItems, "ArrayPrimitiveTypes");
+            FB_CreateDisabledTest createDisabledTest = new FB_CreateDisabledTest(errorItems, "CreateDisabledTest");
+            FB_AnyPrimitiveTypes anyPrimitiveTypes = new FB_AnyPrimitiveTypes(errorItems, "AnyPrimitiveTypes");
+            FB_AssertEveryFailedTestTwiceArrayVersion assertEveryFailedTestTwiceArrayVersion = new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems, "AssertEveryFailedTestTwiceArrayVersion");
+            FB_AnyToUnionValue anyToUnionValue = new FB_AnyToUnionValue(errorItems, "AnyToUnionValue");
+            FB_MultipleAssertWithSameParametersInSameCycleWithSameTest multipleAssertWithSameParametersInSameCycleWithSameTest = new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errorItems, "MultipleAssertWithSameParametersInSameCycleWithSameTest");
+            FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests multipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests = new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests");
+            FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest multipleAssertWithSameParametersInDifferentCyclesAndInSameTest = new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest");
+            FB_AdjustAssertFailureMessageToMax252CharLengthTest adjustAssertFailureMessageToMax252CharLengthTest = new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems, "AdjustAssertFailureMessageToMax252CharLengthTest");
             CleanUp();
 
             return Constants.RETURN_SUCCESSFULL;

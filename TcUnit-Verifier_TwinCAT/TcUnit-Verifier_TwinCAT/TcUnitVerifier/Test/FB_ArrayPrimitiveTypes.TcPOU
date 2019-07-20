@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_ArrayPrimitiveTypes_Test" Id="{50358d3a-b100-454e-8d82-abe092455655}" SpecialFunc="None">
+  <POU Name="FB_ArrayPrimitiveTypes" Id="{50358d3a-b100-454e-8d82-abe092455655}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the different assert-functions for all the different type of arrays (varying by the different
     data types that are available in TwinCAT). For every type of array (BOOL, BYTE, INT etc.) at least three different
@@ -10,7 +10,7 @@
         3. One test that fails, where the content of the array differs
 *)
 {attribute 'call_after_init'}
-FUNCTION_BLOCK FB_ArrayPrimitiveTypes_Test EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_ArrayPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BOOL_Array_Equals();
 Test_BOOL_Array_DifferInSize();
@@ -676,238 +676,238 @@ AssertArrayEquals_WORD(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test">
+    <LineIds Name="FB_ArrayPrimitiveTypes">
       <LineId Id="22" Count="38" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BOOL_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BOOL_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BOOL_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BOOL_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BYTE_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BYTE_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_BYTE_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_BYTE_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DWORD_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DWORD_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_DWORD_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_DWORD_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_INT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_INT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_INT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_INT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LWORD_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LWORD_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LWORD_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LWORD_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_LWORD_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LWORD_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_SINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_SINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_SINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_SINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_SINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_SINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UDINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UDINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UDINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UDINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UDINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UDINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_UINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_UINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_ULINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_ULINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_ULINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_ULINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_ULINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_ULINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_USINT_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_USINT_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_USINT_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_USINT_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_USINT_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_USINT_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_WORD_Array_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_WORD_Array_DifferInContent">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_WORD_Array_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_WORD_Array_DifferInSize">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes_Test.Test_WORD_Array_Equals">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_WORD_Array_Equals">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="0" />
