@@ -136,7 +136,6 @@ namespace TcUnit.Verifier
 
             log.Info("Asserting results...");
 
-
             /* Insert the test classes here */
             FB_PrimitiveTypes primitiveTypes = new FB_PrimitiveTypes(errorItems, "PrimitiveTypes");
             FB_AssertTrueFalse assertTrueFalse = new FB_AssertTrueFalse(errorItems, "AssertTrueFalse");
@@ -151,6 +150,9 @@ namespace TcUnit.Verifier
             FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests multipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests = new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests");
             FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest multipleAssertWithSameParametersInDifferentCyclesAndInSameTest = new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest");
             FB_AdjustAssertFailureMessageToMax252CharLengthTest adjustAssertFailureMessageToMax252CharLengthTest = new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems, "AdjustAssertFailureMessageToMax252CharLengthTest");
+
+            log.Info("Done.");
+
             CleanUp();
 
             return Constants.RETURN_SUCCESSFULL;
