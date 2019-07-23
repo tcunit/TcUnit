@@ -48,9 +48,12 @@ AdjustAssertFailureMessageToMax252CharLength(MsgFmtString := TestInstancePathFin
                                              MsgFmtStringProcessed => TestInstancePathProcessed,
                                              StringArgProcessed => MessageProcessed);
 
+GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := TestInstancePathProcessed,
+                              StrArg := MessageProcessed);
+(*
 ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                     msgFmtStr := TestInstancePathProcessed,
-                                    strArg := MessageProcessed);]]></ST>
+                                    strArg := MessageProcessed); *)]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ADSAssertMessageFormatter">
@@ -61,7 +64,9 @@ ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERR
       <LineId Id="47" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="48" Count="2" />
+      <LineId Id="65" Count="0" />
       <LineId Id="45" Count="0" />
+      <LineId Id="66" Count="1" />
       <LineId Id="30" Count="1" />
       <LineId Id="10" Count="0" />
     </LineIds>

@@ -77,7 +77,10 @@ IF AllTestSuitesFinished THEN
                                  Busy => BusyPrinting);
         DonePrintingTestResults := NOT BusyPrinting;
     END_IF
-END_IF]]></ST>
+END_IF
+
+(* Run the buffered ADS logger *)
+GVL_TcUnit.AdsLogger();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_TcUnitRunner">
@@ -111,6 +114,9 @@ END_IF]]></ST>
       <LineId Id="148" Count="0" />
       <LineId Id="144" Count="0" />
       <LineId Id="105" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="199" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

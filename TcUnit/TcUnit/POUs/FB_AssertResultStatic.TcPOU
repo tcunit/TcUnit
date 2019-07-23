@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for keeping track of which asserts that have been made. The reason we need to
@@ -14,7 +14,7 @@
 FUNCTION_BLOCK FB_AssertResultStatic
 VAR
     (* The total amount of instances of each of the "AssertResults" *)
-    AssertResults : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfAsserts] OF ST_AssertResult;
+    AssertResults : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfAsserts] OF ST_AssertResult;
 
     (* The total amount of unique asserts *)
     TotalAsserts : UINT := 0;
@@ -23,7 +23,7 @@ VAR
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
     (* The total amount of instances of each of the "AssertResults" *)
-    AssertResultInstances : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfAsserts] OF ST_AssertResultInstances;
+    AssertResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfAsserts] OF ST_AssertResultInstances;
 
     (* The last PLC cycle count *)
     CycleCount : UDINT;
@@ -57,7 +57,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
     AssertResultInstances[IteratorCounter].DetectionCount := AssertResultInstances[IteratorCounter].DetectionCountThisCycle;
     AssertResultInstances[IteratorCounter].DetectionCountThisCycle := 0;
 END_FOR]]></ST>
@@ -75,7 +75,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
     IF AssertResultInstances[IteratorCounter].DetectionCount = 0 AND
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle = 0 THEN // Find first free spot
         AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnyValue := Expected);
@@ -100,7 +100,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                 ExpectedOrActual := Expected) AND 
         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
@@ -124,7 +124,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                 ExpectedOrActual := Expected) AND 
         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
@@ -148,7 +148,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Constants_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                 ExpectedOrActual := Expected) AND 
         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,

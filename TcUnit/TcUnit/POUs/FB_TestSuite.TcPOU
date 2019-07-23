@@ -21,13 +21,13 @@ VAR
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
     NumberOfTests : UINT := 0;
-    Tests : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
+    Tests : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
        position is a duplicate *)
-    TestDuplicateNameTrigger : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
+    TestDuplicateNameTrigger : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
     (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
-    TestCycleCountIndex : ARRAY[1..GVL_Constants_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
+    TestCycleCountIndex : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
 
     AssertResults : FB_AssertResultStatic;
     AssertArrayResult : FB_AssertArrayResultStatic;
@@ -91,9 +91,8 @@ FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
                 ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
                 ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
                 ErrorMessage := Tc2_Standard.CONCAT(STR1 := ErrorMessage, STR2 := '$'');
-                FunctionCallResult := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                           msgFmtStr := ErrorMessage,
-                                                           strArg := TrimmedTestName);
+                GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := ErrorMessage,
+                                              StrArg := TrimmedTestName);
             END_IF
         END_IF
         TestCycleCountIndex[IteratorCounter] := CycleCount;
@@ -2435,9 +2434,9 @@ IF AnyComparator.DataTypesNotEquals THEN
     ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString(Actual.TypeClass));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF AnyComparator.DataSizeNotEquals THEN
-    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
+    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
-    ActualDataString := Tc2_Standard.CONCAT(STR1 := 'Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
+    ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF AnyComparator.DataContentNotEquals THEN
     FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
@@ -3481,9 +3480,7 @@ END_IF]]></ST>
       <LineId Id="95" Count="0" />
       <LineId Id="48" Count="0" />
       <LineId Id="56" Count="1" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="46" Count="0" />
+      <LineId Id="232" Count="1" />
       <LineId Id="96" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="201" Count="0" />

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_ADSTestResultFormatter" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block reports the results from the tests using the built-in ADSLOGSTR functionality
@@ -43,44 +43,38 @@ END_VAR]]></Declaration>
         PrintState := 100;
         Busy := TRUE;
     1 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '%s',
-                                          strArg := '| ==========TESTS FINISHED RUNNING==========');
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '%s',
+                                      StrArg := '| ==========TESTS FINISHED RUNNING==========');
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     2 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '| Test suites: %s',
-                                          strArg := UINT_TO_STRING(AmountOfTestSuites));
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Test suites: %s',
+                                      StrArg := UINT_TO_STRING(AmountOfTestSuites));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     3 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '| Tests: %s',
-                                          strArg := UINT_TO_STRING(AmountOfTestCases));
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Tests: %s',
+                                      StrArg := UINT_TO_STRING(AmountOfTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     4 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '| Successful tests: %s',
-                                          strArg := UINT_TO_STRING((AmountOfSuccessfulTestCases)));
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Successful tests: %s',
+                                      StrArg := UINT_TO_STRING(AmountOfSuccessfulTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     5 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '| Failed tests : %s',
-                                          strArg := UINT_TO_STRING(AmountOfFailedTestCases));
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Failed tests: %s',
+                                      StrArg := UINT_TO_STRING(AmountOfFailedTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     6 :
-        ErrorCode := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                          msgFmtStr := '%s',
-                                          strArg := '| ======================================');
+        GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '%s',
+                                      StrArg := '| ======================================');
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
@@ -102,11 +96,21 @@ END_CASE]]></ST>
     <LineIds Name="FB_ADSTestResultFormatter.Format">
       <LineId Id="18" Count="3" />
       <LineId Id="74" Count="0" />
-      <LineId Id="23" Count="2" />
-      <LineId Id="92" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="109" Count="1" />
       <LineId Id="26" Count="1" />
       <LineId Id="75" Count="0" />
-      <LineId Id="29" Count="35" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="112" Count="1" />
+      <LineId Id="33" Count="3" />
+      <LineId Id="116" Count="1" />
+      <LineId Id="40" Count="3" />
+      <LineId Id="119" Count="1" />
+      <LineId Id="47" Count="3" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="54" Count="3" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="61" Count="3" />
       <LineId Id="66" Count="7" />
       <LineId Id="17" Count="0" />
     </LineIds>
