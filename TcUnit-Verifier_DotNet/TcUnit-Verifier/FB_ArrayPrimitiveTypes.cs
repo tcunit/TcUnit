@@ -29,9 +29,27 @@ namespace TcUnit.Verifier
             Test_LINT_Array_Equals();
             Test_LINT_Array_DifferInSize();
             Test_LINT_Array_DifferInContent();
+            Test_LREAL_Array_Equals();
+            Test_LREAL_Array_DifferInSize();
+            Test_LREAL_Array_DifferInContent();
+            Test_LREAL_Array2d_Equals();
+            Test_LREAL_Array2d_DifferInSize();
+            Test_LREAL_Array2d_DifferInContent();
+            Test_LREAL_Array3d_Equals();
+            Test_LREAL_Array3d_DifferInSize();
+            Test_LREAL_Array3d_DifferInContent();
             Test_LWORD_Array_Equals();
             Test_LWORD_Array_DifferInSize();
             Test_LWORD_Array_DifferInContent();
+            Test_REAL_Array_Equals();
+            Test_REAL_Array_DifferInSize();
+            Test_REAL_Array_DifferInContent();
+            Test_REAL_Array2d_Equals();
+            Test_REAL_Array2d_DifferInSize();
+            Test_REAL_Array2d_DifferInContent();
+            Test_REAL_Array3d_Equals();
+            Test_REAL_Array3d_DifferInSize();
+            Test_REAL_Array3d_DifferInContent();
             Test_SINT_Array_Equals();
             Test_SINT_Array_DifferInSize();
             Test_SINT_Array_DifferInContent();
@@ -154,6 +172,57 @@ namespace TcUnit.Verifier
             AssertContainsMessage(testMessage);
         }
 
+        private void Test_LREAL_Array_Equals()
+        {
+            AssertDoesNotContainMessage("Test_LREAL_Array_Equals");
+        }
+
+        private void Test_LREAL_Array_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array_DifferInSize", "SIZE = 8", "SIZE = 5", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_LREAL_Array_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_LREAL_Array2d_Equals()
+        {
+            AssertDoesNotContainMessage("Test_LREAL_Array2d_Equals");
+        }
+
+        private void Test_LREAL_Array2d_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array2d_DifferInSize", "SIZE = [-4..3,-1..2] (8x4)", "SIZE = [1..3,0..1] (3x2)", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_LREAL_Array2d_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array2d_DifferInContent", "ARRAY[-5,0] = -23.0", "ARRAY[1,1] = 24.0", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_LREAL_Array3d_Equals()
+        {
+            AssertDoesNotContainMessage("Test_LREAL_Array3d_Equals");
+        }
+
+        private void Test_LREAL_Array3d_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array3d_DifferInSize", "SIZE = [-5..-4,-1..3,-2..4] (2x5x7)", "SIZE = [1..2,4..5,6..7] (2x2x2)", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_LREAL_Array3d_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array3d_DifferInContent", "ARRAY[-5,-1,1] = -23.0", "ARRAY[1,4,7] = 24.0", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
         private void Test_LWORD_Array_Equals()
         {
             AssertDoesNotContainMessage("Test_LWORD_Array_Equals");
@@ -168,6 +237,57 @@ namespace TcUnit.Verifier
         private void Test_LWORD_Array_DifferInContent()
         {
             string testMessage = CreateFailedTestMessage("Test_LWORD_Array_DifferInContent", "ARRAY[1] = 0xEDCBA09876543210", "ARRAY[1] = 0x01234567890ABCDE", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array_Equals()
+        {
+            AssertDoesNotContainMessage("Test_REAL_Array_Equals");
+        }
+
+        private void Test_REAL_Array_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array_DifferInSize", "SIZE = 8", "SIZE = 5", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array2d_Equals()
+        {
+            AssertDoesNotContainMessage("Test_REAL_Array2d_Equals");
+        }
+
+        private void Test_REAL_Array2d_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array2d_DifferInSize", "SIZE = [-4..3,-1..2] (8x4)", "SIZE = [1..3,0..1] (3x2)", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array2d_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array2d_DifferInContent", "ARRAY[-5,0] = -23.0", "ARRAY[1,1] = 24.0", "Arrays differ");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array3d_Equals()
+        {
+            AssertDoesNotContainMessage("Test_REAL_Array3d_Equals");
+        }
+
+        private void Test_REAL_Array3d_DifferInSize()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array3d_DifferInSize", "SIZE = [-5..-4,-1..3,-2..4] (2x5x7)", "SIZE = [1..2,4..5,6..7] (2x2x2)", "Arrays differ, size of arrays not matching.");
+            AssertContainsMessage(testMessage);
+        }
+
+        private void Test_REAL_Array3d_DifferInContent()
+        {
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array3d_DifferInContent", "ARRAY[-5,-1,1] = -23.0", "ARRAY[1,4,7] = 24.0", "Arrays differ");
             AssertContainsMessage(testMessage);
         }
 

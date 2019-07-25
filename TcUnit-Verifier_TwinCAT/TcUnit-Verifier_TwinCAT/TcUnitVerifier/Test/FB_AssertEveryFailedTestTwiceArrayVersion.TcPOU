@@ -35,8 +35,26 @@ VAR
     aLINT : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_853_775_808, 55];
     bLINT : ARRAY[4..6] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
 
+    aLREAL : ARRAY[-2..1] OF LREAL := [3.55, 7.88, 2.44];
+    bLREAL : ARRAY[-1..2] OF LREAL := [3.56, 7.99, 2.44];
+
+    aLREAL2d : ARRAY[0..1, 0..1] OF LREAL := [4.44, 5.75, 6.96, 7.77];
+    bLREAL2d : ARRAY[0..1, 0..1] OF LREAL := [4.45, 5.75, 6.68, 7.77];
+
+    aLREAL3d : ARRAY[0..1, 0..1, 0..1] OF LREAL := [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0];
+    bLREAL3d : ARRAY[0..1, 0..1, 0..1] OF LREAL := [1.0, 2.0, 3.0, 4.0, 5.0, 6.4, 7.0, 8.0];
+
     aLWORD : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     bLWORD : ARRAY[1..1] OF LWORD := [16#01234567890ABCDE];
+
+    aREAL : ARRAY[0..2] OF REAL := [6.55000001, 3.54, 2.44001];
+    bREAL : ARRAY[0..2] OF REAL := [6.55, 3.54, 2.44003];
+
+    aREAL2d : ARRAY[0..1, 0..1] OF REAL := [4.45, 5.75, 6.960001, 7.7701];
+    bREAL2d : ARRAY[0..1, 0..1] OF REAL := [4.45, 5.75, 6.960002, 7.7703];
+
+    aREAL3d : ARRAY[0..1, 0..1, 0..1] OF REAL := [1.0, 2.0, 3.0, 4.01, 5.0, 6.0, 7.0, 8.0];
+    bREAL3d : ARRAY[0..1, 0..1, 0..1] OF REAL := [1.0, 2.0, 3.0, 4.021, 5.0, 6.0, 7.0, 8.0];
 
     aSINT : ARRAY[0..0] OF SINT := [-128];
     bSINT : ARRAY[0..0] OF SINT := [127];
@@ -84,6 +102,21 @@ AssertArrayEquals_LINT(Expecteds := aLINT,
                        Actuals := bLINT,
                        Message := 'Not equal LINT');
 
+AssertArrayEquals_LREAL(Expecteds := aLREAL,
+                        Actuals := bLREAL,
+                        Delta := 0.1,
+                        Message := 'Not equal LREAL');
+
+AssertArray2dEquals_LREAL(Expecteds := aLREAL2d,
+                          Actuals := bLREAL2d,
+                          Delta := 0.1,
+                          Message := 'Not equal LREAL2D');
+
+AssertArray3dEquals_LREAL(Expecteds := aLREAL3d,
+                          Actuals := bLREAL3d,
+                          Delta := 0.1,
+                          Message := 'Not equal LREAL3D');
+
 AssertArrayEquals_LWORD(Expecteds := aLWORD,
                         Actuals := bLWORD,
                         Message := 'Not equal LWORD');
@@ -91,6 +124,21 @@ AssertArrayEquals_LWORD(Expecteds := aLWORD,
 AssertArrayEquals_SINT(Expecteds := aSINT,
                        Actuals := bSINT,
                        Message := 'Not equal SINT');
+
+AssertArrayEquals_REAL(Expecteds := aREAL,
+                       Actuals := bREAL,
+                       Delta := 0.00001,
+                       Message := 'Not equal REAL');
+
+AssertArray2dEquals_REAL(Expecteds := aREAL2d,
+                         Actuals := bREAL2d,
+                         Delta := 0.0001,
+                         Message := 'Not equal REAL2D');
+
+AssertArray3dEquals_REAL(Expecteds := aREAL3d,
+                         Actuals := bREAL3d,
+                         Delta := 0.01,
+                         Message := 'Not equal REAL3D');
 
 AssertArrayEquals_UDINT(Expecteds := aUDINT,
                         Actuals := bUDINT,
@@ -141,12 +189,28 @@ END_IF]]></ST>
       <LineId Id="100" Count="0" />
       <LineId Id="102" Count="1" />
       <LineId Id="101" Count="0" />
+      <LineId Id="330" Count="0" />
+      <LineId Id="329" Count="0" />
+      <LineId Id="331" Count="2" />
+      <LineId Id="335" Count="3" />
+      <LineId Id="334" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="341" Count="2" />
+      <LineId Id="340" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="111" Count="1" />
       <LineId Id="110" Count="0" />
       <LineId Id="121" Count="0" />
       <LineId Id="119" Count="1" />
       <LineId Id="118" Count="0" />
+      <LineId Id="404" Count="3" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="408" Count="0" />
+      <LineId Id="410" Count="2" />
+      <LineId Id="409" Count="0" />
+      <LineId Id="417" Count="0" />
+      <LineId Id="414" Count="2" />
+      <LineId Id="413" Count="0" />
       <LineId Id="128" Count="2" />
       <LineId Id="127" Count="0" />
       <LineId Id="132" Count="2" />

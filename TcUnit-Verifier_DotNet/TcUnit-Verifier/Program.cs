@@ -57,6 +57,8 @@ namespace TcUnit.Verifier
             }
 
             MessageFilter.Register();
+
+            log.Info("Starting TcUnit-Verifier...");
             try
             {
                 vsInstance = new VisualStudioInstance(@tcUnitVerifierPath);
@@ -76,7 +78,6 @@ namespace TcUnit.Verifier
             }
 
             log.Info("Cleaning and building TcUnit-Verifier_TwinCAT solution...");
-            //vsInstance.CleanAndBuildSolution();
             AutomationInterface automationInterface = new AutomationInterface(vsInstance);
             automationInterface.ITcSysManager.SetTargetNetId("127.0.0.1.1.1");
             ITcSmTreeItem plcProject = automationInterface.PlcTreeItem.Child[1];

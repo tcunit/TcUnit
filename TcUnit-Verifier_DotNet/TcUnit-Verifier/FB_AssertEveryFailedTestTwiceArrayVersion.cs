@@ -34,7 +34,25 @@ namespace TcUnit.Verifier
             testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[0] = -9223372036853775808", "ARRAY[5] = -9223372036854775808", "Not equal LINT");
             AssertMessageCount(testMessage, 1);
 
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[-1] = 7.88", "ARRAY[0] = 7.99", "Not equal LREAL");
+            AssertMessageCount(testMessage, 1);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[1,0] = 6.96", "ARRAY[1,0] = 6.68", "Not equal LREAL2D");
+            AssertMessageCount(testMessage, 1);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[1,0,1] = 6.0", "ARRAY[1,0,1] = 6.4", "Not equal LREAL3D");
+            AssertMessageCount(testMessage, 1);
+
             testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[1] = 0xEDCBA09876543210", "ARRAY[1] = 0x01234567890ABCDE", "Not equal LWORD");
+            AssertMessageCount(testMessage, 1);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[2] = 2.44001", "ARRAY[2] = 2.44003", "Not equal REAL");
+            AssertMessageCount(testMessage, 1);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[1,1] = 7.7701", "ARRAY[1,1] = 7.7703", "Not equal REAL2D");
+            AssertMessageCount(testMessage, 1);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[0,1,1] = 4.01", "ARRAY[0,1,1] = 4.021", "Not equal REAL3D");
             AssertMessageCount(testMessage, 1);
 
             testMessage = CreateFailedTestMessage("TwiceAssertCall_Arrays", "ARRAY[0] = -128", "ARRAY[0] = 127", "Not equal SINT");
