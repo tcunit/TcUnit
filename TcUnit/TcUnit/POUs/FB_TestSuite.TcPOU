@@ -143,7 +143,7 @@ VAR_IN_OUT
     Actuals : ARRAY[*,*] OF LREAL; // LREAL 2d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : LREAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -153,19 +153,21 @@ VAR
     ActualString : STRING;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-    DimensionIndex : USINT;  // Index when looping through Dimensions
-    LowerBoundExpecteds : ARRAY[1..2] OF DINT;  // Lower bounds of Expecteds array in each dimension
-    UpperBoundExpecteds : ARRAY[1..2] OF DINT;  // Upper bounds of Expecteds array in each dimension
-    LowerBoundActuals : ARRAY[1..2] OF DINT;    // Lower bounds of Actuals array in each dimension
-    UpperBoundActuals : ARRAY[1..2] OF DINT;    // Upper bounds of Actuals array in each dimension
-    SizeOfExpecteds : ARRAY[1..2] OF DINT;  // Size of Expecteds array in each dimension
-    SizeOfActuals : ARRAY[1..2] OF DINT;    // Size of Actuals array in each dimension
-    Offset : ARRAY[1..2] OF DINT;   // Current Array index offsets from Lower Bound in each dimension
+    DimensionIndex : USINT; // Index when looping through Dimensions
+    LowerBoundExpecteds : ARRAY[1..2] OF DINT; // Lower bounds of Expecteds array in each dimension
+    UpperBoundExpecteds : ARRAY[1..2] OF DINT; // Upper bounds of Expecteds array in each dimension
+    LowerBoundActuals : ARRAY[1..2] OF DINT; // Lower bounds of Actuals array in each dimension
+    UpperBoundActuals : ARRAY[1..2] OF DINT; // Upper bounds of Actuals array in each dimension
+    SizeOfExpecteds : ARRAY[1..2] OF DINT; // Size of Expecteds array in each dimension
+    SizeOfActuals : ARRAY[1..2] OF DINT; // Size of Actuals array in each dimension
+    Offset : ARRAY[1..2] OF DINT; // Current Array index offsets from Lower Bound in each dimension
     ExpectedArrayIndex : ARRAY[1..2] OF DINT; // Array of current Expected array indexes when looping through arrays
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
-    Expected : LREAL; // single expected value
-    Actual : LREAL; // single actual value
-    fbFormatString : FB_FormatString;   // String formatter for output messages
+    Expected : LREAL; // Single expected value
+    Actual : LREAL; // Single actual value
+    ExpectedValueString : Tc2_System.T_MaxString;
+    ActualValueString : Tc2_System.T_MaxString;
+    FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -174,9 +176,9 @@ END_IF
 
 TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
-// UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
-// so they can't be called in a dimension-based loop
-// Thus we copy the array dimensions into arrays which accept variable indexes
+(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
+   so they can't be called in a dimension-based loop.
+   Thus we copy the array dimensions into arrays which accept variable indexes *)
 LowerBoundExpecteds[1] := LOWER_BOUND(Expecteds, 1);
 UpperBoundExpecteds[1] := UPPER_BOUND(Expecteds, 1);
 LowerBoundExpecteds[2] := LOWER_BOUND(Expecteds, 2);
@@ -199,24 +201,24 @@ END_FOR
 IF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes in each dimension, which needs to be taken into account. *)
-    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO            // Iterate Dimension 1
-        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO        // Iterate Dimension 2
+    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
+        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO // Iterate Dimension 2
             // Update index variables
             FOR DimensionIndex := 1 TO 2 DO
                 ExpectedArrayIndex[DimensionIndex] := LowerBoundExpecteds[DimensionIndex] + Offset[DimensionIndex];
                 ActualArrayIndex[DimensionIndex] := LowerBoundActuals[DimensionIndex] + Offset[DimensionIndex];
             END_FOR
-            
+
             // Get array element values
-            Expected := Expecteds[ ExpectedArrayIndex[1], ExpectedArrayIndex[2] ];
-            Actual     := Actuals[ ActualArrayIndex[1], ActualArrayIndex[2] ]; 
-                        
+            Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2]];
+            Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2]]; 
+
             IF ABS(Expected - Actual) > Delta THEN
                 Equals := FALSE;
                 EXIT;
             END_IF
         END_FOR
-        
+
         // Check for loop bailout
         IF NOT Equals THEN
             EXIT;
@@ -236,11 +238,11 @@ END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        fbFormatString( 
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
             arg1 := F_DINT(LowerBoundExpecteds[1]),
             arg2 := F_DINT(UpperBoundExpecteds[1]),
@@ -248,10 +250,9 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg4 := F_DINT(UpperBoundExpecteds[2]),
             arg5 := F_DINT(SizeOfExpecteds[1]),
             arg6 := F_DINT(SizeOfExpecteds[2]),
-            sOut => ExpectedString    
-        );
-        
-        fbFormatString( 
+            sOut => ExpectedString);
+
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
             arg1 := F_DINT(LowerBoundActuals[1]),
             arg2 := F_DINT(UpperBoundActuals[1]),
@@ -259,24 +260,23 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg4 := F_DINT(UpperBoundActuals[2]),
             arg5 := F_DINT(SizeOfActuals[1]),
             arg6 := F_DINT(SizeOfActuals[2]),
-            sOut => ActualString
-        );
+            sOut => ActualString);
     ELSE
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d] = %f',
+        ExpectedValueString := LREAL_TO_STRING(Expected);
+        ActualValueString := LREAL_TO_STRING(Actual);
+        FormatString(
+            sFormat := 'ARRAY[%d,%d] = %s',
             arg1 := F_DINT(ExpectedArrayIndex[1]),
             arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_LREAL(Expected),
-            sOut => ExpectedString    
-        );
+            arg3 := F_STRING(ExpectedValueString),
+            sOut => ExpectedString);
 
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d] = %f',
+        FormatString(
+            sFormat := 'ARRAY[%d,%d] = %s',
             arg1 := F_DINT(ActualArrayIndex[1]),
             arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_LREAL(Actual),
-            sOut => ActualString    
-        );
+            arg3 := F_STRING(ActualValueString),
+            sOut => ActualString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -293,7 +293,7 @@ VAR_IN_OUT
     Actuals : ARRAY[*,*] OF REAL; // REAL 2d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : REAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -303,19 +303,21 @@ VAR
     ActualString : STRING;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-    DimensionIndex : USINT;  // Index when looping through Dimensions
-    LowerBoundExpecteds : ARRAY[1..2] OF DINT;  // Lower bounds of Expecteds array in each dimension
-    UpperBoundExpecteds : ARRAY[1..2] OF DINT;  // Upper bounds of Expecteds array in each dimension
-    LowerBoundActuals : ARRAY[1..2] OF DINT;    // Lower bounds of Actuals array in each dimension
-    UpperBoundActuals : ARRAY[1..2] OF DINT;    // Upper bounds of Actuals array in each dimension
-    SizeOfExpecteds : ARRAY[1..2] OF DINT;  // Size of Expecteds array in each dimension
-    SizeOfActuals : ARRAY[1..2] OF DINT;    // Size of Actuals array in each dimension
-    Offset : ARRAY[1..2] OF DINT;   // Current Array index offsets from Lower Bound in each dimension
+    DimensionIndex : USINT; // Index when looping through Dimensions
+    LowerBoundExpecteds : ARRAY[1..2] OF DINT; // Lower bounds of Expecteds array in each dimension
+    UpperBoundExpecteds : ARRAY[1..2] OF DINT; // Upper bounds of Expecteds array in each dimension
+    LowerBoundActuals : ARRAY[1..2] OF DINT; // Lower bounds of Actuals array in each dimension
+    UpperBoundActuals : ARRAY[1..2] OF DINT; // Upper bounds of Actuals array in each dimension
+    SizeOfExpecteds : ARRAY[1..2] OF DINT; // Size of Expecteds array in each dimension
+    SizeOfActuals : ARRAY[1..2] OF DINT; // Size of Actuals array in each dimension
+    Offset : ARRAY[1..2] OF DINT; // Current Array index offsets from Lower Bound in each dimension
     ExpectedArrayIndex : ARRAY[1..2] OF DINT; // Array of current Expected array indexes when looping through arrays
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
-    Expected : REAL; // single expected value
-    Actual : REAL; // single actual value
-    fbFormatString : FB_FormatString;   // String formatter for output messages
+    Expected : REAL; // Single expected value
+    Actual : REAL; // Single actual value
+    ExpectedValueString : Tc2_System.T_MaxString;
+    ActualValueString : Tc2_System.T_MaxString;
+    FormatString : Tc2_Utilities.FB_FormatString;// String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -324,9 +326,9 @@ END_IF
 
 TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
-// UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
-// so they can't be called in a dimension-based loop
-// Thus we copy the array dimensions into arrays which accept variable indexes
+(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
+   so they can't be called in a dimension-based loop.
+   Thus we copy the ARRAY dimensions into arrays which accept variable indexes *)
 LowerBoundExpecteds[1] := LOWER_BOUND(Expecteds, 1);
 UpperBoundExpecteds[1] := UPPER_BOUND(Expecteds, 1);
 LowerBoundExpecteds[2] := LOWER_BOUND(Expecteds, 2);
@@ -349,24 +351,24 @@ END_FOR
 IF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes in each dimension, which needs to be taken into account. *)
-    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO            // Iterate Dimension 1
-        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO        // Iterate Dimension 2
+    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
+        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO // Iterate Dimension 2
             // Update index variables
             FOR DimensionIndex := 1 TO 2 DO
                 ExpectedArrayIndex[DimensionIndex] := LowerBoundExpecteds[DimensionIndex] + Offset[DimensionIndex];
                 ActualArrayIndex[DimensionIndex] := LowerBoundActuals[DimensionIndex] + Offset[DimensionIndex];
             END_FOR
-            
+
             // Get array element values
-            Expected := Expecteds[ ExpectedArrayIndex[1], ExpectedArrayIndex[2] ];
-            Actual     := Actuals[ ActualArrayIndex[1], ActualArrayIndex[2] ]; 
-                        
+            Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2]];
+            Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2]]; 
+
             IF ABS(Expected - Actual) > Delta THEN
                 Equals := FALSE;
                 EXIT;
             END_IF
         END_FOR
-        
+
         // Check for loop bailout
         IF NOT Equals THEN
             EXIT;
@@ -386,11 +388,11 @@ END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        fbFormatString( 
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
             arg1 := F_DINT(LowerBoundExpecteds[1]),
             arg2 := F_DINT(UpperBoundExpecteds[1]),
@@ -398,10 +400,9 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg4 := F_DINT(UpperBoundExpecteds[2]),
             arg5 := F_DINT(SizeOfExpecteds[1]),
             arg6 := F_DINT(SizeOfExpecteds[2]),
-            sOut => ExpectedString
-        );
-        
-        fbFormatString( 
+            sOut => ExpectedString);
+
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
             arg1 := F_DINT(LowerBoundActuals[1]),
             arg2 := F_DINT(UpperBoundActuals[1]),
@@ -409,24 +410,23 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg4 := F_DINT(UpperBoundActuals[2]),
             arg5 := F_DINT(SizeOfActuals[1]),
             arg6 := F_DINT(SizeOfActuals[2]),
-            sOut => ActualString
-        );
+            sOut => ActualString);
     ELSE
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d] = %f',
+        ExpectedValueString := REAL_TO_STRING(Expected);
+        ActualValueString := REAL_TO_STRING(Actual);
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d] = %s',
             arg1 := F_DINT(ExpectedArrayIndex[1]),
             arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_REAL(Expected),
-            sOut => ExpectedString
-        );
+            arg3 := F_STRING(ExpectedValueString),
+            sOut => ExpectedString);
 
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d] = %f',
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d] = %s',
             arg1 := F_DINT(ActualArrayIndex[1]),
             arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_REAL(Actual),
-            sOut => ActualString
-        );
+            arg3 := F_STRING(ActualValueString),
+            sOut => ActualString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -454,18 +454,20 @@ VAR
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT;  // Index when looping through Dimensions
-    LowerBoundExpecteds : ARRAY[1..3] OF DINT;  // Lower bounds of Expecteds array in each dimension
-    UpperBoundExpecteds : ARRAY[1..3] OF DINT;  // Upper bounds of Expecteds array in each dimension
-    LowerBoundActuals : ARRAY[1..3] OF DINT;    // Lower bounds of Actuals array in each dimension
-    UpperBoundActuals : ARRAY[1..3] OF DINT;    // Upper bounds of Actuals array in each dimension
-    SizeOfExpecteds : ARRAY[1..3] OF DINT;  // Size of Expecteds array in each dimension
-    SizeOfActuals : ARRAY[1..3] OF DINT;    // Size of Actuals array in each dimension
-    Offset : ARRAY[1..3] OF DINT;    // Current Array index offsets from Lower Bound in each dimension
+    LowerBoundExpecteds : ARRAY[1..3] OF DINT; // Lower bounds of Expecteds array in each dimension
+    UpperBoundExpecteds : ARRAY[1..3] OF DINT; // Upper bounds of Expecteds array in each dimension
+    LowerBoundActuals : ARRAY[1..3] OF DINT; // Lower bounds of Actuals array in each dimension
+    UpperBoundActuals : ARRAY[1..3] OF DINT; // Upper bounds of Actuals array in each dimension
+    SizeOfExpecteds : ARRAY[1..3] OF DINT; // Size of Expecteds array in each dimension
+    SizeOfActuals : ARRAY[1..3] OF DINT; // Size of Actuals array in each dimension
+    Offset : ARRAY[1..3] OF DINT; // Current Array index offsets from Lower Bound in each dimension
     ExpectedArrayIndex : ARRAY[1..3] OF DINT; // Array of current Expected array indexes when looping through arrays
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
-    Expected : LREAL; // single expected value
-    Actual : LREAL; // single actual value
-    fbFormatString : FB_FormatString;    // String formatter for output messages
+    Expected : LREAL; // Single expected value
+    Actual : LREAL; // Single actual value
+    ExpectedValueString : Tc2_System.T_MaxString;
+    ActualValueString : Tc2_System.T_MaxString;
+    FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -474,9 +476,9 @@ END_IF
 
 TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
-// UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
-// so they can't be called in a dimension-based loop
-// Thus we copy the array dimensions into arrays which accept variable indexes
+(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
+   so they can't be called in a dimension-based loop.
+   Thus we copy the array dimensions into arrays which accept variable indexes *)
 LowerBoundExpecteds[1] := LOWER_BOUND(Expecteds, 1);
 UpperBoundExpecteds[1] := UPPER_BOUND(Expecteds, 1);
 LowerBoundExpecteds[2] := LOWER_BOUND(Expecteds, 2);
@@ -501,33 +503,33 @@ FOR DimensionIndex := 1 TO 3 DO
 END_FOR
 
 IF SizeEquals THEN
-    (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
+    (* Even though we know that both arrays are equal in size, the three arrays can start at three completely different
        indexes in each dimension, which needs to be taken into account. *)
-    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO            // Iterate Dimension 1
-        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO        // Iterate Dimension 2
-            FOR Offset[3] := 0 TO SizeOfExpecteds[3] - 1 DO    // Iterate Dimension 3
+    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
+        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO // Iterate Dimension 2
+            FOR Offset[3] := 0 TO SizeOfExpecteds[3] - 1 DO // Iterate Dimension 3
                 // Update index variables
                 FOR DimensionIndex := 1 TO 3 DO
                     ExpectedArrayIndex[DimensionIndex] := LowerBoundExpecteds[DimensionIndex] + Offset[DimensionIndex];
                     ActualArrayIndex[DimensionIndex] := LowerBoundActuals[DimensionIndex] + Offset[DimensionIndex];
                 END_FOR
-                
+
                 // Get array element values
-                Expected := Expecteds[ ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3] ];
-                Actual     := Actuals[ ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3] ]; 
-                            
+                Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3]];
+                Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3]]; 
+
                 IF ABS(Expected - Actual) > Delta THEN
                     Equals := FALSE;
                     EXIT;
                 END_IF
             END_FOR
-            
+
             // Check for loop bailout
             IF NOT Equals THEN
                 EXIT;
             END_IF
         END_FOR
-        
+
         // Check for loop bailout
         IF NOT Equals THEN
             EXIT;
@@ -547,11 +549,11 @@ END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
-    
+
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        fbFormatString( 
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
             arg1 := F_DINT(LowerBoundExpecteds[1]),
             arg2 := F_DINT(UpperBoundExpecteds[1]),
@@ -562,10 +564,9 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg7 := F_DINT(SizeOfExpecteds[1]),
             arg8 := F_DINT(SizeOfExpecteds[2]),
             arg9 := F_DINT(SizeOfExpecteds[3]),
-            sOut => ExpectedString
-        );
-        
-        fbFormatString( 
+            sOut => ExpectedString);
+
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
             arg1 := F_DINT(LowerBoundActuals[1]),
             arg2 := F_DINT(UpperBoundActuals[1]),
@@ -576,26 +577,25 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg7 := F_DINT(SizeOfActuals[1]),
             arg8 := F_DINT(SizeOfActuals[2]),
             arg9 := F_DINT(SizeOfActuals[3]),
-            sOut => ActualString
-        );
+            sOut => ActualString);
     ELSE
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %f',
+        ExpectedValueString := LREAL_TO_STRING(Expected);
+        ActualValueString := LREAL_TO_STRING(Actual);
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d,%d] = %s',
             arg1 := F_DINT(ExpectedArrayIndex[1]),
             arg2 := F_DINT(ExpectedArrayIndex[2]),
             arg3 := F_DINT(ExpectedArrayIndex[3]),
-            arg4 := F_LREAL(Expected),
-            sOut => ExpectedString
-        );
+            arg4 := F_STRING(ExpectedValueString),
+            sOut => ExpectedString);
 
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %f',
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d,%d] = %s',
             arg1 := F_DINT(ActualArrayIndex[1]),
             arg2 := F_DINT(ActualArrayIndex[2]),
             arg3 := F_DINT(ActualArrayIndex[3]),
-            arg4 := F_LREAL(Actual),
-            sOut => ActualString
-        );
+            arg4 := F_STRING(ActualValueString),
+            sOut => ActualString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -612,7 +612,7 @@ VAR_IN_OUT
     Actuals : ARRAY[*,*,*] OF REAL; // REAL 3d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : REAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -623,18 +623,20 @@ VAR
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT;  // Index when looping through Dimensions
-    LowerBoundExpecteds : ARRAY[1..3] OF DINT;  // Lower bounds of Expecteds array in each dimension
-    UpperBoundExpecteds : ARRAY[1..3] OF DINT;  // Upper bounds of Expecteds array in each dimension
-    LowerBoundActuals : ARRAY[1..3] OF DINT;    // Lower bounds of Actuals array in each dimension
-    UpperBoundActuals : ARRAY[1..3] OF DINT;    // Upper bounds of Actuals array in each dimension
-    SizeOfExpecteds : ARRAY[1..3] OF DINT;  // Size of Expecteds array in each dimension
-    SizeOfActuals : ARRAY[1..3] OF DINT;    // Size of Actuals array in each dimension
-    Offset : ARRAY[1..3] OF DINT;    // Current Array index offsets from Lower Bound in each dimension
+    LowerBoundExpecteds : ARRAY[1..3] OF DINT; // Lower bounds of Expecteds array in each dimension
+    UpperBoundExpecteds : ARRAY[1..3] OF DINT; // Upper bounds of Expecteds array in each dimension
+    LowerBoundActuals : ARRAY[1..3] OF DINT; // Lower bounds of Actuals array in each dimension
+    UpperBoundActuals : ARRAY[1..3] OF DINT; // Upper bounds of Actuals array in each dimension
+    SizeOfExpecteds : ARRAY[1..3] OF DINT; // Size of Expecteds array in each dimension
+    SizeOfActuals : ARRAY[1..3] OF DINT; // Size of Actuals array in each dimension
+    Offset : ARRAY[1..3] OF DINT; // Current Array index offsets from Lower Bound in each dimension
     ExpectedArrayIndex : ARRAY[1..3] OF DINT; // Array of current Expected array indexes when looping through arrays
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
-    Expected : REAL; // single expected value
-    Actual : REAL; // single actual value
-    fbFormatString : FB_FormatString;    // String formatter for output messages
+    Expected : REAL; // Single expected value
+    Actual : REAL; // Single actual value
+    ExpectedValueString : Tc2_System.T_MaxString;
+    ActualValueString : Tc2_System.T_MaxString;
+    FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -643,9 +645,9 @@ END_IF
 
 TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
-// UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
-// so they can't be called in a dimension-based loop
-// Thus we copy the array dimensions into arrays which accept variable indexes
+(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
+   so they can't be called in a dimension-based loop.
+   Thus we copy the array dimensions into arrays which accept variable indexes *)
 LowerBoundExpecteds[1] := LOWER_BOUND(Expecteds, 1);
 UpperBoundExpecteds[1] := UPPER_BOUND(Expecteds, 1);
 LowerBoundExpecteds[2] := LOWER_BOUND(Expecteds, 2);
@@ -672,31 +674,31 @@ END_FOR
 IF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes in each dimension, which needs to be taken into account. *)
-    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO            // Iterate Dimension 1
-        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO        // Iterate Dimension 2
-            FOR Offset[3] := 0 TO SizeOfExpecteds[3] - 1 DO    // Iterate Dimension 3
+    FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
+        FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO // Iterate Dimension 2
+            FOR Offset[3] := 0 TO SizeOfExpecteds[3] - 1 DO // Iterate Dimension 3
                 // Update index variables
                 FOR DimensionIndex := 1 TO 3 DO
                     ExpectedArrayIndex[DimensionIndex] := LowerBoundExpecteds[DimensionIndex] + Offset[DimensionIndex];
                     ActualArrayIndex[DimensionIndex] := LowerBoundActuals[DimensionIndex] + Offset[DimensionIndex];
                 END_FOR
-                
+
                 // Get array element values
-                Expected := Expecteds[ ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3] ];
-                Actual     := Actuals[ ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3] ]; 
-                            
+                Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3]];
+                Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3]]; 
+
                 IF ABS(Expected - Actual) > Delta THEN
                     Equals := FALSE;
                     EXIT;
                 END_IF
             END_FOR
-            
+
             // Check for loop bailout
             IF NOT Equals THEN
                 EXIT;
             END_IF
         END_FOR
-        
+
         // Check for loop bailout
         IF NOT Equals THEN
             EXIT;
@@ -716,11 +718,11 @@ END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed();
-    
+
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        fbFormatString( 
+        FormatString(
             sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
             arg1 := F_DINT(LowerBoundExpecteds[1]),
             arg2 := F_DINT(UpperBoundExpecteds[1]),
@@ -731,10 +733,9 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg7 := F_DINT(SizeOfExpecteds[1]),
             arg8 := F_DINT(SizeOfExpecteds[2]),
             arg9 := F_DINT(SizeOfExpecteds[3]),
-            sOut => ExpectedString
-        );
-        
-        fbFormatString( 
+            sOut => ExpectedString);
+
+        FormatString( 
             sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
             arg1 := F_DINT(LowerBoundActuals[1]),
             arg2 := F_DINT(UpperBoundActuals[1]),
@@ -745,26 +746,25 @@ IF NOT AlreadyReported AND NOT Equals THEN
             arg7 := F_DINT(SizeOfActuals[1]),
             arg8 := F_DINT(SizeOfActuals[2]),
             arg9 := F_DINT(SizeOfActuals[3]),
-            sOut => ActualString
-        );
+            sOut => ActualString);
     ELSE
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %f',
+        ExpectedValueString := REAL_TO_STRING(Expected);
+        ActualValueString := REAL_TO_STRING(Actual);
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d,%d] = %s',
             arg1 := F_DINT(ExpectedArrayIndex[1]),
             arg2 := F_DINT(ExpectedArrayIndex[2]),
             arg3 := F_DINT(ExpectedArrayIndex[3]),
-            arg4 := F_REAL(Expected),
-            sOut => ExpectedString
-        );
+            arg4 := F_STRING(ExpectedValueString),
+            sOut => ExpectedString);
 
-        fbFormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %f',
+        FormatString( 
+            sFormat := 'ARRAY[%d,%d,%d] = %s',
             arg1 := F_DINT(ActualArrayIndex[1]),
             arg2 := F_DINT(ActualArrayIndex[2]),
             arg3 := F_DINT(ActualArrayIndex[3]),
-            arg4 := F_REAL(Actual),
-            sOut => ActualString
-        );
+            arg4 := F_STRING(ActualValueString),
+            sOut => ActualString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -3508,19 +3508,52 @@ END_IF]]></ST>
       <LineId Id="4" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_LREAL">
-      <LineId Id="1208" Count="114" />
+      <LineId Id="1208" Count="47" />
+      <LineId Id="1353" Count="0" />
+      <LineId Id="1257" Count="31" />
+      <LineId Id="1290" Count="9" />
+      <LineId Id="1301" Count="0" />
+      <LineId Id="1388" Count="0" />
+      <LineId Id="1387" Count="0" />
+      <LineId Id="1302" Count="3" />
+      <LineId Id="1383" Count="0" />
+      <LineId Id="1307" Count="0" />
+      <LineId Id="1309" Count="1" />
+      <LineId Id="1352" Count="0" />
+      <LineId Id="1312" Count="1" />
+      <LineId Id="1384" Count="0" />
+      <LineId Id="1315" Count="0" />
+      <LineId Id="1317" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_REAL">
-      <LineId Id="1208" Count="114" />
+      <LineId Id="1208" Count="80" />
+      <LineId Id="1290" Count="9" />
+      <LineId Id="1301" Count="0" />
+      <LineId Id="1354" Count="1" />
+      <LineId Id="1302" Count="5" />
+      <LineId Id="1309" Count="6" />
+      <LineId Id="1317" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_LREAL">
-      <LineId Id="1138" Count="133" />
+      <LineId Id="1138" Count="94" />
+      <LineId Id="1234" Count="12" />
+      <LineId Id="1248" Count="0" />
+      <LineId Id="1303" Count="1" />
+      <LineId Id="1249" Count="6" />
+      <LineId Id="1257" Count="7" />
+      <LineId Id="1266" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_REAL">
-      <LineId Id="1167" Count="133" />
+      <LineId Id="1167" Count="94" />
+      <LineId Id="1263" Count="12" />
+      <LineId Id="1277" Count="0" />
+      <LineId Id="1332" Count="1" />
+      <LineId Id="1278" Count="6" />
+      <LineId Id="1286" Count="7" />
+      <LineId Id="1295" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArrayEquals_BOOL">
