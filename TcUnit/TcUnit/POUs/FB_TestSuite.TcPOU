@@ -124,6 +124,8 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
       <Declaration><![CDATA[METHOD PUBLIC AllTestsFinished : BOOL
 VAR
     Counter : UINT;
+
+    GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[AllTestsFinished := FALSE;
@@ -133,6 +135,13 @@ IF NumberOfTests > 0 THEN
     FOR Counter := 1 TO GetAmountOfTests() BY 1 DO
         AllTestsFinished := AllTestsFinished AND Tests[Counter].IsFinished();
     END_FOR
+END_IF
+
+(* If we have been running at least one cycle and no tests are registered it means that this testsuite is empty
+   and doesn't contain any test cases. In that case, add a warning message and ignore this testsuite. *)
+GetCurTaskIndex();
+IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
+    AllTestsFinished := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3506,6 +3515,12 @@ END_IF]]></ST>
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="4" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="36" Count="1" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_LREAL">
       <LineId Id="1208" Count="47" />
