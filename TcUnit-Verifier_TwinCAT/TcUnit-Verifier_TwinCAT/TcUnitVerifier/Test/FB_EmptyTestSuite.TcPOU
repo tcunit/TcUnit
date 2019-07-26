@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_EmptyTestSuite" Id="{1ac34d34-5767-43bd-8deb-b4e9cf217e56}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This is an empty testsuite with no test cases, so that we can verify that the system still prints the
+   test results. *)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_EmptyTestSuite EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="FB_EmptyTestSuite">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

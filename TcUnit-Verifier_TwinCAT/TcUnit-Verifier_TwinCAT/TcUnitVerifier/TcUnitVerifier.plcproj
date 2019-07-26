@@ -47,6 +47,9 @@
     <Compile Include="Test\FB_CreateDisabledTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_EmptyTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
