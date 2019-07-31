@@ -24,6 +24,7 @@ namespace TcUnit.Verifier
         static int Main(string[] args)
         {
             bool showHelp = false;
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelKeyPressHandler);
             log4net.GlobalContext.Properties["LogLocation"] = AppDomain.CurrentDomain.BaseDirectory + "\\logs";
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
 
@@ -62,6 +63,7 @@ namespace TcUnit.Verifier
             try
             {
                 vsInstance = new VisualStudioInstance(@tcUnitVerifierPath);
+                vsInstance.Load();
             }
             catch
             {
@@ -169,6 +171,19 @@ namespace TcUnit.Verifier
             p.WriteOptionDescriptions(Console.Out);
         }
 
+        /// <summary>
+        /// Executed if user interrups the program (i.e. CTRL+C)
+        /// </summary>
+        static void CancelKeyPressHandler(object sender, ConsoleCancelEventArgs args)
+        {
+            log.Info("Application interrupted by user");
+            CleanUp();
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// Cleans the system resources (the VS DTE)
+        /// </summary>
         private static void CleanUp()
         {
             try
@@ -176,6 +191,8 @@ namespace TcUnit.Verifier
                 vsInstance.Close();
             }
             catch { }
+            
+            log.Info("Exiting application...");
             MessageFilter.Revoke();
         }
     }

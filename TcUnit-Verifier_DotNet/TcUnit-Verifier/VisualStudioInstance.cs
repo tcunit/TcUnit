@@ -1,14 +1,20 @@
 ﻿//using log4net;
 using EnvDTE80;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TcUnit.Verifier
 {
+    /// <summary>
+    /// This class is used to instantiate the Visual Studio Development Tools Environment (DTE)
+    /// which is used to programatically access all the functions in VS.
+    /// </summary>
     class VisualStudioInstance
     {
         private string @filePath = null;
@@ -17,30 +23,55 @@ namespace TcUnit.Verifier
         private Type type = null;
         private EnvDTE.Solution visualStudioSolution = null;
         EnvDTE.Project pro = null;
-        //ILog log = LogManager.GetLogger("TcUnit-Verifier");
+        ILog log = LogManager.GetLogger("TcUnit-Verifier");
+        private bool loaded = false;
 
         public VisualStudioInstance(string @visualStudioSolutionFilePath)
         {
             this.filePath = visualStudioSolutionFilePath;
             string visualStudioVersion = FindVisualStudioVersion();
             this.vsVersion = visualStudioVersion;
-            LoadDevelopmentToolsEnvironment(visualStudioVersion);
-            LoadSolution(@visualStudioSolutionFilePath);
-            LoadProject();
         }
 
         public VisualStudioInstance(int vsVersionMajor, int vsVersionMinor)
         {
             string visualStudioVersion = vsVersionMajor.ToString() + "." + vsVersionMinor.ToString();
             this.vsVersion = visualStudioVersion;
-            LoadDevelopmentToolsEnvironment(visualStudioVersion);
         }
 
+        /// <summary>
+        /// Loads the development tools environment
+        /// </summary>
+        public void Load()
+        {
+            loaded = true;
+            LoadDevelopmentToolsEnvironment(vsVersion);
+            if (!String.IsNullOrEmpty(@filePath))
+            {
+                LoadSolution(@filePath);
+                LoadProject();
+            }
+        }
+
+        /// <summary>
+        /// Closes the DTE and makes sure the VS process is completely shutdown
+        /// </summary>
         public void Close()
         {
-            dte.Quit();
+            if (loaded)
+            {
+                log.Info("Closing the Visual Studio Development Tools Environment (DTE), please wait...");
+                Thread.Sleep(20000); // Avoid 'Application is busy'-problem (RPC_E_CALL_REJECTED 0x80010001 or RPC_E_SERVERCALL_RETRYLATER 0x8001010A)
+                dte.Quit();
+            }
+            loaded = false;
         }
 
+
+        /// <summary>
+        /// Opens the main *.sln-file and finds the version of VS used for creation of the solution
+        /// </summary>
+        /// <returns>The version of Visual Studio used to create the solution</returns>
         private string FindVisualStudioVersion()
         {
             /* Find visual studio version */
@@ -81,6 +112,7 @@ namespace TcUnit.Verifier
              */
             string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
             type = System.Type.GetTypeFromProgID(VisualStudioProgId);
+            log.Info("Loading the Visual Studio Development Tools Environment (DTE)...");
             dte = (EnvDTE80.DTE2) System.Activator.CreateInstance(type);
             dte.UserControl = false; // have devenv.exe automatically close when launched using automation
             dte.SuppressUI = true;
@@ -99,6 +131,7 @@ namespace TcUnit.Verifier
             pro = visualStudioSolution.Projects.Item(1);
         }
 
+        /// <returns>Returns null if no version was found</returns>
         public string GetVisualStudioVersion()
         {
             return this.vsVersion;
@@ -139,6 +172,5 @@ namespace TcUnit.Verifier
 
             return returnErrorItems;*/
         }
-
     }
 }

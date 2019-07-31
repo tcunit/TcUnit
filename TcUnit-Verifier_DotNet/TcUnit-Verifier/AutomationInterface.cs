@@ -7,9 +7,14 @@ using TCatSysManagerLib;
 
 namespace TcUnit.Verifier
 {
+    /// <summary>
+    /// This class provides the functionality to access the TwinCAT automation interface, which
+    /// is a complement to the VS DTE and that gives access to certain TwinCAT specific functions
+    /// integrated into Visual Studio
+    /// </summary>
     class AutomationInterface
     {
-        private ITcSysManager13 sysManager = null;
+        private ITcSysManager10 sysManager = null;
         private ITcConfigManager configManager = null;
         private ITcSmTreeItem plcTreeItem = null;
         private ITcSmTreeItem routesTreeItem = null;
@@ -17,7 +22,7 @@ namespace TcUnit.Verifier
 
         public AutomationInterface(EnvDTE.Project project)
         {
-            sysManager = project.Object;
+            sysManager = (ITcSysManager10)project.Object;
             configManager = (ITcConfigManager)sysManager.ConfigurationManager;
             plcTreeItem = sysManager.LookupTreeItem(Constants.PLC_CONFIGURATION_SHORTCUT);
             routesTreeItem = sysManager.LookupTreeItem(Constants.RT_CONFIG_ROUTE_SETTINGS_SHORTCUT);
@@ -26,7 +31,7 @@ namespace TcUnit.Verifier
         public AutomationInterface(VisualStudioInstance vsInst) : this(vsInst.GetProject())
         { }
 
-        public ITcSysManager13 ITcSysManager
+        public ITcSysManager10 ITcSysManager
         {
             get
             {
