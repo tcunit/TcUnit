@@ -21,13 +21,13 @@ VAR
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
     NumberOfTests : UINT := 0;
-    Tests : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF FB_Test;
+    Tests : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF FB_Test;
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
        position is a duplicate *)
-    TestDuplicateNameTrigger : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
+    TestDuplicateNameTrigger : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF Tc2_Standard.R_TRIG;
     (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
-    TestCycleCountIndex : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestsForEachTestSuite] OF UDINT;
+    TestCycleCountIndex : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF UDINT;
 
     AssertResults : FB_AssertResultStatic;
     AssertArrayResult : FB_AssertArrayResultStatic;
@@ -132,7 +132,7 @@ END_VAR]]></Declaration>
 
 IF NumberOfTests > 0 THEN
     AllTestsFinished := TRUE;
-    FOR Counter := 1 TO GetAmountOfTests() BY 1 DO
+    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
         AllTestsFinished := AllTestsFinished AND Tests[Counter].IsFinished();
     END_FOR
 END_IF
@@ -3370,8 +3370,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GVL_TcUnit.AmountOfInitializedTestSuites := GVL_TcUnit.AmountOfInitializedTestSuites + 1;    
-GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.AmountOfInitializedTestSuites] := THIS;]]></ST>
+        <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
+GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
@@ -3381,41 +3381,41 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
         <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetAmountOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
-      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfFailedTests : UINT
+    <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
+      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_System.T_MaxString
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetNumberOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfFailedTests : UINT
 VAR
     Counter : UINT;
     FailedTestsCount : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO GetAmountOfTests() BY 1 DO
+    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
         IF Tests[Counter].IsFailed() THEN
             FailedTestsCount := FailedTestsCount + 1;
         END_IF
     END_FOR
 END_IF
 
-GetAmountOfFailedTests := FailedTestsCount;]]></ST>
+GetNumberOfFailedTests := FailedTestsCount;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetAmountOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
-      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfSuccessfulTests : UINT]]></Declaration>
+    <Method Name="GetNumberOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSuccessfulTests : UINT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetAmountOfSuccessfulTests := GetAmountOfTests() - GetAmountOfFailedTests();]]></ST>
+        <ST><![CDATA[GetNumberOfSuccessfulTests := GetNumberOfTests() - GetNumberOfFailedTests();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetAmountOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
-      <Declaration><![CDATA[METHOD PUBLIC GetAmountOfTests : UINT]]></Declaration>
+    <Method Name="GetNumberOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfTests : UINT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetAmountOfTests := NumberOfTests;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
-      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_System.T_MaxString
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
+        <ST><![CDATA[GetNumberOfTests := NumberOfTests;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -4410,19 +4410,19 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.FindTestSuiteInstancePath">
       <LineId Id="36" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestSuite.GetAmountOfFailedTests">
+    <LineIds Name="FB_TestSuite.GetInstancePath">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfFailedTests">
       <LineId Id="10" Count="1" />
       <LineId Id="22" Count="0" />
       <LineId Id="13" Count="4" />
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestSuite.GetAmountOfSuccessfulTests">
+    <LineIds Name="FB_TestSuite.GetNumberOfSuccessfulTests">
       <LineId Id="18" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestSuite.GetAmountOfTests">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TestSuite.GetInstancePath">
+    <LineIds Name="FB_TestSuite.GetNumberOfTests">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.SetTestFailed">

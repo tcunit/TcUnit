@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AssertArrayResultStatic" Id="{b20832df-51fb-47f1-8077-6f683834a939}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for keeping track of which array-asserts that have been made.
@@ -15,17 +15,17 @@
 *)
 FUNCTION_BLOCK FB_AssertArrayResultStatic
 VAR
-    (* The total amount of instances of each of the "AssertArrayResults" *)
-    AssertArrayResults : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfAsserts] OF ST_AssertArrayResult;
+    (* The total number of instances of each of the "AssertArrayResults" *)
+    AssertArrayResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAsserts] OF ST_AssertArrayResult;
 
-    (* The total amount of unique asserts *)
+    (* The total number of unique asserts *)
     TotalArrayAsserts : UINT := 0;
 
     (* Function block to get the current task cycle *)
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
-    (* The total amount of instances of each of the "AssertArrayResults" *)
-    AssertArrayResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfAsserts] OF ST_AssertArrayResultInstances;
+    (* The total number of instances of each of the "AssertArrayResults" *)
+    AssertArrayResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAsserts] OF ST_AssertArrayResultInstances;
 
     (* The last PLC cycle count *)
     CycleCount : UDINT;
@@ -62,7 +62,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     AssertArrayResultInstances[IteratorCounter].DetectionCount := AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle;
     AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle := 0;
 END_FOR]]></ST>
@@ -82,7 +82,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF AssertArrayResultInstances[IteratorCounter].DetectionCount = 0 AND
         AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle = 0 THEN // Find first free spot
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsSize := ExpectedsSize;
@@ -111,7 +111,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsSize = ExpectedsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
@@ -137,14 +137,14 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsSize = ExpectedsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
-        
+
         GetDetectionCountThisCycle := AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle;
     END_IF
 END_FOR]]></ST>
@@ -164,7 +164,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxAmountOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsSize = ExpectedsSize AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
         AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <Itf Name="I_TestResultFormatter" Id="{fa75ee61-43fb-4767-8061-125a3a9e3424}">
     <Declaration><![CDATA[INTERFACE I_TestResultFormatter]]></Declaration>
     <Method Name="Format" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">
       <Declaration><![CDATA[METHOD Format
 VAR_INPUT
-    AmountOfTestSuites : UINT; // The total amount of test suites
-    AmountOfTestCases : UINT; // The total amount of test cases (for all test suites)
-    AmountOfSuccessfulTestCases : UINT; // The total amount of test cases that had all ASSERTS successful
-    AmountOfFailedTestCases : UINT; // The total amount of test cases that had at least one ASSERT failed
+    NumberOfTestSuites : UINT; // The total number of test suites
+    NumberOfTestCases : UINT; // The total number of test cases (for all test suites)
+    NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
+    NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
 END_VAR
 VAR_OUTPUT
     Busy : BOOL;

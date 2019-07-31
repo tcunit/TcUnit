@@ -21,14 +21,14 @@ END_VAR]]></Declaration>
     <Method Name="Format" Id="{dba8c729-8b99-4be3-97cd-3a4fea4cd051}">
       <Declaration><![CDATA[METHOD Format
 VAR_INPUT
-    (* The total amount of test suites *)
-    AmountOfTestSuites    : UINT;
-    (* The total amount of test cases (for all test function blocks) *)
-    AmountOfTestCases    : UINT;
-    (* The total amount of test cases that had all ASSERTS successful *)
-    AmountOfSuccessfulTestCases    : UINT;
-    (* The total amount of test cases that had at least one ASSERT failed *)
-    AmountOfFailedTestCases    : UINT;
+    (* The total number of test suites *)
+    NumberOfTestSuites : UINT;
+    (* The total number of test cases (for all test function blocks) *)
+    NumberOfTestCases : UINT;
+    (* The total number of test cases that had all ASSERTS successful *)
+    NumberOfSuccessfulTestCases : UINT;
+    (* The total number of test cases that had at least one ASSERT failed *)
+    NumberOfFailedTestCases : UINT;
 END_VAR
 VAR_OUTPUT
     Busy : BOOL;
@@ -50,25 +50,25 @@ END_VAR]]></Declaration>
         Busy := TRUE;
     2 :
         GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Test suites: %s',
-                                      StrArg := UINT_TO_STRING(AmountOfTestSuites));
+                                      StrArg := UINT_TO_STRING(NumberOfTestSuites));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     3 :
         GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Tests: %s',
-                                      StrArg := UINT_TO_STRING(AmountOfTestCases));
+                                      StrArg := UINT_TO_STRING(NumberOfTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     4 :
         GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Successful tests: %s',
-                                      StrArg := UINT_TO_STRING(AmountOfSuccessfulTestCases));
+                                      StrArg := UINT_TO_STRING(NumberOfSuccessfulTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;
     5 :
         GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := '| Failed tests: %s',
-                                      StrArg := UINT_TO_STRING(AmountOfFailedTestCases));
+                                      StrArg := UINT_TO_STRING(NumberOfFailedTestCases));
         LastPrintState := PrintState;
         PrintState := 100;
         Busy := TRUE;

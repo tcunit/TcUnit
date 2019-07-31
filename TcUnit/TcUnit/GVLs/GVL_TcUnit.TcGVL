@@ -22,8 +22,8 @@ VAR_GLOBAL
 
     (* The assert function block instance should be 1:1 mapped to
        the test suite instance path. *)
-    AmountOfInitializedTestSuites : UINT := 0;
-    TestSuiteAddresses : ARRAY[1..GVL_Param_TcUnit.MaxAmountOfTestSuites] OF POINTER TO FB_TestSuite;
+    NumberOfInitializedTestSuites : UINT := 0;
+    TestSuiteAddresses : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF POINTER TO FB_TestSuite;
 
     (* Buffered ADS logger for output to the error list *)
     AdsLogger : FB_ADSLogStringMessageFifoQueue;

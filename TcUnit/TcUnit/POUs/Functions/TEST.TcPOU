@@ -21,7 +21,7 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
    If a test with this name already exists, don't add it to the available tests.
    Otherwise, add it to the available tests *)
 
-FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName);

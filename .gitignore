@@ -1,5 +1,5 @@
-# gitignore template for TwinCAT
-# website: https://www.beckhoff.com/twincat/
+# gitignore template for TwinCAT3
+# website: https://www.beckhoff.com/twincat3/
 #
 # Recommended: VisualStudio.gitignore
 
@@ -363,3 +363,6 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+# Ionide (cross platform F# VS Code tools) working folder
+.ionide/

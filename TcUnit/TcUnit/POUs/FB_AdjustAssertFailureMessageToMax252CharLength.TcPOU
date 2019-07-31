@@ -20,29 +20,29 @@ VAR
     TestMsgTooLong : STRING := '...TestMsg too long';
 END_VAR
 VAR CONSTANT
-    MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS : INT := 252; // This is actually 253, but if StrArg-argument is used (which it is in TcUnit) it is 252.
+    MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 252; // This is actually 253, but if StrArg-argument is used (which it is in TcUnit) it is 252.
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Check if any of the two strings are too long (or the combination of them)
 
 // All OK
-IF (Tc2_Standard.LEN(STR := MsgFmtString) + LEN(STR := StringArg)) <= MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS THEN
+IF (Tc2_Standard.LEN(STR := MsgFmtString) + LEN(STR := StringArg)) <= MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
     MsgFmtStringProcessed := MsgFmtString;
     StringArgProcessed := StringArg;
 // If test instance path is longer than 252 chars, shorten it down to 252 characters and additionally with the length of the '...TestName too long'. Add the text '...TestName too long' to the test instance path. Leave no characters for the message.
-ELSIF Tc2_Standard.LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS THEN
-    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
+ELSIF Tc2_Standard.LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
     MsgFmtStringProcessed := Tc2_Standard.CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
     StringArgProcessed := '';
 // If test message is too long (so we cant fit the text "...TestMsg too long") to the end of it, shorten it so that we can.
-ELSIF (MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong)) >= Tc2_Standard.LEN(STR := MsgFmtString) THEN
+ELSIF (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong)) >= Tc2_Standard.LEN(STR := MsgFmtString) THEN
     MsgFmtStringProcessed := MsgFmtString;
     StringArgProcessed := Tc2_Standard.LEFT(STR := StringArg,
-                                            SIZE := (MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong) - Tc2_Standard.LEN(STR := MsgFmtStringProcessed)));
+                                            SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong) - Tc2_Standard.LEN(STR := MsgFmtStringProcessed)));
     StringArgProcessed := Tc2_Standard.CONCAT(STR1 := StringArgProcessed, STR2 := TestMsgTooLong);
 // If test instance path is too long (length is between 232 and 252 characters long), shorten it and add the text '...TestName too long'. Leave no characters for the message
 ELSE
-    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_AMOUNT_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
+    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
     MsgFmtStringProcessed := Tc2_Standard.CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
     StringArgProcessed := '';
 END_IF]]></ST>

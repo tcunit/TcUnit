@@ -12,7 +12,7 @@ TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
 
 TEST_FINISHED := FALSE;
 // Find the test suite and set the test as finished
-FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := GVL_TcUnit.CurrentTestNameBeingCalled);
         TEST_FINISHED := TRUE;

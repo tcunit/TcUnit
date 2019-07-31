@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <GVL Name="GVL_Param_TcUnit" Id="{8914b509-ade2-41d9-a869-a8850ad59b87}" ParameterList="True">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
-    MaxAmountOfTestSuites : UINT := 300;
-    MaxAmountOfTestsForEachTestSuite : UINT := 100;
-    MaxAmountOfAsserts : UINT := 300;	
+    MaxNumberOfTestSuites : UINT := 500;
+    MaxNumberOfTestsForEachTestSuite : UINT := 100;
+    MaxNumberOfAsserts : UINT := 500;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

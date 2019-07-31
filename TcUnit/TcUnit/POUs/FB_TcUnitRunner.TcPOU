@@ -15,10 +15,10 @@ VAR
     TestResultPrinter : I_TestResultFormatter := ADSTestResultFormatter;
 
     (* These variables (statistics) are occupied once all tests are complete *)
-    AmountOfTestSuitesFinished : UINT := 0;
-    AmountOfTestCases : UINT := 0;
-    AmountOfFailedTestCases : UINT := 0;
-    AmountOfSuccessfulTestCases : UINT := 0;
+    NumberOfTestSuitesFinished : UINT := 0;
+    NumberOfTestCases : UINT := 0;
+    NumberOfFailedTestCases : UINT := 0;
+    NumberOfSuccessfulTestCases : UINT := 0;
 
     (* Indication of that the printing of test results is complete *)
     DonePrintingTestResults : BOOL;
@@ -32,37 +32,37 @@ VAR
     Counter : UINT := 0;
     BusyPrinting : BOOL;
 
-    (* We need to hold a temporary state of the statistics (failed, successful, total amount of test cases etc)
+    (* We need to hold a temporary state of the statistics (failed, successful, total number of test cases etc)
        as we don't consider the tests to be completely finished until all test suites have executed completely.
        The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
        are finished (which might take many cycles), do we gather correct statistics *)
-    AmountOfTestSuitesFinished_Temp : UINT := 0;
-    AmountOfTestCases_Temp : UINT := 0;
-    AmountOfFailedTestCases_Temp : UINT := 0;
-    AmountOfSuccessfulTestCases_Temp : UINT := 0;
+    NumberOfTestSuitesFinished_Temp : UINT := 0;
+    NumberOfTestCases_Temp : UINT := 0;
+    NumberOfFailedTestCases_Temp : UINT := 0;
+    NumberOfSuccessfulTestCases_Temp : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT AllTestSuitesFinished THEN
-    IF GVL_TcUnit.AmountOfInitializedTestSuites = 0 THEN
+    IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
-    ELSIF GVL_TcUnit.AmountOfInitializedTestSuites > 0 THEN
-        FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+    ELSIF GVL_TcUnit.NumberOfInitializedTestSuites > 0 THEN
+        FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
             IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AllTestsFinished() THEN
-                AmountOfTestSuitesFinished_Temp := AmountOfTestSuitesFinished_Temp + 1;
-                AmountOfTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfTests() + AmountOfTestCases_Temp;
-                AmountOfFailedTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfFailedTests() + AmountOfFailedTestCases_Temp;
-                AmountOfSuccessfulTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetAmountOfSuccessfulTests() + AmountOfSuccessfulTestCases_Temp;
+                NumberOfTestSuitesFinished_Temp := NumberOfTestSuitesFinished_Temp + 1;
+                NumberOfTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfTests() + NumberOfTestCases_Temp;
+                NumberOfFailedTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfFailedTests() + NumberOfFailedTestCases_Temp;
+                NumberOfSuccessfulTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfSuccessfulTests() + NumberOfSuccessfulTestCases_Temp;
             ELSE
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
             END_IF
         END_FOR
-        IF AmountOfTestSuitesFinished_Temp = GVL_TcUnit.AmountOfInitializedTestSuites THEN
+        IF NumberOfTestSuitesFinished_Temp = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             (* Copy the final results over *)
-            AmountOfTestSuitesFinished := AmountOfTestSuitesFinished_Temp;
-            AmountOfTestCases := AmountOfTestCases_Temp;
-            AmountOfFailedTestCases := AmountOfFailedTestCases_Temp;
-            AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases_Temp;
+            NumberOfTestSuitesFinished := NumberOfTestSuitesFinished_Temp;
+            NumberOfTestCases := NumberOfTestCases_Temp;
+            NumberOfFailedTestCases := NumberOfFailedTestCases_Temp;
+            NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases_Temp;
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
@@ -70,10 +70,10 @@ END_IF
 
 IF AllTestSuitesFinished THEN
     IF NOT DonePrintingTestResults THEN
-        TestResultPrinter.Format(AmountOfTestSuites := AmountOfTestSuitesFinished,
-                                 AmountOfTestCases := AmountOfTestCases,
-                                 AmountOfSuccessfulTestCases := AmountOfSuccessfulTestCases,
-                                 AmountOfFailedTestCases := AmountOfFailedTestCases,
+        TestResultPrinter.Format(NumberOfTestSuites := NumberOfTestSuitesFinished,
+                                 NumberOfTestCases := NumberOfTestCases,
+                                 NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases,
+                                 NumberOfFailedTestCases := NumberOfFailedTestCases,
                                  Busy => BusyPrinting);
         DonePrintingTestResults := NOT BusyPrinting;
     END_IF
