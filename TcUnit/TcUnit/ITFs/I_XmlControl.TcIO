@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <Itf Name="I_XmlControl" Id="{8393e1f7-c3a3-46ef-a368-e0ef06d0599c}">
+    <Declaration><![CDATA[INTERFACE I_XmlControl
+]]></Declaration>
+    <Method Name="ClearBuffer" Id="{28a93e9c-0211-48cd-993c-fa667dc6fe76}">
+      <Declaration><![CDATA[METHOD ClearBuffer : Bool
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="closeTag" Id="{89f56592-4a6c-4d73-9458-8aa189240754}">
+      <Declaration><![CDATA[METHOD closeTag : STRING
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="newComment" Id="{20e2ebb6-9c42-4d16-8ed7-7959411a65a6}">
+      <Declaration><![CDATA[METHOD newComment : BOOL
+VAR_INPUT
+	sCommand : STRING;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="newPara" Id="{16bdd25c-3bea-429a-bca6-fc93fb93e577}">
+      <Declaration><![CDATA[METHOD newPara : BOOL
+VAR_INPUT
+	sParaName : STRING;
+	sValue : STRING;	
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="newTag" Id="{94ad0e99-1e1c-41c3-aaa9-138159f2ef8f}">
+      <Declaration><![CDATA[METHOD newTag : BOOL
+VAR_INPUT
+	sTagName : STRING;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="newTagData" Id="{a364dcbb-b527-4dd0-9210-7a276e7c3028}">
+      <Declaration><![CDATA[METHOD newTagData : BOOL
+VAR_INPUT
+	sTagData : STRING;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="NextPara" Id="{c65caba9-5dfe-4795-835e-26e943c8b72e}">
+      <Declaration><![CDATA[METHOD NextPara : STRING;
+VAR_OUTPUT
+	sPara : STRING;	
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="NextTag" Id="{f719f6d0-84d1-4e62-ac42-152d9fb9d7df}">
+      <Declaration><![CDATA[METHOD NextTag : STRING
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetBuffer" Id="{68c320d4-d556-4945-8daa-c3c5a8305f52}">
+      <Declaration><![CDATA[METHOD SetBuffer : BOOL
+VAR_INPUT
+	pString : POINTER TO BYTE;
+	iSizeOf : UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ToStartBuffer" Id="{ecdf2beb-07bc-4c3b-86d9-084a1c71653b}">
+      <Declaration><![CDATA[METHOD ToStartBuffer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="writeDocumentHeader" Id="{7314635f-681c-4c5b-a43f-17408892397c}">
+      <Declaration><![CDATA[(*
+	add your own preffered header like;
+	'<?xml version=\"1.0\" encoding=\"UTF-8\"?>'
+*)
+METHOD writeDocumentHeader
+VAR_INPUT
+	strHeader : STRING;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

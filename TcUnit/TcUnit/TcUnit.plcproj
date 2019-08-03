@@ -41,11 +41,15 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="ITFs" />
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
+    <Folder Include="Xml Integration Test" />
     <Folder Include="POUs" />
     <Folder Include="POUs\Functions" />
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DUTs\eXML.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ST_ADSLogStringMessage.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -68,14 +72,35 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="GVLs\GVL_Param_XmlControl.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\GVL_TcUnit.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="GVLs\GVL_XmlControl.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITFs\I_FileControl.TcIO">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_TestResultFormatter.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITFs\I_XmlControl.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_strBuffer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_XmlControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_FileControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_AdjustAssertFailureMessageToMax252CharLength.TcPOU">
@@ -132,8 +157,15 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="Version\Global_Version.TcGVL">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Xml Integration Test\XmlIntegrationTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="SysFile">
+      <DefaultResolution>SysFile, * (System)</DefaultResolution>
+      <Namespace>SysFile</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>

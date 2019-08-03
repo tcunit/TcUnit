@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_XmlControl" Id="{f48b7de2-5c07-4763-a8be-3d8ab3c1f58c}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+Organizes parsing and composing of XML data. Data can be treated as STRING or Char Array.
+Filebuffersize is default 4096 Byte and can be set via Gvl_Param_XmlControl
+
+Usage example:
+
+	VAR
+		XML : XML_Control;
+		Buffer: STRING(GVL_Param_XmlControl.udiMaxFileSize);
+		//or
+		Buffer: ARRAY [0..GVL_Param_XmlControl.udiMaxFileSize] OF CHAR;
+	END_VAR
+
+	XML.pBuffer: = ADR (buffer);
+	XML.LenBuffer: = SIZEOF (buffer);
+
+	
+- Add your own preffered fileheader like:
+XML: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+
+	XML.writeDocumentHeader( '<?xml version=\"1.0\" encoding=\"UTF-8\"?>');
+
+
+- Composing a tag with a parameters:
+XML: <MyTag ParaName = "11" />
+
+	XML.newTag(sTagName: = 'MyTag');
+	XML.newPara(sName: = 'ParaName', sPara: = sValue);
+	XML.CloseTag();
+
+
+- Tag value:
+XML: <MyTag> MyText </ MyTag>
+
+	XML.newTag(sName := 'MyTag');
+	XML.newTagData(sTagData :='MyText');
+	XML.CloseTag();
+
+	
+- Jump to the beginning of the XML data
+XML.toStartBuffer();
+
+
+- returns the next Tag from the current position in buffer
+XML.NextTag();
+
+
+- Output the parameter of the Tag
+XML.nextPara(sPara: = LastValue);
+Feedback: sPara returns the value found (string)
+
+
+*)
+{attribute 'hide_all_locals'}
+FUNCTION_BLOCK FB_XmlControl IMPLEMENTS I_XmlControl
+VAR
+	Buffer : FB_strBuffer;
+	TagList : FB_strBuffer;
+	sTags : STRING; 
+	TagListSeek : FB_strBuffer;
+	sTagsSeek : STRING; 
+	Tag : FB_strBuffer;
+	sTag : STRING;
+	xTagOpen: BOOL;
+	iSelect : UDINT;
+	iSelectStart : UDINT;
+	iSelectEnd : UDINT;
+	iSelectStartPara : UDINT;
+	iSelectEndPara : UDINT;
+	iSelectTagClose : UDINT;
+	iSelectStartValue : UDINT;
+	iSelectEndValue : UDINT;
+	udiSearchPos : UDINT; 
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ClearBuffer" Id="{651b4460-232e-47e8-95ba-ecea1541fbb9}">
+      <Declaration><![CDATA[(* 
+	Clears the contents of the entire buffer
+*)
+METHOD ClearBuffer : Bool
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[udiSearchPos := 0;
+TagListSeek.Lenght := 0;
+Buffer.Lenght := 0;
+sTagsSeek := '';
+sTag := '';
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="closeTag" Id="{eedd2aac-2425-4325-8128-bfe1e984f3f7}">
+      <Declaration><![CDATA[(*
+	Close a Tag:
+	XML: <MyTag />
+
+	method: XML.CloseTag();
+*)
+METHOD closeTag : STRING
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF xTagOpen THEN
+	Buffer.Append := GVL_XmlControl.sEndTagClose;
+	iSelect := TagList.FindBack(sSearchString := GVL_XmlControl.sForwardSlash);
+	closeTag := TagList.CutOff(udiStartPos:= iSelect);
+	xTagOpen := FALSE;
+ELSE
+	iSelect := TagList.FindBack(sSearchString := GVL_XmlControl.sForwardSlash);
+	closeTag := TagList.CutOff(udiStartPos:= iSelect);
+	Buffer.Append := GVL_XmlControl.sTagOpen;
+	Buffer.Append := closeTag;
+	Buffer.Append := GVL_XmlControl.sTagClose;
+END_IF;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Lenght" Id="{4fdf30b6-5fe7-4452-ad0a-85e866e236d0}">
+      <Declaration><![CDATA[PROPERTY Lenght : UDINT
+]]></Declaration>
+      <Get Name="Get" Id="{267105d4-b124-4c5c-a359-0434c4992afc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Lenght := Buffer.Lenght;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="newComment" Id="{0f41fa45-b92e-4e7e-b2b3-ecb5d5918326}">
+      <Declaration><![CDATA[METHOD newComment : BOOL
+VAR_INPUT
+	sCommand : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[(* Ist noch ein TAG offen dann erst Schließen *)
+IF xTagOpen THEN
+	Buffer.Append := GVL_XmlControl.sTagClose;
+	xTagOpen := FALSE;
+END_IF;
+Buffer.Append := sCommand;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="newPara" Id="{60c10606-ff09-4f9b-a3dd-0b54d0f565c7}">
+      <Declaration><![CDATA[(*
+	Should be called after opening a new tag
+	
+	XML.newPara(sName: = 'ParaName', sPara: = sValue);
+*)
+METHOD newPara : BOOL
+VAR_INPUT
+	sParaName : STRING;
+	sValue : STRING;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// sParaName="sValue"
+Buffer.Append := GVL_XmlControl.sSpace;  
+Buffer.Append := sParaName;
+Buffer.Append := GVL_XmlControl.sEQ; 
+Buffer.Append := GVL_XmlControl.sQuote; 
+Buffer.Append := sValue;
+Buffer.Append := GVL_XmlControl.sQuote;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="newTag" Id="{c44bdbda-725a-4943-a5cc-fa5ea9485541}">
+      <Declaration><![CDATA[(*
+	Creates a new Tag:
+	XML: <MyTag>
+	
+	XML.newTag(sTagName: = 'MyTag');
+*)
+METHOD newTag : BOOL
+VAR_INPUT
+	sTagName : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF xTagOpen THEN
+	Buffer.Append := GVL_XmlControl.sTagClose; // >
+END_IF;
+Buffer.Append := GVL_XmlControl.sTagOpen; // <
+Buffer.Append := sTagName;
+xTagOpen := TRUE;
+TagList.Append := GVL_XmlControl.sForwardSlash; 
+TagList.Append := sTagName;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="newTagData" Id="{e4679d3f-10eb-47fd-936c-97e3aaaa3768}">
+      <Declaration><![CDATA[METHOD newTagData : BOOL
+VAR_INPUT
+	sTagData : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Buffer.Append := GVL_XmlControl.sTagClose;
+Buffer.Append := sTagData;
+xTagOpen := FALSE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NextPara" Id="{4394d0a2-f7bc-4847-9625-00022c462a79}">
+      <Declaration><![CDATA[METHOD NextPara : STRING;
+VAR_OUTPUT
+	sPara : STRING;	
+END_VAR
+VAR
+	sName : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[iSelectEndPara := Buffer.Find(sSearchString := GVL_XmlControl.sEQ, udiStartPos := iSelectStartPara);
+IF iSelectStartPara < iSelectEnd AND iSelectEndPara < iSelectEnd THEN
+	sName := Buffer.Copy( udiStart := iSelectStartPara + 1, udiEnd := iSelectEndPara);
+	iSelectStartValue := Buffer.Find(sSearchString := GVL_XmlControl.sQuote, udiStartPos := iSelectEndPara);
+	iSelectEndValue := Buffer.Find(sSearchString := GVL_XmlControl.sQuote, udiStartPos := iSelectStartValue);
+	sPara := Buffer.Copy( udiStart := iSelectStartValue + 1, udiEnd := iSelectEndValue);
+	iSelectStartPara := iSelectEndValue + 1;
+ELSE 
+	iSelectEndValue := Buffer.Find(sSearchString := GVL_XmlControl.sTagOpen, udiStartPos := udiSearchPos);
+	sName := Buffer.Copy( udiStart := udiSearchPos + 1, udiEnd := iSelectEndValue); 
+END_IF;
+NextPara := sName;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="NextTag" Id="{d039b781-905d-4b69-b5aa-bb0323e598de}">
+      <Declaration><![CDATA[METHOD NextTag : STRING
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[iSelectStart := Buffer.Find(sSearchString := GVL_XmlControl.sTagOpen, udiStartPos := udiSearchPos);
+iSelectEnd := Buffer.Find(sSearchString := GVL_XmlControl.sTagClose, udiStartPos := iSelectStart);
+iSelectStartPara := Buffer.Find(sSearchString := GVL_XmlControl.sSpace, udiStartPos := iSelectStart);
+iSelectTagClose := Buffer.Find(sSearchString := GVL_XmlControl.sForwardSlash, udiStartPos := iSelectStart);
+IF iSelectStart < Buffer.Lenght AND iSelectEnd < Buffer.Lenght THEN
+	udiSearchPos := iSelectEnd;
+	sTag := Buffer.Copy( udiStart:= iSelectStart + 1, udiEnd:= iSelectEnd);
+	IF iSelectEnd < iSelectStartPara THEN
+		NextTag := Buffer.Copy( udiStart:= iSelectStart + 1, udiEnd:= iSelectEnd);
+	ELSE
+		NextTag := Buffer.Copy( udiStart:= iSelectStart + 1, udiEnd:= iSelectStartPara);
+	END_IF;
+	IF iSelectTagClose = iSelectStart +1 THEN
+		iSelect := TagListSeek.FindBack(sSearchString := GVL_XmlControl.sForwardSlash);
+		TagListSeek.CutOff(udiStartPos:= iSelect);
+	ELSIF iSelectTagClose > iSelectStart AND iSelectTagClose < iSelectEnd THEN
+		TagListSeek.Append := '/';
+		TagListSeek.Append := NextTag;
+		iSelect := TagListSeek.FindBack(sSearchString := GVL_XmlControl.sForwardSlash);
+		TagListSeek.CutOff(udiStartPos:= iSelect);
+	ELSE
+		TagListSeek.Append := GVL_XmlControl.sForwardSlash;
+		TagListSeek.Append := NextTag;
+	END_IF;
+ELSE
+	udiSearchPos := Buffer.Lenght;
+	NextTag := '';
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetBuffer" Id="{cbfaa6d5-eab9-48d0-a339-a8bf334e344e}">
+      <Declaration><![CDATA[METHOD SetBuffer : BOOL
+VAR_INPUT
+	pString : POINTER TO BYTE;
+	iSizeOf : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Buffer.Set(pbyAdr := pString, udiSize := iSizeOf);
+TagList.Set(pbyAdr := ADR(sTags), udiSize := SIZEOF(sTags));
+TagListSeek.Set(pbyAdr := ADR(sTagsSeek), udiSize := SIZEOF(sTagsSeek));
+Tag.Set(pbyAdr := ADR(sTag), udiSize := SIZEOF(sTag));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ToStartBuffer" Id="{cb065068-a6c8-48d5-8c1d-535a21365348}">
+      <Declaration><![CDATA[(*
+- Jump to the beginning of the XML data
+	XML.toStartBuffer();
+*)
+METHOD ToStartBuffer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[udiSearchPos := 0;
+TagListSeek.Lenght := 0;
+sTagsSeek := '';
+sTag := '';
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="writeDocumentHeader" Id="{14bf2549-9e7d-451f-8ab5-fe662eb30712}">
+      <Declaration><![CDATA[(*
+- Add your own preffered fileheader like:
+XML: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+
+	XML.writeDocumentHeader( '<?xml version=\"1.0\" encoding=\"UTF-8\"?>');
+
+*)
+METHOD writeDocumentHeader
+VAR_INPUT
+	strHeader	: STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[buffer.append := strHeader;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_XmlControl">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.ClearBuffer">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.closeTag">
+      <LineId Id="3" Count="11" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.Lenght.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.newComment">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.newPara">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.newTag">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.newTagData">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.NextPara">
+      <LineId Id="3" Count="11" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.NextTag">
+      <LineId Id="3" Count="26" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.SetBuffer">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.ToStartBuffer">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_XmlControl.writeDocumentHeader">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
