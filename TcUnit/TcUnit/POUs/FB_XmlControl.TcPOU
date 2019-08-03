@@ -44,6 +44,12 @@ XML: <MyTag> MyText </ MyTag>
 XML.toStartBuffer();
 
 
+- Adds a comment:
+XML: <!-- MyComment -->
+	
+	XML.newComment(sTagName: = 'MyComment');
+
+
 - returns the next Tag from the current position in buffer
 XML.NextTag();
 
@@ -51,7 +57,6 @@ XML.NextTag();
 - Output the parameter of the Tag
 XML.nextPara(sPara: = LastValue);
 Feedback: sPara returns the value found (string)
-
 
 *)
 {attribute 'hide_all_locals'}
@@ -135,18 +140,29 @@ END_VAR
       </Get>
     </Property>
     <Method Name="newComment" Id="{0f41fa45-b92e-4e7e-b2b3-ecb5d5918326}">
-      <Declaration><![CDATA[METHOD newComment : BOOL
+      <Declaration><![CDATA[(*
+	Adds a comment;
+	XML: <!-- MyComment -->
+	
+	XML.newComment(sTagName: = 'MyComment');
+*)
+METHOD newComment : BOOL
 VAR_INPUT
-	sCommand : STRING;
+	sComment : STRING;
+END_VAR
+VAR
+
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Ist noch ein TAG offen dann erst Schließen *)
-IF xTagOpen THEN
+        <ST><![CDATA[IF xTagOpen THEN
 	Buffer.Append := GVL_XmlControl.sTagClose;
 	xTagOpen := FALSE;
 END_IF;
-Buffer.Append := sCommand;
+Buffer.Append := GVL_XmlControl.sOpenComment; // <!-- 
+Buffer.Append := sComment;
+Buffer.Append := GVL_XmlControl.sCloseComment; // -->
+
 ]]></ST>
       </Implementation>
     </Method>
@@ -163,7 +179,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// sParaName="sValue"
+        <ST><![CDATA[
 Buffer.Append := GVL_XmlControl.sSpace;  
 Buffer.Append := sParaName;
 Buffer.Append := GVL_XmlControl.sEQ; 
@@ -332,7 +348,11 @@ END_VAR
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_XmlControl.newComment">
-      <LineId Id="3" Count="5" />
+      <LineId Id="4" Count="3" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_XmlControl.newPara">

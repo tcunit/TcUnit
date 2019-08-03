@@ -13,6 +13,8 @@ VAR_GLOBAL CONSTANT
 	sBackSlash : STRING[1] := '\';
 	sForwardSlash : STRING[1] := '/';
 	sNewLine : STRING[4] := '$R$L';
+	sOpenComment : STRING[5] := '<!-- ';
+	sCloseComment : STRING[4] := ' -->';
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
