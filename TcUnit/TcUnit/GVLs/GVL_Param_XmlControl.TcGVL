@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <GVL Name="GVL_Param_XmlControl" Id="{69588962-bd3e-4958-957e-7bfb94609af1}" ParameterList="True">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL CONSTANT
+	udiMaxFileSize : UDINT := 4096;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

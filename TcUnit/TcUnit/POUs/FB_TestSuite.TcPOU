@@ -174,9 +174,6 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-    ExpectedValueString : Tc2_System.T_MaxString;
-    ActualValueString : Tc2_System.T_MaxString;
-    FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -250,42 +247,78 @@ IF NOT AlreadyReported AND NOT Equals THEN
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
-        ExpectedString := 'SIZE = ';
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
-            arg1 := F_DINT(LowerBoundExpecteds[1]),
-            arg2 := F_DINT(UpperBoundExpecteds[1]),
-            arg3 := F_DINT(LowerBoundExpecteds[2]),
-            arg4 := F_DINT(UpperBoundExpecteds[2]),
-            arg5 := F_DINT(SizeOfExpecteds[1]),
-            arg6 := F_DINT(SizeOfExpecteds[2]),
-            sOut => ExpectedString);
+        //ExpectedString := 'SIZE = ';
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
+        //    arg1 := F_DINT(LowerBoundExpecteds[1]),
+        //    arg2 := F_DINT(UpperBoundExpecteds[1]),
+        //    arg3 := F_DINT(LowerBoundExpecteds[2]),
+        //    arg4 := F_DINT(UpperBoundExpecteds[2]),
+        //    arg5 := F_DINT(SizeOfExpecteds[1]),
+        //    arg6 := F_DINT(SizeOfExpecteds[2]),
+        //    sOut => ExpectedString);
+		ExpectedString := 'SIZE = [';		 
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] (');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ')');
 
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
-            arg1 := F_DINT(LowerBoundActuals[1]),
-            arg2 := F_DINT(UpperBoundActuals[1]),
-            arg3 := F_DINT(LowerBoundActuals[2]),
-            arg4 := F_DINT(UpperBoundActuals[2]),
-            arg5 := F_DINT(SizeOfActuals[1]),
-            arg6 := F_DINT(SizeOfActuals[2]),
-            sOut => ActualString);
-    ELSE
-        ExpectedValueString := LREAL_TO_STRING(Expected);
-        ActualValueString := LREAL_TO_STRING(Actual);
-        FormatString(
-            sFormat := 'ARRAY[%d,%d] = %s',
-            arg1 := F_DINT(ExpectedArrayIndex[1]),
-            arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_STRING(ExpectedValueString),
-            sOut => ExpectedString);
-
-        FormatString(
-            sFormat := 'ARRAY[%d,%d] = %s',
-            arg1 := F_DINT(ActualArrayIndex[1]),
-            arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_STRING(ActualValueString),
-            sOut => ActualString);
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
+        //    arg1 := F_DINT(LowerBoundActuals[1]),
+        //    arg2 := F_DINT(UpperBoundActuals[1]),
+        //    arg3 := F_DINT(LowerBoundActuals[2]),
+        //    arg4 := F_DINT(UpperBoundActuals[2]),
+        //    arg5 := F_DINT(SizeOfActuals[1]),
+        //    arg6 := F_DINT(SizeOfActuals[2]),
+        //    sOut => ActualString);
+		ActualString := 'SIZE = [';		 
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] (');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ')');
+    ELSE       
+		//FormatString(
+        //    sFormat := 'ARRAY[%d,%d] = %s',
+        //    arg1 := F_DINT(ExpectedArrayIndex[1]),
+        //    arg2 := F_DINT(ExpectedArrayIndex[2]),
+        //    arg3 := F_STRING(LREAL_TO_STRING(Expected)),
+        //   sOut => ExpectedString);
+		ExpectedString := 'ARRAY[';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[2]));	
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expected));
+		
+        //FormatString(
+        //    sFormat := 'ARRAY[%d,%d] = %s',
+        //    arg1 := F_DINT(ActualArrayIndex[1]),
+        //    arg2 := F_DINT(ActualArrayIndex[2]),
+        //    arg3 := F_STRING(LREAL_TO_STRING(Actual)),
+        //    sOut => ActualString);
+		ActualString := 'ARRAY[';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[2]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actual));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -324,9 +357,6 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : REAL; // Single expected value
     Actual : REAL; // Single actual value
-    ExpectedValueString : Tc2_System.T_MaxString;
-    ActualValueString : Tc2_System.T_MaxString;
-    FormatString : Tc2_Utilities.FB_FormatString;// String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -400,42 +430,81 @@ IF NOT AlreadyReported AND NOT Equals THEN
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
-        ExpectedString := 'SIZE = ';
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
-            arg1 := F_DINT(LowerBoundExpecteds[1]),
-            arg2 := F_DINT(UpperBoundExpecteds[1]),
-            arg3 := F_DINT(LowerBoundExpecteds[2]),
-            arg4 := F_DINT(UpperBoundExpecteds[2]),
-            arg5 := F_DINT(SizeOfExpecteds[1]),
-            arg6 := F_DINT(SizeOfExpecteds[2]),
-            sOut => ExpectedString);
+        //ExpectedString := 'SIZE = ';
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
+        //    arg1 := F_DINT(LowerBoundExpecteds[1]),
+        //    arg2 := F_DINT(UpperBoundExpecteds[1]),
+        //    arg3 := F_DINT(LowerBoundExpecteds[2]),
+        //    arg4 := F_DINT(UpperBoundExpecteds[2]),
+        //    arg5 := F_DINT(SizeOfExpecteds[1]),
+        //    arg6 := F_DINT(SizeOfExpecteds[2]),
+        //    sOut => ExpectedString);
+		ExpectedString := 'SIZE = [';		 
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] (');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ')');		
 
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
-            arg1 := F_DINT(LowerBoundActuals[1]),
-            arg2 := F_DINT(UpperBoundActuals[1]),
-            arg3 := F_DINT(LowerBoundActuals[2]),
-            arg4 := F_DINT(UpperBoundActuals[2]),
-            arg5 := F_DINT(SizeOfActuals[1]),
-            arg6 := F_DINT(SizeOfActuals[2]),
-            sOut => ActualString);
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d] (%dx%d)',
+        //    arg1 := F_DINT(LowerBoundActuals[1]),
+        //    arg2 := F_DINT(UpperBoundActuals[1]),
+        //    arg3 := F_DINT(LowerBoundActuals[2]),
+        //    arg4 := F_DINT(UpperBoundActuals[2]),
+        //    arg5 := F_DINT(SizeOfActuals[1]),
+        //    arg6 := F_DINT(SizeOfActuals[2]),
+        //    sOut => ActualString);
+		ActualString := 'SIZE = [';		 
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] (');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ')');	   
+	   
     ELSE
-        ExpectedValueString := REAL_TO_STRING(Expected);
-        ActualValueString := REAL_TO_STRING(Actual);
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d] = %s',
-            arg1 := F_DINT(ExpectedArrayIndex[1]),
-            arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_STRING(ExpectedValueString),
-            sOut => ExpectedString);
+        //ExpectedValueString := REAL_TO_STRING(Expected);
+        //ActualValueString := REAL_TO_STRING(Actual);
+        //FormatString( 
+        //    sFormat := 'ARRAY[%d,%d] = %s',
+        //    arg1 := F_DINT(ExpectedArrayIndex[1]),
+        //    arg2 := F_DINT(ExpectedArrayIndex[2]),
+        //    arg3 := F_STRING(ExpectedValueString),
+        //    sOut => ExpectedString);
+		ExpectedString := 'ARRAY[';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[2]));	
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expected));	   
 
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d] = %s',
-            arg1 := F_DINT(ActualArrayIndex[1]),
-            arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_STRING(ActualValueString),
-            sOut => ActualString);
+        //FormatString( 
+        //    sFormat := 'ARRAY[%d,%d] = %s',
+        //    arg1 := F_DINT(ActualArrayIndex[1]),
+        //    arg2 := F_DINT(ActualArrayIndex[2]),
+        //    arg3 := F_STRING(ActualValueString),
+        //    sOut => ActualString);
+		ActualString := 'ARRAY[';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[2]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actual));	   
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -474,9 +543,6 @@ VAR
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-    ExpectedValueString : Tc2_System.T_MaxString;
-    ActualValueString : Tc2_System.T_MaxString;
-    FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest THEN
@@ -561,50 +627,104 @@ IF NOT AlreadyReported AND NOT Equals THEN
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
-        ExpectedString := 'SIZE = ';
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
-            arg1 := F_DINT(LowerBoundExpecteds[1]),
-            arg2 := F_DINT(UpperBoundExpecteds[1]),
-            arg3 := F_DINT(LowerBoundExpecteds[2]),
-            arg4 := F_DINT(UpperBoundExpecteds[2]),
-            arg5 := F_DINT(LowerBoundExpecteds[3]),
-            arg6 := F_DINT(UpperBoundExpecteds[3]),
-            arg7 := F_DINT(SizeOfExpecteds[1]),
-            arg8 := F_DINT(SizeOfExpecteds[2]),
-            arg9 := F_DINT(SizeOfExpecteds[3]),
-            sOut => ExpectedString);
+        //ExpectedString := 'SIZE = ';
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
+        //    arg1 := F_DINT(LowerBoundExpecteds[1]),
+        //    arg2 := F_DINT(UpperBoundExpecteds[1]),
+        //    arg3 := F_DINT(LowerBoundExpecteds[2]),
+        //    arg4 := F_DINT(UpperBoundExpecteds[2]),
+        //    arg5 := F_DINT(LowerBoundExpecteds[3]),
+        //    arg6 := F_DINT(UpperBoundExpecteds[3]),
+        //    arg7 := F_DINT(SizeOfExpecteds[1]),
+        //    arg8 := F_DINT(SizeOfExpecteds[2]),
+        //    arg9 := F_DINT(SizeOfExpecteds[3]),
+        //    sOut => ExpectedString);
+		ExpectedString := 'SIZE = [';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[3]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[3]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] (');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[3]));	
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ')');
 
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
-            arg1 := F_DINT(LowerBoundActuals[1]),
-            arg2 := F_DINT(UpperBoundActuals[1]),
-            arg3 := F_DINT(LowerBoundActuals[2]),
-            arg4 := F_DINT(UpperBoundActuals[2]),
-            arg5 := F_DINT(LowerBoundActuals[3]),
-            arg6 := F_DINT(UpperBoundActuals[3]),
-            arg7 := F_DINT(SizeOfActuals[1]),
-            arg8 := F_DINT(SizeOfActuals[2]),
-            arg9 := F_DINT(SizeOfActuals[3]),
-            sOut => ActualString);
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
+        //    arg1 := F_DINT(LowerBoundActuals[1]),
+        //    arg2 := F_DINT(UpperBoundActuals[1]),
+        //    arg3 := F_DINT(LowerBoundActuals[2]),
+        //    arg4 := F_DINT(UpperBoundActuals[2]),
+        //    arg5 := F_DINT(LowerBoundActuals[3]),
+        //    arg6 := F_DINT(UpperBoundActuals[3]),
+        //    arg7 := F_DINT(SizeOfActuals[1]),
+        //    arg8 := F_DINT(SizeOfActuals[2]),
+        //    arg9 := F_DINT(SizeOfActuals[3]),
+        //    sOut => ActualString);
+		ActualString := 'SIZE = [';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[3]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[3]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] (');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[3]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ')');		
     ELSE
-        ExpectedValueString := LREAL_TO_STRING(Expected);
-        ActualValueString := LREAL_TO_STRING(Actual);
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %s',
-            arg1 := F_DINT(ExpectedArrayIndex[1]),
-            arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_DINT(ExpectedArrayIndex[3]),
-            arg4 := F_STRING(ExpectedValueString),
-            sOut => ExpectedString);
+       //ExpectedValueString := LREAL_TO_STRING(Expected);
+        //ActualValueString := LREAL_TO_STRING(Actual);
+        //FormatString( 
+        //    sFormat := 'ARRAY[%d,%d,%d] = %s',
+        //    arg1 := F_DINT(ExpectedArrayIndex[1]),
+        //    arg2 := F_DINT(ExpectedArrayIndex[2]),
+        //    arg3 := F_DINT(ExpectedArrayIndex[3]),
+        //    arg4 := F_STRING(ExpectedValueString),
+        //    sOut => ExpectedString);
+		ExpectedString := 'ARRAY[';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[3]));		
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expected) );		
 
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %s',
-            arg1 := F_DINT(ActualArrayIndex[1]),
-            arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_DINT(ActualArrayIndex[3]),
-            arg4 := F_STRING(ActualValueString),
-            sOut => ActualString);
+        // FormatString( 
+        //     sFormat := 'ARRAY[%d,%d,%d] = %s',
+        //     arg1 := F_DINT(ActualArrayIndex[1]),
+        //     arg2 := F_DINT(ActualArrayIndex[2]),
+        //     arg3 := F_DINT(ActualArrayIndex[3]),
+        //     arg4 := F_STRING(ActualValueString),
+        //     sOut => ActualString);	
+		ActualString := 'ARRAY[';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[3]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actual));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -731,49 +851,103 @@ IF NOT AlreadyReported AND NOT Equals THEN
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        FormatString(
-            sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
-            arg1 := F_DINT(LowerBoundExpecteds[1]),
-            arg2 := F_DINT(UpperBoundExpecteds[1]),
-            arg3 := F_DINT(LowerBoundExpecteds[2]),
-            arg4 := F_DINT(UpperBoundExpecteds[2]),
-            arg5 := F_DINT(LowerBoundExpecteds[3]),
-            arg6 := F_DINT(UpperBoundExpecteds[3]),
-            arg7 := F_DINT(SizeOfExpecteds[1]),
-            arg8 := F_DINT(SizeOfExpecteds[2]),
-            arg9 := F_DINT(SizeOfExpecteds[3]),
-            sOut => ExpectedString);
-
-        FormatString( 
-            sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
-            arg1 := F_DINT(LowerBoundActuals[1]),
-            arg2 := F_DINT(UpperBoundActuals[1]),
-            arg3 := F_DINT(LowerBoundActuals[2]),
-            arg4 := F_DINT(UpperBoundActuals[2]),
-            arg5 := F_DINT(LowerBoundActuals[3]),
-            arg6 := F_DINT(UpperBoundActuals[3]),
-            arg7 := F_DINT(SizeOfActuals[1]),
-            arg8 := F_DINT(SizeOfActuals[2]),
-            arg9 := F_DINT(SizeOfActuals[3]),
-            sOut => ActualString);
+        //FormatString(
+        //    sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
+        //    arg1 := F_DINT(LowerBoundExpecteds[1]),
+        //    arg2 := F_DINT(UpperBoundExpecteds[1]),
+        //    arg3 := F_DINT(LowerBoundExpecteds[2]),
+        //    arg4 := F_DINT(UpperBoundExpecteds[2]),
+        //    arg5 := F_DINT(LowerBoundExpecteds[3]),
+        //    arg6 := F_DINT(UpperBoundExpecteds[3]),
+        //    arg7 := F_DINT(SizeOfExpecteds[1]),
+        //    arg8 := F_DINT(SizeOfExpecteds[2]),
+        //    arg9 := F_DINT(SizeOfExpecteds[3]),
+        //    sOut => ExpectedString);
+		ExpectedString := 'SIZE = [';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[3]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[3]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] (');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := 'x');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds[3]));	
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ')');
+		
+        //FormatString( 
+        //    sFormat := 'SIZE = [%d..%d,%d..%d,%d..%d] (%dx%dx%d)',
+        //    arg1 := F_DINT(LowerBoundActuals[1]),
+        //    arg2 := F_DINT(UpperBoundActuals[1]),
+        //    arg3 := F_DINT(LowerBoundActuals[2]),
+        //    arg4 := F_DINT(UpperBoundActuals[2]),
+        //    arg5 := F_DINT(LowerBoundActuals[3]),
+        //    arg6 := F_DINT(UpperBoundActuals[3]),
+        //    arg7 := F_DINT(SizeOfActuals[1]),
+        //    arg8 := F_DINT(SizeOfActuals[2]),
+        //    arg9 := F_DINT(SizeOfActuals[3]),
+        //    sOut => ActualString);
+		ActualString := 'SIZE = [';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(LowerBoundActuals[3]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '..');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(UpperBoundActuals[3]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] (');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[3]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ')');		
     ELSE
-        ExpectedValueString := REAL_TO_STRING(Expected);
-        ActualValueString := REAL_TO_STRING(Actual);
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %s',
-            arg1 := F_DINT(ExpectedArrayIndex[1]),
-            arg2 := F_DINT(ExpectedArrayIndex[2]),
-            arg3 := F_DINT(ExpectedArrayIndex[3]),
-            arg4 := F_STRING(ExpectedValueString),
-            sOut => ExpectedString);
+        //ExpectedValueString := REAL_TO_STRING(Expected);
+        //ActualValueString := REAL_TO_STRING(Actual);
+        //FormatString( 
+        //    sFormat := 'ARRAY[%d,%d,%d] = %s',
+        //    arg1 := F_DINT(ExpectedArrayIndex[1]),
+        //    arg2 := F_DINT(ExpectedArrayIndex[2]),
+        //    arg3 := F_DINT(ExpectedArrayIndex[3]),
+        //    arg4 := F_STRING(ExpectedValueString),
+        //    sOut => ExpectedString);
+		ExpectedString := 'ARRAY[';
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[2]));
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[3]));		
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+		ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expected) );			
 
-        FormatString( 
-            sFormat := 'ARRAY[%d,%d,%d] = %s',
-            arg1 := F_DINT(ActualArrayIndex[1]),
-            arg2 := F_DINT(ActualArrayIndex[2]),
-            arg3 := F_DINT(ActualArrayIndex[3]),
-            arg4 := F_STRING(ActualValueString),
-            sOut => ActualString);
+        //FormatString( 
+        //    sFormat := 'ARRAY[%d,%d,%d] = %s',
+        //    arg1 := F_DINT(ActualArrayIndex[1]),
+        //    arg2 := F_DINT(ActualArrayIndex[2]),
+        //    arg3 := F_DINT(ActualArrayIndex[3]),
+        //    arg4 := F_STRING(ActualValueString),
+        //    sOut => ActualString);
+		ActualString := 'ARRAY[';
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[2]));
+		ActualString := CONCAT(STR1 := ActualString, STR2 := ',');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[3]));	
+		ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
+		ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actual));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -3526,48 +3700,86 @@ END_IF]]></ST>
       <LineId Id="1208" Count="47" />
       <LineId Id="1353" Count="0" />
       <LineId Id="1257" Count="31" />
+      <LineId Id="1420" Count="0" />
+      <LineId Id="1422" Count="10" />
+      <LineId Id="1421" Count="0" />
       <LineId Id="1290" Count="9" />
+      <LineId Id="1434" Count="11" />
+      <LineId Id="1433" Count="0" />
       <LineId Id="1301" Count="0" />
-      <LineId Id="1388" Count="0" />
-      <LineId Id="1387" Count="0" />
-      <LineId Id="1302" Count="3" />
+      <LineId Id="1446" Count="0" />
+      <LineId Id="1303" Count="2" />
       <LineId Id="1383" Count="0" />
       <LineId Id="1307" Count="0" />
-      <LineId Id="1309" Count="1" />
+      <LineId Id="1449" Count="3" />
+      <LineId Id="1455" Count="0" />
+      <LineId Id="1448" Count="0" />
+      <LineId Id="1447" Count="0" />
+      <LineId Id="1310" Count="0" />
       <LineId Id="1352" Count="0" />
       <LineId Id="1312" Count="1" />
       <LineId Id="1384" Count="0" />
       <LineId Id="1315" Count="0" />
+      <LineId Id="1458" Count="4" />
+      <LineId Id="1457" Count="0" />
       <LineId Id="1317" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_REAL">
       <LineId Id="1208" Count="80" />
+      <LineId Id="1389" Count="11" />
+      <LineId Id="1388" Count="0" />
       <LineId Id="1290" Count="9" />
+      <LineId Id="1402" Count="11" />
+      <LineId Id="1401" Count="0" />
+      <LineId Id="1387" Count="0" />
       <LineId Id="1301" Count="0" />
       <LineId Id="1354" Count="1" />
       <LineId Id="1302" Count="5" />
+      <LineId Id="1415" Count="4" />
+      <LineId Id="1414" Count="0" />
       <LineId Id="1309" Count="6" />
+      <LineId Id="1421" Count="4" />
+      <LineId Id="1420" Count="0" />
       <LineId Id="1317" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_LREAL">
       <LineId Id="1138" Count="94" />
+      <LineId Id="1338" Count="17" />
+      <LineId Id="1337" Count="0" />
       <LineId Id="1234" Count="12" />
+      <LineId Id="1357" Count="17" />
+      <LineId Id="1356" Count="0" />
       <LineId Id="1248" Count="0" />
       <LineId Id="1303" Count="1" />
       <LineId Id="1249" Count="6" />
+      <LineId Id="1376" Count="6" />
+      <LineId Id="1375" Count="0" />
       <LineId Id="1257" Count="7" />
+      <LineId Id="1385" Count="3" />
+      <LineId Id="1391" Count="0" />
+      <LineId Id="1390" Count="0" />
+      <LineId Id="1389" Count="0" />
+      <LineId Id="1384" Count="0" />
       <LineId Id="1266" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_REAL">
       <LineId Id="1167" Count="94" />
+      <LineId Id="1402" Count="17" />
+      <LineId Id="1401" Count="0" />
       <LineId Id="1263" Count="12" />
+      <LineId Id="1383" Count="17" />
+      <LineId Id="1382" Count="0" />
       <LineId Id="1277" Count="0" />
       <LineId Id="1332" Count="1" />
       <LineId Id="1278" Count="6" />
+      <LineId Id="1374" Count="6" />
+      <LineId Id="1373" Count="0" />
       <LineId Id="1286" Count="7" />
+      <LineId Id="1366" Count="6" />
+      <LineId Id="1365" Count="0" />
       <LineId Id="1295" Count="5" />
       <LineId Id="5" Count="0" />
     </LineIds>

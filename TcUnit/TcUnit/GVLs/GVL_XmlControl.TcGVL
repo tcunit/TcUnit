@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <GVL Name="GVL_XmlControl" Id="{ddf8d934-a4f3-4b52-be50-09cc258232b0}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL CONSTANT
+	(* String Constants *)
+	sTagOpen : STRING[1] := '<';
+	sTagClose : STRING[3] := '>';
+	sEndTagClose : STRING[4] :='/>$R$L';
+	sSpace : STRING[1] :=' ';
+	sEQ : STRING[1] :='=';
+	sQuote : STRING[1] :='"';
+	sBackSlash : STRING[1] := '\';
+	sForwardSlash : STRING[1] := '/';
+	sNewLine : STRING[4] := '$R$L';
+	sOpenComment : STRING[5] := '<!-- ';
+	sCloseComment : STRING[4] := ' -->';
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
