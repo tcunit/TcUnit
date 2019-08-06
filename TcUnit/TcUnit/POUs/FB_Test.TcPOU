@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_Test" Id="{a51e9086-33ec-4162-acad-93a76961e893}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block holds all data that defines a test.
@@ -26,10 +26,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="IsFinished" Id="{813a9067-b864-4739-9c14-830160e0eabc}">
-      <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsFinished := TestHasFinished;]]></ST>
       </Implementation>
@@ -41,10 +38,7 @@ END_VAR
       </Implementation>
     </Method>
     <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
-      <Declaration><![CDATA[METHOD SetFinished : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
+      <Declaration><![CDATA[METHOD SetFinished : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestHasFinished := TRUE;]]></ST>
       </Implementation>

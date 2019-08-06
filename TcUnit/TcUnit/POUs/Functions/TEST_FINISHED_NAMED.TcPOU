@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION TEST_FINISHED_NAMED : BOOL
+    <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
+   a TestName that has been previously defined in this test suite. *)
+FUNCTION TEST_FINISHED_NAMED : BOOL
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
@@ -9,10 +11,9 @@ VAR
     Counter : UINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-TEST_FINISHED_NAMED := FALSE;
-// Find the test suite and set the test as finished
-FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
+      <ST><![CDATA[TEST_FINISHED_NAMED := FALSE;
+// Find the test suite and set the test in that test suite as finished
+FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
         TEST_FINISHED_NAMED := TRUE;
@@ -21,7 +22,6 @@ FOR Counter := 1 TO GVL_TcUnit.AmountOfInitializedTestSuites BY 1 DO
 END_FOR]]></ST>
     </Implementation>
     <LineIds Name="TEST_FINISHED_NAMED">
-      <LineId Id="30" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="16" Count="2" />

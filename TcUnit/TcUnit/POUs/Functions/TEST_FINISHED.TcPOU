@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION TEST_FINISHED : BOOL
+    <Declaration><![CDATA[(* Sets the currently running test as finished *)
+FUNCTION TEST_FINISHED : BOOL
 VAR
     TestName : Tc2_System.T_MaxString;
     Counter : UINT := 0;
@@ -11,7 +12,7 @@ END_VAR]]></Declaration>
 TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
 
 TEST_FINISHED := FALSE;
-// Find the test suite and set the test as finished
+// Find the test suite and set the test in that test suite as finished
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := GVL_TcUnit.CurrentTestNameBeingCalled);
