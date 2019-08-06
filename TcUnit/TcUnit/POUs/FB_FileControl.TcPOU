@@ -2,95 +2,87 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_FileControl" Id="{92b054f5-6c17-4a97-bba0-430785a7dda3}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'hide_all_locals'}
-FUNCTION_BLOCK FB_FileControl IMPLEMENTS I_FileControl
+FUNCTION_BLOCK FB_FileControl
 VAR
-	stFileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
-	hFile : SysFile.SysTypes.RTS_IEC_HANDLE;
-END_VAR
-]]></Declaration>
+    FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
+    FileHandle : SysFile.SysTypes.RTS_IEC_HANDLE;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="fileClose" Id="{9e59e2f2-4c01-4eef-a03e-ca6cece47c41}">
-      <Declaration><![CDATA[// Close the current file
-METHOD fileClose : SysFile.SysTypes.RTS_IEC_RESULT;
-]]></Declaration>
+    <Method Name="Close" Id="{9e59e2f2-4c01-4eef-a03e-ca6cece47c41}">
+      <Declaration><![CDATA[// Closes the current file
+METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF hFile <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
-	fileClose := SysFile.SysFileClose(hFile := hFile);
+        <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
+    Close := SysFile.SysFileClose(hFile := FileHandle);
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="fileOpen" Id="{edeba3e3-eab7-4baf-8c37-097da76a12ae}">
+    <Method Name="Open" Id="{edeba3e3-eab7-4baf-8c37-097da76a12ae}">
       <Declaration><![CDATA[// Opens a file
-METHOD fileOpen : SysFile.SysTypes.RTS_IEC_RESULT;
+METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-	// File name. File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
-	szFilename : STRING := 'filepath/output.xml'; 
-	stFileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    FileName : Tc2_System.T_MaxString := 'filepath/output.xml'; // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
+    FileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[hFile := SysFile.SysFileOpen( szFile := szFilename,
-							  am := stFileAccessMode,
-							  pResult := ADR(fileOpen));]]></ST>
+        <ST><![CDATA[FileHandle := SysFile.SysFileOpen(szFile := Filename,
+                                  am := FileAccessMode,
+                                  pResult := ADR(Open));]]></ST>
       </Implementation>
     </Method>
-    <Method Name="fileRead" Id="{f93ea44f-4d8d-464c-9dd2-7b8491d1d0cf}">
-      <Declaration><![CDATA[METHOD fileRead  : SysFile.SysTypes.RTS_IEC_RESULT;
+    <Method Name="Read" Id="{f93ea44f-4d8d-464c-9dd2-7b8491d1d0cf}">
+      <Declaration><![CDATA[METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-	// Call with ADR( );
-	pString : POINTER TO BYTE;
-	// Call with SIZEOF( ); 
-	udiSizeOf : UDINT;
+    pString : POINTER TO BYTE; // Call with ADR();
+    Size : UDINT; // Call with SIZEOF(); 
 END_VAR
 VAR_OUTPUT
-	// Filesize
-	Size : SysFile.SysTypes.RTS_IEC_SIZE;
+    FileSize : SysFile.SysTypes.RTS_IEC_SIZE;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF hFile <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
-	Size := SysFile.SysFileread(hFile := hFile, 
-							pbyBuffer := pString,
-							ulSize := udiSizeOf, 
-							pResult := ADR(fileRead));					
+        <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
+    FileSize := SysFile.SysFileread(hFile := FileHandle, 
+                                    pbyBuffer := pString,
+                                    ulSize := Size,
+                                    pResult := ADR(Read));
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="fileSave" Id="{2f313ee5-51e4-4400-81ec-246d44b99c29}">
-      <Declaration><![CDATA[// saves the contents of the buffer into a file
-// be sure to call fileOpen() before calling fileSave()
-METHOD fileSave : SysFile.SysTypes.RTS_IEC_RESULT;
+    <Method Name="Save" Id="{2f313ee5-51e4-4400-81ec-246d44b99c29}">
+      <Declaration><![CDATA[// Saves the contents of the buffer into a file
+// Be sure to call Open() before calling Save()
+METHOD Save : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-	// call with ADR( );
-	pString : POINTER TO BYTE;
-	// Call with SIZEOF( ); 
-	udiSizeOf : UDINT;
+    pString : POINTER TO BYTE; // Call with ADR();
+    Size : UDINT; // Call with SIZEOF();
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF hFile <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
-	SysFile.SysFileWrite(hFile := hFile, 
-						pbyBuffer := pString,
-						ulSize := udiSizeOf, 
-						pResult := ADR(fileSave));					
+        <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
+    SysFile.SysFileWrite(hFile := FileHandle,
+                         pbyBuffer := pString,
+                         ulSize := Size,
+                         pResult := ADR(Save));
 END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_FileControl">
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_FileControl.fileClose">
+    <LineIds Name="FB_FileControl.Close">
       <LineId Id="3" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_FileControl.fileOpen">
+    <LineIds Name="FB_FileControl.Open">
       <LineId Id="3" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_FileControl.fileRead">
+    <LineIds Name="FB_FileControl.Read">
       <LineId Id="3" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_FileControl.fileSave">
+    <LineIds Name="FB_FileControl.Save">
       <LineId Id="3" Count="4" />
       <LineId Id="2" Count="0" />
     </LineIds>

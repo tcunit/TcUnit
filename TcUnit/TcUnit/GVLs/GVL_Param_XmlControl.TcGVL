@@ -3,7 +3,7 @@
   <GVL Name="GVL_Param_XmlControl" Id="{69588962-bd3e-4958-957e-7bfb94609af1}" ParameterList="True">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
-	udiMaxFileSize : UDINT := 4096;
+    MaxFileSize : UDINT := 4096;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

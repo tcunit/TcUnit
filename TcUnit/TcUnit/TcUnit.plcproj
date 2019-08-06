@@ -41,13 +41,12 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="ITFs" />
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
-    <Folder Include="Xml Integration Test" />
     <Folder Include="POUs" />
     <Folder Include="POUs\Functions" />
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DUTs\eXML.TcDUT">
+    <Compile Include="DUTs\E_XmlError.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_ADSLogStringMessage.TcDUT">
@@ -79,22 +78,13 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\GVL_XmlControl.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ITFs\I_FileControl.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ITFs\I_TestResultFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_XmlControl.TcIO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FB_strBuffer.TcPOU">
+    <Compile Include="POUs\FB_StringBuffer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_XmlControl.TcPOU">
@@ -155,9 +145,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Version\Global_Version.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Xml Integration Test\XmlIntegrationTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
