@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.0">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
    a TestName that has been previously defined in this test suite. *)
@@ -15,9 +15,14 @@ END_VAR]]></Declaration>
 // Find the test suite and set the test in that test suite as finished
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
-        TEST_FINISHED_NAMED := TRUE;
-        RETURN;
+        IF GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName) THEN
+        	TEST_FINISHED_NAMED := TRUE;
+    	ELSE
+			Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_WARN,
+                                                msgFmtStr := "Attempt to mark test: %s finished, failed.",
+                                                strArg := TestName);
+		END_IF    
+	RETURN;
     END_IF
 END_FOR]]></ST>
     </Implementation>
@@ -26,6 +31,10 @@ END_FOR]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="16" Count="2" />
       <LineId Id="31" Count="1" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="15" Count="0" />
     </LineIds>
