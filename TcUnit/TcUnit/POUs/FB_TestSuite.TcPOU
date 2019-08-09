@@ -3461,7 +3461,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFinished" Id="{1ec94335-80d7-46d3-a0f0-345f8eda2ea4}">
-      <Declaration><![CDATA[METHOD PUBLIC SetTestFinished
+      <Declaration><![CDATA[METHOD PUBLIC SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
