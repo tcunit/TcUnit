@@ -7,8 +7,8 @@
 FUNCTION_BLOCK FB_Test
 VAR
     TestName : Tc2_System.T_MaxString;
-    TestHasFailed : BOOL; // Indication of whether this test has had at least one failed assert
-    TestHasFinished : BOOL;
+    TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
+    TestIsFinished : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -22,25 +22,25 @@ END_VAR]]></Declaration>
     <Method Name="IsFailed" Id="{e42409e3-251f-4133-8b14-3630785983d6}">
       <Declaration><![CDATA[METHOD PUBLIC IsFailed : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IsFailed := TestHasFailed;]]></ST>
+        <ST><![CDATA[IsFailed := TestIsFailed;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsFinished" Id="{813a9067-b864-4739-9c14-830160e0eabc}">
       <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IsFinished := TestHasFinished;]]></ST>
+        <ST><![CDATA[IsFinished := TestIsFinished;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetFailed" Id="{b840b41b-4045-4fd9-b97d-0bf226c46fb3}">
       <Declaration><![CDATA[METHOD PUBLIC SetFailed]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestHasFailed := TRUE;]]></ST>
+        <ST><![CDATA[TestIsFailed := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
       <Declaration><![CDATA[METHOD SetFinished : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestHasFinished := TRUE;]]></ST>
+        <ST><![CDATA[TestIsFinished := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
