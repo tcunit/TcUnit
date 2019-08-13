@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitVerifierPath = null;
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-       
+
 
         [STAThread]
         static int Main(string[] args)
@@ -191,7 +191,7 @@ namespace TcUnit.Verifier
                 vsInstance.Close();
             }
             catch { }
-            
+
             log.Info("Exiting application...");
             MessageFilter.Revoke();
         }

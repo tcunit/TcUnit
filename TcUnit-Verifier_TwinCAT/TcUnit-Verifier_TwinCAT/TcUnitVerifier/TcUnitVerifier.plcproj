@@ -3,22 +3,21 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4c163238-60bc-4bd0-94bb-ea7cf6075f59}</ProjectGuid>
+    <ProjectGuid>{59ed27dd-d865-40e3-ab9d-3c7e47afcf7d}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <Name>TcUnitVerifier</Name>
-    <ProgramVersion>3.1.4022.4</ProgramVersion>
-    <Application>{b1d7d47f-aa33-4b86-b93d-8e11ed0bb0cf}</Application>
-    <TypeSystem>{50844008-aa57-425a-8f4f-c3894e83c008}</TypeSystem>
-    <Implicit_Task_Info>{059be1ba-452a-4af2-9b6b-2a7a98bdd971}</Implicit_Task_Info>
-    <Implicit_KindOfTask>{424b1ddb-7bea-4656-802e-4b39db2ac42c}</Implicit_KindOfTask>
-    <Implicit_Jitter_Distribution>{f2896e88-052e-4a15-ac60-c9b84e88ab61}</Implicit_Jitter_Distribution>
-    <LibraryReferences>{12163167-c0ff-4680-bd10-5e1569d3b925}</LibraryReferences>
+    <ProgramVersion>3.1.4022.7</ProgramVersion>
+    <Application>{869a127e-f291-4658-8855-d380a1c1ba57}</Application>
+    <TypeSystem>{1e015cbb-6d58-42e6-bb1c-004a8537ac4e}</TypeSystem>
+    <Implicit_Task_Info>{a28b1832-7617-48e1-851f-0e4af642317c}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{c11a17e2-1735-45e0-8098-e5548544ef9d}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{2bfcf364-b8db-43e9-9c59-9355dfad7ca7}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{4249a752-a2ee-4c23-98d3-b204d84240e1}</LibraryReferences>
     <CombineIds>false</CombineIds>
     <Company>www.tcunit.org</Company>
-    <Released>true</Released>
+    <Released>false</Released>
     <Title>TcUnit verifier</Title>
-    <ProjectVersion>0.9.1.0</ProjectVersion>
-    <DefaultNamespace>TcUnit</DefaultNamespace>
+    <ProjectVersion>1.0.0.0</ProjectVersion>
     <Author>Jakob Sagatowski and contributors</Author>
     <Description>This project is can be used to verify the different functions of TcUnit. It has various test suites to test different functions in TcUnit. By making sure to comment out everything except the test suite that is interesting it is possible to test only the specific function of TcUnit that is interesting.</Description>
   </PropertyGroup>
@@ -27,6 +26,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_AdjustAssertFailureMessageToMax252CharLengthTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_AnyPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_AnyToUnionValue.TcPOU">
@@ -41,10 +43,13 @@
     <Compile Include="Test\FB_AssertEveryFailedTestTwiceArrayVersion.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_CreateFourTestsWithSameName.TcPOU">
+    <Compile Include="Test\FB_AssertTrueFalse.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_CreateDisabledTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_CreateFourTestsWithSameName.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_EmptyTestSuite.TcPOU">
@@ -53,19 +58,13 @@
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Test\FB_AssertTrueFalse.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Test\FB_AnyPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\PRG_TEST.TcPOU">
@@ -76,6 +75,7 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="Test" />
+    <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,14 +109,27 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-        <Data>
-          <o xml:space="preserve" t="OptionKey">
+  <Data>
+    <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
         <o>
           <v n="Name">"{192FAD59-8248-4824-A8DE-9177C94C195A}"</v>
           <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" />
+        </o>
+        <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
+        <o>
+          <v n="Name">"{29BD8D0C-3586-4548-BB48-497B9A01693F}"</v>
+          <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+            <v>Rules</v>
+            <o>
+              <v n="Name">"Rules"</v>
+              <d n="SubKeys" t="Hashtable" />
+              <d n="Values" t="Hashtable" />
+            </o>
+          </d>
           <d n="Values" t="Hashtable" />
         </o>
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
@@ -137,13 +150,13 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-        </Data>
-        <TypeList>
-          <Type n="Hashtable">System.Collections.Hashtable</Type>
-          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-          <Type n="String">System.String</Type>
-        </TypeList>
-      </XmlArchive>
+  </Data>
+  <TypeList>
+    <Type n="Hashtable">System.Collections.Hashtable</Type>
+    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+    <Type n="String">System.String</Type>
+  </TypeList>
+</XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>
