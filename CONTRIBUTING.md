@@ -38,11 +38,8 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
 ## Use a Consistent Coding Style
-* Make sure to edit the project with the same version of Visual Studio as the master branch. Which version of Visual Studio that is currently used can be deduced from the [TcUnit.sln](https://github.com/tcunit/TcUnit/blob/master/TcUnit.sln)-file. The row "VisualStudioVersion" will give you the version used
-    * Version 14.0 = Visual Studio 2015
-    * Version 15.0 = Visual Studio 2017
-    * Version 16.0 = Visual Studio 2019
-* Make sure to edit the project with the same *or newer* version of TwinCAT XAE as the master branch. Which version of TwinCAT that is currently used can be deduced from the [TcUnit.tsproj](https://github.com/tcunit/TcUnit/blob/master/TcUnit/TcUnit.tsproj)-file. The "TcVersion"-attribute will give you the version of TwinCAT that was lastly used to edit the project
+* Make sure to edit the project with the same version of Visual Studio as the master branch. All software (TcUnit and TcUnit-Verifier) has been developed using Visual Studio 2013. Note that VS2013 shell (provided with TwinCAT 3.1.4022.x) can't open the TcUnit-Verifier_DotNet (as it's a .NET/C# project). Instead it's recommended to use [VS2013 community edition](https://visualstudio.microsoft.com/vs/older-downloads/) which can be used both for TwinCAT and .NET/C# projects
+* Make sure to edit the project with the same build of TwinCAT XAE as the master branch. Which build of TwinCAT that is currently used can be deduced from the [TcUnit.tsproj](https://github.com/tcunit/TcUnit/blob/master/TcUnit/TcUnit.tsproj)-file. The "TcVersion"-attribute will give you the version of TwinCAT that was lastly used to edit the project. The build is the third number from the left (for example 4020, 4022 or 4024)
 * Make sure that your TwinCAT development environment uses spaces instead of tabs. The default behaviour of the TwinCAT development environment is to use tabs so it needs to be changed, which can be done according to [this guide](https://alltwincat.com/2017/04/14/replace-tabs-with-whitespaces/)
 * The prefixes of naming of function blocks/variables/etc from the [Beckhoff TwinCAT3 identifier/name conventions](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014401873267083.html&id=) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
 
