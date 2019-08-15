@@ -18,7 +18,7 @@ FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         IF GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName) THEN
         	TEST_FINISHED_NAMED := TRUE;
     	ELSE
-			Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_WARN,
+			Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                                 msgFmtStr := 'Attempt to mark test: %s finished, failed.',
                                                 strArg := TestName);
 		END_IF    
