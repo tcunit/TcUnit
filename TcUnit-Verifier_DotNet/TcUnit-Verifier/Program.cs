@@ -153,6 +153,7 @@ namespace TcUnit.Verifier
             FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests multipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests = new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests");
             FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest multipleAssertWithSameParametersInDifferentCyclesAndInSameTest = new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest");
             FB_AdjustAssertFailureMessageToMax252CharLengthTest adjustAssertFailureMessageToMax252CharLengthTest = new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems, "AdjustAssertFailureMessageToMax252CharLengthTest");
+            FB_CheckIfSpecificTestIsFinished checkIfSpecificTestIsFinished = new FB_CheckIfSpecificTestIsFinished(errorItems, "CheckIfSpecificTestIsFinished");
 
             log.Info("Done.");
 
