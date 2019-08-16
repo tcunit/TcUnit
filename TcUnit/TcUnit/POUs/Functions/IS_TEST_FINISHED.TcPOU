@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="IS_TEST_FINISHED" Id="{79206b95-49a5-42aa-8a6a-b089aa13b1fd}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Check if a certain test in the current suite is finished *)
+FUNCTION IS_TEST_FINISHED : BOOL
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    Counter : UINT;
+	CurrentTest : FB_Test;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IS_TEST_FINISHED := FALSE;
+
+FOR Counter := 1 TO GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetNumberOfTests() BY 1 DO
+	CurrentTest := GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[Counter];
+	IF CurrentTest.TestName = TestName THEN
+		IS_TEST_FINISHED := CurrentTest.IsFinished();
+		RETURN;
+	END_IF
+END_FOR]]></ST>
+    </Implementation>
+    <LineIds Name="IS_TEST_FINISHED">
+      <LineId Id="88" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="90" Count="6" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
