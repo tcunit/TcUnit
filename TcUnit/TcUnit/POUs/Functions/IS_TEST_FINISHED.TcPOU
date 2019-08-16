@@ -8,17 +8,17 @@ VAR_INPUT
 END_VAR
 VAR
     Counter : UINT;
-	CurrentTest : FB_Test;
+    CurrentTest : FB_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IS_TEST_FINISHED := FALSE;
 
 FOR Counter := 1 TO GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetNumberOfTests() BY 1 DO
-	CurrentTest := GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[Counter];
-	IF CurrentTest.TestName = TestName THEN
-		IS_TEST_FINISHED := CurrentTest.IsFinished();
-		RETURN;
-	END_IF
+    CurrentTest := GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[Counter];
+    IF CurrentTest.TestName = TestName THEN
+        IS_TEST_FINISHED := CurrentTest.IsFinished();
+        RETURN;
+    END_IF
 END_FOR]]></ST>
     </Implementation>
     <LineIds Name="IS_TEST_FINISHED">
