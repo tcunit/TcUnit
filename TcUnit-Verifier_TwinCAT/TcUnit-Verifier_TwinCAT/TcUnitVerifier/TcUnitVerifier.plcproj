@@ -46,6 +46,9 @@
     <Compile Include="Test\FB_AssertTrueFalse.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_CheckIfSpecificTestIsFinished.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_CreateDisabledTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
