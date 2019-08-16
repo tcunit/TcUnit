@@ -32,7 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski and contributors</Author>
-    <ProjectVersion>1.0.0.0</ProjectVersion>
+    <ProjectVersion>0.9.0.1</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->
@@ -43,6 +43,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="GVLs" />
     <Folder Include="POUs" />
     <Folder Include="POUs\Functions" />
+    <Folder Include="POUs\Functions\WRITE_ANY_" />
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,57 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\TEST_FINISHED_NAMED.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_BOOL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_BYTE.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_DATE.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_DATE_AND_TIME.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_DINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_DWORD.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_INT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_LREAL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_REAL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_SINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_STRING.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_TIME.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_TIME_OF_DAY.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_UDINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_UINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_USINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_ANY_\WRITE_ANY_WORD.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Version\Global_Version.TcGVL">

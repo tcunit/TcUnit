@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="WRITE_ANY_SINT" Id="{e310eaa9-3123-4344-b07c-fc54b5c8e3ac}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_ANY_SINT : BOOL
+VAR_INPUT
+    ptr: POINTER TO SINT;
+    val: SINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ptr^ := val;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_ANY_SINT">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

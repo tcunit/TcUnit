@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="WRITE_ANY_REAL" Id="{b51bba4d-2ead-4155-a62f-7a7ea20f8571}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_ANY_REAL : BOOL
+VAR_INPUT
+    ptr: POINTER TO REAL;
+    val: REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ptr^ := val;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_ANY_REAL">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="WRITE_ANY_UINT" Id="{4b5114b2-1dc0-4e59-81df-bbfea3eeaaa0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_ANY_UINT : BOOL
+VAR_INPUT
+    ptr: POINTER TO UINT;
+    val: UINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ptr^ := val;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_ANY_UINT">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

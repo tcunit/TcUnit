@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="WRITE_ANY_BYTE" Id="{0bd58fcc-2342-4cd5-b054-08bdfb22baa1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_ANY_BYTE : BOOL
+VAR_INPUT
+    ptr: POINTER TO BYTE;
+    val: BYTE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ptr^ := val;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_ANY_BYTE">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
