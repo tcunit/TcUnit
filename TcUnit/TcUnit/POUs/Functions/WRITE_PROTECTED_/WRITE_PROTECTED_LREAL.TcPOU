@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
-  <POU Name="WRITE_ANY_DWORD" Id="{adb6e532-53d2-41dc-9582-b0d035315f3a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_ANY_DWORD : BOOL
+  <POU Name="WRITE_PROTECTED_LREAL" Id="{339c1152-50eb-418b-b2b4-54330f145c79}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_LREAL : BOOL
 VAR_INPUT
-    ptr: POINTER TO DWORD;
-    val: DWORD;
+    ptr: POINTER TO LREAL;
+    val: LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[ptr^ := val;]]></ST>
     </Implementation>
-    <LineIds Name="WRITE_ANY_DWORD">
+    <LineIds Name="WRITE_PROTECTED_LREAL">
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>

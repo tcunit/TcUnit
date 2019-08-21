@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
-  <POU Name="WRITE_ANY_UINT" Id="{4b5114b2-1dc0-4e59-81df-bbfea3eeaaa0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_ANY_UINT : BOOL
+  <POU Name="WRITE_PROTECTED_TIME" Id="{fe63062b-7425-40a7-aecc-017a028de247}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_TIME : BOOL
 VAR_INPUT
-    ptr: POINTER TO UINT;
-    val: UINT;
+    ptr: POINTER TO TIME;
+    val: TIME;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[ptr^ := val;]]></ST>
     </Implementation>
-    <LineIds Name="WRITE_ANY_UINT">
+    <LineIds Name="WRITE_PROTECTED_TIME">
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>
