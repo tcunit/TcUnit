@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="FB_WriteProtectedFunctions" Id="{812062d4-e1c0-4591-8720-04dcd5e89c1e}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite tests the WRITE_PROTECTED_* helper functions.
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_WriteProtectedFunctions EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_WRITE_PROTECTED_BOOL();
+Test_WRITE_PROTECTED_BYTE();
+Test_WRITE_PROTECTED_DATE();
+Test_WRITE_PROTECTED_DATE_AND_TIME();
+Test_WRITE_PROTECTED_DINT();
+Test_WRITE_PROTECTED_DWORD();
+Test_WRITE_PROTECTED_INT();
+Test_WRITE_PROTECTED_LREAL();
+Test_WRITE_PROTECTED_REAL();
+Test_WRITE_PROTECTED_SINT();
+Test_WRITE_PROTECTED_STRING();
+Test_WRITE_PROTECTED_TIME();
+Test_WRITE_PROTECTED_TIME_OF_DAY();
+Test_WRITE_PROTECTED_UDINT();
+Test_WRITE_PROTECTED_UINT();
+Test_WRITE_PROTECTED_USINT();
+Test_WRITE_PROTECTED_WORD();]]></ST>
+    </Implementation>
+    <Method Name="Test_WRITE_PROTECTED_BOOL" Id="{11a2dddd-2fbe-4039-a6b5-d4eaf7d9434c}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_BOOL
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_BOOL');
+
+WRITE_PROTECTED_BOOL(ADR(fb.InputBOOL), TRUE);
+AssertEquals_BOOL(TRUE, fb.InputBOOL, 'Overwriting protected InputBOOL');
+
+WRITE_PROTECTED_BOOL(ADR(fb.VarBOOL), TRUE);
+AssertEquals_BOOL(TRUE, fb.VarBOOL, 'Overwriting protected VarBOOL');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_BYTE" Id="{a2b467b1-3690-41a5-9320-4bc1f69bef8a}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_BYTE
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_BYTE');
+
+WRITE_PROTECTED_BYTE(ADR(fb.InputBYTE), 1);
+AssertEquals_BYTE(1, fb.InputBYTE, 'Overwriting protected InputBYTE');
+
+WRITE_PROTECTED_BYTE(ADR(fb.VarBYTE), 1);
+AssertEquals_BYTE(1, fb.VarBYTE, 'Overwriting protected VarBYTE');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_DATE" Id="{2510c371-47ea-4abe-a097-c4e0398a7a24}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DATE
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DATE');
+
+WRITE_PROTECTED_DATE(ADR(fb.InputDATE), D#2000-01-01);
+AssertEquals_DATE(D#2000-01-01, fb.InputDATE, 'Overwriting protected InputDATE');
+
+WRITE_PROTECTED_DATE(ADR(fb.VarDATE), D#2000-01-01);
+AssertEquals_DATE(D#2000-01-01, fb.VarDATE, 'Overwriting protected VarDATE');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_DATE_AND_TIME" Id="{e35cbab7-8fcd-423a-8410-af8b494e33af}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DATE_AND_TIME
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DATE_AND_TIME');
+
+WRITE_PROTECTED_DATE_AND_TIME(ADR(fb.InputDATE_AND_TIME), DT#2000-01-01-00:00);
+AssertEquals_DATE_AND_TIME(DT#2000-01-01-00:00, fb.InputDATE_AND_TIME, 'Overwriting protected InputDATE_AND_TIME');
+
+WRITE_PROTECTED_DATE_AND_TIME(ADR(fb.VarDATE_AND_TIME), DT#2000-01-01-00:00);
+AssertEquals_DATE_AND_TIME(DT#2000-01-01-00:00, fb.VarDATE_AND_TIME, 'Overwriting protected VarDATE_AND_TIME');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_DINT" Id="{4e7c60b5-8b1c-4049-9622-c0382fbb2365}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DINT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DINT');
+
+WRITE_PROTECTED_DINT(ADR(fb.InputDINT), 1);
+AssertEquals_DINT(1, fb.InputDINT, 'Overwriting protected InputDINT');
+
+WRITE_PROTECTED_DINT(ADR(fb.VarDINT), 1);
+AssertEquals_DINT(1, fb.VarDINT, 'Overwriting protected VarDINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_DWORD" Id="{0a357bc6-9801-4812-bff6-98077c8a0a93}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DWORD
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DWORD');
+
+WRITE_PROTECTED_DWORD(ADR(fb.InputDWORD), 1);
+AssertEquals_DWORD(1, fb.InputDWORD, 'Overwriting protected InputDWORD');
+
+WRITE_PROTECTED_DWORD(ADR(fb.VarDWORD), 1);
+AssertEquals_DWORD(1, fb.VarDWORD, 'Overwriting protected VarDWORD');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_INT" Id="{f27a38f4-d1ea-45d8-a73c-dd6465b9ad58}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_INT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_INT');
+
+WRITE_PROTECTED_INT(ADR(fb.InputINT), 1);
+AssertEquals_INT(1, fb.InputINT, 'Overwriting protected InputINT');
+
+WRITE_PROTECTED_INT(ADR(fb.VarINT), 1);
+AssertEquals_INT(1, fb.VarINT, 'Overwriting protected VarINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_LREAL" Id="{15de40fe-dc84-4408-be86-5481783ca3e7}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_LREAL
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_LREAL');
+
+WRITE_PROTECTED_LREAL(ADR(fb.InputLREAL), 1);
+AssertEquals_LREAL(1, fb.InputLREAL, 0, 'Overwriting protected InputLREAL');
+
+WRITE_PROTECTED_LREAL(ADR(fb.VarLREAL), 1);
+AssertEquals_LREAL(1, fb.VarLREAL, 0, 'Overwriting protected VarLREAL');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_REAL" Id="{26a46831-e47f-4e38-bf11-7776e94ca1a4}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_REAL
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_REAL');
+
+WRITE_PROTECTED_REAL(ADR(fb.InputREAL), 1);
+AssertEquals_REAL(1, fb.InputREAL, 0, 'Overwriting protected InputREAL');
+
+WRITE_PROTECTED_REAL(ADR(fb.VarREAL), 1);
+AssertEquals_REAL(1, fb.VarREAL, 0, 'Overwriting protected VarREAL');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_SINT" Id="{aab80437-85e4-45a9-bd68-7a6786ffe91a}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_SINT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_SINT');
+
+WRITE_PROTECTED_SINT(ADR(fb.InputSINT), 1);
+AssertEquals_SINT(1, fb.InputSINT, 'Overwriting protected InputSINT');
+
+WRITE_PROTECTED_SINT(ADR(fb.VarSINT), 1);
+AssertEquals_SINT(1, fb.VarSINT, 'Overwriting protected VarSINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_STRING" Id="{efe95956-d83a-443d-917c-316c5a36701a}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_STRING
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_STRING');
+
+WRITE_PROTECTED_STRING(ADR(fb.InputSTRING), 'words');
+AssertEquals_STRING('words', fb.InputSTRING, 'Overwriting protected InputSTRING');
+
+WRITE_PROTECTED_STRING(ADR(fb.VarSTRING), 'words');
+AssertEquals_STRING('words', fb.VarSTRING, 'Overwriting protected VarSTRING');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_TIME" Id="{e37750d2-5a33-4790-8cff-71ab8caece8b}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_TIME
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_TIME');
+
+WRITE_PROTECTED_TIME(ADR(fb.InputTIME), T#1S);
+AssertEquals_TIME(T#1S, fb.InputTIME, 'Overwriting protected InputTIME');
+
+WRITE_PROTECTED_TIME(ADR(fb.VarTIME), T#1S);
+AssertEquals_TIME(T#1S, fb.VarTIME, 'Overwriting protected VarTIME');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_TIME_OF_DAY" Id="{1264a760-0d2a-4889-88b2-30d55662bb73}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_TIME_OF_DAY
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_TIME_OF_DAY');
+
+WRITE_PROTECTED_TIME_OF_DAY(ADR(fb.InputTIME_OF_DAY), TOD#11:11);
+AssertEquals_TIME_OF_DAY(TOD#11:11, fb.InputTIME_OF_DAY, 'Overwriting protected InputTIME_OF_DAY');
+
+WRITE_PROTECTED_TIME_OF_DAY(ADR(fb.VarTIME_OF_DAY), TOD#11:11);
+AssertEquals_TIME_OF_DAY(TOD#11:11, fb.VarTIME_OF_DAY, 'Overwriting protected VarTIME_OF_DAY');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_UDINT" Id="{82609066-fb5e-46e7-9e57-65869d828270}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_UDINT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_UDINT');
+
+WRITE_PROTECTED_UDINT(ADR(fb.InputUDINT), 1);
+AssertEquals_UDINT(1, fb.InputUDINT, 'Overwriting protected InputUDINT');
+
+WRITE_PROTECTED_UDINT(ADR(fb.VarUDINT), 1);
+AssertEquals_UDINT(1, fb.VarUDINT, 'Overwriting protected VarUDINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_UINT" Id="{7f47e13a-351b-4283-b458-621b21173f32}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_UINT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_UINT');
+
+WRITE_PROTECTED_UINT(ADR(fb.InputUINT), 1);
+AssertEquals_UINT(1, fb.InputUINT, 'Overwriting protected InputUINT');
+
+WRITE_PROTECTED_UINT(ADR(fb.VarUINT), 1);
+AssertEquals_UINT(1, fb.VarUINT, 'Overwriting protected VarUINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_USINT" Id="{6592f882-59d3-49e2-82d2-e6fd44600d68}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_USINT
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_USINT');
+
+WRITE_PROTECTED_USINT(ADR(fb.InputUSINT), 1);
+AssertEquals_USINT(1, fb.InputUSINT, 'Overwriting protected InputUSINT');
+
+WRITE_PROTECTED_USINT(ADR(fb.VarUSINT), 1);
+AssertEquals_USINT(1, fb.VarUSINT, 'Overwriting protected VarUSINT');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_WORD" Id="{386f4047-1083-4370-89d2-3d1998d7c92c}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_WORD
+VAR
+    fb: FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_WORD');
+
+WRITE_PROTECTED_WORD(ADR(fb.InputWORD), 1);
+AssertEquals_WORD(1, fb.InputWORD, 'Overwriting protected InputWORD');
+
+WRITE_PROTECTED_WORD(ADR(fb.VarWORD), 1);
+AssertEquals_WORD(1, fb.VarWORD, 'Overwriting protected VarWORD');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_WriteProtectedFunctions">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="15" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_BOOL">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_BYTE">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_DATE">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_DATE_AND_TIME">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_DINT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_DWORD">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_INT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_LREAL">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_REAL">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_SINT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_STRING">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_TIME">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_TIME_OF_DAY">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_UDINT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_UINT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_USINT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WriteProtectedFunctions.Test_WRITE_PROTECTED_WORD">
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="4" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
