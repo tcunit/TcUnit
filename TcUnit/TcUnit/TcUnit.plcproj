@@ -136,6 +136,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\Functions\F_RemoveInstancePathAndProjectNameFromTestInstancePath.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\IS_TEST_FINISHED.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\RUN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
