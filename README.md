@@ -72,6 +72,10 @@ necessary is to make sure to instantiate it with two arguments:
 1. A reference to errorItems (just as above)
 2. A string with the name of what the function block is called in TcVT in the
    PRG_TEST-program
+3. If you have added a test in TcVT that is supposed to fail, and thus adding an
+   additional failed test to the output, you need to increment the variable
+   `expectedNumberOfFailedTests` in TcVD by one for every failed test that you
+   have added. 
 
 For example, if we in the PRG_TEST-program of TcVT have a function block
 instantiated in this way:

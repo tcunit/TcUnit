@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_ProtectedVariables" Id="{04c8b30f-8b4f-46fd-9e09-1e516a0a3840}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Contains different types of "protected" variables that you could not normally write to in
+    production PLC code, but would need to overwrite for testing purposes. Used for testing the
+    WRITE_PROTECTED_* functions, but this FB doesn't contain any tests itself.
+*)
+FUNCTION_BLOCK FB_ProtectedVariables
+VAR_INPUT
+    InputBOOL AT %I* : BOOL;
+    InputBYTE AT %I* : BYTE;
+    InputDATE AT %I* : DATE;
+    InputDATE_AND_TIME AT %I* : DATE_AND_TIME;
+    InputDINT AT %I* : DINT;
+    InputDWORD AT %I* : DWORD;
+    InputINT AT %I* : INT;
+    InputLREAL AT %I* : LREAL;
+    InputREAL AT %I* : REAL;
+    InputSINT AT %I* : SINT;
+    InputSTRING AT %I* : STRING;
+    InputTIME AT %I* : TIME;
+    InputTIME_OF_DAY AT %I* : TIME_OF_DAY;
+    InputUDINT AT %I* : UDINT;
+    InputUINT AT %I* : UINT;
+    InputUSINT AT %I* : USINT;
+    InputWORD AT %I* : WORD;
+END_VAR
+VAR
+    VarBOOL : BOOL;
+    VarBYTE : BYTE;
+    VarDATE : DATE;
+    VarDATE_AND_TIME : DATE_AND_TIME;
+    VarDINT : DINT;
+    VarDWORD : DWORD;
+    VarINT : INT;
+    VarLREAL : LREAL;
+    VarREAL : REAL;
+    VarSINT : SINT;
+    VarSTRING : STRING;
+    VarTIME : TIME;
+    VarTIME_OF_DAY : TIME_OF_DAY;
+    VarUDINT : UDINT;
+    VarUINT : UINT;
+    VarUSINT : USINT;
+    VarWORD : WORD;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ProtectedVariables">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -25,6 +25,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\FB_ProtectedVariables.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_AdjustAssertFailureMessageToMax252CharLengthTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -68,6 +71,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_WriteProtectedFunctions.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_TestFinishedNamed.TcPOU">

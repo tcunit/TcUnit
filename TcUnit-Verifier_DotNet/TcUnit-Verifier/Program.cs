@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitVerifierPath = null;
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-
+        private static int expectedNumberOfFailedTests = 92; // Update this if you add intentionally failing tests
 
         [STAThread]
         static int Main(string[] args)
@@ -102,6 +102,7 @@ namespace TcUnit.Verifier
             bool amountOfSuccesfulTestsLineFound = false;
             bool amountOfFailedTestsLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
+            int numberOfFailedTests = 0;
 
             log.Info("Waiting for TcUnit-Verifier_TwinCAT to finish running tests...");
 
@@ -126,7 +127,11 @@ namespace TcUnit.Verifier
                         if (item.Description.ToUpper().Contains("| SUCCESSFUL TESTS:"))
                             amountOfSuccesfulTestsLineFound = true;
                         if (item.Description.ToUpper().Contains("| FAILED TESTS:"))
+                        {
                             amountOfFailedTestsLineFound = true;
+                            // Grab the number of failed tests so we can validate it during the assertion phase
+                            numberOfFailedTests = Int32.Parse(item.Description.Split().Last());
+                        }
                         if (item.Description.ToUpper().Contains("| ======================================"))
                             testsFinishedRunningLastLineFound = true;
                     }
@@ -138,6 +143,11 @@ namespace TcUnit.Verifier
             }
 
             log.Info("Asserting results...");
+
+            if (numberOfFailedTests != expectedNumberOfFailedTests)
+            {
+                log.Error("The number of tests that failed (" + numberOfFailedTests + ") does not match expectations (" + expectedNumberOfFailedTests + ")");
+            }
 
             /* Insert the test classes here */
             FB_PrimitiveTypes primitiveTypes = new FB_PrimitiveTypes(errorItems, "PrimitiveTypes");
