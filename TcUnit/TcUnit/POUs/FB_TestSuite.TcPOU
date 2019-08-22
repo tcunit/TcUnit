@@ -3461,7 +3461,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFinished" Id="{1ec94335-80d7-46d3-a0f0-345f8eda2ea4}">
-      <Declaration><![CDATA[METHOD PUBLIC SetTestFinished
+      <Declaration><![CDATA[METHOD PUBLIC SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
@@ -3474,7 +3474,10 @@ END_VAR
     FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
         IF Tests[IteratorCounter].GetName() = TestName THEN
             Tests[IteratorCounter].SetFinished();
+			SetTestFinished	:= TRUE;
+			RETURN;
         END_IF
+		SetTestFinished := FALSE;
     END_FOR
 END_IF]]></ST>
       </Implementation>
@@ -4484,7 +4487,11 @@ END_IF]]></ST>
       <LineId Id="11" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.SetTestFinished">
-      <LineId Id="6" Count="5" />
+      <LineId Id="6" Count="3" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
