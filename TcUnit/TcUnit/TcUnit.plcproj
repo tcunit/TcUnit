@@ -43,6 +43,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="GVLs" />
     <Folder Include="POUs" />
     <Folder Include="POUs\Functions" />
+    <Folder Include="POUs\Functions\WRITE_PROTECTED_" />
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,57 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\TEST_FINISHED_NAMED.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_BOOL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_BYTE.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_DATE.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_DATE_AND_TIME.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_DINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_DWORD.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_INT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_LREAL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_REAL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_SINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_STRING.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_TIME.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_TIME_OF_DAY.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_UDINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_UINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_USINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_WORD.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Version\Global_Version.TcGVL">

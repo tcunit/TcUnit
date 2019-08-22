@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+  <POU Name="WRITE_PROTECTED_USINT" Id="{333ffbf6-74a7-432c-9a43-c67b08c23471}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_USINT : BOOL
+VAR_INPUT
+    ptr: POINTER TO USINT;
+    val: USINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ptr^ := val;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_PROTECTED_USINT">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
