@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TestFinishedNamed" Id="{35a9595b-53ed-4b98-952e-2505a213e9de}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This FB tests the free function TEST_FINISHED_NAMED. Calling this function with a name that doesn't exist should
+    produce an error message that says so. This error message should also only be printed once.
+*)
+{attribute 'call_after_init'}
+FUNCTION_BLOCK FB_TestFinishedNamed EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_FinishedNamed();]]></ST>
+    </Implementation>
+    <Method Name="Test_FinishedNamed" Id="{cfb93715-88e1-42c4-9031-f3f7c5b1a64a}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_FinishedNamed
+VAR
+    a : INT := 2;
+    b : INT := 2;
+    
+    bajs : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FinishedNamed');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'Values differ');
+
+TEST_FINISHED_NAMED('AnotherTestNameThatDoesNotExist');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TestFinishedNamed">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestFinishedNamed.Test_FinishedNamed">
+      <LineId Id="6" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="16" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

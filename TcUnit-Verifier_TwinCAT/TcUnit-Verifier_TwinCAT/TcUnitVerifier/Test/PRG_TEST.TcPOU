@@ -18,6 +18,7 @@ VAR
     AdjustAssertFailureMessageToMax252CharLengthTest : FB_AdjustAssertFailureMessageToMax252CharLengthTest;
     EmptyTestSuite : FB_EmptyTestSuite;
     CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;
+    TestFinishedNamed : FB_TestFinishedNamed;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>
