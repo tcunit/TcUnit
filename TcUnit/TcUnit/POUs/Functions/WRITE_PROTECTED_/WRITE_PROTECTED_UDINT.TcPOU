@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="WRITE_PROTECTED_UDINT" Id="{268b342f-fd80-4091-8fb8-f5f8dab7958d}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_UDINT : BOOL
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_UDINT
 VAR_INPUT
-    ptr: POINTER TO UDINT;
-    val: UDINT;
-END_VAR
-]]></Declaration>
+    Ptr : POINTER TO UDINT;
+    Value : UDINT;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ptr^ := val;]]></ST>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>
     <LineIds Name="WRITE_PROTECTED_UDINT">
       <LineId Id="7" Count="0" />

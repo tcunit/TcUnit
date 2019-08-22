@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="WRITE_PROTECTED_INT" Id="{d5d23a20-8f67-4a43-b9e4-bf7852dc7164}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_INT : BOOL
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_INT
 VAR_INPUT
-    ptr: POINTER TO INT;
-    val: INT;
-END_VAR
-]]></Declaration>
+    Ptr : POINTER TO INT;
+    Value : INT;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ptr^ := val;]]></ST>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>
     <LineIds Name="WRITE_PROTECTED_INT">
       <LineId Id="7" Count="0" />

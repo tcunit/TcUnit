@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="WRITE_PROTECTED_SINT" Id="{e310eaa9-3123-4344-b07c-fc54b5c8e3ac}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_SINT : BOOL
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_SINT
 VAR_INPUT
-    ptr: POINTER TO SINT;
-    val: SINT;
-END_VAR
-]]></Declaration>
+    Ptr : POINTER TO SINT;
+    Value : SINT;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ptr^ := val;]]></ST>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>
     <LineIds Name="WRITE_PROTECTED_SINT">
       <LineId Id="7" Count="0" />

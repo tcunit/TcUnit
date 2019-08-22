@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="WRITE_PROTECTED_REAL" Id="{b51bba4d-2ead-4155-a62f-7a7ea20f8571}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_REAL : BOOL
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_REAL
 VAR_INPUT
-    ptr: POINTER TO REAL;
-    val: REAL;
-END_VAR
-]]></Declaration>
+    Ptr : POINTER TO REAL;
+    Value : REAL;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ptr^ := val;]]></ST>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>
     <LineIds Name="WRITE_PROTECTED_REAL">
       <LineId Id="7" Count="0" />
