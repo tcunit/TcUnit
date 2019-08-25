@@ -60,6 +60,7 @@
     <Compile Include="FB_ArrayPrimitiveTypes.cs" />
     <Compile Include="FB_AssertEveryFailedTestTwice.cs" />
     <Compile Include="FB_AssertEveryFailedTestTwiceArrayVersion.cs" />
+    <Compile Include="FB_TestFinishedNamed.cs" />
     <Compile Include="FB_CheckIfSpecificTestIsFinished.cs" />
     <Compile Include="FB_AssertTrueFalse.cs" />
     <Compile Include="FB_CreateDisabledTest.cs" />

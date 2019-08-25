@@ -73,10 +73,13 @@
     <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_TestFinishedNamed.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_WriteProtectedFunctions.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_TestFinishedNamed.TcPOU">
+    <Compile Include="Test\FB_TestFinishedNamedDoesNotExist.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\PRG_TEST.TcPOU">
