@@ -22,10 +22,22 @@ VAR
 
     (* Indication of that the printing of test results is complete *)
     DonePrintingTestResults : BOOL;
+
+    (* If this flag is set, it means that some external event triggered the
+       request to abort running the test suites *)
+    AbortRunningTestSuites : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="AbortRunningTestSuiteTests" Id="{3fcbd569-749a-493c-a697-2c976fa6e96a}">
+      <Declaration><![CDATA[(* This function sets a flag which makes the runner stop running the tests
+   in the test suites *)
+METHOD PUBLIC AbortRunningTestSuiteTests]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AbortRunningTestSuites := TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="RunTestSuiteTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
       <Declaration><![CDATA[METHOD RunTestSuiteTests
 VAR
@@ -47,7 +59,7 @@ END_VAR]]></Declaration>
         AllTestSuitesFinished := TRUE;
     ELSIF GVL_TcUnit.NumberOfInitializedTestSuites > 0 THEN
         FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
-            IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AllTestsFinished() THEN
+            IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AreAllTestsFinished() THEN
                 NumberOfTestSuitesFinished_Temp := NumberOfTestSuitesFinished_Temp + 1;
                 NumberOfTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfTests() + NumberOfTestCases_Temp;
                 NumberOfFailedTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfFailedTests() + NumberOfFailedTestCases_Temp;
@@ -57,6 +69,11 @@ END_VAR]]></Declaration>
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
             END_IF
         END_FOR
+        (* Check if some event triggered an abortion of running the tests, in that case abort it now.
+           This can be accomplished by setting the result of the test suites run to finished. *)
+        IF AbortRunningTestSuites THEN
+            NumberOfTestSuitesFinished_Temp := GVL_TcUnit.NumberOfInitializedTestSuites;
+		END_IF
         IF NumberOfTestSuitesFinished_Temp = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             (* Copy the final results over *)
             NumberOfTestSuitesFinished := NumberOfTestSuitesFinished_Temp;
@@ -86,6 +103,9 @@ GVL_TcUnit.AdsLogger();]]></ST>
     <LineIds Name="FB_TcUnitRunner">
       <LineId Id="9" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TcUnitRunner.AbortRunningTestSuiteTests">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TcUnitRunner.RunTestSuiteTests">
       <LineId Id="131" Count="0" />
       <LineId Id="128" Count="1" />
@@ -99,6 +119,9 @@ GVL_TcUnit.AdsLogger();]]></ST>
       <LineId Id="183" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="14" Count="0" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="214" Count="2" />
       <LineId Id="23" Count="0" />
       <LineId Id="169" Count="0" />
       <LineId Id="166" Count="2" />

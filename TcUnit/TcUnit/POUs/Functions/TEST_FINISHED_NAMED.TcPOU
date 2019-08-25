@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
    a TestName that has been previously defined in this test suite. *)
@@ -9,36 +9,45 @@ VAR_INPUT
 END_VAR
 VAR
     Counter : UINT := 0;
-	
 END_VAR
 VAR_STAT
-	FailedLookupCounter	: UINT := 0;
-	AlreadyPrintedFinalWarning : BOOL := FALSE;
+    FailedLookupCounter : UINT := 0;
+    AlreadyPrintedFinalWarning : BOOL := FALSE;
 END_VAR
 VAR CONSTANT
-	FailedLookupMax : UINT := 3;
+    MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Find the test suite and set the test in that test suite as finished
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         IF NOT GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName) AND
-			FailedLookupCounter < FailedLookupMax THEN
-
-			Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                msgFmtStr := 'Attempt to mark test: %s finished, failed.',
-                                                strArg := TestName);
-			FailedLookupCounter := FailedLookupCounter + 1;
-			
-		ELSIF NOT AlreadyPrintedFinalWarning THEN
-			Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                msgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be supressed.',
-                                                strArg := TestName);
-				AlreadyPrintedFinalWarning := TRUE;
-		END_IF    
-	RETURN;
+            FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
+            GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Failed to find test $'%s$'',
+                                          StrArg := TestName);
+            FailedLookupCounter := FailedLookupCounter + 1;
+            (* Abort TcUnit *)
+            GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
+        ELSIF NOT AlreadyPrintedFinalWarning THEN
+            GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
+                                          StrArg := TestName);
+            AlreadyPrintedFinalWarning := TRUE;
+        END_IF
+        RETURN;
     END_IF
 END_FOR]]></ST>
     </Implementation>
+    <LineIds Name="TEST_FINISHED_NAMED">
+      <LineId Id="3" Count="3" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

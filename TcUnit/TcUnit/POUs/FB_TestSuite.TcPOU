@@ -120,20 +120,20 @@ END_VAR]]></Declaration>
 AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePath, STR2 := GVL_TcUnit.CurrentTestNameBeingCalled);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="AllTestsFinished" Id="{2b211901-49a8-4e51-90e1-4b1e298f9e0c}">
-      <Declaration><![CDATA[METHOD PUBLIC AllTestsFinished : BOOL
+    <Method Name="AreAllTestsFinished" Id="{2b211901-49a8-4e51-90e1-4b1e298f9e0c}">
+      <Declaration><![CDATA[METHOD PUBLIC AreAllTestsFinished : BOOL
 VAR
     Counter : UINT;
 
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AllTestsFinished := FALSE;
+        <ST><![CDATA[AreAllTestsFinished := FALSE;
 
 IF NumberOfTests > 0 THEN
-    AllTestsFinished := TRUE;
+    AreAllTestsFinished := TRUE;
     FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
-        AllTestsFinished := AllTestsFinished AND Tests[Counter].IsFinished();
+        AreAllTestsFinished := AreAllTestsFinished AND Tests[Counter].IsFinished();
     END_FOR
 END_IF
 
@@ -141,7 +141,7 @@ END_IF
    and doesn't contain any test cases. In that case, add a warning message and ignore this testsuite. *)
 GetCurTaskIndex();
 IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
-    AllTestsFinished := TRUE;
+    AreAllTestsFinished := TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3461,23 +3461,25 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFinished" Id="{1ec94335-80d7-46d3-a0f0-345f8eda2ea4}">
-      <Declaration><![CDATA[METHOD PUBLIC SetTestFinished : BOOL;
+      <Declaration><![CDATA[(* Marks the test as finished in this testsuite.
+   Returns TRUE if test was found, and FALSE if a test with this name was not found in this testsuite
+*)
+METHOD PUBLIC SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
         IF Tests[IteratorCounter].GetName() = TestName THEN
             Tests[IteratorCounter].SetFinished();
-			SetTestFinished	:= TRUE;
-			RETURN;
+            SetTestFinished := TRUE;
+            RETURN;
         END_IF
-		SetTestFinished := FALSE;
+    SetTestFinished := FALSE;
     END_FOR
 END_IF]]></ST>
       </Implementation>
@@ -3537,7 +3539,7 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
     </LineIds>
-    <LineIds Name="FB_TestSuite.AllTestsFinished">
+    <LineIds Name="FB_TestSuite.AreAllTestsFinished">
       <LineId Id="14" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
@@ -4489,10 +4491,10 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.SetTestFinished">
       <LineId Id="6" Count="3" />
       <LineId Id="19" Count="1" />
+      <LineId Id="22" Count="0" />
       <LineId Id="10" Count="0" />
+      <LineId Id="23" Count="0" />
       <LineId Id="21" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

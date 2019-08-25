@@ -35,7 +35,7 @@ IF GetLogCount() > 0 THEN
         END_IF
         TimerBetweenMessages(IN := FALSE); // Reset timer
         TimerBetweenMessages.IN := TRUE;
-	END_IF
+    END_IF
 END_IF]]></ST>
     </Implementation>
     <Method Name="GetLog" Id="{cf4219dc-c784-4d39-983c-1e64371c4d5f}">
