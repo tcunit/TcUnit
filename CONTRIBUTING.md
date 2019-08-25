@@ -14,7 +14,7 @@ We use github to host code, to track issues and feature requests, as well as acc
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from `master`.
-2. If you've added code that should be tested, add tests. For this there is a separate test project called [TcUnit-Verifier](https://github.com/tcunit/TcUnit-Verifier). In that project there are several test suites defined to test the different functionality of TcUnit. Please read the [README.MD](https://github.com/tcunit/TcUnit-Verifier/blob/master/README.md) in that project for further instructions.
+2. If you've added new functionality, it's necessary to add tests. For this there is a separate test project called [TcUnit-Verifier](https://github.com/tcunit/TcUnit-Verifier). In that project there are several test suites defined to test the different functionality of TcUnit. Please read the [README.MD](https://github.com/tcunit/TcUnit-Verifier/blob/master/README.md) in that project for further instructions. **No new functionality will be accepted without any proper tests**.
 3. If you've changed APIs, send an e-mail with the API change so that the official homepage can be updated.
 4. Ensure the test suite passes.
 5. Issue that pull request!
