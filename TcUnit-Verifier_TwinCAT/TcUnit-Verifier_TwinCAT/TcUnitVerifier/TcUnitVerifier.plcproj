@@ -15,7 +15,7 @@
     <LibraryReferences>{4249a752-a2ee-4c23-98d3-b204d84240e1}</LibraryReferences>
     <CombineIds>false</CombineIds>
     <Company>www.tcunit.org</Company>
-    <Released>false</Released>
+    <Released>true</Released>
     <Title>TcUnit verifier</Title>
     <ProjectVersion>1.0.0.0</ProjectVersion>
     <Author>Jakob Sagatowski and contributors</Author>
