@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <GVL Name="GVL_TcUnit" Id="{78472b76-c9a4-4b27-a580-8e7898edc3d7}">
     <Declaration><![CDATA[{attribute 'no_assign'}
 {attribute 'qualified_only'}
@@ -14,6 +14,9 @@ VAR_GLOBAL
 
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
+
+    (* Whether or not the current test being called has finished running *)
+    CurrentTestIsFinished : BOOL;
 
     (* This is a flag that indicates that the current test should be ignored, and
        thus that all assertions under it should be ignored as well. A test can be ignored either
