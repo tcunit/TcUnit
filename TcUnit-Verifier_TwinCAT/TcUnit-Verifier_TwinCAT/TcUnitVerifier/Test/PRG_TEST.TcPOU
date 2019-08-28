@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
   <POU Name="PRG_TEST" Id="{48f3a80c-6b31-445f-a938-08b4b352141e}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_TEST
 VAR
@@ -15,6 +15,7 @@ VAR
     MultipleAssertWithSameParametersInSameCycleWithSameTest : FB_MultipleAssertWithSameParametersInSameCycleWithSameTest;
     MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests : FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests;
     MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest;
+    SkipAssertionsWhenFinished : FB_SkipAssertionsWhenFinished;
     AdjustAssertFailureMessageToMax252CharLengthTest : FB_AdjustAssertFailureMessageToMax252CharLengthTest;
     EmptyTestSuite : FB_EmptyTestSuite;
     CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;

@@ -70,6 +70,9 @@
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_SkipAssertionsWhenFinished.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
