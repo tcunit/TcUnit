@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_SkipAssertionsWhenFinished" Id="{177b4361-85a4-4540-ab6e-e77760bd82cb}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains tests that require multiple cycles:
@@ -13,8 +13,8 @@
 {attribute 'call_after_init'}
 FUNCTION_BLOCK FB_SkipAssertionsWhenFinished EXTENDS TcUnit.FB_TestSuite
 VAR
-    ShortTimer: TON := (PT := T#200MS);
-    LongTimer: TON := (PT := T#1S);
+    ShortTimer : Tc2_Standard.TON := (PT := T#200MS);
+    LongTimer : Tc2_Standard.TON := (PT := T#1S);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_LongTest(ADR(LongTimer));
@@ -37,7 +37,7 @@ AssertTrue(FALSE, 'This failing assertion should be skipped because the test is 
     <Method Name="Test_LongTest" Id="{ae29de17-8470-4029-86cf-f2d600b1894b}">
       <Declaration><![CDATA[METHOD Test_LongTest
 VAR_INPUT
-    Timer: POINTER TO TON;
+    Timer : POINTER TO Tc2_Standard.TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LongTest');
@@ -51,7 +51,7 @@ END_IF]]></ST>
     <Method Name="Test_ShortTest" Id="{e7d5d2da-b6ff-46cc-9627-d85c0378e38a}">
       <Declaration><![CDATA[METHOD Test_ShortTest
 VAR_INPUT
-    Timer: POINTER TO TON;
+    Timer : POINTER TO Tc2_Standard.TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ShortTest');

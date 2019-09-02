@@ -162,6 +162,7 @@ namespace TcUnit.Verifier
             FB_MultipleAssertWithSameParametersInSameCycleWithSameTest multipleAssertWithSameParametersInSameCycleWithSameTest = new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errorItems, "MultipleAssertWithSameParametersInSameCycleWithSameTest");
             FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests multipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests = new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests");
             FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest multipleAssertWithSameParametersInDifferentCyclesAndInSameTest = new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest");
+            FB_SkipAssertionsWhenFinished skipAssertionsWhenFinished = new FB_SkipAssertionsWhenFinished(errorItems, "SkipAssertionsWhenFinished");
             FB_AdjustAssertFailureMessageToMax252CharLengthTest adjustAssertFailureMessageToMax252CharLengthTest = new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems, "AdjustAssertFailureMessageToMax252CharLengthTest");
             FB_CheckIfSpecificTestIsFinished checkIfSpecificTestIsFinished = new FB_CheckIfSpecificTestIsFinished(errorItems, "CheckIfSpecificTestIsFinished");
             FB_TestFinishedNamed testFinishedNamed = new FB_TestFinishedNamed(errorItems, "TestFinishedNamed");
