@@ -9,6 +9,7 @@ VAR_INPUT
 END_VAR
 VAR
     Counter : UINT := 0;
+    FoundTestName : BOOL := FALSE;
 END_VAR
 VAR_STAT
     FailedLookupCounter : UINT := 0;
@@ -21,8 +22,8 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// Find the test suite and set the test in that test suite as finished
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        IF NOT GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName) AND
-            FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
+        FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
+        IF NOT FoundTestName AND FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
             GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Failed to find test $'%s$'',
                                           StrArg := TestName);
             FailedLookupCounter := FailedLookupCounter + 1;
@@ -33,19 +34,27 @@ FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
                                           StrArg := TestName);
             AlreadyPrintedFinalWarning := TRUE;
         END_IF
+        IF FoundTestName THEN
+            GVL_TcUnit.CurrentTestIsFinished := TRUE;
+		END_IF
         RETURN;
     END_IF
 END_FOR]]></ST>
     </Implementation>
     <LineIds Name="TEST_FINISHED_NAMED">
-      <LineId Id="3" Count="3" />
-      <LineId Id="39" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="6" Count="0" />
       <LineId Id="37" Count="1" />
       <LineId Id="12" Count="0" />
       <LineId Id="57" Count="1" />
       <LineId Id="14" Count="0" />
       <LineId Id="40" Count="1" />
-      <LineId Id="18" Count="2" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="20" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
