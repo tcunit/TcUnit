@@ -10,6 +10,8 @@
 *.compileinfo
 *.tmc
 *.library
+*.project.~u
+*.tsproj.bak
 _Boot/
 _CompileInfo/
 _Libraries/

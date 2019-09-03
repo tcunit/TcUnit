@@ -45,11 +45,35 @@ namespace TcUnit.Verifier
         public void Load()
         {
             loaded = true;
-            LoadDevelopmentToolsEnvironment(vsVersion);
+
+            try
+            {
+                LoadDevelopmentToolsEnvironment(vsVersion);
+            }
+            catch (Exception e)
+            {
+                string message = string.Format(
+                    "{0} Error loading VS DTE version {1}. Is the correct version of Visual Studio installed?",
+                    e.Message, vsVersion);
+                log.Error(message);
+                throw;
+            }
+            
             if (!String.IsNullOrEmpty(@filePath))
             {
-                LoadSolution(@filePath);
-                LoadProject();
+                try
+                {
+                    LoadSolution(@filePath);
+                    LoadProject();
+                }
+                catch (Exception e)
+                {
+                    string message = string.Format(
+                        "{0} Error loading solution at \"{1}\". Is the path correct?", 
+                        e.Message, filePath);
+                    log.Error(message);
+                    throw;
+                }
             }
         }
 

@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitVerifierPath = null;
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 92; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 106; // Update this if you add intentionally failing tests
 
         [STAThread]
         static int Main(string[] args)
@@ -67,7 +67,7 @@ namespace TcUnit.Verifier
             }
             catch
             {
-                log.Error("Error loading VS DTE. Is the correct version of Visual Studio installed?");
+                log.Error("Solution load failed");  // Detailed error messages output by vsInstance.Load()
                 CleanUp();
                 return Constants.RETURN_ERROR;
             }
@@ -92,7 +92,7 @@ namespace TcUnit.Verifier
             log.Info("Activating TcUnit-Verifier_TwinCAT configuration...");
             automationInterface.ITcSysManager.ActivateConfiguration();
 
-            log.Info("Restaring TwinCAT...");
+            log.Info("Restarting TwinCAT...");
             automationInterface.ITcSysManager.StartRestartTwinCAT();
 
             // Wait until tests have been running and are finished
@@ -185,7 +185,7 @@ namespace TcUnit.Verifier
         }
 
         /// <summary>
-        /// Executed if user interrups the program (i.e. CTRL+C)
+        /// Executed if user interrupts the program (i.e. CTRL+C)
         /// </summary>
         static void CancelKeyPressHandler(object sender, ConsoleCancelEventArgs args)
         {

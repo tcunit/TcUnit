@@ -34,11 +34,18 @@ Test_LREAL_Array_Equals();
 Test_LREAL_Array_DifferInSize();
 Test_LREAL_Array_DifferInContent();
 Test_LREAL_Array2d_Equals();
-Test_LREAL_Array2d_DifferInSize();
-Test_LREAL_Array2d_DifferInContent();
+Test_LREAL_Array2d_DifferInSize_D1();
+Test_LREAL_Array2d_DifferInSize_D2();
+Test_LREAL_Array2d_DifferInContent_LBOUND();
+Test_LREAL_Array2d_DifferInContent_Middle();
+Test_LREAL_Array2d_DifferInContent_UBOUND();
 Test_LREAL_Array3d_Equals();
-Test_LREAL_Array3d_DifferInSize();
-Test_LREAL_Array3d_DifferInContent();
+Test_LREAL_Array3d_DifferInSize_D1();
+Test_LREAL_Array3d_DifferInSize_D2();
+Test_LREAL_Array3d_DifferInSize_D3();
+Test_LREAL_Array3d_DifferInContent_LBOUND();
+Test_LREAL_Array3d_DifferInContent_Middle();
+Test_LREAL_Array3d_DifferInContent_UBOUND();
 Test_LWORD_Array_Equals();
 Test_LWORD_Array_DifferInSize();
 Test_LWORD_Array_DifferInContent();
@@ -46,11 +53,18 @@ Test_REAL_Array_Equals();
 Test_REAL_Array_DifferInSize();
 Test_REAL_Array_DifferInContent();
 Test_REAL_Array2d_Equals();
-Test_REAL_Array2d_DifferInSize();
-Test_REAL_Array2d_DifferInContent();
+Test_REAL_Array2d_DifferInSize_D1();
+Test_REAL_Array2d_DifferInSize_D2();
+Test_REAL_Array2d_DifferInContent_LBOUND();
+Test_REAL_Array2d_DifferInContent_Middle();
+Test_REAL_Array2d_DifferInContent_UBOUND();
 Test_REAL_Array3d_Equals();
-Test_REAL_Array3d_DifferInSize();
-Test_REAL_Array3d_DifferInContent();
+Test_REAL_Array3d_DifferInSize_D1();
+Test_REAL_Array3d_DifferInSize_D2();
+Test_REAL_Array3d_DifferInSize_D3();
+Test_REAL_Array3d_DifferInContent_LBOUND();
+Test_REAL_Array3d_DifferInContent_Middle();
+Test_REAL_Array3d_DifferInContent_UBOUND();
 Test_SINT_Array_Equals();
 Test_SINT_Array_DifferInSize();
 Test_SINT_Array_DifferInContent();
@@ -410,14 +424,19 @@ AssertArrayEquals_LREAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_LREAL_Array2d_DifferInContent" Id="{9363c675-3308-4b60-90d8-bc707c8055bb}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_DifferInContent
+    <Method Name="Test_LREAL_Array2d_DifferInContent_LBOUND" Id="{ef4697f8-27be-4f6d-b1b3-7a450b2e9713}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_DifferInContent_LBOUND
 VAR
-    a : ARRAY[-5..-3,-1..1] OF LREAL := [42, -23, -32768, -24, 32, 32768];
-    b : ARRAY[1..3,0..2] OF LREAL := [42, 24, -32768, -24, 32, 32768];
+    a : ARRAY[-5..-3,-1..1] OF LREAL := [      0,                        0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
+                                                    
+    b : ARRAY[0..2,3..5] OF LREAL :=   [       1,                        0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent');
+        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_LBOUND');
 
 AssertArray2dEquals_LREAL(Expecteds := a,
                           Actuals := b,
@@ -427,14 +446,84 @@ AssertArray2dEquals_LREAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_LREAL_Array2d_DifferInSize" Id="{28f95767-365d-466d-b941-002765b7aacb}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_DifferInSize
+    <Method Name="Test_LREAL_Array2d_DifferInContent_Middle" Id="{087ebd7a-dacf-48e2-b771-8f426492ae11}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_DifferInContent_Middle
 VAR
-    a : ARRAY[-4..3, -1..2] OF LREAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
-    b : ARRAY[1..3, 0..1] OF LREAL := [64, 98, -32768, 32767, 5478];
+    a : ARRAY[-5..-3,-1..1] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043863109802,     0,                        0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
+                                                    
+    b : ARRAY[0..2,3..5] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043883109802,     1,                        0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInSize');
+        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_Middle');
+
+AssertArray2dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array2d_DifferInContent_UBOUND" Id="{d632435e-5480-46b9-8854-add6e46d7d51}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_DifferInContent_UBOUND
+VAR
+    a : ARRAY[-5..-3,-1..1] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      0                     ];
+                                                    
+    b : ARRAY[0..2,3..5] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                               0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
+                                               0.30748602156875937,      0.63373366540006071,      1                     ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_UBOUND');
+
+AssertArray2dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array2d_DifferInSize_D1" Id="{28f95767-365d-466d-b941-002765b7aacb}">
+      <Declaration><![CDATA[// Validate assertion for size difference in first dimension of 2d array
+METHOD PRIVATE Test_LREAL_Array2d_DifferInSize_D1
+VAR
+    a : ARRAY[-4..-2, -1..0] OF LREAL := [    1.004110987573404E+62,  -2.873296335229452E+224,  
+                                             -3.5901630626493139E+58, -1.0170839179102032E+220, 
+                                             -1.1922268785979511E+79, -1.9309907712685427E+64    ];
+                                           
+    b : ARRAY[1..2, 0..1] OF LREAL := [       1.004110987573404E+62,  -2.873296335229452E+224,  
+                                            -3.5901630626493139E+58,  -1.0170839179102032E+220   ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInSize_D1');
+
+AssertArray2dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array2d_DifferInSize_D2" Id="{54f1526b-d797-47e1-92a0-8c79ef92b23e}">
+      <Declaration><![CDATA[// Validate assertion for size difference in second dimension of 2d array
+METHOD PRIVATE Test_LREAL_Array2d_DifferInSize_D2
+VAR
+    a : ARRAY[-4..-3, -1..0] OF LREAL := [    1.004110987573404E+62,  -2.873296335229452E+224,  
+                                             -3.5901630626493139E+58, -1.0170839179102032E+220    ];
+                                           
+    b : ARRAY[1..2, 0..2] OF LREAL :=    [    1.004110987573404E+62,  -2.873296335229452E+224,  -3.5901630626493139E+58,  
+                                            -1.0170839179102032E+220,  -1.1922268785979511E+79,  -1.9309907712685427E+64  ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInSize_D2');
 
 AssertArray2dEquals_LREAL(Expecteds := a,
                           Actuals := b,
@@ -447,8 +536,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_LREAL_Array2d_Equals" Id="{78fed880-525c-48dc-8dc2-6a8b82a2b4e4}">
       <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_Equals
 VAR
-    a : ARRAY[-5..-3,-1..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
-    b : ARRAY[1..3,0..2] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+    a : ARRAY[-5..-3,-1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    b : ARRAY[1..3,0..1] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_Equals');
@@ -461,14 +550,35 @@ AssertArray2dEquals_LREAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_LREAL_Array3d_DifferInContent" Id="{e361e8eb-896b-43c9-aa55-90f36713ed72}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_DifferInContent
+    <Method Name="Test_LREAL_Array3d_DifferInContent_LBOUND" Id="{e361e8eb-896b-43c9-aa55-90f36713ed72}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_DifferInContent_LBOUND
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [42, -23, -32768];
-    b : ARRAY[1..2,4..5,6..7] OF LREAL := [42, 24, -32768];
+    a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0,                        0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
+                                                    0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
+                                                    0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
+                                                    0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
+                                                    
+    b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       1,                        0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
+                                                    0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
+                                                    0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
+                                                    0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent');
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_LBOUND');
 
 AssertArray3dEquals_LREAL(Expecteds := a,
                           Actuals := b,
@@ -478,14 +588,174 @@ AssertArray3dEquals_LREAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_LREAL_Array3d_DifferInSize" Id="{18a94bce-050f-43d3-b411-b74954895b02}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_DifferInSize
+    <Method Name="Test_LREAL_Array3d_DifferInContent_Middle" Id="{fd826a8c-7061-4dc9-a819-f9cae8b7d745}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_DifferInContent_Middle
 VAR
-    a : ARRAY[-5..-4,-1..3,-2..4] OF LREAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
-    b : ARRAY[1..2,4..5,6..7] OF LREAL := [64, 98, -32768, 32767, 5478];
+    a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
+                                                    0.99235347099246152,      0,                        0.53803785449733854,
+                                                    0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
+                                                    0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
+                                                    
+    b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
+                                                    0.99235347099246152,      1,                        0.53803785449733854,
+                                                    0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
+                                                    0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize');
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_Middle');
+
+AssertArray3dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array3d_DifferInContent_UBOUND" Id="{2136d5da-0302-4ee0-aeee-2a1b37a5bd1d}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_DifferInContent_UBOUND
+VAR
+    a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
+                                                    0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
+                                                    0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
+                                                    0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     0                     ];
+                                                    
+    b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
+                                                    0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
+                                                    0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
+
+                                                    0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
+                                                    0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
+                                                    0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
+
+                                                    0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
+                                                    0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
+                                                    0.15098329919901829,      0.099172453907864375,     1                     ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_UBOUND');
+
+AssertArray3dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array3d_DifferInSize_D1" Id="{18a94bce-050f-43d3-b411-b74954895b02}">
+      <Declaration><![CDATA[// Validate assertion for size difference in first dimension of 3d array
+METHOD PRIVATE Test_LREAL_Array3d_DifferInSize_D1
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  -2.2453945418753555E+134,  
+                                                  8.5957093309297743E+301,  -5.9598471182139549E-139,  
+
+                                                  -7.2419908660524697E+76,  5.0020389252645754E-160,  
+                                                  -3.3631038290869421E-213,  -1.4376587532865779E+110,  
+                                                  -1.0876803662003504E-263,  3.2352832374899203E+165  ];
+    
+    // 3x3x2
+    b : ARRAY[0..2,3..5,6..7] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  -2.2453945418753555E+134,  
+                                                  8.5957093309297743E+301,  -5.9598471182139549E-139,  
+
+                                                  -7.2419908660524697E+76,  5.0020389252645754E-160,  
+                                                  -3.3631038290869421E-213,  -1.4376587532865779E+110,  
+                                                  -1.0876803662003504E-263,  3.2352832374899203E+165,
+
+                                                  -4.6404382914454893E-67,  -1.3556949396573763E-104,  
+                                                  -1.1830864377130754E+146,       7737.6071934405209,      
+                                                  -470928678.08185887,       2.1842539859532993E-126    ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D1');
+
+AssertArray3dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array3d_DifferInSize_D2" Id="{cd3a0865-8e58-471b-bc8e-b043b4882924}">
+      <Declaration><![CDATA[// Validate assertion for size difference in second dimension of 3d array
+METHOD PRIVATE Test_LREAL_Array3d_DifferInSize_D2
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  -2.2453945418753555E+134,  
+                                                  8.5957093309297743E+301,  -5.9598471182139549E-139,  
+
+                                                  -7.2419908660524697E+76,  5.0020389252645754E-160,  
+                                                  -3.3631038290869421E-213,  -1.4376587532865779E+110,  
+                                                  -1.0876803662003504E-263,  3.2352832374899203E+165  ];
+    
+    // 2x2x2
+    b : ARRAY[0..1,3..4,6..7] OF LREAL := [       2.082350040687358E+68,     1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  -2.2453945418753555E+134, 
+ 
+                                                  8.5957093309297743E+301,  -5.9598471182139549E-139,  
+                                                  -7.2419908660524697E+76,  5.0020389252645754E-160  ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D2');
+
+AssertArray3dEquals_LREAL(Expecteds := a,
+                          Actuals := b,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LREAL_Array3d_DifferInSize_D3" Id="{b78f3d5d-9130-4d70-b1ec-77f44220f678}">
+      <Declaration><![CDATA[// Validate assertion for size difference in third dimension of 3d array
+METHOD PRIVATE Test_LREAL_Array3d_DifferInSize_D3
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  -2.2453945418753555E+134,  
+                                                  8.5957093309297743E+301,  -5.9598471182139549E-139,  
+
+                                                  -7.2419908660524697E+76,  5.0020389252645754E-160,  
+                                                  -3.3631038290869421E-213,  -1.4376587532865779E+110,  
+                                                  -1.0876803662003504E-263,  3.2352832374899203E+165  ];
+    
+    // 2x3x1
+    b : ARRAY[0..1,3..5,6..6] OF LREAL := [       2.082350040687358E+68,     
+                                                  1.0648482884583467E-159,  
+                                                  2.6081154219341126E+236,  
+
+                                                 -2.2453945418753555E+134,
+                                                  8.5957093309297743E+301,  
+                                                 -5.9598471182139549E-139  ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D3');
 
 AssertArray3dEquals_LREAL(Expecteds := a,
                           Actuals := b,
@@ -498,8 +768,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_LREAL_Array3d_Equals" Id="{35a98408-a9d2-467b-ab41-be1336f4d5d1}">
       <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_Equals
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
-    b : ARRAY[1..2,4..5,6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+    a : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6,  560344.0005	];
+    b : ARRAY[1..2,4..5,6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001,  560344.0006	];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_Equals');
@@ -611,14 +881,19 @@ AssertArrayEquals_REAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_REAL_Array2d_DifferInContent" Id="{d59b10ba-c9b8-4aa5-b74d-ea45c0a97441}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_DifferInContent
+    <Method Name="Test_REAL_Array2d_DifferInContent_LBOUND" Id="{d59b10ba-c9b8-4aa5-b74d-ea45c0a97441}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_DifferInContent_LBOUND
 VAR
-    a : ARRAY[-5..-3,-1..1] OF REAL := [42, -23, -32768, -24, 32, 32768];
-    b : ARRAY[1..3,0..2] OF REAL := [42, 24, -32768, -24, 32, 32768];
+    a : ARRAY[-5..-3,-1..1] OF REAL := [      0,                0.349414557,      0.806114793,      
+                                              0.832643092,      0.676487744,      0.422208548,       
+                                               0.58663553,      0.108467624,      0.153285101  ];
+                                               
+    b : ARRAY[1..3,0..2] OF REAL :=    [      1,               0.349414557,      0.80611479,      
+                                              0.83264309,      0.67648774,      0.42220855,       
+                                               0.5866355,      0.108467624,      0.153285101  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent');
+        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_LBOUND');
 
 AssertArray2dEquals_REAL(Expecteds := a,
                          Actuals := b,
@@ -628,14 +903,84 @@ AssertArray2dEquals_REAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_REAL_Array2d_DifferInSize" Id="{d16073c4-cace-4970-8af2-a2b4804325d1}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_DifferInSize
+    <Method Name="Test_REAL_Array2d_DifferInContent_Middle" Id="{67b14ab8-e828-4f7f-b61f-3520a0c8fdba}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_DifferInContent_Middle
 VAR
-    a : ARRAY[-4..3, -1..2] OF REAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
-    b : ARRAY[1..3, 0..1] OF REAL := [64, 98, -32768, 32767, 5478];
+    a : ARRAY[-5..-3,-1..1] OF REAL := [      0.555157363,      0.349414557,      0.806114793,      
+                                              0.832643092,      0,                0.422208548,       
+                                               0.58663553,      0.108467624,      0.153285101  ];
+                                               
+    b : ARRAY[1..3,0..2] OF REAL :=    [      0.555157363,      0.349414557,      0.80611479,      
+                                              0.83264309,      1,                 0.42220855,       
+                                               0.5866355,      0.108467624,       0.153285101  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInSize');
+        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_Middle');
+
+AssertArray2dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array2d_DifferInContent_UBOUND" Id="{fd08ff6f-3966-450d-a4b7-c56b891659ea}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_DifferInContent_UBOUND
+VAR
+    a : ARRAY[-5..-3,-1..1] OF REAL := [      0.555157363,      0.349414557,      0.806114793,      
+                                              0.832643092,      0.676487744,      0.422208548,       
+                                               0.58663553,      0.108467624,      0           ];
+                                               
+    b : ARRAY[1..3,0..2] OF REAL :=    [      0.555157363,      0.349414557,      0.80611479,      
+                                              0.83264309,      0.67648774,      0.42220855,       
+                                               0.5866355,      0.108467624,      1            ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_UBOUND');
+
+AssertArray2dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array2d_DifferInSize_D1" Id="{d16073c4-cace-4970-8af2-a2b4804325d1}">
+      <Declaration><![CDATA[// Validate assertion for size difference in first dimension of 2d array
+METHOD PRIVATE Test_REAL_Array2d_DifferInSize_D1
+VAR
+    a : ARRAY[-4..-2, -1..0] OF REAL := [   6.89723951E-35, 1.255877E-08,   
+                                            1.31490056E+30, 1.0130173,
+                                            7.50187543E-38, -698122.938  ];
+                                           
+    b : ARRAY[1..2, 0..1] OF REAL :=    [   6.89723951E-35, 1.255877E-08,   
+                                            1.31490056E+30, 1.0130173   ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInSize_D1');
+
+AssertArray2dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array2d_DifferInSize_D2" Id="{aa5763fc-99b0-4d61-a626-4830289e68eb}">
+      <Declaration><![CDATA[// Validate assertion for size difference in second dimension of 2d array
+METHOD PRIVATE Test_REAL_Array2d_DifferInSize_D2
+VAR
+    a : ARRAY[-4..-3, -1..0] OF REAL := [   6.89723951E-35, 1.255877E-08,
+                                            1.31490056E+30, 1.0130173   ];
+                                           
+    b : ARRAY[1..2, 0..2] OF REAL :=    [   6.89723951E-35, 1.255877E-08,   1.31490056E+30,
+                                            1.0130173,      7.50187543E-38,   -698122.938  ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInSize_D2');
 
 AssertArray2dEquals_REAL(Expecteds := a,
                          Actuals := b,
@@ -648,8 +993,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_REAL_Array2d_Equals" Id="{c2e03616-7116-4142-98e9-1cdbbf9188f6}">
       <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_Equals
 VAR
-    a : ARRAY[-5..-3,-1..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
-    b : ARRAY[1..3,0..2] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+    a : ARRAY[-5..-3,-1..0] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    b : ARRAY[1..3,0..1] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_Equals');
@@ -662,14 +1007,35 @@ AssertArray2dEquals_REAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_REAL_Array3d_DifferInContent" Id="{0218ea1f-8ab3-4780-855a-4bda76b4bd29}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_DifferInContent
+    <Method Name="Test_REAL_Array3d_DifferInContent_LBOUND" Id="{0218ea1f-8ab3-4780-855a-4bda76b4bd29}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_DifferInContent_LBOUND
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF REAL := [42, -23, -32768];
-    b : ARRAY[1..2,4..5,6..7] OF REAL := [42, 24, -32768];
+    a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0,                0.349414557,     0.806114793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       0.837357402,     0.0384598672,      
+                                                    0.485841662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138025,      0.780365825,      
+                                                    0.680897593,      0.451427311,     0.151570886  ];
+                                                    
+    b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       1,                0.349414557,     0.806116793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       0.837357402,     0.0384598672,      
+                                                    0.485844662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138125,      0.780365825,      
+                                                    0.680897593,      0.451427311,     0.151520886  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent');
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_LBOUND');
 
 AssertArray3dEquals_REAL(Expecteds := a,
                          Actuals := b,
@@ -679,14 +1045,166 @@ AssertArray3dEquals_REAL(Expecteds := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_REAL_Array3d_DifferInSize" Id="{2f5f884e-e0a5-4854-ae56-af720801bb1f}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_DifferInSize
+    <Method Name="Test_REAL_Array3d_DifferInContent_Middle" Id="{38f0bd3f-c06b-4ccc-87cd-d1f5d7a77adc}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_DifferInContent_Middle
 VAR
-    a : ARRAY[-5..-4,-1..3,-2..4] OF REAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
-    b : ARRAY[1..2,4..5,6..7] OF REAL := [64, 98, -32768, 32767, 5478];
+    a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0.555157363,      0.349414557,     0.806114793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       0,               0.0384598672,      
+                                                    0.485841662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138025,      0.780365825,      
+                                                    0.680897593,      0.451427311,     0.151570886  ];
+                                                    
+    b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       0.555157363,      0.349414557,     0.806116793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       1,               0.0384598672,      
+                                                    0.485844662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138125,      0.780365825,      
+                                                    0.680897593,      0.451427311,     0.151520886  ];
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize');
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_Middle');
+
+AssertArray3dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array3d_DifferInContent_UBOUND" Id="{318b2662-48ab-46c2-8dee-92a1675b26c3}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_DifferInContent_UBOUND
+VAR
+    a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0.555157363,      0.349414557,     0.806114793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       0.837357402,     0.0384598672,      
+                                                    0.485841662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138025,      0.780365825,      
+                                                    0.680897593,      0.451427311,     0              ];
+                                                    
+    b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       0.555157363,      0.349414557,     0.806116793,      
+                                                    0.832643092,      0.676487744,     0.422208548,       
+                                                    0.58663553,       0.108467624,     0.153285101,      
+
+                                                    0.331847638,      0.518251598,     0.396329135,       
+                                                    0.68058759,       0.837357402,     0.0384598672,      
+                                                    0.485844662,      0.103918776,     0.662022889,      
+
+                                                    0.576529145,      0.341899037,     0.375482976,       
+                                                    0.77158308,       0.64138125,      0.780365825,      
+                                                    0.680897593,      0.451427311,     1              ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_UBOUND');
+
+AssertArray3dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array3d_DifferInSize_D1" Id="{2f5f884e-e0a5-4854-ae56-af720801bb1f}">
+      <Declaration><![CDATA[// Validate assertion for size difference in first dimension of 3d array
+METHOD PRIVATE Test_REAL_Array3d_DifferInSize_D1
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
+                                                 -6.32274414E-23,   2.51930489E-20,      
+                                                -13.6131887,        6.56142373E+29,   
+
+                                                 -7.4229119E+36,   -1.19216618E+17,  
+                                                 -1.76541143E+10,   1.06367558E+38,   
+                                                  9.62853863E+24,  -1.02125985E-17  ];
+                                                  
+    // 1x3x2                                      
+    b : ARRAY[1..1,4..6,6..7] OF REAL :=  [   4.10516757E-36,        666455872,  
+                                                 -6.32274414E-23,   2.51930489E-20,      
+                                                -13.6131887,        6.56142373E+29 ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D1');
+
+AssertArray3dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array3d_DifferInSize_D2" Id="{dba641c3-e145-42f3-bf0c-6626271a4b7c}">
+      <Declaration><![CDATA[// Validate assertion for size difference in second dimension of 3d array
+METHOD PRIVATE Test_REAL_Array3d_DifferInSize_D2
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
+                                                 -6.32274414E-23,   2.51930489E-20,      
+                                                -13.6131887,        6.56142373E+29,   
+
+                                                 -7.4229119E+36,   -1.19216618E+17,  
+                                                 -1.76541143E+10,   1.06367558E+38,   
+                                                  9.62853863E+24,  -1.02125985E-17  ];
+
+    // 2x2x2                                      
+    b : ARRAY[1..2,4..5,6..7] OF REAL :=  [       4.10516757E-36,        666455872,  
+                                                 -6.32274414E-23,   2.51930489E-20,      
+
+                                                -13.6131887,        6.56142373E+29,   
+                                                 -7.4229119E+36,   -1.19216618E+17  ];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D2');
+
+AssertArray3dEquals_REAL(Expecteds := a,
+                         Actuals := b,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_REAL_Array3d_DifferInSize_D3" Id="{5a6127f3-9358-4497-89af-f7676a39a442}">
+      <Declaration><![CDATA[// Validate assertion for size difference in third dimension of 3d array
+METHOD PRIVATE Test_REAL_Array3d_DifferInSize_D3
+VAR
+    // 2x3x2
+    a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
+                                                 -6.32274414E-23,   2.51930489E-20,      
+                                                -13.6131887,        6.56142373E+29,   
+
+                                                 -7.4229119E+36,   -1.19216618E+17,  
+                                                 -1.76541143E+10,   1.06367558E+38,   
+                                                  9.62853863E+24,  -1.02125985E-17  ];
+                                                  
+    // 2x3x1
+    b : ARRAY[1..2,4..6,6..6] OF REAL :=  [       4.10516757E-36,        
+                                                        666455872,  
+                                                  -6.32274414E-23,
+   
+                                                  2.51930489E-20,      
+                                                     -13.6131887,   
+                                                  6.56142373E+29 ]; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D3');
 
 AssertArray3dEquals_REAL(Expecteds := a,
                          Actuals := b,
@@ -699,8 +1217,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_REAL_Array3d_Equals" Id="{ac6e988d-1d5a-4b2f-9434-494cd25e9d00}">
       <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_Equals
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
-    b : ARRAY[1..2,4..5,6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+    a : ARRAY[-5..-4,-1..0,0..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6,  560344.0005	];
+    b : ARRAY[1..2,4..5,6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001,  560344.0006	];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_Equals');
@@ -1002,7 +1520,27 @@ TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ArrayPrimitiveTypes">
-      <LineId Id="22" Count="56" />
+      <LineId Id="22" Count="22" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="49" Count="7" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="58" Count="1" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="61" Count="17" />
       <LineId Id="88" Count="0" />
     </LineIds>
     <LineIds Name="FB_ArrayPrimitiveTypes.Test_BOOL_Array_DifferInContent">
@@ -1125,11 +1663,23 @@ TEST_FINISHED();]]></ST>
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInContent_LBOUND">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInContent_Middle">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInContent_UBOUND">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInSize_D1">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array2d_DifferInSize_D2">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -1137,11 +1687,27 @@ TEST_FINISHED();]]></ST>
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInContent_LBOUND">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInContent_Middle">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInContent_UBOUND">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInSize_D1">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInSize_D2">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_LREAL_Array3d_DifferInSize_D3">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -1179,11 +1745,23 @@ TEST_FINISHED();]]></ST>
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInContent_LBOUND">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInContent_Middle">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInContent_UBOUND">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInSize_D1">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array2d_DifferInSize_D2">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
@@ -1191,11 +1769,27 @@ TEST_FINISHED();]]></ST>
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInContent">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInContent_LBOUND">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInSize">
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInContent_Middle">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInContent_UBOUND">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInSize_D1">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInSize_D2">
+      <LineId Id="3" Count="6" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ArrayPrimitiveTypes.Test_REAL_Array3d_DifferInSize_D3">
       <LineId Id="3" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
