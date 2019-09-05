@@ -23,18 +23,19 @@ END_VAR]]></Declaration>
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
-        IF NOT FoundTestName AND FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
-            GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Failed to find test $'%s$'',
-                                          StrArg := TestName);
-            FailedLookupCounter := FailedLookupCounter + 1;
-            (* Abort TcUnit *)
-            GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
-        ELSIF NOT AlreadyPrintedFinalWarning THEN
-            GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
-                                          StrArg := TestName);
-            AlreadyPrintedFinalWarning := TRUE;
-        END_IF
-        IF FoundTestName THEN
+		IF NOT FoundTestName THEN
+			IF FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
+				GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Failed to find test $'%s$'',
+											  StrArg := TestName);
+				FailedLookupCounter := FailedLookupCounter + 1;
+				(* Abort TcUnit *)
+				GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
+			ELSIF NOT AlreadyPrintedFinalWarning THEN
+				GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
+											  StrArg := TestName);
+				AlreadyPrintedFinalWarning := TRUE;
+			END_IF
+        ELSE
             GVL_TcUnit.CurrentTestIsFinished := TRUE;
 		END_IF
         RETURN;
@@ -44,6 +45,7 @@ END_FOR]]></ST>
     <LineIds Name="TEST_FINISHED_NAMED">
       <LineId Id="3" Count="2" />
       <LineId Id="75" Count="0" />
+      <LineId Id="97" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="37" Count="1" />
       <LineId Id="12" Count="0" />
