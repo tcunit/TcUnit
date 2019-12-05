@@ -150,22 +150,22 @@ namespace TcUnit.Verifier
             }
 
             /* Insert the test classes here */
-            FB_PrimitiveTypes primitiveTypes = new FB_PrimitiveTypes(errorItems, "PrimitiveTypes");
-            FB_AssertTrueFalse assertTrueFalse = new FB_AssertTrueFalse(errorItems, "AssertTrueFalse");
-            FB_AssertEveryFailedTestTwice assertEveryFailedTestTwice = new FB_AssertEveryFailedTestTwice(errorItems, "AssertEveryFailedTestTwice");
-            FB_CreateFourTestsWithSameName createFourTestsWithSameName = new FB_CreateFourTestsWithSameName(errorItems, "CreateFourTestsWithSameName");
-            FB_ArrayPrimitiveTypes arrayPrimitiveTypes = new FB_ArrayPrimitiveTypes(errorItems, "ArrayPrimitiveTypes");
-            FB_CreateDisabledTest createDisabledTest = new FB_CreateDisabledTest(errorItems, "CreateDisabledTest");
-            FB_AnyPrimitiveTypes anyPrimitiveTypes = new FB_AnyPrimitiveTypes(errorItems, "AnyPrimitiveTypes");
-            FB_AssertEveryFailedTestTwiceArrayVersion assertEveryFailedTestTwiceArrayVersion = new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems, "AssertEveryFailedTestTwiceArrayVersion");
-            FB_AnyToUnionValue anyToUnionValue = new FB_AnyToUnionValue(errorItems, "AnyToUnionValue");
-            FB_MultipleAssertWithSameParametersInSameCycleWithSameTest multipleAssertWithSameParametersInSameCycleWithSameTest = new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errorItems, "MultipleAssertWithSameParametersInSameCycleWithSameTest");
-            FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests multipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests = new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests");
-            FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest multipleAssertWithSameParametersInDifferentCyclesAndInSameTest = new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems, "MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest");
-            FB_SkipAssertionsWhenFinished skipAssertionsWhenFinished = new FB_SkipAssertionsWhenFinished(errorItems, "SkipAssertionsWhenFinished");
-            FB_AdjustAssertFailureMessageToMax252CharLengthTest adjustAssertFailureMessageToMax252CharLengthTest = new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems, "AdjustAssertFailureMessageToMax252CharLengthTest");
-            FB_CheckIfSpecificTestIsFinished checkIfSpecificTestIsFinished = new FB_CheckIfSpecificTestIsFinished(errorItems, "CheckIfSpecificTestIsFinished");
-            FB_TestFinishedNamed testFinishedNamed = new FB_TestFinishedNamed(errorItems, "TestFinishedNamed");
+            new FB_PrimitiveTypes(errorItems);
+            new FB_AssertTrueFalse(errorItems);
+            new FB_AssertEveryFailedTestTwice(errorItems);
+            new FB_CreateFourTestsWithSameName(errorItems);
+            new FB_ArrayPrimitiveTypes(errorItems);
+            new FB_CreateDisabledTest(errorItems);
+            new FB_AnyPrimitiveTypes(errorItems);
+            new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems);
+            new FB_AnyToUnionValue(errorItems);
+            new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errorItems);
+            new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems);
+            new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems);
+            new FB_SkipAssertionsWhenFinished(errorItems);
+            new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems);
+            new FB_CheckIfSpecificTestIsFinished(errorItems);
+            new FB_TestFinishedNamed(errorItems);
 
             log.Info("Done.");
 

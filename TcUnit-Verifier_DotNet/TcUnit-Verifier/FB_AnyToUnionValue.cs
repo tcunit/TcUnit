@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_AnyToUnionValue : TestFunctionBlockAssert
     {
-        public FB_AnyToUnionValue(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AnyToUnionValue(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             Test_BOOL();
             Test_BIT();

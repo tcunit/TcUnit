@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_CreateFourTestsWithSameName : TestFunctionBlockAssert
     {
-        public FB_CreateFourTestsWithSameName(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_CreateFourTestsWithSameName(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             TestOne();
         }

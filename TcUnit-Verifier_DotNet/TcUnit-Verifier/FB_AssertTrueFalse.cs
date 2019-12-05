@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_AssertTrueFalse : TestFunctionBlockAssert
     {
-        public FB_AssertTrueFalse(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AssertTrueFalse(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             AssertThatINTsAreEqual();
             AssertThatINTsAreNotEqual();

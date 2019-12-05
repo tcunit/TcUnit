@@ -12,10 +12,21 @@ namespace TcUnit.Verifier
         protected ErrorItems _errorItems;
         protected string _testFunctionBlockInstance;
 
-        public TestFunctionBlockAssert(ErrorItems errorItems, string testFunctionBlockInstance)
+        private string DefaultFunctionBlockInstance
+        {
+            get
+            {
+                string className = this.GetType().Name;
+                if (className.StartsWith("FB_"))
+                    return className.Remove(0, 3);
+                return className;
+            }
+        }
+
+        public TestFunctionBlockAssert(ErrorItems errorItems, string testFunctionBlockInstance = null)
         {
             _errorItems = errorItems;
-            _testFunctionBlockInstance = testFunctionBlockInstance;
+            _testFunctionBlockInstance = testFunctionBlockInstance ?? DefaultFunctionBlockInstance;
         }
 
         protected string CreateFailedTestMessage(string method, string expected, string actual, string message)

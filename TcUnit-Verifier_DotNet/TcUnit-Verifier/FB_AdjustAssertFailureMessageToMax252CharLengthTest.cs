@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_AdjustAssertFailureMessageToMax252CharLengthTest : TestFunctionBlockAssert
     {
-        public FB_AdjustAssertFailureMessageToMax252CharLengthTest(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AdjustAssertFailureMessageToMax252CharLengthTest(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             TestInstancePath252CharsExpectTooLongTestInstancePath();
             TestInstancePath220CharsExpectShortenedTestInstancePath();
