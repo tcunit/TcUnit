@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_CheckIfSpecificTestIsFinished : TestFunctionBlockAssert
     {
-        public FB_CheckIfSpecificTestIsFinished(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_CheckIfSpecificTestIsFinished(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             TestThatInstantlyFinishes();
         }

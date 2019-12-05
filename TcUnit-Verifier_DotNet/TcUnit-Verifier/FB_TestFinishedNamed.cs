@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_TestFinishedNamed : TestFunctionBlockAssert
     {
-        public FB_TestFinishedNamed(ErrorItems errorItems, string testFunctionBlockInstance)
+        public FB_TestFinishedNamed(ErrorItems errorItems, string testFunctionBlockInstance = null)
             : base(errorItems, testFunctionBlockInstance)
         {
             Test_FinishedNamed();
