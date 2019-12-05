@@ -180,20 +180,6 @@ namespace TcUnit.Verifier
         public ErrorItems GetErrorItems()
         {
             return dte.ToolWindows.ErrorList.ErrorItems;
-            /*
-            ErrorItems errorItems = dte.ToolWindows.ErrorList.ErrorItems;
-            ErrorItems returnErrorItems;
-
-            for (int i = 1; i <= errorItems.Count; i++)
-            {
-                ErrorItem item = errorItems.Item(i);
-                if (item.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh)
-                {
-                    returnErrorItems.Item. = item;
-                }
-            }
-
-            return returnErrorItems;*/
         }
     }
 }
