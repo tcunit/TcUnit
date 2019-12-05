@@ -1,5 +1,4 @@
-﻿using EnvDTE80;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ namespace TcUnit.Verifier
 {
     class FB_CreateFourTestsWithSameName : TestFunctionBlockAssert
     {
-        public FB_CreateFourTestsWithSameName(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
+        public FB_CreateFourTestsWithSameName(IEnumerable<ErrorList.Error> errors, string testFunctionBlockInstance = null) : base(errors, testFunctionBlockInstance)
         {
             TestOne();
         }

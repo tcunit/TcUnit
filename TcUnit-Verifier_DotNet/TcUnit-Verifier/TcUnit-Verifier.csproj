@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="AutomationInterface.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="ErrorList.cs" />
     <Compile Include="FB_SkipAssertionsWhenFinished.cs" />
     <Compile Include="FB_AdjustAssertFailureMessageToMax252CharLengthTest.cs" />
     <Compile Include="FB_AnyPrimitiveTypes.cs" />
