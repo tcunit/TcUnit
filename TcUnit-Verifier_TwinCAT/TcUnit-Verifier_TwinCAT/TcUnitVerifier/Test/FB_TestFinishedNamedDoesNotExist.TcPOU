@@ -5,7 +5,6 @@
     This FB tests the free function TEST_FINISHED_NAMED. Calling this function with a name that doesn't exist should
     produce an error message that says so. This error message should also only be printed once.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_TestFinishedNamedDoesNotExist EXTENDS TcUnit.FB_TestSuite
 VAR
 END_VAR]]></Declaration>

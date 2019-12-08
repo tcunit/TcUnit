@@ -5,7 +5,6 @@
     In this testsuite we are running the same testcase over two cycles, and thus calling every assert method twice.
     This is in order to verify that we don't print every FAILED assert twice.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite
 VAR
     AssertCount : USINT := 0;

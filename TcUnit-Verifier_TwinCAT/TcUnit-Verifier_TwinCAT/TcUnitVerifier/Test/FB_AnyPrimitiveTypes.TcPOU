@@ -10,7 +10,6 @@
     For every failing test the printed value should be the same as if we were using the primitive data type assert
     directly. 
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AnyPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_ANY_BYTE_Equals();

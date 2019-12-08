@@ -9,7 +9,6 @@
         2. One test that fails, where the size of the arrays differs
         3. One test that fails, where the content of the array differs
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_ArrayPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BOOL_Array_Equals();

@@ -72,8 +72,11 @@ namespace TcUnit.Verifier
             testMessage = CreateFailedTestMessage("TwiceAssertCall", "34", "36", "Not equal USINT");
             AssertMessageCount(testMessage, 1);
 
-            testMessage = CreateFailedTestMessage("TwiceAssertCall", "T#754m15s10ms", "T#694m13s244ms", "Not equal TIME");
-            AssertMessageCount(testMessage, 1);
+            // Differ between TwinCAT 3.1.4020/4022 and 4024 (or newer)
+            string testMessage4022 = CreateFailedTestMessage("TwiceAssertCall", "T#754m15s10ms", "T#694m13s244ms", "Not equal TIME");
+            string testMessage4024AndNewer = CreateFailedTestMessage("TwiceAssertCall", "T#12h34m15s10ms", "T#11h34m13s244ms", "Not equal TIME");
+            string[] messages = new String[] { testMessage4022, testMessage4024AndNewer };
+            AssertAtLeastOneMessageCount(messages, 1);
 
             testMessage = CreateFailedTestMessage("TwiceAssertCall", "TOD#15:36:30.123", "TOD#06:21:11.492", "Not equal TIME_OF_DAY");
             AssertMessageCount(testMessage, 1);

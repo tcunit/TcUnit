@@ -6,7 +6,6 @@
     every assert method twice. This is in order to verify that we don't print every FAILED assert twice.
     With this version we are doing it with arrays.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AssertEveryFailedTestTwiceArrayVersion EXTENDS TcUnit.FB_TestSuite
 VAR
     AssertCount : USINT := 0;

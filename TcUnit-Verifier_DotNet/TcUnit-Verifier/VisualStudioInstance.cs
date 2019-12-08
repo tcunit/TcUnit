@@ -85,6 +85,7 @@ namespace TcUnit.Verifier
             if (loaded)
             {
                 log.Info("Closing the Visual Studio Development Tools Environment (DTE), please wait...");
+                Thread.Sleep(20000); // Makes sure that there are no visual studio processes left in the system if the user interrupts this program (for example by CTRL+C)
                 dte.Quit();
             }
             loaded = false;

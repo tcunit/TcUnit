@@ -4,7 +4,6 @@
     <Declaration><![CDATA[(*
     Verifies that the function IS_TEST_FINISHED('Name') works as intended.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_CheckIfSpecificTestIsFinished EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[CheckBeforeAndAfterFinishing();]]></ST>

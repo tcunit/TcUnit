@@ -5,7 +5,6 @@
    and finishing them in steps *)
 FUNCTION_BLOCK FB_TestFinishedNamed EXTENDS TcUnit.FB_TestSuite
 VAR
-    
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>

@@ -10,7 +10,6 @@
     - A long test that finishes slowly
         - This test exists so that the entire test suite keeps running after the short test finishes
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_SkipAssertionsWhenFinished EXTENDS TcUnit.FB_TestSuite
 VAR
     ShortTimer : Tc2_Standard.TON := (PT := T#200MS);

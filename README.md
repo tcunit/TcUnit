@@ -34,8 +34,8 @@ running, another program is necessary that verifies that the output of the TcVT
 is as expected.
 
 ## TcUnit-Verifier_DotNet
-The TcUnit-Verifier_DotNet (TcVD) is a C# program that opens and runs the
-TcUnit-Verifier_TwinCAT project by the usage of the TwinCAT automation
+The TcUnit-Verifier_DotNet (TcVD) is a (Visual Studio 2013) C# program that opens
+and runs the TcUnit-Verifier_TwinCAT project by the usage of the TwinCAT automation
 interface. It basically does the following:
 - Starts Visual Studio (using the same version that was used developing TcVT)
 - Opens TcVT
@@ -59,23 +59,20 @@ All test classes are instantiated in the class `Program.cs` starting from the
 lines:
 ```
 /* Insert the test classes here */
-new FB_PrimitiveTypes(errorItems);
-new FB_AssertTrueFalse(errorItems);
-new FB_AssertEveryFailedTestTwice(errorItems);
+new FB_PrimitiveTypes(errors);
+new FB_AssertTrueFalse(errors);
+new FB_AssertEveryFailedTestTwice(errors);
 ...
 ...
 ...
 ```
 
 To create a new test class and make sure that it will be running all that is
-necessary is to make sure to instantiate it with two arguments:
-1. A reference to errorItems (just as above)
-2. A string with the name of what the function block is called in TcVT in the
-   PRG_TEST-program
-3. If you have added a test in TcVT that is supposed to fail, and thus adding an
-   additional failed test to the output, you need to increment the variable
-   `expectedNumberOfFailedTests` in TcVD by one for every failed test that you
-   have added. 
+necessary is to make sure to instantiate it with the argument `errors`
+(just as above). If you have added a test in TcVT that is supposed to fail, and
+thus adding an additional failed test to the output, you need to increment the
+variable `expectedNumberOfFailedTests` in TcVD by one for every failed test
+that you have added. 
 
 For example, if we in the PRG_TEST-program of TcVT have a function block
 instantiated in this way:
@@ -85,47 +82,39 @@ VAR
     AssertEveryFailedTestTwiceArrayVersion : FB_AssertEveryFailedTestTwiceArrayVersion;
 END_VAR
 ```
-The equivalent test class in TcVD needs to be instantiated with the second
-argument using the same name as in PRG_TEST. If not provided, the argument's default
-value is the C# class name with the `FB_` prefix removed (if any).
-
-In this example, the class name is `FB_AssertEveryFailedTestTwiceArrayVersion` and thus
-the test class's default argument value is `AssertEveryFailedTestTwiceArrayVersion`. The
-two lines below are equivalent, and the shorter form is preferred whenever possible to
-keep the code DRY (Don't Repeat Yourself).
-
+The equivalent test class in TcVD needs to be instantiated in the following way:
 ```
-new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems);
-// equivalent to
-new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems, "AssertEveryFailedTestTwiceArrayVersion");
+new FB_AssertEveryFailedTestTwiceArrayVersion(errors);
 ```
 
 This is an example of how it can look running the TcUnit-Verifier_DotNet:
 
 ```
 C:\Code\TcUnit\TcUnit-Verifier\TcUnit-Verifier_DotNet\TcUnit-Verifier\bin\Debug>TcUnit-Verifier.exe -v "C:\Code\TcUnit\TcUnit-Verifier\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"
-2019-12-05 16:23:23 - Starting TcUnit-Verifier...
-2019-12-05 16:23:23 - Loading the Visual Studio Development Tools Environment (DTE)...
-2019-12-05 16:23:49 - Cleaning and building TcUnit-Verifier_TwinCAT solution...
-2019-12-05 16:23:49 - Generating TcUnit-Verifier_TwinCAT boot project...
-2019-12-05 16:24:03 - Activating TcUnit-Verifier_TwinCAT configuration...
-2019-12-05 16:24:07 - Restarting TwinCAT...
-2019-12-05 16:24:07 - Waiting for TcUnit-Verifier_TwinCAT to finish running tests...
-2019-12-05 16:24:08 - ... got 5 report lines so far.
-2019-12-05 16:24:10 - ... got 5 report lines so far.
-2019-12-05 16:24:11 - ... got 26 report lines so far.
-2019-12-05 16:24:12 - ... got 51 report lines so far.
-2019-12-05 16:24:14 - ... got 76 report lines so far.
-2019-12-05 16:24:15 - ... got 93 report lines so far.
-2019-12-05 16:24:16 - ... got 118 report lines so far.
-2019-12-05 16:24:17 - ... got 134 report lines so far.
-2019-12-05 16:24:18 - ... got 151 report lines so far.
-2019-12-05 16:24:20 - ... got 176 report lines so far.
-2019-12-05 16:24:21 - ... got 184 report lines so far.
-2019-12-05 16:24:21 - Asserting results...
-2019-12-05 16:24:21 - Done.
-2019-12-05 16:24:21 - Closing the Visual Studio Development Tools Environment (DTE), please wait...
-2019-12-05 16:24:24 - Exiting application...
+2019-12-08 14:42:40 - Starting TcUnit-Verifier...
+2019-12-08 14:42:40 - Loading the Visual Studio Development Tools Environment (DTE)...
+2019-12-08 14:42:50 - Cleaning and building TcUnit-Verifier_TwinCAT solution...
+2019-12-08 14:42:50 - Generating TcUnit-Verifier_TwinCAT boot project...
+2019-12-08 14:42:55 - Activating TcUnit-Verifier_TwinCAT configuration...
+2019-12-08 14:42:57 - Restarting TwinCAT...
+2019-12-08 14:42:57 - Waiting for TcUnit-Verifier_TwinCAT to finish running tests...
+2019-12-08 14:42:58 - ... got 0 report lines so far.
+2019-12-08 14:42:59 - ... got 0 report lines so far.
+2019-12-08 14:43:00 - ... got 0 report lines so far.
+2019-12-08 14:43:01 - ... got 14 report lines so far.
+2019-12-08 14:43:02 - ... got 31 report lines so far.
+2019-12-08 14:43:03 - ... got 47 report lines so far.
+2019-12-08 14:43:04 - ... got 64 report lines so far.
+2019-12-08 14:43:05 - ... got 81 report lines so far.
+2019-12-08 14:43:06 - ... got 97 report lines so far.
+2019-12-08 14:43:07 - ... got 114 report lines so far.
+2019-12-08 14:43:08 - ... got 131 report lines so far.
+2019-12-08 14:43:09 - ... got 147 report lines so far.
+2019-12-08 14:43:10 - ... got 168 report lines so far.
+2019-12-08 14:43:10 - Asserting results...
+2019-12-08 14:43:11 - Done.
+2019-12-08 14:43:11 - Closing the Visual Studio Development Tools Environment (DTE), please wait...
+2019-12-08 14:43:32 - Exiting application...
 ```
 If there was an error in the TcUnit framework this would be shown between the
 lines `Asserting results...` and `Done.`. If nothing is shown between these

@@ -8,7 +8,6 @@
     same message, in the same test, with the same data values for both expected and actual, although the data that the
     user does the assert on might be from different data sets.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycleWithSameTest EXTENDS TcUnit.FB_TestSuite
 ]]></Declaration>
     <Implementation>

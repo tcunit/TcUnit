@@ -4,7 +4,6 @@
     <Declaration><![CDATA[(* This testsuite tests the function block FB_AdjustAssertFailureMessageToMax255CharLength_Test
    The total printed message can not be more than 252 characters long.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax252CharLengthTest EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestInstancePath252CharsExpectTooLongTestInstancePath();

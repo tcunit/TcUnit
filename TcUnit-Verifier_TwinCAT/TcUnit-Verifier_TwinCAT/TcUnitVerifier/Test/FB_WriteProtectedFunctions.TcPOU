@@ -4,7 +4,6 @@
     <Declaration><![CDATA[(*
     This testsuite tests the WRITE_PROTECTED_* helper functions.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_WriteProtectedFunctions EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_WRITE_PROTECTED_BOOL();

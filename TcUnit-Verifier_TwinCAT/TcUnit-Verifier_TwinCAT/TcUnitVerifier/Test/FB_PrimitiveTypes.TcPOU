@@ -7,7 +7,6 @@
         1. One test that succeeds (Expected and actual are equal)
         2. One test that fails (Expected and actual are false).
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_PrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_ANY_Equals();

@@ -4,7 +4,6 @@
     <Declaration><![CDATA[(*
     Tests the free function F_AnyToUnionValue.
 *)
-{attribute 'call_after_init'}
 FUNCTION_BLOCK FB_AnyToUnionValue EXTENDS TcUnit.FB_TestSuite
 VAR
     aBit : BIT := 1; // Only structures and function blocks can have BIT defined

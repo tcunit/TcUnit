@@ -238,14 +238,21 @@ namespace TcUnit.Verifier
 
         private void Test_TIME_Equals()
         {
+            // TwinCAT 3.1.4020 & 3.1.4022
             string testMessage = CreateFailedTestMessage("Test_TIME_Equals", "T#694m13s244ms", "T#694m13s244ms", "Values differ");
+            AssertDoesNotContainMessage(testMessage);
+            // TwinCAT 3.1.4024 and newer
+            testMessage = CreateFailedTestMessage("Test_TIME_Equals", "T#12h34m15s10ms", "T#11h34m13s244ms", "Values differ");
             AssertDoesNotContainMessage(testMessage);
         }
 
         private void Test_TIME_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_TIME_Differ", "T#754m15s10ms", "T#694m13s244ms", "Values differ");
-            AssertContainsMessage(testMessage);
+            // Differ between TwinCAT 3.1.4020/4022 and 4024 (or newer)
+            string testMessage4022 = CreateFailedTestMessage("Test_TIME_Differ", "T#754m15s10ms", "T#694m13s244ms", "Values differ");
+            string testMessage4024AndNewer = CreateFailedTestMessage("Test_TIME_Differ", "T#12h34m15s10ms", "T#11h34m13s244ms", "Values differ");
+            string[] messages = new String[] { testMessage4022, testMessage4024AndNewer };
+            AssertContainsAtLeastOneMessage(messages);
         }
 
         private void Test_TIME_OF_DAY_Equals()
