@@ -106,35 +106,35 @@ namespace TcUnit.Verifier
 
             log.Info("Waiting for TcUnit-Verifier_TwinCAT to finish running tests...");
 
-            ErrorItems errorItems;
+            ErrorList errorList = new ErrorList();
+
             while (true)
             {
                 Thread.Sleep(1000);
 
-                errorItems = vsInstance.GetErrorItems();
+                ErrorItems errorItems = vsInstance.GetErrorItems();
+                log.Info("... got " + errorItems.Count + " report lines so far.");
 
-                for (int i = 1; i <= errorItems.Count; i++)
+                var newErrors = errorList.AddNew(errorItems);
+
+                foreach (var error in newErrors.Where(e => e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh))
                 {
-                    ErrorItem item = errorItems.Item(i);
-                    if (item.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh)
+                    if (error.Description.Contains("| ==========TESTS FINISHED RUNNING=========="))
+                        testsFinishedRunningFirstLineFound = true;
+                    if (error.Description.Contains("| TEST SUITES:"))
+                        amountOfTestSuitesLineFound = true;
+                    if (error.Description.Contains("| TESTS:"))
+                        amountOfTestsLineFound = true;
+                    if (error.Description.Contains("| SUCCESSFUL TESTS:"))
+                        amountOfSuccesfulTestsLineFound = true;
+                    if (error.Description.Contains("| FAILED TESTS:"))
                     {
-                        if (item.Description.ToUpper().Contains("| ==========TESTS FINISHED RUNNING=========="))
-                            testsFinishedRunningFirstLineFound = true;
-                        if (item.Description.ToUpper().Contains("| TEST SUITES:"))
-                            amountOfTestSuitesLineFound = true;
-                        if (item.Description.ToUpper().Contains("| TESTS:"))
-                            amountOfTestsLineFound = true;
-                        if (item.Description.ToUpper().Contains("| SUCCESSFUL TESTS:"))
-                            amountOfSuccesfulTestsLineFound = true;
-                        if (item.Description.ToUpper().Contains("| FAILED TESTS:"))
-                        {
-                            amountOfFailedTestsLineFound = true;
-                            // Grab the number of failed tests so we can validate it during the assertion phase
-                            numberOfFailedTests = Int32.Parse(item.Description.Split().Last());
-                        }
-                        if (item.Description.ToUpper().Contains("| ======================================"))
-                            testsFinishedRunningLastLineFound = true;
+                        amountOfFailedTestsLineFound = true;
+                        // Grab the number of failed tests so we can validate it during the assertion phase
+                        numberOfFailedTests = Int32.Parse(error.Description.Split().Last());
                     }
+                    if (error.Description.Contains("| ======================================"))
+                        testsFinishedRunningLastLineFound = true;
                 }
 
                 if (testsFinishedRunningFirstLineFound && amountOfTestSuitesLineFound && amountOfTestsLineFound && amountOfSuccesfulTestsLineFound
@@ -149,23 +149,25 @@ namespace TcUnit.Verifier
                 log.Error("The number of tests that failed (" + numberOfFailedTests + ") does not match expectations (" + expectedNumberOfFailedTests + ")");
             }
 
+            List<ErrorList.Error> errors = new List<ErrorList.Error>(errorList.Where(e => e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh));
+
             /* Insert the test classes here */
-            new FB_PrimitiveTypes(errorItems);
-            new FB_AssertTrueFalse(errorItems);
-            new FB_AssertEveryFailedTestTwice(errorItems);
-            new FB_CreateFourTestsWithSameName(errorItems);
-            new FB_ArrayPrimitiveTypes(errorItems);
-            new FB_CreateDisabledTest(errorItems);
-            new FB_AnyPrimitiveTypes(errorItems);
-            new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems);
-            new FB_AnyToUnionValue(errorItems);
-            new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errorItems);
-            new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errorItems);
-            new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errorItems);
-            new FB_SkipAssertionsWhenFinished(errorItems);
-            new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errorItems);
-            new FB_CheckIfSpecificTestIsFinished(errorItems);
-            new FB_TestFinishedNamed(errorItems);
+            new FB_PrimitiveTypes(errors);
+            new FB_AssertTrueFalse(errors);
+            new FB_AssertEveryFailedTestTwice(errors);
+            new FB_CreateFourTestsWithSameName(errors);
+            new FB_ArrayPrimitiveTypes(errors);
+            new FB_CreateDisabledTest(errors);
+            new FB_AnyPrimitiveTypes(errors);
+            new FB_AssertEveryFailedTestTwiceArrayVersion(errors);
+            new FB_AnyToUnionValue(errors);
+            new FB_MultipleAssertWithSameParametersInSameCycleWithSameTest(errors);
+            new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errors);
+            new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errors);
+            new FB_SkipAssertionsWhenFinished(errors);
+            new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errors);
+            new FB_CheckIfSpecificTestIsFinished(errors);
+            new FB_TestFinishedNamed(errors);
 
             log.Info("Done.");
 

@@ -85,7 +85,6 @@ namespace TcUnit.Verifier
             if (loaded)
             {
                 log.Info("Closing the Visual Studio Development Tools Environment (DTE), please wait...");
-                Thread.Sleep(20000); // Avoid 'Application is busy'-problem (RPC_E_CALL_REJECTED 0x80010001 or RPC_E_SERVERCALL_RETRYLATER 0x8001010A)
                 dte.Quit();
             }
             loaded = false;
@@ -181,20 +180,6 @@ namespace TcUnit.Verifier
         public ErrorItems GetErrorItems()
         {
             return dte.ToolWindows.ErrorList.ErrorItems;
-            /*
-            ErrorItems errorItems = dte.ToolWindows.ErrorList.ErrorItems;
-            ErrorItems returnErrorItems;
-
-            for (int i = 1; i <= errorItems.Count; i++)
-            {
-                ErrorItem item = errorItems.Item(i);
-                if (item.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh)
-                {
-                    returnErrorItems.Item. = item;
-                }
-            }
-
-            return returnErrorItems;*/
         }
     }
 }

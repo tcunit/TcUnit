@@ -1,5 +1,4 @@
-﻿using EnvDTE80;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ namespace TcUnit.Verifier
 {
     class TestFunctionBlockAssert
     {
-        protected ErrorItems _errorItems;
+        private IEnumerable<ErrorList.Error> _errors;
         protected string _testFunctionBlockInstance;
 
         private string DefaultFunctionBlockInstance
@@ -23,9 +22,9 @@ namespace TcUnit.Verifier
             }
         }
 
-        public TestFunctionBlockAssert(ErrorItems errorItems, string testFunctionBlockInstance = null)
+        public TestFunctionBlockAssert(IEnumerable<ErrorList.Error> errors, string testFunctionBlockInstance = null)
         {
-            _errorItems = errorItems;
+            _errors = errors;
             _testFunctionBlockInstance = testFunctionBlockInstance ?? DefaultFunctionBlockInstance;
         }
 
@@ -39,37 +38,12 @@ namespace TcUnit.Verifier
 
         private bool AreErrorItemsContainingTestMessage(string testMessage)
         {
-            bool result = false;
-            for (int i = 1; i <= _errorItems.Count; i++)
-            {
-                ErrorItem item = _errorItems.Item(i);
-                if (item.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh)
-                {
-                    if (item.Description.ToUpper().Contains(testMessage.ToUpper()))
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-            return result;
+            return _errors.Any(e => e.Description.Contains(testMessage.ToUpper()));
         }
 
         private int CountErrorItemsContainingTestMessage(string testMessage)
         {
-            int count = 0;
-            for (int i = 1; i <= _errorItems.Count; i++)
-            {
-                ErrorItem item = _errorItems.Item(i);
-                if (item.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh)
-                {
-                    if (item.Description.ToUpper().Contains(testMessage.ToUpper()))
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
+            return _errors.Count(s => s.Description.Contains(testMessage.ToUpper()));
         }
 
         protected void AssertMessageCount(string message, int messageCount)

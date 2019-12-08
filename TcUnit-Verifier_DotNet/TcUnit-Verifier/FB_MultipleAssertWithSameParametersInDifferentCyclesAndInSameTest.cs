@@ -1,5 +1,4 @@
-﻿using EnvDTE80;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,8 @@ namespace TcUnit.Verifier
 {
     class FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : TestFunctionBlockAssert
     {
-        public FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
+        public FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(IEnumerable<ErrorList.Error> errors, string testFunctionBlockInstance = null)
+            : base(errors, testFunctionBlockInstance)
         {
             Assert_SeveralTimes();
         }
