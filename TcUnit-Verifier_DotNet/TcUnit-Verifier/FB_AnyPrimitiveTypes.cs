@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_AnyPrimitiveTypes : TestFunctionBlockAssert
     {
-        public FB_AnyPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AnyPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             Test_ANY_BYTE_Equals();
             Test_ANY_BYTE_Differ();

@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_CreateDisabledTest : TestFunctionBlockAssert
     {
-        public FB_CreateDisabledTest(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_CreateDisabledTest(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             TestEnabled();
             TestDisabled();

@@ -59,9 +59,9 @@ All test classes are instantiated in the class `Program.cs` starting from the
 lines:
 ```
 /* Insert the test classes here */
-FB_PrimitiveTypes primitiveTypes = new FB_PrimitiveTypes(errorItems, "PrimitiveTypes");
-FB_AssertTrueFalse assertTrueFalse = new FB_AssertTrueFalse(errorItems, "AssertTrueFalse");
-FB_AssertEveryFailedTestTwice assertEveryFailedTestTwice = new FB_AssertEveryFailedTestTwice(errorItems, "AssertEveryFailedTestTwice");
+new FB_PrimitiveTypes(errorItems);
+new FB_AssertTrueFalse(errorItems);
+new FB_AssertEveryFailedTestTwice(errorItems);
 ...
 ...
 ...
@@ -86,9 +86,18 @@ VAR
 END_VAR
 ```
 The equivalent test class in TcVD needs to be instantiated with the second
-argument using the same name as in PRG_TEST, in this example:
+argument using the same name as in PRG_TEST. If not provided, the argument's default
+value is the C# class name with the `FB_` prefix removed (if any).
+
+In this example, the class name is `FB_AssertEveryFailedTestTwiceArrayVersion` and thus
+the test class's default argument value is `AssertEveryFailedTestTwiceArrayVersion`. The
+two lines below are equivalent, and the shorter form is preferred whenever possible to
+keep the code DRY (Don't Repeat Yourself).
+
 ```
-FB_AssertEveryFailedTestTwiceArrayVersion assertEveryFailedTestTwiceArrayVersion = new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems, "AssertEveryFailedTestTwiceArrayVersion");
+new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems);
+// equivalent to
+new FB_AssertEveryFailedTestTwiceArrayVersion(errorItems, "AssertEveryFailedTestTwiceArrayVersion");
 ```
 
 This is an example of how it can look running the TcUnit-Verifier_DotNet:

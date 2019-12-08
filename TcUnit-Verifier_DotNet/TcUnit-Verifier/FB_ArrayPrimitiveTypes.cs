@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_ArrayPrimitiveTypes : TestFunctionBlockAssert
     {
-        public FB_ArrayPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_ArrayPrimitiveTypes(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             Test_BOOL_Array_Equals();
             Test_BOOL_Array_DifferInSize();

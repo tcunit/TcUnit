@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_SkipAssertionsWhenFinished : TestFunctionBlockAssert
     {
-        public FB_SkipAssertionsWhenFinished(ErrorItems errorItems, string testFunctionBlockInstance)
+        public FB_SkipAssertionsWhenFinished(ErrorItems errorItems, string testFunctionBlockInstance = null)
             : base(errorItems, testFunctionBlockInstance)
         {
             Test_LongTest();

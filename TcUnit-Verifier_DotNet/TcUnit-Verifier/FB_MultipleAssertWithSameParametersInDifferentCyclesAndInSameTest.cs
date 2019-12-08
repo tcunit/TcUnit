@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : TestFunctionBlockAssert
     {
-        public FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             Assert_SeveralTimes();
         }

@@ -9,7 +9,7 @@ namespace TcUnit.Verifier
 {
     class FB_AssertEveryFailedTestTwiceArrayVersion : TestFunctionBlockAssert
     {
-        public FB_AssertEveryFailedTestTwiceArrayVersion(ErrorItems errorItems, string testFunctionBlockInstance) : base(errorItems, testFunctionBlockInstance)
+        public FB_AssertEveryFailedTestTwiceArrayVersion(ErrorItems errorItems, string testFunctionBlockInstance = null) : base(errorItems, testFunctionBlockInstance)
         {
             TwiceAssertCall_Arrays();
         }
