@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_CreateFourTestsWithSameName" Id="{7b1f39ab-8960-43b8-8ec6-8f13e574f736}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite creates four tests in the same testsuite with the same name. Every test in a testsuite should have
+    an unique name. Every assert should be ignored if a duplicate test is being run.
+*)
+FUNCTION_BLOCK FB_CreateFourTestsWithSameName EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestOne();
+TestOne_Again();
+TestOne_AgainAgain();
+TestOne_AgainAgainAgain();]]></ST>
+    </Implementation>
+    <Method Name="TestOne" Id="{a0db3538-83d9-431d-9b73-12250812435f}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'A does not equal B');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne_Again" Id="{01798474-e702-41c3-94c8-ec7fd2bc4723}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_Again
+VAR
+    a : INT := 55;
+    b : INT := 54;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'A does not equal B again');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne_AgainAgain" Id="{f97b8825-364c-4046-983a-104d2c070686}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_AgainAgain
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'A does not equal B again');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestOne_AgainAgainAgain" Id="{2d274c02-8a97-4c6e-806e-1f05be2e2af3}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOne_AgainAgainAgain
+VAR
+    a : INT := 55;
+    b : INT := 55;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestOne');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'A does not equal B again');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CreateFourTestsWithSameName">
+      <LineId Id="18" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_Again">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgain">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgainAgain">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

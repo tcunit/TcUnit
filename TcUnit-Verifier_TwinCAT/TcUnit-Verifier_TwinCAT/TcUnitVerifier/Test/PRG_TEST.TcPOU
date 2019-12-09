@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="PRG_TEST" Id="{48f3a80c-6b31-445f-a938-08b4b352141e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_TEST
+VAR
+    PrimitiveTypes : FB_PrimitiveTypes;
+    AssertTrueFalse : FB_AssertTrueFalse;
+    AssertEveryFailedTestTwice : FB_AssertEveryFailedTestTwice;
+    CreateFourTestsWithSameName : FB_CreateFourTestsWithSameName;
+    ArrayPrimitiveTypes : FB_ArrayPrimitiveTypes;
+    CreateDisabledTest : FB_CreateDisabledTest;
+    AnyPrimitiveTypes : FB_AnyPrimitiveTypes;
+    AssertEveryFailedTestTwiceArrayVersion : FB_AssertEveryFailedTestTwiceArrayVersion;
+    AnyToUnionValue : FB_AnyToUnionValue;
+    MultipleAssertWithSameParametersInSameCycleWithSameTest : FB_MultipleAssertWithSameParametersInSameCycleWithSameTest;
+    MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests : FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests;
+    MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest;
+    SkipAssertionsWhenFinished : FB_SkipAssertionsWhenFinished;
+    AdjustAssertFailureMessageToMax252CharLengthTest : FB_AdjustAssertFailureMessageToMax252CharLengthTest;
+    EmptyTestSuite : FB_EmptyTestSuite;
+    CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;
+    WriteProtectedFunctions : FB_WriteProtectedFunctions;
+    TestFinishedNamed : FB_TestFinishedNamed;
+
+    (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
+       to test the function of where a test with a name that doesn't exist is set to finished *)
+    //TestFinishedNamedDoesNotExist : FB_TestFinishedNamedDoesNotExist;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TcUnit.RUN();]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_TEST">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

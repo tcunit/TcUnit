@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_AssertEveryFailedTestTwice" Id="{3bea6e4d-8d08-467b-90da-24a784807eae}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    In this testsuite we are running the same testcase over two cycles, and thus calling every assert method twice.
+    This is in order to verify that we don't print every FAILED assert twice.
+*)
+FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite
+VAR
+    AssertCount : USINT := 0;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TwiceAssertCall();]]></ST>
+    </Implementation>
+    <Method Name="TwiceAssertCall" Id="{69d3987a-7ce5-4206-ac7a-879b67c9a54d}">
+      <Declaration><![CDATA[METHOD PRIVATE TwiceAssertCall
+VAR
+    aANY : INT := 55;
+    bANY : INT := 77;
+
+    aBOOL : BOOL := TRUE;
+    bBOOL : BOOL := FALSE;
+
+    aBYTE : BYTE := 16#AB;
+    bBYTE : BYTE := 16#BA;
+
+    aDATE : DATE := DATE#1996-05-06;
+    bDATE : DATE := DATE#2019-01-20;
+
+    aDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
+    bDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
+
+    aDINT : DINT := 4444;
+    bDINT : DINT := 3333;
+
+    aDWORD : DWORD := 16#AAAAAAAA;
+    bDWORD : DWORD := 16#BBBBBBBB;
+
+    aINT : INT := 30000;
+    bINT : INT := 32000;
+
+    aLINT : LINT := 50000;
+    bLINT : LINT := 50001;
+
+    aLREAL : LREAL := 33.3;
+    bLREAL : LREAL := 44.4;
+
+    aLTIME : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    bLTIME : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
+
+    aLWORD : LWORD := 16#AAAAAAAAAAAAAAAA;
+    bLWORD : LWORD := 16#BBBBBBBBBBBBBBBB;
+
+    aREAL : REAL := 44.4;
+    bREAL : REAL := 22.2;
+
+    aSINT : SINT := 99;
+    bSINT : SINT := 10;
+
+    aSTRING : STRING := 'Hello world';
+    bSTRING : STRING := 'Hey there';
+
+    aUDINT : UDINT := 249494994;
+    bUDINT : UDINT := 1223;
+
+    aUINT : UINT := 3444;
+    bUINT : UINT := 3445;
+
+    aULINT : ULINT := 789234475;
+    bULINT : ULINT := 34523327234;
+
+    aUSINT : USINT := 34;
+    bUSINT : USINT := 36;
+
+    aTIME : TIME := T#12H34M15S10MS;
+    bTIME : TIME := T#11H34M13S244MS;
+
+    aTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
+    bTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+
+    aWORD : WORD := 16#ABCD;
+    bWORD : WORD := 16#89EF;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TwiceAssertCall');
+
+AssertEquals(Expected := aANY,
+             Actual := bANY,
+             Message := 'Not equal ANY');
+
+AssertEquals_BOOL(Expected := aBOOL,
+                  Actual := bBOOL,
+                  Message := 'Not equal BOOL');
+
+AssertEquals_BYTE(Expected := aBYTE,
+                  Actual := bBYTE,
+                  Message := 'Not equal BYTE');
+
+AssertEquals_DATE(Expected := aDATE,
+                  Actual := bDATE,
+                  Message := 'Not equal DATE');
+
+AssertEquals_DATE_AND_TIME(Expected := aDATE_AND_TIME,
+                           Actual := bDATE_AND_TIME,
+                           Message := 'Not equal DATE_AND_TIME');
+
+AssertEquals_DINT(Expected := aDINT,
+                  Actual := bDINT,
+                  Message := 'Not equal DINT');
+
+AssertEquals_DWORD(Expected := aDWORD,
+                   Actual := bDWORD,
+                   Message := 'Not equal DWORD');
+
+AssertEquals_INT(Expected := aINT,
+                 Actual := bINT,
+                 Message := 'Not equal INT');
+
+AssertEquals_LINT(Expected := aLINT,
+                  Actual := bLINT,
+                  Message := 'Not equal LINT');
+
+AssertEquals_LREAL(Expected := aLREAL,
+                   Actual := bLREAL,
+                   Delta := 0.1,
+                   Message := 'Not equal LREAL');
+
+AssertEquals_LTIME(Expected := aLTIME,
+                   Actual := bLTIME,
+                   Message := 'Not equal LTIME');
+
+AssertEquals_LWORD(Expected := aLWORD,
+                   Actual := bLWORD,
+                   Message := 'Not equal LWORD');
+
+AssertEquals_REAL(Expected := aREAL,
+                  Actual := bREAL,
+                  Delta := 0.1,
+                  Message := 'Not equal REAL');
+
+AssertEquals_SINT(Expected := aSINT,
+                  Actual := bSINT,
+                  Message := 'Not equal SINT');
+
+AssertEquals_STRING(Expected := aSTRING,
+                    Actual := bSTRING,
+                    Message := 'Not equal STRING');
+
+AssertEquals_UDINT(Expected := aUDINT,
+                   Actual := bUDINT,
+                   Message := 'Not equal UDINT');
+
+AssertEquals_UINT(Expected := aUINT,
+                  Actual := bUINT,
+                  Message := 'Not equal UINT');
+
+AssertEquals_ULINT(Expected := aULINT,
+                   Actual := bULINT,
+                   Message := 'Not equal ULINT');
+
+AssertEquals_USINT(Expected := aUSINT,
+                   Actual := bUSINT,
+                   Message := 'Not equal USINT');
+
+AssertEquals_TIME(Expected := aTIME,
+                  Actual := bTIME,
+                  Message := 'Not equal TIME');
+
+AssertEquals_TIME_OF_DAY(Expected := aTIME_OF_DAY,
+                         Actual := bTIME_OF_DAY,
+                         Message := 'Not equal TIME_OF_DAY');
+
+AssertEquals_WORD(Expected := aWORD,
+                  Actual := bWORD,
+                  Message := 'Not equal WORD');
+
+AssertCount := AssertCount + 1;
+IF AssertCount = 2 THEN
+    TEST_FINISHED();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AssertEveryFailedTestTwice">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertEveryFailedTestTwice.TwiceAssertCall">
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="204" Count="2" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="209" Count="1" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="49" Count="2" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="94" Count="1" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="102" Count="1" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="106" Count="2" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="219" Count="1" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="114" Count="3" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="119" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="124" Count="2" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="128" Count="2" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="132" Count="2" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="137" Count="1" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="140" Count="2" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="221" Count="2" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="231" Count="2" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="145" Count="1" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="305" Count="1" />
+      <LineId Id="303" Count="0" />
+      <LineId Id="307" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
