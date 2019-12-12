@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="WRITE_PROTECTED_LINT" Id="{da64d6c8-2148-431b-b3a7-81dadf9fdad8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_LINT
+VAR_INPUT
+    Ptr : POINTER TO LINT;
+    Value : LINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
+    </Implementation>
+    <LineIds Name="WRITE_PROTECTED_LINT">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

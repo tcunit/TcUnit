@@ -199,6 +199,12 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_ULINT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_LWORD.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_LINT.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_USINT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
