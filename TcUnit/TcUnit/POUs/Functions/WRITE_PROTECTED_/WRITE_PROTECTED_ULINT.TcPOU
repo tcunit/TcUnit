@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="WRITE_PROTECTED_ULINT" Id="{54c93892-e0bd-4ffb-84a5-c70998b8b8b8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_ULINT
+VAR_INPUT
+    Ptr : POINTER TO ULINT;
+    Value : ULINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
