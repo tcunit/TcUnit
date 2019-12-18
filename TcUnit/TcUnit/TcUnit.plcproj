@@ -32,7 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski and contributors</Author>
-    <ProjectVersion>1.0.1.0</ProjectVersion>
+    <ProjectVersion>1.1.0.0</ProjectVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>-->
@@ -50,7 +50,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="DUTs\E_XmlError.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\ST_ADSLogStringMessage.TcDUT">
+    <Compile Include="DUTs\ST_AdsLogStringMessage.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_AssertResult.TcDUT">
@@ -82,7 +82,16 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="ITFs\I_AssertMessageFormatter.TcIO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ITFs\I_TestResultFormatter.TcIO">
+    <Compile Include="ITFs\I_TestResultLogger.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_AdsAssertMessageFormatter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_AdsLogStringMessageFifoQueue.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_AdsTestResultLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_StringBuffer.TcPOU">
@@ -95,15 +104,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_AdjustAssertFailureMessageToMax252CharLength.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FB_ADSAssertMessageFormatter.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FB_ADSLogStringMessageFifoQueue.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\FB_ADSTestResultFormatter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_AnyComparator.TcPOU">
@@ -128,6 +128,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_AnyTypeClassToString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\F_GetTestSuiteNameFromTestInstancePath.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_IsAnyEqualToUnionValue.TcPOU">

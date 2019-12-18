@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <DUT Name="ST_ADSLogStringMessage" Id="{7eac3ec2-a59e-45fa-bfc5-ba06a20b9608}">
+  <DUT Name="ST_AdsLogStringMessage" Id="{7eac3ec2-a59e-45fa-bfc5-ba06a20b9608}">
     <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
-TYPE ST_ADSLogStringMessage :
+TYPE ST_AdsLogStringMessage :
 STRUCT
+	MsgCtrlMask : DWORD;
     MsgFmtStr : Tc2_System.T_MaxString;
     StrArg : Tc2_System.T_MaxString;
 END_STRUCT

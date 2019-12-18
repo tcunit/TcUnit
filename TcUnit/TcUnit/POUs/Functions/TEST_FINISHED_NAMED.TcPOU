@@ -25,14 +25,16 @@ FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
 		IF NOT FoundTestName THEN
 			IF FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
-				GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Failed to find test $'%s$'',
-											  StrArg := TestName);
+				GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                                    MsgFmtStr := 'Failed to find test $'%s$'',
+											        StrArg := TestName);
 				FailedLookupCounter := FailedLookupCounter + 1;
 				(* Abort TcUnit *)
 				GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
 			ELSIF NOT AlreadyPrintedFinalWarning THEN
-				GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
-											  StrArg := TestName);
+				GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                                    MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
+											        StrArg := TestName);
 				AlreadyPrintedFinalWarning := TRUE;
 			END_IF
         ELSE
@@ -47,11 +49,15 @@ END_FOR]]></ST>
       <LineId Id="75" Count="0" />
       <LineId Id="97" Count="0" />
       <LineId Id="6" Count="0" />
-      <LineId Id="37" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="38" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="57" Count="1" />
       <LineId Id="14" Count="0" />
-      <LineId Id="40" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="76" Count="0" />
       <LineId Id="80" Count="0" />

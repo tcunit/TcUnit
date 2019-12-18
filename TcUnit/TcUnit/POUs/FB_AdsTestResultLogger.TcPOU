@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_AdsTestResultLogger" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This function block reports the results from the tests using the built-in ADSLOGSTR functionality
+    provided by the Tc2_System library. This sends the result using ADS, which is consumed by the "Error List"
+    of Visual Studio (which can print Errors, Warnings and Messages).
+*)
+FUNCTION_BLOCK FB_AdsTestResultLogger IMPLEMENTS I_TestResultLogger
+VAR
+    PrintingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    PrintingTestSuiteTrigger : Tc2_Standard.R_TRIG;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="LogEndResult" Id="{dba8c729-8b99-4be3-97cd-3a4fea4cd051}">
+      <Declaration><![CDATA[METHOD LogEndResult
+VAR_INPUT
+    (* The total number of test suites *)
+    NumberOfTestSuites : UINT;
+    (* The total number of test cases (for all test function blocks) *)
+    NumberOfTestCases : UINT;
+    (* The total number of test cases that had all ASSERTS successful *)
+    NumberOfSuccessfulTestCases : UINT;
+    (* The total number of test cases that had at least one ASSERT failed *)
+    NumberOfFailedTestCases : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '%s',
+                                    StrArg := '| ==========TESTS FINISHED RUNNING==========');
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '| Test suites: %s',
+                                    StrArg := UINT_TO_STRING(NumberOfTestSuites));
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '| Tests: %s',
+                                    StrArg := UINT_TO_STRING(NumberOfTestCases));
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '| Successful tests: %s',
+                                    StrArg := UINT_TO_STRING(NumberOfSuccessfulTestCases));
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '| Failed tests: %s',
+                                    StrArg := UINT_TO_STRING(NumberOfFailedTestCases));
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := '%s',
+                                    StrArg := '| ======================================');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LogTestSuiteResults" Id="{3263938a-5e4f-4e5f-bfa0-9c9469439d97}">
+      <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
+VAR
+    TestSuiteName : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites THEN
+    PrintingTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.AreAllTestsFinished());
+    IF PrintingTestSuiteTrigger.Q THEN
+        (* Remove everything except the program name + "." + test suite name *)
+        TestSuiteName := F_GetTestSuiteNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetInstancePath());
+
+        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                            MsgFmtStr := '| Test suite $'%s$' finished running',
+                                            StrArg := TestSuiteName);
+        PrintingTestSuiteResultNumber := PrintingTestSuiteResultNumber + 1;
+        PrintingTestSuiteTrigger(CLK := FALSE); // Reset trigger
+    END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AdsTestResultLogger">
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AdsTestResultLogger.LogEndResult">
+      <LineId Id="155" Count="2" />
+      <LineId Id="159" Count="1" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="161" Count="1" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="164" Count="4" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="170" Count="1" />
+      <LineId Id="169" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AdsTestResultLogger.LogTestSuiteResults">
+      <LineId Id="25" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_ADSLogStringMessageFifoQueue" Id="{3920f5ea-d8f0-4a89-bcc8-7deea2b2fe33}" SpecialFunc="None">
+  <POU Name="FB_AdsLogStringMessageFifoQueue" Id="{3920f5ea-d8f0-4a89-bcc8-7deea2b2fe33}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for making sure that the ADSLOGSTR-messages to the ADS-router are transmitted
    cyclically and not in a burst. The reason this is necessary is because that if too many messages are sent at the
    same time some get lost and are never printed to the error list output
 *)
-FUNCTION_BLOCK FB_ADSLogStringMessageFifoQueue
+FUNCTION_BLOCK FB_AdsLogStringMessageFifoQueue
 VAR
     ArrayBuffer : ARRAY[0..((RING_BUFFER_SIZE * (SIZEOF(ST_ADSLogStringMessage) + MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD)) - 1)] OF BYTE;
     MemRingBuffer : Tc2_Utilities.FB_MemRingBuffer;
@@ -29,7 +29,7 @@ IF GetLogCount() > 0 THEN
         GetLog(AdsLogStringMessage => MessageToBeSent,
                Error => ErrorGet);
         IF NOT ErrorGet THEN
-            ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+            ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := MessageToBeSent.MsgCtrlMask,
                                                 msgFmtStr := MessageToBeSent.MsgFmtStr,
                                                 strArg := MessageToBeSent.StrArg);
         END_IF
@@ -63,6 +63,7 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
       <Declaration><![CDATA[(* Writes a new data set into the ring buffer *)
 METHOD PUBLIC WriteLog
 VAR_INPUT
+	MsgCtrlMask : DWORD;
     MsgFmtStr : Tc2_System.T_MaxString;
     StrArg : Tc2_System.T_MaxString;
 END_VAR
@@ -70,21 +71,22 @@ VAR_OUTPUT
     Error : BOOL; // Buffer overflow
 END_VAR
 VAR
-    AdsLogStringMessage : ST_ADSLogStringMessage;
+    AdsLogStringMessage : ST_AdsLogStringMessage;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
+        <ST><![CDATA[AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
+AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
 AdsLogStringMessage.StrArg := StrArg;
 
 MemRingBuffer.A_AddTail(pWrite := ADR(AdsLogStringMessage),
-                        cbWrite := SIZEOF(ST_ADSLogStringMessage),
+                        cbWrite := SIZEOF(ST_AdsLogStringMessage),
                         pBuffer := ADR(ArrayBuffer),
                         cbBuffer := SIZEOF(ArrayBuffer));
 
 Error := NOT MemRingBuffer.bOk;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_ADSLogStringMessageFifoQueue">
+    <LineIds Name="FB_AdsLogStringMessageFifoQueue">
       <LineId Id="67" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="30" Count="0" />
@@ -100,14 +102,15 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ADSLogStringMessageFifoQueue.GetLog">
+    <LineIds Name="FB_AdsLogStringMessageFifoQueue.GetLog">
       <LineId Id="9" Count="3" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ADSLogStringMessageFifoQueue.GetLogCount">
+    <LineIds Name="FB_AdsLogStringMessageFifoQueue.GetLogCount">
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ADSLogStringMessageFifoQueue.WriteLog">
+    <LineIds Name="FB_AdsLogStringMessageFifoQueue.WriteLog">
+      <LineId Id="36" Count="0" />
       <LineId Id="21" Count="2" />
       <LineId Id="8" Count="4" />
       <LineId Id="5" Count="0" />

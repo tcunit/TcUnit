@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_ADSAssertMessageFormatter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
+  <POU Name="FB_AdsAssertMessageFormatter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for printing the results of the assertions using the built-in
     ADSLOGSTR functionality provided by the Tc2_System library. This sends the result using ADS, which
     is consumed by the error list of Visual Studio.
 *)
-FUNCTION_BLOCK FB_ADSAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]]></Declaration>
+FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -48,27 +48,23 @@ AdjustAssertFailureMessageToMax252CharLength(MsgFmtString := TestInstancePathFin
                                              MsgFmtStringProcessed => TestInstancePathProcessed,
                                              StringArgProcessed => MessageProcessed);
 
-GVL_TcUnit.AdsLogger.WriteLog(MsgFmtStr := TestInstancePathProcessed,
-                              StrArg := MessageProcessed);
-(*
-ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                    msgFmtStr := TestInstancePathProcessed,
-                                    strArg := MessageProcessed); *)]]></ST>
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                    MsgFmtStr := TestInstancePathProcessed,
+                                    StrArg := MessageProcessed);]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_ADSAssertMessageFormatter">
+    <LineIds Name="FB_AdsAssertMessageFormatter">
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ADSAssertMessageFormatter.LogAssertFailure">
+    <LineIds Name="FB_AdsAssertMessageFormatter.LogAssertFailure">
       <LineId Id="15" Count="14" />
       <LineId Id="47" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="48" Count="2" />
       <LineId Id="65" Count="0" />
       <LineId Id="45" Count="0" />
-      <LineId Id="66" Count="1" />
-      <LineId Id="30" Count="1" />
-      <LineId Id="10" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="66" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

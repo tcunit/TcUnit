@@ -3,9 +3,9 @@
   <GVL Name="GVL_Param_TcUnit" Id="{8914b509-ade2-41d9-a869-a8850ad59b87}" ParameterList="True">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
-    MaxNumberOfTestSuites : UINT := 500;
+    MaxNumberOfTestSuites : UINT := 1000;
     MaxNumberOfTestsForEachTestSuite : UINT := 100;
-    MaxNumberOfAsserts : UINT := 500;
+    MaxNumberOfAsserts : UINT := 1000;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="F_GetTestSuiteNameFromTestInstancePath" Id="{a18d80d3-2319-4446-86ef-2bd4388523f3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetTestSuiteNameFromTestInstancePath : Tc2_System.T_MaxString
+VAR_INPUT
+    TestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    TestSuiteName : Tc2_System.T_MaxString;
+    FindPosition : INT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := TestInstancePath);
+(* Remove everything except the test suite name *)
+FindPosition := Tc2_Standard.FIND(STR1 := TestSuiteName, '.');
+TestSuiteName := Tc2_Standard.RIGHT(STR := TestSuiteName, SIZE := Tc2_Standard.LEN(STR := TestSuiteName) - FindPosition);
+F_GetTestSuiteNameFromTestInstancePath := TestSuiteName;]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetTestSuiteNameFromTestInstancePath">
+      <LineId Id="16" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="15" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
