@@ -16,8 +16,6 @@ END_VAR]]></Declaration>
 VAR
     a : INT := 2;
     b : INT := 2;
-    
-    bajs : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FinishedNamed');
