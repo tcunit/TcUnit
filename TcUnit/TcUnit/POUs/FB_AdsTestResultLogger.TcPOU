@@ -51,6 +51,12 @@ GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERR
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR
     TestSuiteName : Tc2_System.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
+    StringToPrint : Tc2_System.T_MaxString;
+    
+    TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    
+    TestToBePrinted : FB_Test;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites THEN
@@ -58,10 +64,46 @@ END_VAR]]></Declaration>
     IF PrintingTestSuiteTrigger.Q THEN
         (* Remove everything except the program name + "." + test suite name *)
         TestSuiteName := F_GetTestSuiteNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetInstancePath());
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test suite $'%s$' with ID=',
+                                             STR2 := UINT_TO_STRING(PrintingTestSuiteResultNumber - 1));
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := ' finished running');
 
+        (* Print test suite name and ID *)
         GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
-                                            MsgFmtStr := '| Test suite $'%s$' finished running',
+                                            MsgFmtStr := StringToPrint,
                                             StrArg := TestSuiteName);
+
+        (* Print number of tests in test suite *)
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := '| ID=',
+                                             STR2 := UINT_TO_STRING(PrintingTestSuiteResultNumber - 1));
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := ' number of tests=');
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := UINT_TO_STRING(GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetNumberOfTests()));
+        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                            MsgFmtStr := StringToPrint,
+                                            StrArg := '');
+
+        (* Print number of failed tests in test suite *)
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := '| ID=',
+                                             STR2 := UINT_TO_STRING(PrintingTestSuiteResultNumber - 1));
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := ' number of failed tests=');
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := UINT_TO_STRING(GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetNumberOfFailedTests()));
+        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                            MsgFmtStr := StringToPrint,
+                                            StrArg := '');
+
+        (* Iterate all print all tests in test suite *)
+        FOR TestsInTestSuiteCounter := 1 TO GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetNumberOfTests() BY 1 DO
+            TestToBePrinted := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.GetTestByPosition(TestsInTestSuiteCounter);
+            GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                                MsgFmtStr := '| Test name=%s',
+                                                StrArg := TestToBePrinted.GetName());
+		END_FOR
+
         PrintingTestSuiteResultNumber := PrintingTestSuiteResultNumber + 1;
         PrintingTestSuiteTrigger(CLK := FALSE); // Reset trigger
     END_IF
@@ -88,9 +130,36 @@ END_IF]]></ST>
       <LineId Id="18" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="43" Count="0" />
-      <LineId Id="47" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="59" Count="0" />
       <LineId Id="9" Count="1" />
       <LineId Id="8" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="82" Count="1" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="65" Count="0" />
       <LineId Id="11" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="19" Count="0" />

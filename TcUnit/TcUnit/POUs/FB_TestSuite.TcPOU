@@ -2538,7 +2538,7 @@ IF Expected <> Actual THEN
                                Message := Message,
                                TestInstancePath := TestInstancePath,
                                AlreadyReported => AlreadyReported);
-END_IF                               
+END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
     SetTestFailed();
@@ -3444,6 +3444,16 @@ GetNumberOfFailedTests := FailedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC GetNumberOfTests : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTests := NumberOfTests;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
+      <Declaration><![CDATA[(* This method returns the test at the n'th position, ranging from 1.. NumberOfTests *)
+METHOD PUBLIC GetTestByPosition : FB_Test
+VAR_INPUT
+    Position : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTestByPosition := Tests[Position];]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsTestFinished" Id="{1ef139e2-1210-4139-ba5c-329f8493b09c}">
@@ -4503,6 +4513,9 @@ END_IF]]></ST>
       <LineId Id="18" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.GetNumberOfTests">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetTestByPosition">
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.IsTestFinished">
