@@ -14,18 +14,12 @@ VAR
     AdsTestResultLogger : FB_AdsTestResultLogger;
     TestResultLogger : I_TestResultLogger := AdsTestResultLogger;
 
-    (* These variables (statistics) are occupied once all tests are complete *)
-    NumberOfTestSuitesFinished : UINT := 0;
-    NumberOfTestCases : UINT := 0;
-    NumberOfFailedTestCases : UINT := 0;
-    NumberOfSuccessfulTestCases : UINT := 0;
+    (* Test result information *)
+    TestResults : FB_TestResults;
 
     (* If this flag is set, it means that some external event triggered the
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
-
-    (* This flag is set once the final end result has printed *)
-    DonePrintingEndResult : BOOL := FALSE;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -75,29 +69,16 @@ END_VAR]]></Declaration>
             NumberOfTestSuitesFinished_Temp := GVL_TcUnit.NumberOfInitializedTestSuites;
 		END_IF
         IF NumberOfTestSuitesFinished_Temp = GVL_TcUnit.NumberOfInitializedTestSuites THEN
-            (* Copy the final results over *)
-            NumberOfTestSuitesFinished := NumberOfTestSuitesFinished_Temp;
-            NumberOfTestCases := NumberOfTestCases_Temp;
-            NumberOfFailedTestCases := NumberOfFailedTestCases_Temp;
-            NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases_Temp;
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
 END_IF
 
-(* Log test suite results as continuously *)
-TestResultLogger.LogTestSuiteResults();
+(* Store test suite results continuously *)
+TestResults();
 
-(* Log end results once all test suites have finished running *)
-IF AllTestSuitesFinished THEN
-    IF NOT DonePrintingEndResult THEN
-        TestResultLogger.LogEndResult(NumberOfTestSuites := NumberOfTestSuitesFinished,
-                                      NumberOfTestCases := NumberOfTestCases,
-                                      NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases,
-                                      NumberOfFailedTestCases := NumberOfFailedTestCases);
-        DonePrintingEndResult := TRUE;
-    END_IF                                  
-END_IF
+(* Log test suite results continuously *)
+TestResultLogger.LogTestSuiteResults(TestResults := TestResults.GetTestSuiteResults());
 
 (* Run the buffered ADS logger *)
 GVL_TcUnit.AdsMessageQueue();]]></ST>
@@ -125,24 +106,13 @@ GVL_TcUnit.AdsMessageQueue();]]></ST>
       <LineId Id="213" Count="0" />
       <LineId Id="217" Count="0" />
       <LineId Id="214" Count="2" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="169" Count="0" />
-      <LineId Id="166" Count="2" />
-      <LineId Id="165" Count="0" />
-      <LineId Id="24" Count="1" />
+      <LineId Id="23" Count="2" />
       <LineId Id="12" Count="0" />
       <LineId Id="132" Count="0" />
-      <LineId Id="250" Count="0" />
-      <LineId Id="248" Count="0" />
       <LineId Id="247" Count="0" />
-      <LineId Id="249" Count="0" />
-      <LineId Id="106" Count="1" />
-      <LineId Id="232" Count="0" />
-      <LineId Id="137" Count="2" />
-      <LineId Id="136" Count="0" />
-      <LineId Id="231" Count="0" />
-      <LineId Id="233" Count="0" />
-      <LineId Id="144" Count="0" />
+      <LineId Id="269" Count="1" />
+      <LineId Id="275" Count="1" />
+      <LineId Id="274" Count="0" />
       <LineId Id="198" Count="0" />
       <LineId Id="197" Count="0" />
       <LineId Id="199" Count="0" />

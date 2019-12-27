@@ -65,6 +65,12 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="DUTs\ST_AssertArrayResultInstances.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_TestCaseResult.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_TestSuiteResult.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\U_ExpectedOrActual.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +101,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_StringBuffer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_TestResults.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_XmlControl.TcPOU">

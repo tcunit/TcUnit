@@ -116,8 +116,8 @@ END_VAR]]></Declaration>
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
+       AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
+       AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
         GetDetectionCount := AssertArrayResultInstances[IteratorCounter].DetectionCount;
     END_IF
 END_FOR]]></ST>
@@ -142,8 +142,8 @@ END_VAR]]></Declaration>
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
+       AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
+       AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
 
         GetDetectionCountThisCycle := AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle;
     END_IF

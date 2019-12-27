@@ -2,17 +2,11 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <Itf Name="I_TestResultLogger" Id="{fa75ee61-43fb-4767-8061-125a3a9e3424}">
     <Declaration><![CDATA[INTERFACE I_TestResultLogger]]></Declaration>
-    <Method Name="LogEndResult" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">
-      <Declaration><![CDATA[METHOD LogEndResult
+    <Method Name="LogTestSuiteResults" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">
+      <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR_INPUT
-    NumberOfTestSuites : UINT; // The total number of test suites
-    NumberOfTestCases : UINT; // The total number of test cases (for all test suites)
-    NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
-    NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
+    TestResults : REFERENCE TO ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
 END_VAR]]></Declaration>
-    </Method>
-    <Method Name="LogTestSuiteResults" Id="{9a7509fd-9a3c-4ed5-9b24-34ebb77236e1}">
-      <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>

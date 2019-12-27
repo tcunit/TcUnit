@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
+FUNCTION_BLOCK FB_TestResults
+VAR
+    (* General test results *)
+    NumberOfTestSuites : UINT; // The total number of test suites
+    NumberOfTestCases : UINT; // The total number of test cases (for all test suites)
+    NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
+    NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
+    
+    (* Test results for each individiual test suite *)
+    TestSuiteResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
+    
+    (* Misc variables *)
+    StoringTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    StoringTestSuiteTrigger : Tc2_Standard.R_TRIG;
+    StoredTestSuiteResults : BOOL;
+    StoredGeneralTestResults : BOOL;
+END_VAR
+VAR_TEMP
+    TestSuiteName : Tc2_System.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
+    
+    TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    
+    TestToBeStored : FB_Test;
+    GeneralTestResultsTestSuitesCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* The body of the function block stores the test results *)
+IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT StoredTestSuiteResults THEN
+    StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished());
+    IF StoringTestSuiteTrigger.Q THEN
+        (* Remove everything except the program name + "." + test suite name *)
+        TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+
+        (* Store test suite name and ID *)
+        TestSuiteResults[StoringTestSuiteResultNumber].Name := TestSuiteName;
+        TestSuiteResults[StoringTestSuiteResultNumber].Identity := StoringTestSuiteResultNumber - 1;
+
+        (* Store number of tests in test suite *)
+        TestSuiteResults[StoringTestSuiteResultNumber].NumberOfTests := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
+
+        (* Store number of failed tests in test suite *)
+        TestSuiteResults[StoringTestSuiteResultNumber].NumberOfFailedTests := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
+
+        (* Iterate and print all tests in test suite *)
+        FOR TestsInTestSuiteCounter := 1 TO GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests() BY 1 DO
+            TestToBeStored := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestByPosition(TestsInTestSuiteCounter);
+            (* Store test name *)
+            TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName := TestToBeStored.GetName();
+
+            (* Store test class name *)
+            TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+		END_FOR
+
+        IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN
+            StoredTestSuiteResults := TRUE;
+        ELSE
+            StoringTestSuiteResultNumber := StoringTestSuiteResultNumber + 1;
+        END_IF
+        StoringTestSuiteTrigger(CLK := FALSE); // Reset trigger
+    END_IF
+END_IF
+
+(* If all test suites have finished running, store the general test results *)
+IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND NOT StoredGeneralTestResults THEN
+    NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
+    FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
+        NumberOfTestCases := NumberOfTestCases + TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;
+        NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases + (TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests - TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests);
+        NumberOfFailedTestCases := NumberOfFailedTestCases + TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests;
+	END_FOR
+    StoredGeneralTestResults := TRUE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="GetGeneralTestResults" Id="{531d5d08-5de3-4c4f-9365-451e69239140}">
+      <Declaration><![CDATA[METHOD PUBLIC GetGeneralTestResults
+VAR_OUTPUT
+    NoOfTestSuites : UINT;
+    NoOfTestCases : UINT;
+    NoOfSuccessfulTestCases : UINT;
+    NoOfFailedTestCases : UINT; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NoOfTestSuites := NumberOfTestSuites; 
+NoOfTestCases := NumberOfTestCases;
+NoOfSuccessfulTestCases := NumberOfSuccessfulTestCases;
+NoOfFailedTestCases := NumberOfFailedTestCases;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestSuiteResults" Id="{3d7cfdb1-16a3-456d-be0a-82cecf4820a8}">
+      <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TestResults">
+      <LineId Id="9" Count="0" />
+      <LineId Id="25" Count="4" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="100" Count="3" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="61" Count="4" />
+      <LineId Id="105" Count="1" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="180" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="121" Count="1" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="116" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetGeneralTestResults">
+      <LineId Id="10" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetTestSuiteResults">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

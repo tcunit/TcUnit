@@ -20,7 +20,7 @@ VAR
        with the same name twice in the same cycle *)
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
-    NumberOfTests : UINT := 0;
+    NumberOfTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) := 0;
     Tests : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF FB_Test;
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
        position is a duplicate *)
@@ -147,13 +147,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_LREAL" Id="{964c2fec-9de7-47ae-bee4-23c559ae4a3f}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArray2dEquals_LREAL
+      <Declaration><![CDATA[(*
+    Asserts that two LREAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArray2dEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*] OF LREAL; // LREAL 2d array with expected values
     Actuals : ARRAY[*,*] OF LREAL; // LREAL 2d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -299,13 +302,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_REAL" Id="{dc3b5666-7b5a-49ae-9837-cbb9bedd911a}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArray2dEquals_REAL
+      <Declaration><![CDATA[(*
+    Asserts that two REAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArray2dEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*] OF REAL; // REAL 2d array with expected values
     Actuals : ARRAY[*,*] OF REAL; // REAL 2d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -451,13 +457,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray3dEquals_LREAL" Id="{251da4d5-4df8-4eed-b154-a479323eb0d5}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArray3dEquals_LREAL
+      <Declaration><![CDATA[(*
+    Asserts that two LREAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArray3dEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*,*] OF LREAL; // LREAL 3d array with expected values
     Actuals : ARRAY[*,*,*] OF LREAL; // LREAL 3d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : LREAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -630,13 +639,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray3dEquals_REAL" Id="{0dc8fccf-4b9a-4206-8d9f-212f576edb04}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArray3dEquals_REAL
+      <Declaration><![CDATA[(*
+    Asserts that two REAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArray3dEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*,*] OF REAL; // REAL 3d array with expected values
     Actuals : ARRAY[*,*,*] OF REAL; // REAL 3d array with actual values
 END_VAR
 VAR_INPUT
-    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -1378,13 +1390,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_LREAL" Id="{fbc23ff0-cdf6-43f2-82cd-e6f3a7903664}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArrayEquals_LREAL
+      <Declaration><![CDATA[(*
+    Asserts that two LREAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArrayEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LREAL; // LREAL array with expected values
     Actuals : ARRAY[*] OF LREAL; // LREAL array with actual values
 END_VAR
 VAR_INPUT
-    Delta : LREAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -1568,13 +1583,16 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_REAL" Id="{c42ec40e-0859-4258-a3b2-11b258dab324}">
-      <Declaration><![CDATA[METHOD PUBLIC AssertArrayEquals_REAL
+      <Declaration><![CDATA[(*
+    Asserts that two REAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertArrayEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF REAL; // REAL array with expected values
     Actuals : ARRAY[*] OF REAL; // REAL array with actual values
 END_VAR
 VAR_INPUT
-    Delta : REAL;  // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the Expected value in that array cell
+    Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
@@ -3478,7 +3496,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
-      <Declaration><![CDATA[METHOD PUBLIC SetTestFailed
+      <Declaration><![CDATA[METHOD PRIVATE SetTestFailed
 VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
