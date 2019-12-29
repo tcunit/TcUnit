@@ -54,6 +54,7 @@ VAR
     TestWithThisNameAlreadyExists : BOOL := FALSE;
     LowerCasedTestName : Tc2_System.T_MaxString;
     TrimmedTestName : Tc2_System.T_MaxString;
+    IgnoreCurrentTestCase : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.IgnoreCurrentTest := FALSE; // Reset the ignore current test flag
@@ -62,10 +63,10 @@ TrimmedTestName := Tc2_Utilities.F_LTrim(in := TestName);
 TrimmedTestName := Tc2_Utilities.F_RTrim(in := TrimmedTestName);
 LowerCasedTestName := Tc2_Utilities.F_ToLCase(in := TrimmedTestName);
 
-(* Check if this test should be disabled *)
+(* If test should be disabled, make sure to remove the "disabled_"-part of it from the test name *)
 IF Tc2_Utilities.FIND(STR1 := LowerCasedTestName, STR2 := 'disabled_') = 1 THEN
-    GVL_TcUnit.IgnoreCurrentTest := TRUE;
-    RETURN;
+    IgnoreCurrentTestCase := TRUE;
+    TrimmedTestName := Tc2_Utilities.DELETE(STR := TrimmedTestName, LEN := Tc2_Standard.LEN(STR := 'disabled_'), POS := 1);
 END_IF
 
 GetCurrentTaskIndex(); // Gets the task index of where this function block instance is being run in
@@ -105,6 +106,15 @@ IF NOT TestWithThisNameAlreadyExists THEN
     Tests[IteratorCounter].SetName(Name := TrimmedTestName);
     NumberOfTests := NumberOfTests + 1;
     TestCycleCountIndex[NumberOfTests] := CycleCount;
+    IF IgnoreCurrentTestCase THEN
+        Tests[IteratorCounter].SetSkipped();
+	END_IF
+END_IF
+
+(* Check if this test should be disabled *)
+IF IgnoreCurrentTestCase THEN
+    GVL_TcUnit.IgnoreCurrentTest := TRUE;
+    RETURN;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -133,8 +143,9 @@ END_VAR]]></Declaration>
 
 IF NumberOfTests > 0 THEN
     AreAllTestsFinished := TRUE;
+    (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
     FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
-        AreAllTestsFinished := AreAllTestsFinished AND Tests[Counter].IsFinished();
+        AreAllTestsFinished := AreAllTestsFinished AND (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped());
     END_FOR
 END_IF
 
@@ -247,7 +258,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -402,7 +414,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_REAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -568,7 +581,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array3D_LREAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -753,7 +767,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array3D_REAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -887,7 +902,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_BOOL,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -980,7 +996,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_BYTE,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1079,7 +1096,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_DINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1172,7 +1190,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_DWORD,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1271,7 +1290,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_INT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1362,7 +1382,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1454,7 +1475,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LREAL,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1547,7 +1569,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LWORD,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1647,7 +1670,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_REAL,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1738,7 +1762,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_SINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1829,7 +1854,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_UDINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1920,7 +1946,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_UINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2011,7 +2038,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_ULINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2102,7 +2130,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_USINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2195,7 +2224,8 @@ IF NOT Equals THEN
 END_IF
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_WORD,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2520,7 +2550,8 @@ IF (AnyComparator.DataTypesNotEquals OR AnyComparator.DataSizeNotEquals OR AnyCo
 END_IF
 
 IF NOT AlreadyReported AND (AnyComparator.DataTypesNotEquals OR AnyComparator.DataSizeNotEquals OR AnyComparator.DataContentNotEquals) THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_ANY,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
                                             Actual := ActualDataString,
@@ -2559,7 +2590,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_BOOL,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := BOOL_TO_STRING(Expected),
                                             Actual := BOOL_TO_STRING(Actual),
@@ -2598,7 +2630,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_BYTE,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
                                                        STR1 := '0x',
@@ -2645,7 +2678,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_DATE,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := DATE_TO_STRING(Expected),
                                             Actual := DATE_TO_STRING(Actual),
@@ -2684,7 +2718,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_DATE_AND_TIME,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := DT_TO_STRING(Expected),
                                             Actual := DT_TO_STRING(Actual),
@@ -2723,7 +2758,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_DINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := DINT_TO_STRING(Expected),
                                             Actual := DINT_TO_STRING(Actual),
@@ -2762,7 +2798,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_DWORD,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
                                                             STR1 := '0x',
@@ -2809,7 +2846,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_INT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := INT_TO_STRING(Expected),
                                             Actual := INT_TO_STRING(Actual),
@@ -2848,7 +2886,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_LINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := LINT_TO_STRING(Expected),
                                             Actual := LINT_TO_STRING(Actual),
@@ -2888,7 +2927,8 @@ IF ABS(Expected - Actual) > Delta THEN
 END_IF
 
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_LREAL,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
                                             Actual := LREAL_TO_STRING(Actual),
@@ -2927,7 +2967,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_LTIME,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := LTIME_TO_STRING(Expected),
                                             Actual := LTIME_TO_STRING(Actual),
@@ -2966,7 +3007,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_LWORD,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
                                                             STR1 := '0x',
@@ -3014,7 +3056,8 @@ IF ABS(Expected - Actual) > Delta THEN
 END_IF
 
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_REAL,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
                                             Actual := REAL_TO_STRING(Actual),
@@ -3053,7 +3096,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_SINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := SINT_TO_STRING(Expected),
                                             Actual := SINT_TO_STRING(Actual),
@@ -3092,7 +3136,8 @@ IF (Tc2_Standard.LEN(STR := Expected) <> Tc2_Standard.LEN(STR := Actual) OR (Exp
 END_IF
 
 IF NOT AlreadyReported AND (Tc2_Standard.LEN(STR := Expected) <> Tc2_Standard.LEN(STR := Actual) OR (Expected <> Actual)) THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_STRING,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Expected,
                                             Actual := Actual,
@@ -3131,7 +3176,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_TIME,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := TIME_TO_STRING(Expected),
                                             Actual := TIME_TO_STRING(Actual),
@@ -3170,7 +3216,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_TIME_OF_DAY,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := TOD_TO_STRING(Expected),
                                             Actual := TOD_TO_STRING(Actual),
@@ -3209,7 +3256,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_UDINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := UDINT_TO_STRING(Expected),
                                             Actual := UDINT_TO_STRING(Actual),
@@ -3248,7 +3296,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_UINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := UINT_TO_STRING(Expected),
                                             Actual := UINT_TO_STRING(Actual),
@@ -3287,7 +3336,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_ULINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := ULINT_TO_STRING(Expected),
                                             Actual := ULINT_TO_STRING(Actual),
@@ -3326,7 +3376,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_USINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := USINT_TO_STRING(Expected),
                                             Actual := USINT_TO_STRING(Actual),
@@ -3365,7 +3416,8 @@ IF Expected <> Actual THEN
 END_IF
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed();
+    SetTestFailed(AssertionType := E_AssertionType.Type_UINT,
+                  AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
                                                             STR1 := '0x',
@@ -3452,10 +3504,28 @@ END_IF
 GetNumberOfFailedTests := FailedTestsCount;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetNumberOfSkippedTests" Id="{51a75168-98fa-4d92-8093-efb431316cf0}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSkippedTests : UINT
+VAR
+    Counter : UINT;
+    SkippedTestsCount : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NumberOfTests > 0 THEN
+    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
+        IF Tests[Counter].IsSkipped() THEN
+            SkippedTestsCount := SkippedTestsCount + 1;
+        END_IF
+    END_FOR
+END_IF
+
+GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetNumberOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
       <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSuccessfulTests : UINT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetNumberOfSuccessfulTests := GetNumberOfTests() - GetNumberOfFailedTests();]]></ST>
+        <ST><![CDATA[GetNumberOfSuccessfulTests := GetNumberOfTests() - GetNumberOfFailedTests() - GetNumberOfSkippedTests();]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
@@ -3497,6 +3567,10 @@ END_IF]]></ST>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
       <Declaration><![CDATA[METHOD PRIVATE SetTestFailed
+VAR_INPUT
+    AssertionType : E_AssertionType;
+    AssertionMessage : Tc2_System.T_MaxString;
+END_VAR
 VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
@@ -3505,6 +3579,8 @@ END_VAR]]></Declaration>
     FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
         IF Tests[IteratorCounter].GetName() = GVL_TcUnit.CurrentTestNameBeingCalled THEN
             Tests[IteratorCounter].SetFailed();
+            Tests[IteratorCounter].SetAssertionType(AssertType := AssertionType);
+            Tests[IteratorCounter].SetAssertionMessage(AssertMessage := AssertionMessage);
         END_IF
     END_FOR
 END_IF]]></ST>
@@ -3545,9 +3621,9 @@ END_IF]]></ST>
       <LineId Id="207" Count="0" />
       <LineId Id="217" Count="0" />
       <LineId Id="206" Count="0" />
-      <LineId Id="167" Count="1" />
-      <LineId Id="170" Count="0" />
-      <LineId Id="169" Count="0" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="268" Count="0" />
+      <LineId Id="168" Count="1" />
       <LineId Id="158" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="110" Count="0" />
@@ -3585,7 +3661,10 @@ END_IF]]></ST>
       <LineId Id="91" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="203" Count="0" />
+      <LineId Id="269" Count="2" />
       <LineId Id="144" Count="0" />
+      <LineId Id="262" Count="4" />
+      <LineId Id="261" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AddTestNameToInstancePath">
       <LineId Id="5" Count="0" />
@@ -3596,6 +3675,7 @@ END_IF]]></ST>
       <LineId Id="16" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="28" Count="0" />
+      <LineId Id="52" Count="0" />
       <LineId Id="6" Count="1" />
       <LineId Id="10" Count="0" />
       <LineId Id="4" Count="0" />
@@ -3609,7 +3689,9 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_LREAL">
       <LineId Id="1208" Count="47" />
       <LineId Id="1353" Count="0" />
-      <LineId Id="1257" Count="21" />
+      <LineId Id="1257" Count="18" />
+      <LineId Id="1494" Count="0" />
+      <LineId Id="1276" Count="2" />
       <LineId Id="1420" Count="0" />
       <LineId Id="1422" Count="10" />
       <LineId Id="1421" Count="0" />
@@ -3627,7 +3709,9 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray2dEquals_REAL">
-      <LineId Id="1208" Count="70" />
+      <LineId Id="1208" Count="67" />
+      <LineId Id="1486" Count="0" />
+      <LineId Id="1276" Count="2" />
       <LineId Id="1389" Count="11" />
       <LineId Id="1388" Count="0" />
       <LineId Id="1299" Count="0" />
@@ -3645,7 +3729,10 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_LREAL">
-      <LineId Id="1138" Count="81" />
+      <LineId Id="1138" Count="77" />
+      <LineId Id="1424" Count="0" />
+      <LineId Id="1423" Count="0" />
+      <LineId Id="1217" Count="2" />
       <LineId Id="1338" Count="17" />
       <LineId Id="1337" Count="0" />
       <LineId Id="1246" Count="0" />
@@ -3664,7 +3751,9 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArray3dEquals_REAL">
-      <LineId Id="1167" Count="81" />
+      <LineId Id="1167" Count="77" />
+      <LineId Id="1486" Count="0" />
+      <LineId Id="1245" Count="3" />
       <LineId Id="1402" Count="17" />
       <LineId Id="1401" Count="0" />
       <LineId Id="1275" Count="0" />
@@ -3690,7 +3779,9 @@ END_IF]]></ST>
       <LineId Id="277" Count="0" />
       <LineId Id="275" Count="1" />
       <LineId Id="302" Count="0" />
-      <LineId Id="109" Count="5" />
+      <LineId Id="109" Count="1" />
+      <LineId Id="326" Count="0" />
+      <LineId Id="111" Count="3" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3708,7 +3799,10 @@ END_IF]]></ST>
       <LineId Id="293" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="327" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="354" Count="0" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3732,7 +3826,10 @@ END_IF]]></ST>
       <LineId Id="103" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="314" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3765,7 +3862,9 @@ END_IF]]></ST>
       <LineId Id="289" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="321" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="347" Count="0" />
+      <LineId Id="111" Count="3" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3789,7 +3888,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="111" Count="3" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3808,7 +3909,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3817,7 +3920,9 @@ END_IF]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArrayEquals_LREAL">
-      <LineId Id="40" Count="61" />
+      <LineId Id="40" Count="38" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="79" Count="22" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArrayEquals_LWORD">
@@ -3845,7 +3950,9 @@ END_IF]]></ST>
       <LineId Id="289" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="322" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3859,7 +3966,9 @@ END_IF]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArrayEquals_REAL">
-      <LineId Id="40" Count="61" />
+      <LineId Id="40" Count="37" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="79" Count="22" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestSuite.AssertArrayEquals_SINT">
@@ -3873,7 +3982,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3892,7 +4003,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3911,7 +4024,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3930,7 +4045,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3949,7 +4066,9 @@ END_IF]]></ST>
       <LineId Id="283" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="313" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -3982,7 +4101,9 @@ END_IF]]></ST>
       <LineId Id="289" Count="5" />
       <LineId Id="108" Count="1" />
       <LineId Id="321" Count="0" />
-      <LineId Id="110" Count="4" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="348" Count="0" />
+      <LineId Id="112" Count="2" />
       <LineId Id="149" Count="0" />
       <LineId Id="152" Count="0" />
       <LineId Id="154" Count="1" />
@@ -4104,7 +4225,9 @@ END_IF]]></ST>
       <LineId Id="94" Count="0" />
       <LineId Id="459" Count="0" />
       <LineId Id="95" Count="0" />
-      <LineId Id="132" Count="1" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="133" Count="0" />
       <LineId Id="96" Count="2" />
       <LineId Id="93" Count="0" />
       <LineId Id="99" Count="0" />
@@ -4121,7 +4244,9 @@ END_IF]]></ST>
       <LineId Id="101" Count="0" />
       <LineId Id="60" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="70" Count="1" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="71" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="2" />
       <LineId Id="10" Count="0" />
@@ -4138,6 +4263,7 @@ END_IF]]></ST>
       <LineId Id="97" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="110" Count="0" />
       <LineId Id="66" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
@@ -4163,6 +4289,7 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="62" Count="0" />
+      <LineId Id="126" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
@@ -4179,6 +4306,7 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="62" Count="0" />
+      <LineId Id="126" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
@@ -4194,7 +4322,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4212,7 +4342,9 @@ END_IF]]></ST>
       <LineId Id="38" Count="0" />
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="62" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -4237,7 +4369,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4255,7 +4389,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4274,7 +4410,9 @@ END_IF]]></ST>
       <LineId Id="35" Count="0" />
       <LineId Id="94" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="61" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="62" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4293,6 +4431,7 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="62" Count="0" />
+      <LineId Id="126" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
@@ -4308,7 +4447,9 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="38" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="62" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -4333,7 +4474,9 @@ END_IF]]></ST>
       <LineId Id="35" Count="0" />
       <LineId Id="98" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="65" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="66" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4351,7 +4494,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4369,7 +4514,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4388,6 +4535,7 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="62" Count="0" />
+      <LineId Id="126" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
@@ -4404,6 +4552,7 @@ END_IF]]></ST>
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
       <LineId Id="62" Count="0" />
+      <LineId Id="126" Count="0" />
       <LineId Id="106" Count="0" />
       <LineId Id="110" Count="3" />
       <LineId Id="10" Count="0" />
@@ -4419,7 +4568,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4437,7 +4588,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4455,7 +4608,9 @@ END_IF]]></ST>
       <LineId Id="33" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="57" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="58" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4474,7 +4629,9 @@ END_IF]]></ST>
       <LineId Id="77" Count="0" />
       <LineId Id="107" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="62" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
@@ -4492,7 +4649,9 @@ END_IF]]></ST>
       <LineId Id="38" Count="0" />
       <LineId Id="93" Count="0" />
       <LineId Id="5" Count="0" />
-      <LineId Id="62" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
@@ -4527,6 +4686,12 @@ END_IF]]></ST>
       <LineId Id="13" Count="4" />
       <LineId Id="6" Count="0" />
     </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfSkippedTests">
+      <LineId Id="10" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="13" Count="4" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
     <LineIds Name="FB_TestSuite.GetNumberOfSuccessfulTests">
       <LineId Id="18" Count="0" />
     </LineIds>
@@ -4546,7 +4711,9 @@ END_IF]]></ST>
     <LineIds Name="FB_TestSuite.SetTestFailed">
       <LineId Id="5" Count="0" />
       <LineId Id="10" Count="0" />
-      <LineId Id="22" Count="2" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="24" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="11" Count="0" />
     </LineIds>

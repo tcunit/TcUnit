@@ -5,7 +5,7 @@
     <Method Name="LogTestSuiteResults" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR_INPUT
-    TestResults : REFERENCE TO ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
+    TestResults : REFERENCE TO ST_TestSuiteResults;
 END_VAR]]></Declaration>
     </Method>
   </Itf>

@@ -19,7 +19,7 @@ VAR_INPUT
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 VAR
-    AdjustAssertFailureMessageToMax252CharLength : FB_AdjustAssertFailureMessageToMax252CharLength;
+    AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
     TestInstancePathCleaned : Tc2_System.T_MaxString;
     TestInstancePathFinal : Tc2_System.T_MaxString;
     ReturnValue : DINT;
@@ -40,10 +40,10 @@ IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
     TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
 END_IF
 IF Tc2_Standard.LEN(STR := Message) > 0 THEN
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s ');
+    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s');
 END_IF
 
-AdjustAssertFailureMessageToMax252CharLength(MsgFmtString := TestInstancePathFinal,
+AdjustAssertFailureMessageToMax253CharLength(MsgFmtString := TestInstancePathFinal,
                                              StringArg := Message,
                                              MsgFmtStringProcessed => TestInstancePathProcessed,
                                              StringArgProcessed => MessageProcessed);

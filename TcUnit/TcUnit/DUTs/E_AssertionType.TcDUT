@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_AssertionType" Id="{7c2f41c4-7e4b-4ece-8119-0ec021549d2f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_AssertionType :
+(
+    Type_UNDEFINED := 0,
+    Type_ANY,
+
+    (* Primitive types *)
+    Type_BOOL,
+    Type_BYTE,
+    Type_DATE,
+    Type_DATE_AND_TIME,
+    Type_DINT,
+    Type_DWORD,
+    Type_INT,
+    Type_LINT,
+    Type_LREAL,
+    Type_LTIME,
+    Type_LWORD,
+    Type_REAL,
+    Type_SINT,
+    Type_STRING,
+    Type_TIME,
+    Type_TIME_OF_DAY,
+    Type_UDINT,
+    Type_UINT,
+    Type_ULINT,
+    Type_USINT,
+    Type_WORD,
+    
+    (* Array types *)
+    Type_Array2D_LREAL,
+    Type_Array2D_REAL,
+    Type_Array3D_LREAL,
+    Type_Array3D_REAL,
+    Type_Array_BOOL,
+    Type_Array_BYTE,
+    Type_Array_DINT,
+    Type_Array_DWORD,
+    Type_Array_INT,
+    Type_Array_LINT,
+    Type_Array_LREAL,
+    Type_Array_LWORD,
+    Type_Array_REAL,
+    Type_Array_SINT,
+    Type_Array_UDINT,
+    Type_Array_UINT,
+    Type_Array_ULINT,
+    Type_Array_USINT,
+    Type_Array_WORD
+) BYTE;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

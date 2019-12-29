@@ -47,6 +47,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Folder Include="Version" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DUTs\E_AssertionType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\E_XmlError.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -69,6 +72,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_TestSuiteResult.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ST_TestSuiteResults.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\U_ExpectedOrActual.TcDUT">
@@ -112,7 +118,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_FileControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_AdjustAssertFailureMessageToMax252CharLength.TcPOU">
+    <Compile Include="POUs\FB_AdjustAssertFailureMessageToMax253CharLength.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_AnyComparator.TcPOU">
@@ -137,6 +143,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_AnyTypeClassToString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\F_AssertionTypeToString.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\F_GetTestSuiteNameFromTestInstancePath.TcPOU">

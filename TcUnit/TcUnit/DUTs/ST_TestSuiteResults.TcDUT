@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_TestSuiteResults" Id="{9853f266-188f-4741-a381-36145196003d}">
+    <Declaration><![CDATA[TYPE ST_TestSuiteResults :
+STRUCT
+    (* General test results *)
+    NumberOfTestSuites : UINT; // The total number of test suites
+    NumberOfTestCases : UINT; // The total number of test cases (for all test suites)
+    NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
+    NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
+    
+    (* Test results for each individiual test suite *)
+    TestSuiteResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

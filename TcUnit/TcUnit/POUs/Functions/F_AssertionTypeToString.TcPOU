@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="F_AssertionTypeToString" Id="{c8e255c3-8600-4263-8b93-3e1de89d493a}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Since TwinCAT 3.1.4024.x it's possible to do TO_STRING on enumerations,
+   but for backward compability we need to do it manually *)
+FUNCTION F_AssertionTypeToString : Tc2_System.T_MaxString
+VAR_INPUT
+    AssertionType : E_AssertionType;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE AssertionType OF
+    E_AssertionType.Type_UNDEFINED :
+        F_AssertionTypeToString := 'UNDEFINED';
+    E_AssertionType.Type_ANY :
+        F_AssertionTypeToString := 'ANY';
+    
+    (* Primitive types *)
+    E_AssertionType.Type_BOOL :
+        F_AssertionTypeToString := 'BOOL';
+    E_AssertionType.Type_BYTE :
+        F_AssertionTypeToString := 'BYTE';
+    E_AssertionType.Type_DATE :
+        F_AssertionTypeToString := 'DATE';
+    E_AssertionType.Type_DATE_AND_TIME :
+        F_AssertionTypeToString := 'DATE_AND_TIME';
+    E_AssertionType.Type_DINT :
+        F_AssertionTypeToString := 'DINT';
+    E_AssertionType.Type_DWORD :
+        F_AssertionTypeToString := 'DWORD';
+    E_AssertionType.Type_INT :
+        F_AssertionTypeToString := 'INT';
+    E_AssertionType.Type_LINT :
+        F_AssertionTypeToString := 'LINT';
+    E_AssertionType.Type_LREAL :
+        F_AssertionTypeToString := 'LREAL';
+    E_AssertionType.Type_LTIME :
+        F_AssertionTypeToString := 'LTIME';
+    E_AssertionType.Type_LWORD :
+        F_AssertionTypeToString := 'LWORD';
+    E_AssertionType.Type_REAL :
+        F_AssertionTypeToString := 'REAL';
+    E_AssertionType.Type_SINT :
+        F_AssertionTypeToString := 'SINT';
+    E_AssertionType.Type_STRING :
+        F_AssertionTypeToString := 'STRING';
+    E_AssertionType.Type_TIME :
+        F_AssertionTypeToString := 'TIME';
+    E_AssertionType.Type_TIME_OF_DAY :
+        F_AssertionTypeToString := 'TIME_OF_DAY';
+    E_AssertionType.Type_UDINT :
+        F_AssertionTypeToString := 'UDINT';
+    E_AssertionType.Type_UINT :
+        F_AssertionTypeToString := 'UINT';
+    E_AssertionType.Type_ULINT :
+        F_AssertionTypeToString := 'ULINT';
+    E_AssertionType.Type_USINT :
+        F_AssertionTypeToString := 'USINT';
+    E_AssertionType.Type_WORD :
+        F_AssertionTypeToString := 'WORD';
+
+    (* Array types *)
+    E_AssertionType.Type_Array2D_LREAL :
+        F_AssertionTypeToString := 'Array2D_LREAL';
+    E_AssertionType.Type_Array2D_REAL :
+        F_AssertionTypeToString := 'Array2D_REAL';
+    E_AssertionType.Type_Array3D_LREAL :
+        F_AssertionTypeToString := 'Array3D_LREAL';
+    E_AssertionType.Type_Array3D_REAL :
+        F_AssertionTypeToString := 'Array3D_REAL';
+    E_AssertionType.Type_Array_BOOL :
+        F_AssertionTypeToString := 'Array_BOOL';
+    E_AssertionType.Type_Array_BYTE :
+        F_AssertionTypeToString := 'Array_BYTE';
+    E_AssertionType.Type_Array_DINT :
+        F_AssertionTypeToString := 'Array_DINT';
+    E_AssertionType.Type_Array_DWORD :
+        F_AssertionTypeToString := 'Array_DWORD';
+    E_AssertionType.Type_Array_INT :
+        F_AssertionTypeToString := 'Array_INT';
+    E_AssertionType.Type_Array_LINT :
+        F_AssertionTypeToString := 'Array_LINT';
+    E_AssertionType.Type_Array_LREAL :
+        F_AssertionTypeToString := 'Array_LREAL';
+    E_AssertionType.Type_Array_LWORD :
+        F_AssertionTypeToString := 'Array_LWORD';
+    E_AssertionType.Type_Array_REAL :
+        F_AssertionTypeToString := 'Array_REAL';
+    E_AssertionType.Type_Array_SINT :
+        F_AssertionTypeToString := 'Array_SINT';
+    E_AssertionType.Type_Array_UDINT :
+        F_AssertionTypeToString := 'Array_UDINT';
+    E_AssertionType.Type_Array_UINT :
+        F_AssertionTypeToString := 'Array_UINT';
+    E_AssertionType.Type_Array_ULINT :
+        F_AssertionTypeToString := 'Array_ULINT';
+    E_AssertionType.Type_Array_USINT :
+        F_AssertionTypeToString := 'Array_USINT';
+    E_AssertionType.Type_Array_WORD :
+        F_AssertionTypeToString := 'Array_WORD';
+    
+    ELSE
+        F_AssertionTypeToString := 'UNDEFINED';
+    
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="F_AssertionTypeToString">
+      <LineId Id="7" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="104" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

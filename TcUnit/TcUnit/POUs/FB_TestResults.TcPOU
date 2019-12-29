@@ -4,14 +4,8 @@
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults
 VAR
-    (* General test results *)
-    NumberOfTestSuites : UINT; // The total number of test suites
-    NumberOfTestCases : UINT; // The total number of test cases (for all test suites)
-    NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
-    NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
-    
-    (* Test results for each individiual test suite *)
-    TestSuiteResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
+    (* Test results*)
+    TestSuiteResults : ST_TestSuiteResults;
     
     (* Misc variables *)
     StoringTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
@@ -37,23 +31,34 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
         TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
 
         (* Store test suite name and ID *)
-        TestSuiteResults[StoringTestSuiteResultNumber].Name := TestSuiteName;
-        TestSuiteResults[StoringTestSuiteResultNumber].Identity := StoringTestSuiteResultNumber - 1;
+        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Name := TestSuiteName;
+        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Identity := StoringTestSuiteResultNumber - 1;
 
         (* Store number of tests in test suite *)
-        TestSuiteResults[StoringTestSuiteResultNumber].NumberOfTests := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
+        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].NumberOfTests :=
+            GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
 
         (* Store number of failed tests in test suite *)
-        TestSuiteResults[StoringTestSuiteResultNumber].NumberOfFailedTests := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
+        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].NumberOfFailedTests :=
+            GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
 
         (* Iterate and print all tests in test suite *)
         FOR TestsInTestSuiteCounter := 1 TO GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests() BY 1 DO
             TestToBeStored := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestByPosition(TestsInTestSuiteCounter);
             (* Store test name *)
-            TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName := TestToBeStored.GetName();
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName := TestToBeStored.GetName();
 
             (* Store test class name *)
-            TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName :=
+                F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+
+            (* Store the (first failed) assertion message *)
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage :=
+                TestToBeStored.GetAssertionMessage();
+           
+            (* Store the (first failed) assertion type *)
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType :=
+                TestToBeStored.GetAssertionType();
 		END_FOR
 
         IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN
@@ -66,33 +71,23 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
 END_IF
 
 (* If all test suites have finished running, store the general test results *)
-IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND NOT StoredGeneralTestResults THEN
-    NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
+IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
+   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND NOT
+   StoredGeneralTestResults THEN
+   
+    TestSuiteResults.NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
     FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
-        NumberOfTestCases := NumberOfTestCases + TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;
-        NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases + (TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests - TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests);
-        NumberOfFailedTestCases := NumberOfFailedTestCases + TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests;
+        TestSuiteResults.NumberOfTestCases := TestSuiteResults.NumberOfTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;
+        TestSuiteResults.NumberOfSuccessfulTestCases := TestSuiteResults.NumberOfSuccessfulTestCases +
+                                                        (TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests -
+                                                         TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests);
+        TestSuiteResults.NumberOfFailedTestCases := TestSuiteResults.NumberOfFailedTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests;
 	END_FOR
     StoredGeneralTestResults := TRUE;
 END_IF]]></ST>
     </Implementation>
-    <Method Name="GetGeneralTestResults" Id="{531d5d08-5de3-4c4f-9365-451e69239140}">
-      <Declaration><![CDATA[METHOD PUBLIC GetGeneralTestResults
-VAR_OUTPUT
-    NoOfTestSuites : UINT;
-    NoOfTestCases : UINT;
-    NoOfSuccessfulTestCases : UINT;
-    NoOfFailedTestCases : UINT; 
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[NoOfTestSuites := NumberOfTestSuites; 
-NoOfTestCases := NumberOfTestCases;
-NoOfSuccessfulTestCases := NumberOfSuccessfulTestCases;
-NoOfFailedTestCases := NumberOfFailedTestCases;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="GetTestSuiteResults" Id="{3d7cfdb1-16a3-456d-be0a-82cecf4820a8}">
-      <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults;]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
       </Implementation>
@@ -105,12 +100,20 @@ NoOfFailedTestCases := NumberOfFailedTestCases;]]></ST>
       <LineId Id="88" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="40" Count="0" />
-      <LineId Id="100" Count="3" />
+      <LineId Id="100" Count="1" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="102" Count="1" />
       <LineId Id="99" Count="0" />
+      <LineId Id="211" Count="0" />
       <LineId Id="61" Count="4" />
       <LineId Id="105" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="107" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="240" Count="0" />
+      <LineId Id="239" Count="0" />
+      <LineId Id="241" Count="2" />
+      <LineId Id="245" Count="2" />
       <LineId Id="74" Count="0" />
       <LineId Id="150" Count="0" />
       <LineId Id="178" Count="0" />
@@ -122,17 +125,16 @@ NoOfFailedTestCases := NumberOfFailedTestCases;]]></ST>
       <LineId Id="113" Count="0" />
       <LineId Id="112" Count="0" />
       <LineId Id="114" Count="0" />
+      <LineId Id="213" Count="2" />
       <LineId Id="120" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="118" Count="0" />
-      <LineId Id="121" Count="1" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="216" Count="1" />
+      <LineId Id="122" Count="0" />
       <LineId Id="119" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="116" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TestResults.GetGeneralTestResults">
-      <LineId Id="10" Count="2" />
-      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestResults.GetTestSuiteResults">
       <LineId Id="5" Count="0" />

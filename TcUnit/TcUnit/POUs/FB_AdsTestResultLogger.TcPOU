@@ -23,17 +23,11 @@ END_VAR]]></Declaration>
     <Method Name="LogTestSuiteResults" Id="{3263938a-5e4f-4e5f-bfa0-9c9469439d97}">
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR_INPUT
-    TestResults : REFERENCE TO ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
+    TestResults : REFERENCE TO ST_TestSuiteResults;
 END_VAR
 VAR
     StringToPrint : Tc2_System.T_MaxString; 
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-    
-    NumberOfTestSuites : UINT;
-    NumberOfTestCases : UINT;
-    NumberOfSuccessfulTestCases : UINT;
-    NumberOfFailedTestCases : UINT;
-    GeneralTestResultsTestSuitesCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedTestSuitesResults THEN
@@ -41,47 +35,56 @@ END_VAR]]></Declaration>
     PrintingTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.AreAllTestsFinished());
     IF PrintingTestSuiteTrigger.Q THEN
         StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test suite $'%s$' with ID=',
-                                             STR2 := UINT_TO_STRING(TestResults[PrintingTestSuiteResultNumber].Identity));
+                                             STR2 := UINT_TO_STRING(TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Identity));
         StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
                                              STR2 := ' finished running');
 
         (* Print test suite name and ID *)
         GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                             MsgFmtStr := StringToPrint,
-                                            StrArg := TestResults[PrintingTestSuiteResultNumber].Name);
+                                            StrArg := TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name);
 
-        (* Print number of tests in test suite *)
+        (* Print number of tests/number of failed tests in test suite *)
         StringToPrint := Tc2_Standard.CONCAT(STR1 := '| ID=',
-                                             STR2 := UINT_TO_STRING(TestResults[PrintingTestSuiteResultNumber].Identity));
+                                             STR2 := UINT_TO_STRING(TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Identity));
         StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
                                              STR2 := ' number of tests=');
         StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
-                                             STR2 := UINT_TO_STRING(TestResults[PrintingTestSuiteResultNumber].NumberOfTests));
-        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
-                                            MsgFmtStr := StringToPrint,
-                                            StrArg := '');
+                                             STR2 := UINT_TO_STRING(TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests));
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := ', number of failed tests=');
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := UINT_TO_STRING(TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfFailedTests));
 
-        (* Print number of failed tests in test suite *)
-        StringToPrint := Tc2_Standard.CONCAT(STR1 := '| ID=',
-                                             STR2 := UINT_TO_STRING(TestResults[PrintingTestSuiteResultNumber].Identity));
-        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
-                                             STR2 := ' number of failed tests=');
-        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
-                                             STR2 := UINT_TO_STRING(TestResults[PrintingTestSuiteResultNumber].NumberOfFailedTests));
         GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                             MsgFmtStr := StringToPrint,
                                             StrArg := '');
 
         (* Iterate and print all tests in test suite *)
-        FOR TestsInTestSuiteCounter := 1 TO TestResults[PrintingTestSuiteResultNumber].NumberOfTests BY 1 DO
+        FOR TestsInTestSuiteCounter := 1 TO TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests BY 1 DO
             (* Print test name *)
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test name=%s',
-                                                StrArg := TestResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName);
+                                                StrArg := TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName);
             (* Print test class name *)
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test class name=%s',
-                                                StrArg := TestResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
+                                                StrArg := TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
+            
+            (* Print assertion/failure message (if existing) *)
+            IF (Tc2_Standard.LEN(STR := TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage) > 0) THEN
+                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                                    MsgFmtStr := '| Test assert message=%s',
+                                                    StrArg := TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage);
+            END_IF
+
+            (* Print assertion/failure type (if existing) *)
+            IF TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType <> E_AssertionType.Type_UNDEFINED THEN
+                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                                    MsgFmtStr := '| Test assert type=%s',
+                                                    StrArg := F_AssertionTypeToString(AssertionType :=
+                                                        TestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType));
+            END_IF
             
 		END_FOR
         
@@ -96,28 +99,21 @@ END_IF
 
 (* Log end results once all test suites have finished running *)
 IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedFinalTestResults THEN
-    NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
-    FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
-        NumberOfTestCases := NumberOfTestCases + TestResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;
-        NumberOfSuccessfulTestCases := NumberOfSuccessfulTestCases + (TestResults[GeneralTestResultsTestSuitesCounter].NumberOfTests - TestResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests);
-        NumberOfFailedTestCases := NumberOfFailedTestCases + TestResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests;
-	END_FOR
-    
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '%s',
                                         StrArg := '| ==========TESTS FINISHED RUNNING==========');
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '| Test suites: %s',
-                                        StrArg := UINT_TO_STRING(NumberOfTestSuites));
+                                        StrArg := UINT_TO_STRING(TestResults.NumberOfTestSuites));
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '| Tests: %s',
-                                        StrArg := UINT_TO_STRING(NumberOfTestCases));
+                                        StrArg := UINT_TO_STRING(TestResults.NumberOfTestCases));
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '| Successful tests: %s',
-                                        StrArg := UINT_TO_STRING(NumberOfSuccessfulTestCases));
+                                        StrArg := UINT_TO_STRING(TestResults.NumberOfSuccessfulTestCases));
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '| Failed tests: %s',
-                                        StrArg := UINT_TO_STRING(NumberOfFailedTestCases));
+                                        StrArg := UINT_TO_STRING(TestResults.NumberOfFailedTestCases));
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '%s',
                                         StrArg := '| ======================================');
@@ -143,18 +139,15 @@ END_IF]]></ST>
       <LineId Id="80" Count="0" />
       <LineId Id="66" Count="1" />
       <LineId Id="85" Count="1" />
-      <LineId Id="68" Count="1" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="208" Count="0" />
       <LineId Id="77" Count="1" />
       <LineId Id="76" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="73" Count="1" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="82" Count="1" />
-      <LineId Id="81" Count="0" />
       <LineId Id="89" Count="0" />
       <LineId Id="88" Count="0" />
       <LineId Id="90" Count="0" />
@@ -163,6 +156,14 @@ END_IF]]></ST>
       <LineId Id="97" Count="0" />
       <LineId Id="113" Count="0" />
       <LineId Id="117" Count="2" />
+      <LineId Id="216" Count="2" />
+      <LineId Id="221" Count="1" />
+      <LineId Id="220" Count="0" />
+      <LineId Id="219" Count="0" />
+      <LineId Id="229" Count="0" />
+      <LineId Id="224" Count="4" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="223" Count="0" />
       <LineId Id="112" Count="0" />
       <LineId Id="100" Count="0" />
       <LineId Id="65" Count="0" />
@@ -176,9 +177,6 @@ END_IF]]></ST>
       <LineId Id="159" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="123" Count="0" />
-      <LineId Id="189" Count="4" />
-      <LineId Id="188" Count="0" />
-      <LineId Id="150" Count="0" />
       <LineId Id="131" Count="16" />
       <LineId Id="127" Count="0" />
       <LineId Id="125" Count="1" />

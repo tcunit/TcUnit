@@ -5,6 +5,8 @@
 STRUCT
     TestName : Tc2_System.T_MaxString;
     TestClassName : Tc2_System.T_MaxString;
+    FailureMessage : Tc2_System.T_MaxString;
+    FailureType : E_AssertionType;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>
