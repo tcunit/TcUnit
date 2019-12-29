@@ -17,7 +17,7 @@ namespace TcUnit.Verifier
         private void Assert_SeveralTimes()
         {
             string testMessage = CreateFailedTestMessage("Assert_SeveralTimes", "0x12345678", "0x90ABCDEF", "Values differ");
-            AssertMessageCount(testMessage, 9);
+            AssertMessageCount(testMessage, 9, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

@@ -19,19 +19,19 @@ namespace TcUnit.Verifier
         private void Assert_SeveralTimes()
         {
             string testMessage = CreateFailedTestMessage("Assert_SeveralTimes", "0x12345678", "0x90ABCDEF", "Values differ");
-            AssertMessageCount(testMessage, 3);
+            AssertMessageCount(testMessage, 3, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void Assert_SeveralTimesAgain()
         {
             string testMessage = CreateFailedTestMessage("Assert_SeveralTimesAgain", "0x12345678", "0x90ABCDEF", "Values differ");
-            AssertMessageCount(testMessage, 3);
+            AssertMessageCount(testMessage, 3, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void Assert_SeveralTimesAgainAgain()
         {
             string testMessage = CreateFailedTestMessage("Assert_SeveralTimesAgainAgain", "0x12345678", "0x90ABCDEF", "Values differ");
-            AssertMessageCount(testMessage, 3);
+            AssertMessageCount(testMessage, 3, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EnvDTE80;
+using log4net;
+using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +13,7 @@ namespace TcUnit.Verifier
     {
         private IEnumerable<ErrorList.Error> _errors;
         protected string _testFunctionBlockInstance;
+        private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
 
         private string DefaultFunctionBlockInstance
         {
@@ -36,22 +40,22 @@ namespace TcUnit.Verifier
             return returnString;
         }
 
-        private bool AreErrorItemsContainingTestMessage(string testMessage)
+        private bool AreErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
-            return _errors.Any(e => e.Description.Contains(testMessage.ToUpper()));
+            return _errors.Any(e => (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
         }
 
-        private int CountErrorItemsContainingTestMessage(string testMessage)
+        private int CountErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
-            return _errors.Count(s => s.Description.Contains(testMessage.ToUpper()));
+            return _errors.Count(s => (s.Description.Contains(testMessage.ToUpper())) && s.ErrorLevel.Equals(errorLevel));
         }
 
-        protected void AssertMessageCount(string message, int messageCount)
+        protected void AssertMessageCount(string message, int messageCount, vsBuildErrorLevel errorLevel)
         {
-            int actualCount = CountErrorItemsContainingTestMessage(message);
+            int actualCount = CountErrorItemsContainingTestMessage(message, errorLevel);
             if (actualCount != messageCount)
             {
-                Console.WriteLine("Test suite " + _testFunctionBlockInstance +" reports message " +message + " " + actualCount + " times");
+                log.Info("Test suite " + _testFunctionBlockInstance +" reports message " +message + " " + actualCount + " times");
             }
         }
 
@@ -59,64 +63,70 @@ namespace TcUnit.Verifier
         /// Asserts that at least one of the messages in the array exists the messageCount amount of times. Note that if the messageCount will
         /// increase also if both messages exist.
         /// </summary>
-        protected void AssertAtLeastOneMessageCount(string[] messages, int messageCount)
+        protected void AssertAtLeastOneMessageCount(string[] messages, int messageCount, vsBuildErrorLevel errorLevel)
         {
             int actualCount = 0;
+            string print;
             foreach (string s in messages)
             {
-                int count = CountErrorItemsContainingTestMessage(s);
+                int count = CountErrorItemsContainingTestMessage(s, errorLevel);
                 actualCount = actualCount + count;
             }
 
             if (actualCount != messageCount)
             {
-                Console.Write("Test suite " + _testFunctionBlockInstance + " reports the messages [");
+                print = "Test suite " + _testFunctionBlockInstance + " reports the messages [";
+
                 foreach (string s in messages)
                 {
-                    Console.Write(s + ",");
+                    print = print + s + ",";
                 }
-                Console.Write("] ");
-                Console.Write(actualCount + " times" + Environment.NewLine);
+                print = print + "] ";
+                print = print + actualCount + " times";
+                log.Info(print);
             }
         }
 
-        protected void AssertContainsMessage(string message)
+        protected void AssertContainsMessage(string message, vsBuildErrorLevel errorLevel)
         {
-            if (!AreErrorItemsContainingTestMessage(message))
+            if (!AreErrorItemsContainingTestMessage(message, errorLevel))
             {
-                Console.WriteLine("Test suite " +_testFunctionBlockInstance + " does not report: " + message);
+                log.Info("Test suite " +_testFunctionBlockInstance + " does not report: " + message);
             }
         }
 
         /// <summary>
         /// Asserts that at least one message in the array exists
         /// </summary>
-        protected void AssertContainsAtLeastOneMessage(string[] messages)
+        protected void AssertContainsAtLeastOneMessage(string[] messages, vsBuildErrorLevel errorLevel)
         {
             bool foundMessage = false;
             foreach (string s in messages)
             {
-                if (AreErrorItemsContainingTestMessage(s)) { 
+                if (AreErrorItemsContainingTestMessage(s, errorLevel)) { 
                     foundMessage = true;
                     break;
                 }
             }
             if (!foundMessage)
             {
-                Console.Write("Test suite " + _testFunctionBlockInstance + " does not report any of the messages: [");
+                string print;
+                print = "Test suite " + _testFunctionBlockInstance + " does not report any of the messages: [";
+                
                 foreach (string s in messages)
                 {
-                    Console.Write(s + ",");
+                    print = print + s + ",";
                 }
-                Console.Write("]" + Environment.NewLine);
+                print = print + "]";
+                log.Info(print);
             }
         }
 
-        protected void AssertDoesNotContainMessage(string message)
+        protected void AssertDoesNotContainMessage(string message, vsBuildErrorLevel errorLevel)
         {
-            if (AreErrorItemsContainingTestMessage(message))
+            if (AreErrorItemsContainingTestMessage(message, errorLevel))
             {
-                Console.WriteLine("Test suite " + _testFunctionBlockInstance + " reports: " + message);
+                log.Info("Test suite " + _testFunctionBlockInstance + " reports: " + message);
             }
         }
     }

@@ -17,13 +17,13 @@ namespace TcUnit.Verifier
         private void TestEnabled()
         {
             string testMessage = CreateFailedTestMessage("TestEnabled", "TRUE", "FALSE", "A does not equal B");
-            AssertContainsMessage(testMessage);
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void TestDisabled()
         {
             string testMessage = CreateFailedTestMessage("DISABLED_ThisShouldNotExecute", "FALSE", "TRUE", "A does not equal B");
-            AssertDoesNotContainMessage(testMessage);
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
         
     }

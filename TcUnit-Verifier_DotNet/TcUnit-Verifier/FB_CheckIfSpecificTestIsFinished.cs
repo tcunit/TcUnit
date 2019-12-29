@@ -17,10 +17,10 @@ namespace TcUnit.Verifier
         private void TestThatInstantlyFinishes()
         {
             string testMessage1 = CreateFailedTestMessage("CheckBeforeAndAfterFinishing", "FALSE", "TRUE", "Values differ before finishing");
-            AssertDoesNotContainMessage(testMessage1);
+            AssertDoesNotContainMessage(testMessage1, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
 
             string testMessage2 = CreateFailedTestMessage("CheckBeforeAndAfterFinishing", "TRUE", "FALSE", "Values differ after finishing");
-            AssertDoesNotContainMessage(testMessage2);
+            AssertDoesNotContainMessage(testMessage2, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

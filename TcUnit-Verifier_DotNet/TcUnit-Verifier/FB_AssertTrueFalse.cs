@@ -19,25 +19,25 @@ namespace TcUnit.Verifier
         private void AssertThatINTsAreEqual()
         {
             string testMessage = CreateFailedTestMessage("AssertThatINTsAreEqual", "FALSE", "TRUE", "INTs are equal");
-            AssertContainsMessage(testMessage);
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void AssertThatINTsAreNotEqual()
         {
             string testMessage = CreateFailedTestMessage("AssertThatINTsAreNotEqual", "FALSE", "TRUE", "INTs are equal");
-            AssertDoesNotContainMessage(testMessage);
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void AssertThatWORDsAreEqual()
         {
             string testMessage = CreateFailedTestMessage("AssertThatWORDsAreEqual", "TRUE", "FALSE", "WORDs are not equal");
-            AssertContainsMessage(testMessage);
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void AssertThatWORDsAreNotEqual()
         {
             string testMessage = CreateFailedTestMessage("AssertThatWORDsAreNotEqual", "TRUE", "FALSE", "WORDs are equal");
-            AssertDoesNotContainMessage(testMessage);
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

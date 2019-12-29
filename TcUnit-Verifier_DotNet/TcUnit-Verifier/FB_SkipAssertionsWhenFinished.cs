@@ -18,17 +18,17 @@ namespace TcUnit.Verifier
 
         private void Test_LongTest()
         {
-            AssertDoesNotContainMessage("Test_LongTest");
+            AssertDoesNotContainMessage("Test_LongTest", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void Test_ShortTest()
         {
-            AssertDoesNotContainMessage("Test_ShortTest");
+            AssertDoesNotContainMessage("Test_ShortTest", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void Test_AssertImmediatelyAfterFinished()
         {
-            AssertDoesNotContainMessage("Test_AssertImmediatelyAfterFinished");
+            AssertDoesNotContainMessage("Test_AssertImmediatelyAfterFinished", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

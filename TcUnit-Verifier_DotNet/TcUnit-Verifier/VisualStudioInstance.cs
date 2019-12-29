@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TCatSysManagerLib;
 
 namespace TcUnit.Verifier
 {
@@ -140,8 +141,14 @@ namespace TcUnit.Verifier
             dte = (EnvDTE80.DTE2) System.Activator.CreateInstance(type);
             dte.UserControl = false; // have devenv.exe automatically close when launched using automation
             dte.SuppressUI = true;
+            dte.ToolWindows.ErrorList.ShowErrors = true;
+            dte.ToolWindows.ErrorList.ShowMessages = true;
+            dte.ToolWindows.ErrorList.ShowWarnings = true;
             var tcAutomationSettings = dte.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true;
+            // Uncomment this if you want to run a specific version of TwinCAT
+            ITcRemoteManager remoteManager = dte.GetObject("TcRemoteManager");
+            remoteManager.Version = "3.1.4022.30";
         }
 
         private void LoadSolution(string filePath)

@@ -28,7 +28,7 @@
     <Compile Include="POUs\FB_ProtectedVariables.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AdjustAssertFailureMessageToMax252CharLengthTest.TcPOU">
+    <Compile Include="Test\FB_AdjustAssertFailureMessageToMax253CharLengthTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_AnyPrimitiveTypes.TcPOU">
@@ -59,6 +59,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_EmptyTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_ExtendedTestInformation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.TcPOU">

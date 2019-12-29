@@ -15,7 +15,7 @@ namespace TcUnit.Verifier
 
         private void TestOne()
         {
-            AssertMessageCount("Test with name 'TestOne' already exists in test suite 'PRG_TEST.CreateFourTestsWithSameName'", 1);
+            AssertMessageCount("Test with name 'TestOne' already exists in test suite 'PRG_TEST.CreateFourTestsWithSameName'", 1, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
 }

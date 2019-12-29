@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitVerifierPath = null;
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 106; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 109; // Update this if you add intentionally failing tests
 
         [STAThread]
         static int Main(string[] args)
@@ -149,10 +149,11 @@ namespace TcUnit.Verifier
                 log.Error("The number of tests that failed (" + numberOfFailedTests + ") does not match expectations (" + expectedNumberOfFailedTests + ")");
             }
 
-            List<ErrorList.Error> errors = new List<ErrorList.Error>(errorList.Where(e => e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh));
+            List<ErrorList.Error> errors = new List<ErrorList.Error>(errorList.Where(e => (e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)));
 
             /* Insert the test classes here */
             new FB_PrimitiveTypes(errors);
+            new FB_ExtendedTestInformation(errors);
             new FB_AssertTrueFalse(errors);
             new FB_AssertEveryFailedTestTwice(errors);
             new FB_CreateFourTestsWithSameName(errors);
@@ -165,7 +166,7 @@ namespace TcUnit.Verifier
             new FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests(errors);
             new FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest(errors);
             new FB_SkipAssertionsWhenFinished(errors);
-            new FB_AdjustAssertFailureMessageToMax252CharLengthTest(errors);
+            new FB_AdjustAssertFailureMessageToMax253CharLengthTest(errors);
             new FB_CheckIfSpecificTestIsFinished(errors);
             new FB_TestFinishedNamed(errors);
 
