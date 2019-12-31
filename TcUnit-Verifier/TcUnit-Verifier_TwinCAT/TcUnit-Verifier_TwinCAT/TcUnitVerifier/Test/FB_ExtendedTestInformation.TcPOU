@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_ExtendedTestInformation" Id="{bf5760f3-74cf-43d8-975e-6f266464d8c0}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This test suite makes sure to create different variants of tests that will produce various extended logs, i.e. the
+   ADS-logs that provide information on how many tests have finished/are successful within the test suites.
+   This test suite needs to be instantiated as the second test suite in the order in order to get the ID=1 as identity. *)
+FUNCTION_BLOCK FB_ExtendedTestInformation EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_ExtendedTestInformation_BOOL_AssertFailed();
+Test_ExtendedTestInformation_BOOL_AssertSuccess();
+Test_ExtendedTestInformation_BYTE_TwoFailedAsserts();
+Test_ExtendedTestInformation_LINT_AssertFailed();
+Test_ExtendedTestInformation_LINT_AssertSuccess();]]></ST>
+    </Implementation>
+    <Method Name="Test_ExtendedTestInformation_BOOL_AssertFailed" Id="{4df9f29a-d58b-4c51-b812-d1ac82f05d25}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ExtendedTestInformation_BOOL_AssertFailed
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := FALSE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ExtendedTestInformation_BOOL_AssertFailed');
+
+AssertEquals_BOOL(Expected := a,
+                  Actual := b,
+                  Message := 'Extendedinformation values differ BOOL failure');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ExtendedTestInformation_BOOL_AssertSuccess" Id="{a7892ec8-4a1b-428c-9026-ac153d07a02b}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ExtendedTestInformation_BOOL_AssertSuccess
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := TRUE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ExtendedTestInformation_BOOL_AssertSuccess');
+
+AssertEquals_BOOL(Expected := a,
+                  Actual := b,
+                  Message := 'Extendedinformation values differ BOOL success');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ExtendedTestInformation_BYTE_TwoFailedAsserts" Id="{895e1b6c-e21a-4876-a02e-9c8314f6e798}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ExtendedTestInformation_BYTE_TwoFailedAsserts
+VAR
+    a : BYTE := 16#AB;
+    b : BYTE := 16#CD;
+    c : BYTE := 16#EF;
+    d : BYTE := 16#01;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ExtendedTestInformation_BYTE_TwoFailedAsserts');
+
+AssertEquals_BYTE(Expected := a,
+                  Actual := b,
+                  Message := 'Extendedinformation values differ BYTE1');
+
+AssertEquals_BYTE(Expected := c,
+                  Actual := d,
+                  Message := 'Extendedinformation values differ BYTE2');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ExtendedTestInformation_LINT_AssertFailed" Id="{8d8740ad-a953-403f-9d6e-2e8273db2173}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ExtendedTestInformation_LINT_AssertFailed
+VAR
+    a : LINT := -451416345;
+    b : LINT := 589532453;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ExtendedTestInformation_LINT_AssertFailed');
+
+AssertEquals_LINT(Expected := a,
+                  Actual := b,
+                  Message := 'Extendedinformation values differ LINT failure');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ExtendedTestInformation_LINT_AssertSuccess" Id="{3a63fbbd-372a-4716-a366-3998a3cae01e}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ExtendedTestInformation_LINT_AssertSuccess
+VAR
+    a : LINT := -123456789;
+    b : LINT := -123456789;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ExtendedTestInformation_LINT_AssertSuccess');
+
+AssertEquals_LINT(Expected := a,
+                  Actual := b,
+                  Message := 'Extendedinformation values differ LINT success');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ExtendedTestInformation">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="18" Count="1" />
+    </LineIds>
+    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BOOL_AssertFailed">
+      <LineId Id="10" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BOOL_AssertSuccess">
+      <LineId Id="10" Count="5" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BYTE_TwoFailedAsserts">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_LINT_AssertFailed">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_LINT_AssertSuccess">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

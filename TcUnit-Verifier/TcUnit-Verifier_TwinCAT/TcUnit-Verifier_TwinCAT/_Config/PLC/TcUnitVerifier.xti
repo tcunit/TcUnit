@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmItem" TcSmVersion="1.0" TcVersion="3.1.4022.30" ClassName="CNestedPlcProjDef">
+	<Project GUID="{59ED27DD-D865-40E3-AB9D-3C7E47AFCF7D}" Name="TcUnitVerifier" PrjFilePath="..\..\TcUnitVerifier\TcUnitVerifier.plcproj" TmcFilePath="..\..\TcUnitVerifier\TcUnitVerifier.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+			<Name>TcUnitVerifier Instance</Name>
+			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+		</Instance>
+	</Project>
+</TcSmItem>

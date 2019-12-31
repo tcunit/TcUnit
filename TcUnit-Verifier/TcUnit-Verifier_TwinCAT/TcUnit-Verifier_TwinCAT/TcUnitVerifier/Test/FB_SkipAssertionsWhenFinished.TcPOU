@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_SkipAssertionsWhenFinished" Id="{177b4361-85a4-4540-ab6e-e77760bd82cb}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Contains tests that require multiple cycles:
+    - A short test that finishes quickly
+        - The assert statements all pass while the test is not finished
+        - After the test is finished, the variables change so that the assert statements now fail,
+            which shouldn't matter because the test is finished
+    - A long test that finishes slowly
+        - This test exists so that the entire test suite keeps running after the short test finishes
+*)
+FUNCTION_BLOCK FB_SkipAssertionsWhenFinished EXTENDS TcUnit.FB_TestSuite
+VAR
+    ShortTimer : Tc2_Standard.TON := (PT := T#200MS);
+    LongTimer : Tc2_Standard.TON := (PT := T#1S);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_LongTest(ADR(LongTimer));
+Test_ShortTest(ADR(ShortTimer));
+Test_AssertImmediatelyAfterFinished();]]></ST>
+    </Implementation>
+    <Method Name="Test_AssertImmediatelyAfterFinished" Id="{66ea4db5-960f-4735-aa9e-af28457703d3}">
+      <Declaration><![CDATA[(*
+    Assertions called immediately after (and within the same cycle as) TEST_FINISHED should be
+    ignored.
+*)
+METHOD Test_AssertImmediatelyAfterFinished]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_AssertImmediatelyAfterFinished');
+TEST_FINISHED();
+
+AssertTrue(FALSE, 'This failing assertion should be skipped because the test is finished');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LongTest" Id="{ae29de17-8470-4029-86cf-f2d600b1894b}">
+      <Declaration><![CDATA[METHOD Test_LongTest
+VAR_INPUT
+    Timer : POINTER TO Tc2_Standard.TON;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LongTest');
+
+Timer^(IN := TRUE);
+IF Timer^.Q THEN
+    TEST_FINISHED();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ShortTest" Id="{e7d5d2da-b6ff-46cc-9627-d85c0378e38a}">
+      <Declaration><![CDATA[METHOD Test_ShortTest
+VAR_INPUT
+    Timer : POINTER TO Tc2_Standard.TON;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ShortTest');
+
+AssertFalse(Timer^.Q, 'This assertion will start to fail after the test is over, but it will be skipped at that point');
+
+Timer^(IN := TRUE);
+IF Timer^.Q THEN
+    TEST_FINISHED();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_SkipAssertionsWhenFinished">
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_AssertImmediatelyAfterFinished">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_LongTest">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="2" />
+    </LineIds>
+    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_ShortTest">
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="7" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

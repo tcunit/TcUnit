@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_CheckIfSpecificTestIsFinished" Id="{2acea95d-ab41-4d72-9612-66cd6d5b13cc}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Verifies that the function IS_TEST_FINISHED('Name') works as intended.
+*)
+FUNCTION_BLOCK FB_CheckIfSpecificTestIsFinished EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CheckBeforeAndAfterFinishing();]]></ST>
+    </Implementation>
+    <Method Name="CheckBeforeAndAfterFinishing" Id="{bc4e3608-724f-4d4e-ad3f-c0950dd8383e}">
+      <Declaration><![CDATA[METHOD CheckBeforeAndAfterFinishing]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('CheckBeforeAndAfterFinishing');
+
+AssertEquals_BOOL(Expected := FALSE,
+                  Actual := IS_TEST_FINISHED('CheckBeforeAndAfterFinishing'),
+                  Message:='Values differ before finishing');
+
+TEST_FINISHED();
+
+AssertEquals_BOOL(Expected := TRUE,
+                  Actual := IS_TEST_FINISHED('CheckBeforeAndAfterFinishing'),
+                  Message:='Values differ after finishing');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CheckIfSpecificTestIsFinished">
+      <LineId Id="15" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CheckIfSpecificTestIsFinished.CheckBeforeAndAfterFinishing">
+      <LineId Id="5" Count="0" />
+      <LineId Id="24" Count="2" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

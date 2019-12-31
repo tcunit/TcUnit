@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest" Id="{9957a11f-d554-4b5d-be35-f56d53aab4f2}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This test-suite runs several asserts with the same parameters (same expected, actual, message) in the same cycle
+    and in the same test.
+    The reason we want the framework to support this is that theoretically the user could want to do an assert with the
+    same message, in the same test, with the same data values for both expected and actual, although the data that the
+    user does the assert on might be from different data sets.
+*)
+FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInSameCycleWithSameTest EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Assert_SeveralTimes();]]></ST>
+    </Implementation>
+    <Method Name="Assert_SeveralTimes" Id="{cd07d59b-c5ef-4bab-a334-9a8ba622ccca}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SeveralTimes
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+
+    c : DWORD := 16#12345678;
+    d : DWORD := 16#90ABCDEF;
+
+    e : DWORD := 16#12345678;
+    f : DWORD := 16#90ABCDEF;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SeveralTimes');
+
+AssertEquals_DWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+
+AssertEquals_DWORD(Expected := c,
+                   Actual := d,
+                   Message := 'Values differ');
+
+AssertEquals_DWORD(Expected := e,
+                   Actual := f,
+                   Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest">
+      <LineId Id="21" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.Assert_SeveralTimes">
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="26" Count="2" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

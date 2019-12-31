@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_CreateDisabledTest" Id="{3f1093ff-32d2-455a-8cf0-190014c55a4c}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite runs two tests. One that is enabled (and that is supposed to fail), and one that is disabled (and
+    even though it also is failing is not supposed to run).
+*)
+FUNCTION_BLOCK FB_CreateDisabledTest EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestEnabled();
+TestDisabled();]]></ST>
+    </Implementation>
+    <Method Name="TestDisabled" Id="{773db475-8255-416d-8669-8526d3357b4d}">
+      <Declaration><![CDATA[METHOD PRIVATE TestDisabled
+VAR
+    a : BOOL := FALSE;
+    b : BOOL := TRUE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('DISABLED_ThisShouldNotExecute');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'A does not equal B');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestEnabled" Id="{aaa74956-ecdb-40ff-a4da-e0ad237c9503}">
+      <Declaration><![CDATA[METHOD PRIVATE TestEnabled
+VAR
+    a : BOOL := TRUE;
+    b : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestEnabled');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'A does not equal B');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_CreateDisabledTest">
+      <LineId Id="18" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.TestDisabled">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_CreateDisabledTest.TestEnabled">
+      <LineId Id="5" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TestFinishedNamed" Id="{845f956b-5469-4f4a-9b3a-de8d813ba965}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This function blocks tests the TEST_FINISHED_NAMED function by creating various tests
+   and finishing them in steps *)
+FUNCTION_BLOCK FB_TestFinishedNamed EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TestFinishedNamed">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
