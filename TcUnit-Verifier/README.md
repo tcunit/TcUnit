@@ -8,7 +8,7 @@ test different functions in TcUnit. It consists of two separate programs:
 When verifying that TcUnit works as expected a developer needs to add tests to
 both of these programs.
 
-![TcUnit-Verifier concept](https://github.com/tcunit/TcUnit-Verifier/blob/master/img/TcUnit-Verifier_Concept_1280.png)
+![TcUnit-Verifier concept](https://github.com/tcunit/TcUnit/blob/master/TcUnit-Verifier/img/TcUnit-Verifier_Concept_1280.png)
 
 ## TcUnit-Verifier_TwinCAT
 TcUnit-Verifier_TwinCAT (TcVT) is as the name implies a TwinCAT project.
