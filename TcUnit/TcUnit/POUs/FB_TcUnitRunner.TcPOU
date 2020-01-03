@@ -9,13 +9,13 @@ VAR
     (* Indication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
 
-    (* Prints the results to ADS so that Visual Studio can display the results.
-       This test result formatter can be replaced with something else than ADS *)
-    AdsTestResultLogger : FB_AdsTestResultLogger;
-    TestResultLogger : I_TestResultLogger := AdsTestResultLogger;
-
     (* Test result information *)
     TestResults : FB_TestResults;
+
+    (* Prints the results to ADS so that Visual Studio can display the results.
+       This test result formatter can be replaced with something else than ADS *)
+    AdsTestResultLogger : FB_AdsTestResultLogger(TestResults);
+    TestResultLogger : I_TestResultLogger := AdsTestResultLogger;
 
     (* If this flag is set, it means that some external event triggered the
        request to abort running the test suites *)
@@ -37,27 +37,23 @@ METHOD PUBLIC AbortRunningTestSuiteTests]]></Declaration>
 VAR
     Counter : UINT := 0;
     BusyPrinting : BOOL;
-
-    (* We need to hold a temporary state of the statistics (failed, successful, total number of test cases etc)
+END_VAR
+VAR_INST
+    (* We need to hold a temporary state of the statistics 
        as we don't consider the tests to be completely finished until all test suites have executed completely.
        The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
        are finished (which might take many cycles), do we gather correct statistics *)
-    NumberOfTestSuitesFinished_Temp : UINT := 0;
-    NumberOfTestCases_Temp : UINT := 0;
-    NumberOfFailedTestCases_Temp : UINT := 0;
-    NumberOfSuccessfulTestCases_Temp : UINT := 0;
+    NumberOfTestSuitesFinished : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT AllTestSuitesFinished THEN
+        <ST><![CDATA[(* Run TcUnit test suites *)
+IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
     ELSIF GVL_TcUnit.NumberOfInitializedTestSuites > 0 THEN
         FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
             IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AreAllTestsFinished() THEN
-                NumberOfTestSuitesFinished_Temp := NumberOfTestSuitesFinished_Temp + 1;
-                NumberOfTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfTests() + NumberOfTestCases_Temp;
-                NumberOfFailedTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfFailedTests() + NumberOfFailedTestCases_Temp;
-                NumberOfSuccessfulTestCases_Temp := GVL_TcUnit.TestSuiteAddresses[Counter]^.GetNumberOfSuccessfulTests() + NumberOfSuccessfulTestCases_Temp;
+                NumberOfTestSuitesFinished := NumberOfTestSuitesFinished + 1;
             ELSE
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
@@ -66,9 +62,9 @@ END_VAR]]></Declaration>
         (* Check if some event triggered an abortion of running the tests, in that case abort it now.
            This can be accomplished by setting the result of the test suites run to finished. *)
         IF AbortRunningTestSuites THEN
-            NumberOfTestSuitesFinished_Temp := GVL_TcUnit.NumberOfInitializedTestSuites;
+            NumberOfTestSuitesFinished := GVL_TcUnit.NumberOfInitializedTestSuites;
 		END_IF
-        IF NumberOfTestSuitesFinished_Temp = GVL_TcUnit.NumberOfInitializedTestSuites THEN
+        IF NumberOfTestSuitesFinished = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
@@ -78,7 +74,7 @@ END_IF
 TestResults();
 
 (* Log test suite results continuously *)
-TestResultLogger.LogTestSuiteResults(TestResults := TestResults.GetTestSuiteResults());
+TestResultLogger.LogTestSuiteResults();
 
 (* Run the buffered ADS logger *)
 GVL_TcUnit.AdsMessageQueue();]]></ST>
@@ -91,13 +87,12 @@ GVL_TcUnit.AdsMessageQueue();]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TcUnitRunner.RunTestSuiteTests">
+      <LineId Id="306" Count="0" />
       <LineId Id="131" Count="0" />
       <LineId Id="128" Count="1" />
       <LineId Id="10" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="22" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="86" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="55" Count="0" />
       <LineId Id="183" Count="0" />
@@ -110,12 +105,7 @@ GVL_TcUnit.AdsMessageQueue();]]></ST>
       <LineId Id="12" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="247" Count="0" />
-      <LineId Id="269" Count="1" />
-      <LineId Id="275" Count="1" />
-      <LineId Id="274" Count="0" />
-      <LineId Id="198" Count="0" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="199" Count="0" />
+      <LineId Id="308" Count="7" />
     </LineIds>
   </POU>
 </TcPlcObject>

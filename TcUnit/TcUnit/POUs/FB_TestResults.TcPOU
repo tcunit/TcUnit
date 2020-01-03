@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
-FUNCTION_BLOCK FB_TestResults
+FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
 VAR
     (* Test results*)
     TestSuiteResults : ST_TestSuiteResults;
@@ -51,6 +51,14 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             (* Store test class name *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName :=
                 F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+            
+            (* Store whether the test has failed *)
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed :=
+                TestToBeStored.IsFailed();
+
+            (* Store whether the test was skipped *)
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsSkipped :=
+                TestToBeStored.IsSkipped();
 
             (* Store the (first failed) assertion message *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage :=
@@ -72,9 +80,7 @@ END_IF
 
 (* If all test suites have finished running, store the general test results *)
 IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
-   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND NOT
-   StoredGeneralTestResults THEN
-   
+   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND StoredTestSuiteResults AND (NOT StoredGeneralTestResults) THEN//  THEN
     TestSuiteResults.NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
     FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         TestSuiteResults.NumberOfTestCases := TestSuiteResults.NumberOfTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;
@@ -86,6 +92,13 @@ IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
     StoredGeneralTestResults := TRUE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="GetAreTestResultsAvailable" Id="{1405a17f-835e-481b-8bc4-6f447bc860a2}">
+      <Declaration><![CDATA[(* Returns whether the storing of the test results is finished *)
+METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAreTestResultsAvailable := (StoredTestSuiteResults AND StoredGeneralTestResults);]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetTestSuiteResults" Id="{3d7cfdb1-16a3-456d-be0a-82cecf4820a8}">
       <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults;]]></Declaration>
       <Implementation>
@@ -110,6 +123,10 @@ END_IF]]></ST>
       <LineId Id="69" Count="0" />
       <LineId Id="107" Count="0" />
       <LineId Id="210" Count="0" />
+      <LineId Id="268" Count="3" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="273" Count="1" />
+      <LineId Id="272" Count="0" />
       <LineId Id="240" Count="0" />
       <LineId Id="239" Count="0" />
       <LineId Id="241" Count="2" />
@@ -125,7 +142,7 @@ END_IF]]></ST>
       <LineId Id="113" Count="0" />
       <LineId Id="112" Count="0" />
       <LineId Id="114" Count="0" />
-      <LineId Id="213" Count="2" />
+      <LineId Id="213" Count="0" />
       <LineId Id="120" Count="0" />
       <LineId Id="115" Count="0" />
       <LineId Id="118" Count="0" />
@@ -135,6 +152,9 @@ END_IF]]></ST>
       <LineId Id="119" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="116" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetAreTestResultsAvailable">
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_TestResults.GetTestSuiteResults">
       <LineId Id="5" Count="0" />

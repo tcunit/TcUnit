@@ -22,7 +22,7 @@ namespace TcUnit.Verifier
 
         private void Check_TestSuite_Statistics()
         {
-            string testSuiteFinishedMessage = "Test suite 'PRG_TEST.ExtendedTestInformation' with ID=1 finished running";
+            string testSuiteFinishedMessage = "Test suite ID=1 'PRG_TEST.ExtendedTestInformation'";
             string testSuiteStatistics = "ID=1 number of tests=5, number of failed tests=3";
             AssertContainsMessage(testSuiteFinishedMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
             AssertContainsMessage(testSuiteStatistics, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);

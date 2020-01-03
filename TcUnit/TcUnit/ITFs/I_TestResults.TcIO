@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <Itf Name="I_TestResults" Id="{4b8dc1ed-f636-46c0-8e7c-15c7836626f3}">
+    <Declaration><![CDATA[INTERFACE I_TestResults
+]]></Declaration>
+    <Method Name="GetAreTestResultsAvailable" Id="{28adb76a-ca7f-4d42-9fad-44627006532d}">
+      <Declaration><![CDATA[METHOD GetAreTestResultsAvailable : BOOL
+]]></Declaration>
+    </Method>
+    <Method Name="GetTestSuiteResults" Id="{f78f0f3e-a842-41e1-b891-bfd5e3fc0531}">
+      <Declaration><![CDATA[METHOD GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults;
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

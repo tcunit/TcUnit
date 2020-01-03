@@ -97,6 +97,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="ITFs\I_TestResultLogger.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ITFs\I_TestResults.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\FB_AdsAssertMessageFormatter.TcPOU">
       <SubType>Code</SubType>
     </Compile>
