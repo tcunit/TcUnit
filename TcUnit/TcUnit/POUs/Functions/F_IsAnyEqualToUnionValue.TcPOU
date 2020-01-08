@@ -1,18 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="F_IsAnyEqualToUnionValue" Id="{1ab30776-5b8c-4eb4-8ece-b0c087a9b905}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_IsAnyEqualToUnionValue : BOOL
 VAR_INPUT
     uExpectedOrActual : U_ExpectedOrActual;
-    ExpectedOrActual : ANY;
+    ExpectedOrActualSize : UDINT;
+    ExpectedOrActualTypeClass : IBaseLibrary.TypeClass;
+    ExpectedOrActualValue : POINTER TO BYTE;
 END_VAR
 VAR
     AnyExpectedOrActual : U_ExpectedOrActual;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[AnyExpectedOrActual := F_AnyToUnionValue(ExpectedOrActual);
+      <ST><![CDATA[AnyExpectedOrActual := F_AnyToUnionValue(AnySize := ExpectedOrActualSize,
+                                         AnyTypeClass := ExpectedOrActualTypeClass,
+                                         AnyValue := ExpectedOrActualValue);
 
-CASE UDINT_TO_INT(ExpectedOrActual.TypeClass) OF
+CASE ExpectedOrActualTypeClass OF
 
     IBaseLibrary.TypeClass.TYPE_BOOL :
         F_IsAnyEqualToUnionValue := uExpectedOrActual.boolExpectedOrActual = AnyExpectedOrActual.boolExpectedOrActual;
@@ -143,7 +147,8 @@ CASE UDINT_TO_INT(ExpectedOrActual.TypeClass) OF
 END_CASE]]></ST>
     </Implementation>
     <LineIds Name="F_IsAnyEqualToUnionValue">
-      <LineId Id="172" Count="1" />
+      <LineId Id="209" Count="2" />
+      <LineId Id="173" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="169" Count="0" />
       <LineId Id="12" Count="0" />

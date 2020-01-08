@@ -36,10 +36,6 @@ END_VAR
     </Method>
     <Method Name="LogTestSuiteResults" Id="{3263938a-5e4f-4e5f-bfa0-9c9469439d97}">
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
-(*
-VAR_INPUT
-    TestResults : REFERENCE TO ST_TestSuiteResults;
-END_VAR*)
 VAR
     TcUnitTestResults : REFERENCE TO ST_TestSuiteResults;
     StringToPrint : Tc2_System.T_MaxString; 
@@ -133,7 +129,6 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
 END_IF
 
 (* Log end results once all test suites have finished running *)
-//IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedFinalTestResults THEN
 IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedFinalTestResults AND TestResults.GetAreTestResultsAvailable() THEN
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '%s',
@@ -224,7 +219,6 @@ END_IF]]></ST>
       <LineId Id="26" Count="0" />
       <LineId Id="159" Count="0" />
       <LineId Id="124" Count="0" />
-      <LineId Id="123" Count="0" />
       <LineId Id="292" Count="0" />
       <LineId Id="131" Count="16" />
       <LineId Id="127" Count="0" />

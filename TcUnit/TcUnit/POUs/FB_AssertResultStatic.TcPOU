@@ -37,16 +37,20 @@ END_VAR]]></Declaration>
     <Method Name="AddAssertResult" Id="{22afb213-95b2-4bfd-ada6-e7cf020d9c1d}">
       <Declaration><![CDATA[METHOD PRIVATE AddAssertResult
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
+    ExpectedSize : UDINT;
+    ExpectedTypeClass : IBaseLibrary.TypeClass;
+    ExpectedValue : POINTER TO BYTE;
+    ActualSize : UDINT;
+    ActualTypeClass : IBaseLibrary.TypeClass;
+    ActualValue : POINTER TO BYTE;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[TotalAsserts := TotalAsserts + 1;
-AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnyValue := Expected);
-AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnyValue := Actual);
+AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
+AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnySize := ActualSize, AnyTypeClass := ActualTypeClass, AnyValue := ActualValue);
 AssertResults[TotalAsserts].Message := Message;
 AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;]]></ST>
       </Implementation>
@@ -66,8 +70,12 @@ END_FOR]]></ST>
     <Method Name="CreateAssertResultInstance" Id="{0e48fb23-038c-40ed-90ff-ee834be2653d}">
       <Declaration><![CDATA[METHOD PRIVATE CreateAssertResultInstance
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
+    ExpectedSize : UDINT;
+    ExpectedTypeClass : IBaseLibrary.TypeClass;
+    ExpectedValue : POINTER TO BYTE;
+    ActualSize : UDINT;
+    ActualTypeClass : IBaseLibrary.TypeClass;
+    ActualValue : POINTER TO BYTE;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -78,8 +86,8 @@ END_VAR]]></Declaration>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF AssertResultInstances[IteratorCounter].DetectionCount = 0 AND
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle = 0 THEN // Find first free spot
-        AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnyValue := Expected);
-        AssertResultInstances[IteratorCounter].AssertResult.Actual := F_AnyToUnionValue(AnyValue := Actual);
+        AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
+        AssertResultInstances[IteratorCounter].AssertResult.Actual := F_AnyToUnionValue(AnySize := ActualSize, AnyTypeClass := ActualTypeClass, AnyValue := ActualValue);
         AssertResultInstances[IteratorCounter].AssertResult.Message := Message;
         AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath := TestInstancePath;
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle := 1;
@@ -91,8 +99,12 @@ END_FOR]]></ST>
     <Method Name="GetDetectionCount" Id="{75f01348-487a-4441-a0e3-f41feb6c1781}">
       <Declaration><![CDATA[METHOD PRIVATE GetDetectionCount : UINT
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
+    ExpectedSize : UDINT;
+    ExpectedTypeClass : IBaseLibrary.TypeClass;
+    ExpectedValue : POINTER TO BYTE;
+    ActualSize : UDINT;
+    ActualTypeClass : IBaseLibrary.TypeClass;
+    ActualValue : POINTER TO BYTE;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -102,9 +114,13 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
-                                ExpectedOrActual := Expected) AND 
-        F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
-                                 ExpectedOrActual := Actual) AND
+                                 ExpectedOrActualSize := ExpectedSize,
+                                 ExpectedOrActualTypeClass := ExpectedTypeClass,
+                                 ExpectedOrActualValue := ExpectedValue) AND   
+       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+                                ExpectedOrActualSize := ActualSize,
+                                ExpectedOrActualTypeClass := ActualTypeClass,
+                                ExpectedOrActualValue := ActualValue) AND 
         AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
         AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
         GetDetectionCount := AssertResultInstances[IteratorCounter].DetectionCount;
@@ -115,8 +131,12 @@ END_FOR]]></ST>
     <Method Name="GetDetectionCountThisCycle" Id="{9f89a925-0785-44b9-83cb-36f87d5bc546}">
       <Declaration><![CDATA[METHOD PRIVATE GetDetectionCountThisCycle : UINT
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
+    ExpectedSize : UDINT;
+    ExpectedTypeClass : IBaseLibrary.TypeClass;
+    ExpectedValue : POINTER TO BYTE;
+    ActualSize : UDINT;
+    ActualTypeClass : IBaseLibrary.TypeClass;
+    ActualValue : POINTER TO BYTE;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -126,37 +146,16 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
-                                ExpectedOrActual := Expected) AND 
-        F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
-                                 ExpectedOrActual := Actual) AND
+                                ExpectedOrActualSize := ExpectedSize,
+                                ExpectedOrActualTypeClass := ExpectedTypeClass,
+                                ExpectedOrActualValue := ExpectedValue) AND   
+       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+                                ExpectedOrActualSize := ActualSize,
+                                ExpectedOrActualTypeClass := ActualTypeClass,
+                                ExpectedOrActualValue := ActualValue) AND 
         AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
         AssertResultInstances[IteratorCounter].AssertResult.Message = TestInstancePath THEN
         GetDetectionCountThisCycle := AssertResultInstances[IteratorCounter].DetectionCountThisCycle;
-    END_IF
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="IncreaseDetectionCountThisCycleByOne" Id="{b4a5f59b-b092-46e9-a592-20ecca6c06c9}">
-      <Declaration><![CDATA[METHOD PRIVATE IncreaseDetectionCountThisCycleByOne
-VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
-END_VAR
-VAR
-    IteratorCounter : UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
-    IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
-                                ExpectedOrActual := Expected) AND 
-        F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
-                                 ExpectedOrActual := Actual) AND
-        AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
-        AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
-        AssertResultInstances[IteratorCounter].DetectionCountThisCycle :=
-            AssertResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
     END_IF
 END_FOR]]></ST>
       </Implementation>
@@ -191,8 +190,12 @@ END_FOR]]></ST>
 *)
 METHOD PUBLIC ReportResult
 VAR_INPUT
-    Expected : ANY;
-    Actual : ANY;
+    ExpectedSize : UDINT;
+    ExpectedTypeClass : IBaseLibrary.TypeClass;
+    ExpectedValue : POINTER TO BYTE;
+    ActualSize : UDINT;
+    ActualTypeClass : IBaseLibrary.TypeClass;
+    ActualValue : POINTER TO BYTE;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -224,10 +227,14 @@ IF CurrentCycleCount <> CycleCount THEN
 END_IF
 
 FOR IteratorCounter := 1 TO TotalAsserts BY 1 DO
-    IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
-                                ExpectedOrActual := Expected) AND
-       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
-                                ExpectedOrActual := Actual) AND
+      IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
+                                  ExpectedOrActualSize := ExpectedSize,
+                                  ExpectedOrActualTypeClass := ExpectedTypeClass,
+                                  ExpectedOrActualValue := ExpectedValue) AND
+         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+                                  ExpectedOrActualSize := ActualSize,
+                                  ExpectedOrActualTypeClass := ActualTypeClass,
+                                  ExpectedOrActualValue := ActualValue) AND
         AssertResultInstances[IteratorCounter].AssertResult.Message = Message AND
         AssertResultInstances[IteratorCounter].AssertResult.TestInstancePath = TestInstancePath THEN
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle :=
@@ -244,12 +251,30 @@ END_FOR
 (* If not found anything, create the first *)
 IF NOT FoundOne THEN
     (* No existing match found, create a new entry *)
-    AddAssertResult(Expected, Actual, Message, TestInstancePath);
-    CreateAssertResultInstance(Expected := Expected, Actual := Actual, 
+    AddAssertResult(ExpectedSize := ExpectedSize,
+                    ExpectedTypeClass := ExpectedTypeClass,
+                    ExpectedValue := ExpectedValue,
+                    ActualSize := ActualSize,
+                    ActualTypeClass := ActualTypeClass,
+                    ActualValue := ActualValue,
+                    Message := Message, TestInstancePath := TestInstancePath);
+
+    CreateAssertResultInstance(ExpectedSize := ExpectedSize,
+                               ExpectedTypeClass := ExpectedTypeClass,
+                               ExpectedValue := ExpectedValue,
+                               ActualSize := ActualSize,
+                               ActualTypeClass := ActualTypeClass,
+                               ActualValue := ActualValue,
                                Message := Message, TestInstancePath := TestInstancePath);
 (* An additional instance of this assert needs to be created *)
 ELSIF AdditionalIdenticalAssert THEN
-    AddAssertResult(Expected, Actual, Message, TestInstancePath);
+    AddAssertResult(ExpectedSize := ExpectedSize,
+                    ExpectedTypeClass := ExpectedTypeClass,
+                    ExpectedValue := ExpectedValue,
+                    ActualSize := ActualSize,
+                    ActualTypeClass := ActualTypeClass,
+                    ActualValue := ActualValue,
+                    Message := Message, TestInstancePath := TestInstancePath);
 (* In all other cases, this assert has already been reported, we don't need to do anything *)
 ELSE
     AlreadyReported := TRUE;
@@ -263,7 +288,10 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.AddAssertResult">
-      <LineId Id="11" Count="4" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="14" Count="1" />
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.CopyDetectionCountAndResetDetectionCountInThisCycle">
       <LineId Id="5" Count="0" />
@@ -275,8 +303,7 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="5" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="35" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="19" Count="0" />
+      <LineId Id="51" Count="1" />
       <LineId Id="21" Count="1" />
       <LineId Id="24" Count="0" />
       <LineId Id="10" Count="1" />
@@ -284,7 +311,8 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.GetDetectionCount">
       <LineId Id="5" Count="0" />
-      <LineId Id="26" Count="3" />
+      <LineId Id="46" Count="6" />
+      <LineId Id="45" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="24" Count="1" />
       <LineId Id="15" Count="0" />
@@ -292,20 +320,11 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
     </LineIds>
     <LineIds Name="FB_AssertResultStatic.GetDetectionCountThisCycle">
       <LineId Id="5" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="14" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="48" Count="4" />
+      <LineId Id="47" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="24" Count="1" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.IncreaseDetectionCountThisCycleByOne">
-      <LineId Id="5" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="48" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
@@ -320,8 +339,9 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="340" Count="2" />
       <LineId Id="613" Count="0" />
       <LineId Id="398" Count="0" />
-      <LineId Id="614" Count="0" />
-      <LineId Id="616" Count="2" />
+      <LineId Id="731" Count="3" />
+      <LineId Id="736" Count="2" />
+      <LineId Id="735" Count="0" />
       <LineId Id="666" Count="1" />
       <LineId Id="670" Count="4" />
       <LineId Id="677" Count="0" />
@@ -332,11 +352,14 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="425" Count="0" />
       <LineId Id="413" Count="0" />
       <LineId Id="416" Count="0" />
-      <LineId Id="414" Count="0" />
-      <LineId Id="434" Count="1" />
+      <LineId Id="739" Count="6" />
+      <LineId Id="815" Count="0" />
+      <LineId Id="749" Count="5" />
+      <LineId Id="747" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="415" Count="0" />
-      <LineId Id="458" Count="0" />
+      <LineId Id="756" Count="5" />
+      <LineId Id="755" Count="0" />
       <LineId Id="463" Count="0" />
       <LineId Id="461" Count="1" />
       <LineId Id="451" Count="0" />

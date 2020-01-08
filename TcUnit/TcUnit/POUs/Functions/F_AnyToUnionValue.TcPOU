@@ -1,123 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="F_AnyToUnionValue" Id="{04a97242-7600-4a30-a234-b9e3b1c2770c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_AnyToUnionValue : U_ExpectedOrActual
 VAR_INPUT
-    AnyValue : ANY;
+    AnySize : UDINT;
+    AnyTypeClass : IBaseLibrary.TypeClass;
+    AnyValue : POINTER TO BYTE;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE UDINT_TO_INT(AnyValue.TypeClass) OF
+      <ST><![CDATA[CASE AnyTypeClass OF
     IBaseLibrary.TypeClass.TYPE_BOOL :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.boolExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_BIT :
         {warning disable C0355}
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.bitExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
         {warning enable C0355}
 
     IBaseLibrary.TypeClass.TYPE_BYTE :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.byteExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_WORD :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.wordExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DWORD :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dwordExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LWORD :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lwordExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_SINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.sintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_INT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.intExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_USINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.usintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_UINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.uintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_UDINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.udintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_ULINT :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.ulintExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_REAL :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.realExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.lrealExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_STRING :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.stringExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_WSTRING :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.wstringExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_TIME :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DATE :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateandtimeExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeofdayExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
         (* None *)
@@ -166,8 +168,8 @@ END_VAR]]></Declaration>
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
         Tc2_System.MEMCPY(destaddr := ADR(F_AnyToUnionValue.ltimeExpectedOrActual),
-                          srcAddr := AnyValue.pValue,
-                          n := DINT_TO_UDINT(AnyValue.diSize));
+                          srcAddr := AnyValue,
+                          n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         (* None *)
@@ -191,54 +193,74 @@ END_CASE]]></ST>
       <LineId Id="12" Count="1" />
       <LineId Id="392" Count="0" />
       <LineId Id="14" Count="0" />
-      <LineId Id="349" Count="1" />
+      <LineId Id="349" Count="0" />
+      <LineId Id="398" Count="0" />
       <LineId Id="15" Count="2" />
-      <LineId Id="351" Count="1" />
+      <LineId Id="351" Count="0" />
+      <LineId Id="399" Count="0" />
       <LineId Id="20" Count="2" />
-      <LineId Id="353" Count="1" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="400" Count="0" />
       <LineId Id="27" Count="2" />
-      <LineId Id="355" Count="1" />
+      <LineId Id="355" Count="0" />
+      <LineId Id="401" Count="0" />
       <LineId Id="38" Count="2" />
-      <LineId Id="357" Count="1" />
+      <LineId Id="357" Count="0" />
+      <LineId Id="402" Count="0" />
       <LineId Id="41" Count="2" />
-      <LineId Id="359" Count="1" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="403" Count="0" />
       <LineId Id="47" Count="2" />
-      <LineId Id="361" Count="1" />
+      <LineId Id="361" Count="0" />
+      <LineId Id="404" Count="0" />
       <LineId Id="191" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="51" Count="0" />
-      <LineId Id="363" Count="1" />
+      <LineId Id="363" Count="0" />
+      <LineId Id="405" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="132" Count="1" />
-      <LineId Id="365" Count="1" />
+      <LineId Id="365" Count="0" />
+      <LineId Id="406" Count="0" />
       <LineId Id="134" Count="2" />
-      <LineId Id="367" Count="1" />
+      <LineId Id="367" Count="0" />
+      <LineId Id="407" Count="0" />
       <LineId Id="204" Count="0" />
       <LineId Id="138" Count="1" />
-      <LineId Id="369" Count="1" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="408" Count="0" />
       <LineId Id="140" Count="2" />
-      <LineId Id="371" Count="1" />
+      <LineId Id="371" Count="0" />
+      <LineId Id="409" Count="0" />
       <LineId Id="143" Count="2" />
-      <LineId Id="378" Count="1" />
+      <LineId Id="378" Count="0" />
+      <LineId Id="410" Count="0" />
       <LineId Id="229" Count="0" />
       <LineId Id="147" Count="1" />
-      <LineId Id="380" Count="1" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="411" Count="0" />
       <LineId Id="244" Count="0" />
       <LineId Id="227" Count="0" />
       <LineId Id="151" Count="0" />
-      <LineId Id="382" Count="1" />
+      <LineId Id="382" Count="0" />
+      <LineId Id="412" Count="0" />
       <LineId Id="266" Count="0" />
       <LineId Id="153" Count="2" />
-      <LineId Id="327" Count="1" />
+      <LineId Id="413" Count="0" />
+      <LineId Id="328" Count="0" />
       <LineId Id="156" Count="1" />
-      <LineId Id="384" Count="1" />
+      <LineId Id="384" Count="0" />
+      <LineId Id="414" Count="0" />
       <LineId Id="301" Count="0" />
       <LineId Id="159" Count="1" />
-      <LineId Id="329" Count="1" />
+      <LineId Id="329" Count="0" />
+      <LineId Id="415" Count="0" />
       <LineId Id="161" Count="2" />
-      <LineId Id="331" Count="1" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="416" Count="0" />
       <LineId Id="164" Count="1" />
-      <LineId Id="341" Count="2" />
+      <LineId Id="341" Count="1" />
+      <LineId Id="417" Count="0" />
       <LineId Id="167" Count="2" />
       <LineId Id="78" Count="0" />
       <LineId Id="170" Count="0" />
@@ -271,7 +293,8 @@ END_CASE]]></ST>
       <LineId Id="105" Count="1" />
       <LineId Id="184" Count="0" />
       <LineId Id="107" Count="0" />
-      <LineId Id="386" Count="1" />
+      <LineId Id="386" Count="0" />
+      <LineId Id="418" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="185" Count="0" />
       <LineId Id="109" Count="1" />

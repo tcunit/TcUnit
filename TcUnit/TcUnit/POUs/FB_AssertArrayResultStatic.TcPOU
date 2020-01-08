@@ -150,33 +150,6 @@ END_VAR]]></Declaration>
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="IncreaseDetectionCountThisCycleByOne" Id="{a7fb8083-d80a-4b1b-8816-a954d21029f6}">
-      <Declaration><![CDATA[METHOD PRIVATE IncreaseDetectionCountThisCycleByOne
-VAR_INPUT
-    ExpectedsSize : UDINT;
-    ExpectedsTypeClass : IBaseLibrary.TypeClass;
-    ActualsSize : UDINT;
-    ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
-END_VAR
-VAR
-    IteratorCounter : UINT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
-    IF AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsSize = ExpectedsSize AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ExpectedsTypeClass = ExpectedsTypeClass AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsSize = ActualsSize AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.ActualsTypeClass = ActualsTypeClass AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.Message = Message AND
-        AssertArrayResultInstances[IteratorCounter].AssertArrayResult.TestInstancePath = TestInstancePath THEN
-        AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle :=
-            AssertArrayResultInstances[IteratorCounter].DetectionCountThisCycle + 1;
-    END_IF
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="ReportResult" Id="{9acdaaa9-94c5-4747-8072-7b7279f5cd81}">
       <Declaration><![CDATA[(*
     This method is called in every assert and returns whether this particular assert has already been called.
@@ -320,15 +293,6 @@ CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].Cyc
       <LineId Id="46" Count="1" />
       <LineId Id="45" Count="0" />
       <LineId Id="48" Count="2" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertArrayResultStatic.IncreaseDetectionCountThisCycleByOne">
-      <LineId Id="5" Count="0" />
-      <LineId Id="63" Count="3" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="48" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="10" Count="0" />
     </LineIds>
