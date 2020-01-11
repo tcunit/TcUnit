@@ -16,11 +16,5 @@ FindPosition := Tc2_Standard.FIND(STR1 := TestSuiteName, '.');
 TestSuiteName := Tc2_Standard.RIGHT(STR := TestSuiteName, SIZE := Tc2_Standard.LEN(STR := TestSuiteName) - FindPosition);
 F_GetTestSuiteNameFromTestInstancePath := TestSuiteName;]]></ST>
     </Implementation>
-    <LineIds Name="F_GetTestSuiteNameFromTestInstancePath">
-      <LineId Id="16" Count="0" />
-      <LineId Id="13" Count="1" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="15" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -21,10 +21,5 @@ FOR Counter := 1 TO GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetNumberOfTests() B
     END_IF
 END_FOR]]></ST>
     </Implementation>
-    <LineIds Name="IS_TEST_FINISHED">
-      <LineId Id="88" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="90" Count="6" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -240,38 +240,5 @@ pString := pbyAdr;
 Set := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_StringBuffer">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Append.Set">
-      <LineId Id="3" Count="10" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.BufferSize.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Copy">
-      <LineId Id="3" Count="19" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.CutOff">
-      <LineId Id="3" Count="25" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Find">
-      <LineId Id="3" Count="18" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.FindBack">
-      <LineId Id="3" Count="17" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Length.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Length.Set">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_StringBuffer.Set">
-      <LineId Id="3" Count="7" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -90,31 +90,5 @@ IF TimerAgainAgain.Q THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.Assert_SeveralTimes">
-      <LineId Id="32" Count="4" />
-      <LineId Id="38" Count="2" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="63" Count="1" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="72" Count="1" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="75" Count="1" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="84" Count="7" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="81" Count="0" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="82" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

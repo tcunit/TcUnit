@@ -44,25 +44,5 @@ AssertEquals(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_CreateDisabledTest">
-      <LineId Id="18" Count="0" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateDisabledTest.TestDisabled">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateDisabledTest.TestEnabled">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

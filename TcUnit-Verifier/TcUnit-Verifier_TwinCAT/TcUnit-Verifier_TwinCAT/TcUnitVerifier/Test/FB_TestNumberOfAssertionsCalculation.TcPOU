@@ -1,0 +1,1664 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TestNumberOfAssertionsCalculation" Id="{cee9ba28-e671-41e0-b4c9-dea366cda83b}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This testsuite verifies that the amount of assertions for every testcase is correctly calculated
+*)
+FUNCTION_BLOCK FB_TestNumberOfAssertionsCalculation EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestMixed33SuccessulAnd9FailedAssertions();
+TestWith43SuccessfulAssertions();
+TestWith44FailedAssertions();
+TestWith45SuccessfulArrayAssertions();
+TestWith46FailedArrayAssertions();]]></ST>
+    </Implementation>
+    <Method Name="TestMixed33SuccessulAnd9FailedAssertions" Id="{97be3fa5-18f0-421c-997b-1946292a1574}">
+      <Declaration><![CDATA[METHOD PRIVATE TestMixed33SuccessulAnd9FailedAssertions
+VAR
+    // Successful
+    aAny : INT := 5;
+    bAny : INT := 5;
+
+    // Successful
+    aBool : BOOL := TRUE;
+    bBool : BOOL := TRUE;
+
+    // Failed
+    aDint : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+    bDint : ARRAY[1..5] OF DINT := [64, 98, 2147483647, -2147483648, 0];
+
+    // Failed
+    aDword : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
+    bDword : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012343];
+
+    // Successful
+    aInt : ARRAY[-5..1] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+    bInt : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+
+    // Successful
+    aLint : ARRAY[-1..0] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+    bLint : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+
+    // Failed
+    aLreal : LREAL := 1234564.89;
+    bLreal : LREAL := 1234567.76;
+
+    // Failed
+    aLtime : LTIME := LTIME#213503D23H33M33S709MS551US615NS;
+    bLtime : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+
+    // Failed
+    aLrealArray : ARRAY[-5..1] OF LREAL := [64.0, 97.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
+    bLrealArray : ARRAY[1..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+
+    // Failed
+    aLreal2d : ARRAY[-5..-3,-1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    bLreal2d : ARRAY[1..3,0..1] OF LREAL := [63.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+
+    // Successful
+    aLword : LWORD := 16#0123456789ABCDEF;
+    bLword : LWORD := 16#0123456789ABCDEF;
+
+    // Successful
+    aSint : SINT := -128;
+    bSint : SINT := -128;
+
+    // Successful
+    aUdint : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
+    bUdint : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
+
+    // Successful
+    aUint : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
+    bUint : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
+
+    // Failed
+    aUlint : ULINT := 45683838382;
+    bUlint : ULINT := 45683838383;
+
+    // Failed
+    aUsint : USINT := 4;
+    bUsint : USINT := 5;
+
+    // Failed
+    aWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBF, 16#CCCC, 16#DDDD, 16#EEEE];
+    bWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
+
+    // Successful
+    aSintDummy1 : SINT := 1;
+    bSintDummy1 : SINT := 1;
+
+    // Successful
+    aSintDummy2 : SINT := 2;
+    bSintDummy2 : SINT := 2;
+
+    // Successful
+    aSintDummy3 : SINT := 3;
+    bSintDummy3 : SINT := 3;
+
+    // Successful
+    aSintDummy4 : SINT := 4;
+    bSintDummy4 : SINT := 4;
+
+    // Successful
+    aSintDummy5 : SINT := 5;
+    bSintDummy5 : SINT := 5;
+
+    // Successful
+    aSintDummy6 : SINT := 6;
+    bSintDummy6 : SINT := 6;
+
+    // Successful
+    aSintDummy7 : SINT := 7;
+    bSintDummy7 : SINT := 7;
+
+    // Successful
+    aSintDummy8 : SINT := 8;
+    bSintDummy8 : SINT := 8;
+
+    // Successful
+    aSintDummy9 : SINT := 9;
+    bSintDummy9 : SINT := 9;
+
+    // Successful
+    aSintDummy10 : SINT := 10;
+    bSintDummy10 : SINT := 10;
+
+    // Successful
+    aSintDummy11 : SINT := 11;
+    bSintDummy11 : SINT := 11;
+
+    // Successful
+    aSintDummy12 : SINT := 12;
+    bSintDummy12 : SINT := 12;
+
+    // Successful
+    aSintDummy13 : SINT := 13;
+    bSintDummy13 : SINT := 13;
+
+    // Successful
+    aSintDummy14 : SINT := 14;
+    bSintDummy14 : SINT := 14;
+
+    // Successful
+    aSintDummy15 : SINT := 15;
+    bSintDummy15 : SINT := 15;
+
+    // Successful
+    aSintDummy16 : SINT := 16;
+    bSintDummy16 : SINT := 16;
+
+    // Successful
+    aSintDummy17 : SINT := 17;
+    bSintDummy17 : SINT := 17;
+
+    // Successful
+    aSintDummy18 : SINT := 18;
+    bSintDummy18 : SINT := 18;
+
+    // Successful
+    aSintDummy19 : SINT := 19;
+    bSintDummy19 : SINT := 19;
+
+    // Successful
+    aSintDummy20 : SINT := 20;
+    bSintDummy20 : SINT := 20;
+
+    // Successful
+    aSintDummy21 : SINT := 21;
+    bSintDummy21 : SINT := 21;
+
+    // Successful
+    aSintDummy22 : SINT := 22;
+    bSintDummy22 : SINT := 22;
+
+    // Successful
+    aSintDummy23 : SINT := 23;
+    bSintDummy23 : SINT := 23;
+
+    // Successful
+    aSintDummy24 : SINT := 24;
+    bSintDummy24 : SINT := 24;
+
+    // Successful
+    aSintDummy25 : SINT := 25;
+    bSintDummy25 : SINT := 25;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestMixed33SuccessulAnd9FailedAssertions');
+
+AssertEquals(Expected := aAny,
+             Actual := bAny,
+             Message := 'Values differ');
+
+AssertEquals_BOOL(Expected := aBool,
+                  Actual := bBool,
+                  Message := 'Values differ');
+
+AssertArrayEquals_DINT(Expecteds := aDint,
+                       Actuals := bDint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_DWORD(Expecteds := aDword,
+                        Actuals := bDword,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_INT(Expecteds := aInt,
+                      Actuals := bInt,
+                      Message := 'Arrays differ');
+
+AssertArrayEquals_LINT(Expecteds := aLint,
+                      Actuals := bLint,
+                      Message := 'Arrays differ');
+
+AssertEquals_LREAL(Expected := aLreal,
+                   Actual := bLreal,
+                   Delta := 0.2,
+                   Message := 'Values differ');
+
+AssertEquals_LTIME(Expected := aLtime,
+                   Actual := bLtime,
+                   Message := 'Values differ');
+
+AssertArrayEquals_LREAL(Expecteds := aLrealArray,
+                        Actuals := bLrealArray,
+                        Delta := 0.01,
+                        Message := 'Arrays differ');
+
+AssertArray2dEquals_LREAL(Expecteds := aLreal2d,
+                          Actuals := bLreal2d,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+AssertEquals_LWORD(Expected := aLword,
+                   Actual := bLword,
+                   Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSint,
+                  Actual := bSint,
+                  Message := 'Values differ');
+
+AssertArrayEquals_UDINT(Expecteds := aUdint,
+                        Actuals := bUdint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_UINT(Expecteds := aUint,
+                       Actuals := bUint,
+                       Message := 'Arrays differ');
+
+AssertEquals_ULINT(Expected := aUlint,
+                   Actual := bUlint,
+                   Message := 'Values differ');
+
+AssertEquals_USINT(Expected := aUsint,
+                   Actual := bUsint,
+                   Message := 'Values differ');
+
+AssertArrayEquals_WORD(Expecteds := aWord,
+                       Actuals := bWord,
+                       Message := 'Arrays differ');
+
+AssertEquals_SINT(Expected := aSintDummy1,
+                  Actual := bSintDummy1,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy2,
+                  Actual := bSintDummy2,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy3,
+                  Actual := bSintDummy3,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy4,
+                  Actual := bSintDummy4,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy5,
+                  Actual := bSintDummy5,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy6,
+                  Actual := bSintDummy6,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy7,
+                  Actual := bSintDummy7,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy8,
+                  Actual := bSintDummy8,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy9,
+                  Actual := bSintDummy9,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy10,
+                  Actual := bSintDummy10,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy11,
+                  Actual := bSintDummy11,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy12,
+                  Actual := bSintDummy12,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy13,
+                  Actual := bSintDummy13,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy14,
+                  Actual := bSintDummy14,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy15,
+                  Actual := bSintDummy15,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy16,
+                  Actual := bSintDummy16,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy17,
+                  Actual := bSintDummy17,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy18,
+                  Actual := bSintDummy18,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy19,
+                  Actual := bSintDummy19,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy20,
+                  Actual := bSintDummy20,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy21,
+                  Actual := bSintDummy21,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy22,
+                  Actual := bSintDummy22,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy23,
+                  Actual := bSintDummy23,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy24,
+                  Actual := bSintDummy24,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy25,
+                  Actual := bSintDummy25,
+                  Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestWith43SuccessfulAssertions" Id="{bbb0b8f9-5c98-485d-91ea-95c838050e84}">
+      <Declaration><![CDATA[METHOD PRIVATE TestWith43SuccessfulAssertions
+VAR
+    aAny : INT := 5;
+    bAny : INT := 5;
+
+    aBool : BOOL := TRUE;
+    bBool : BOOL := TRUE;
+
+    aByte : BYTE := 16#CD;
+    bByte : BYTE := 16#CD;
+
+    aDateAndTime : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
+    bDateAndTime : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
+
+    aDate : DATE := DATE#1996-05-06;
+    bDate : DATE := DATE#1996-05-06;
+
+    aDint : DINT := -80000;
+    bDint : DINT := -80000;
+
+    aDword : DWORD := 16#7890ABCD;
+    bDword : DWORD := 16#7890ABCD;
+
+
+    aInt : INT := -12345;
+    bInt : INT := -12345;
+
+    aLint : LINT := -123456789;
+    bLint : LINT := -123456789;
+
+    aLreal : LREAL := 1234567.89;
+    bLreal : LREAL := 1234567.76;
+
+    aLtime : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    bLtime : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+
+    aLword : LWORD := 16#0123456789ABCDEF;
+    bLword : LWORD := 16#0123456789ABCDEF;
+
+    aReal : REAL := 1234.5;
+    bReal : REAL := 1234.4;
+
+    aSint : SINT := -128;
+    bSint : SINT := -128;
+
+    aString : STRING := 'Hello there';
+    bString : STRING := 'Hello there';
+
+    aTime : TIME := T#11H34M13S244MS;
+    bTime : TIME := T#11H34M13S244MS;
+
+    aTimeOfDay : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+    bTimeOfDay : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+
+    aUdint : UDINT := 21845123;
+    bUdint : UDINT := 21845123;
+
+    aUint : UINT := 65535;
+    bUint : UINT := 65535;
+
+    aUlint : ULINT := 45683838383;
+    bUlint : ULINT := 45683838383;
+
+    aUsint : USINT := 5;
+    bUsint : USINT := 5;
+
+    aWord : WORD := 16#ABCD;
+    bWord : WORD := 16#ABCD;
+
+    aSintDummy1 : SINT := 1;
+    bSintDummy1 : SINT := 1;
+
+    aSintDummy2 : SINT := 2;
+    bSintDummy2 : SINT := 2;
+
+    aSintDummy3 : SINT := 3;
+    bSintDummy3 : SINT := 3;
+
+    aSintDummy4 : SINT := 4;
+    bSintDummy4 : SINT := 4;
+
+    aSintDummy5 : SINT := 5;
+    bSintDummy5 : SINT := 5;
+
+    aSintDummy6 : SINT := 6;
+    bSintDummy6 : SINT := 6;
+
+    aSintDummy7 : SINT := 7;
+    bSintDummy7 : SINT := 7;
+
+    aSintDummy8 : SINT := 8;
+    bSintDummy8 : SINT := 8;
+
+    aSintDummy9 : SINT := 9;
+    bSintDummy9 : SINT := 9;
+
+    aSintDummy10 : SINT := 10;
+    bSintDummy10 : SINT := 10;
+
+    aSintDummy11 : SINT := 11;
+    bSintDummy11 : SINT := 11;
+
+    aSintDummy12 : SINT := 12;
+    bSintDummy12 : SINT := 12;
+
+    aSintDummy13 : SINT := 13;
+    bSintDummy13 : SINT := 13;
+
+    aSintDummy14 : SINT := 14;
+    bSintDummy14 : SINT := 14;
+
+    aSintDummy15 : SINT := 15;
+    bSintDummy15 : SINT := 15;
+
+    aSintDummy16 : SINT := 16;
+    bSintDummy16 : SINT := 16;
+
+    aSintDummy17 : SINT := 17;
+    bSintDummy17 : SINT := 17;
+
+    aSintDummy18 : SINT := 18;
+    bSintDummy18 : SINT := 18;
+
+    aSintDummy19 : SINT := 19;
+    bSintDummy19 : SINT := 19;
+
+    aSintDummy20 : SINT := 20;
+    bSintDummy20 : SINT := 20;
+
+    aSintDummy21 : SINT := 21;
+    bSintDummy21 : SINT := 21;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestWith22SuccessfulAssertions');
+
+AssertEquals(Expected := aAny,
+             Actual := bAny,
+             Message := 'Values differ');
+
+AssertEquals_BOOL(Expected := aBool,
+                  Actual := bBool,
+                  Message := 'Values differ');
+
+AssertEquals_BYTE(Expected := aByte,
+                  Actual := bByte,
+                  Message := 'Values differ');
+
+AssertEquals_DATE_AND_TIME(Expected := aDateAndTime,
+                           Actual := bDateAndTime,
+                           Message := 'Values differ');
+
+AssertEquals_DATE(Expected := aDate,
+                  Actual := bDate,
+                  Message := 'Values differ');
+
+AssertEquals_DINT(Expected := aDint,
+                  Actual := bDint,
+                  Message := 'Values differ');
+
+AssertEquals_DWORD(Expected := aDword,
+                   Actual := bDword,
+                   Message := 'Values differ');
+
+AssertEquals_INT(Expected := aInt,
+                 Actual := bInt,
+                 Message := 'Values differ');
+
+AssertEquals_LINT(Expected := aLint,
+                  Actual := bLint,
+                  Message := 'Values differ');
+
+AssertEquals_LREAL(Expected := aLreal,
+                   Actual := bLreal,
+                   Delta := 0.2,
+                   Message := 'Values differ');
+
+AssertEquals_LTIME(Expected := aLtime,
+                   Actual := bLtime,
+                   Message := 'Values differ');
+
+AssertEquals_LWORD(Expected := aLword,
+                   Actual := bLword,
+                   Message := 'Values differ');
+
+AssertEquals_REAL(Expected := aReal,
+                  Actual := bReal,
+                  Delta := 0.1,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSint,
+                  Actual := bSint,
+                  Message := 'Values differ');
+
+AssertEquals_STRING(Expected := aString,
+                    Actual := bString,
+                    Message := 'Values differ');
+
+AssertEquals_TIME(Expected := aTime,
+                  Actual := bTime,
+                  Message := 'Values differ');
+
+AssertEquals_TIME_OF_DAY(Expected := aTimeOfDay,
+                         Actual := bTimeOfDay,
+                         Message := 'Values differ');
+
+AssertEquals_UDINT(Expected := aUdint,
+                   Actual := bUdint,
+                   Message := 'Values differ');
+
+AssertEquals_UINT(Expected := aUint,
+                  Actual := bUint,
+                  Message := 'Values differ');
+
+AssertEquals_ULINT(Expected := aUlint,
+                   Actual := bUlint,
+                   Message := 'Values differ');
+
+AssertEquals_USINT(Expected := aUsint,
+                   Actual := bUsint,
+                   Message := 'Values differ');
+
+AssertEquals_WORD(Expected := aWord,
+                  Actual := bWord,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy1,
+                  Actual := bSintDummy1,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy2,
+                  Actual := bSintDummy2,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy3,
+                  Actual := bSintDummy3,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy4,
+                  Actual := bSintDummy4,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy5,
+                  Actual := bSintDummy5,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy6,
+                  Actual := bSintDummy6,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy7,
+                  Actual := bSintDummy7,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy8,
+                  Actual := bSintDummy8,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy9,
+                  Actual := bSintDummy9,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy10,
+                  Actual := bSintDummy10,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy11,
+                  Actual := bSintDummy11,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy12,
+                  Actual := bSintDummy12,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy13,
+                  Actual := bSintDummy13,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy14,
+                  Actual := bSintDummy14,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy15,
+                  Actual := bSintDummy15,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy16,
+                  Actual := bSintDummy16,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy17,
+                  Actual := bSintDummy17,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy18,
+                  Actual := bSintDummy18,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy19,
+                  Actual := bSintDummy19,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy20,
+                  Actual := bSintDummy20,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy21,
+                  Actual := bSintDummy21,
+                  Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestWith44FailedAssertions" Id="{d3ebd3e6-e3be-407f-92f9-eb1a73c0593c}">
+      <Declaration><![CDATA[METHOD PRIVATE TestWith44FailedAssertions
+VAR
+    aAny : INT := 5;
+    bAny : INT := 4;
+
+    aBool : BOOL := TRUE;
+    bBool : BOOL := FALSE;
+
+    aBool2 : BOOL := FALSE;
+    bBool2 : BOOL := TRUE;
+
+    aByte : BYTE := 16#AB;
+    bByte : BYTE := 16#CD;
+
+    aDateAndTime : DATE_AND_TIME := DATE_AND_TIME#2018-01-20-13:54:30;
+    bDateAndTime : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
+
+    aDate : DATE := DATE#1995-05-06;
+    bDate : DATE := DATE#1996-05-06;
+
+    aDint : DINT := -80001;
+    bDint : DINT := -80000;
+
+    aDword : DWORD := 16#7890ABDD;
+    bDword : DWORD := 16#7890ABCD;
+
+    aInt : INT := -12344;
+    bInt : INT := -12345;
+
+    aLint : LINT := -123456787;
+    bLint : LINT := -123456789;
+
+    aLreal : LREAL := 1234564.89;
+    bLreal : LREAL := 1234567.76;
+
+    aLtime : LTIME := LTIME#213503D23H33M33S709MS551US615NS;
+    bLtime : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+
+    aLword : LWORD := 16#0123456789ABCDEE;
+    bLword : LWORD := 16#0123456789ABCDEF;
+
+    aReal : REAL := 1232.5;
+    bReal : REAL := 1234.4;
+
+    aSint : SINT := -123;
+    bSint : SINT := -128;
+
+    aString : STRING := 'Hello there!';
+    bString : STRING := 'Hello there';
+
+    aTime : TIME := T#11H34M13S241MS;
+    bTime : TIME := T#11H34M13S244MS;
+
+    aTimeOfDay : TIME_OF_DAY := TIME_OF_DAY#06:21:10.492;
+    bTimeOfDay : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+
+    aUdint : UDINT := 21845122;
+    bUdint : UDINT := 21845123;
+
+    aUint : UINT := 65534;
+    bUint : UINT := 65535;
+
+    aUlint : ULINT := 45683838382;
+    bUlint : ULINT := 45683838383;
+
+    aUsint : USINT := 4;
+    bUsint : USINT := 5;
+
+    aWord : WORD := 16#ABCE;
+    bWord : WORD := 16#ABCD;
+
+    aSintDummy1 : SINT := 1;
+    bSintDummy1 : SINT := 2;
+
+    aSintDummy2 : SINT := 3;
+    bSintDummy2 : SINT := 4;
+
+    aSintDummy3 : SINT := 5;
+    bSintDummy3 : SINT := 6;
+
+    aSintDummy4 : SINT := 7;
+    bSintDummy4 : SINT := 8;
+
+    aSintDummy5 : SINT := 9;
+    bSintDummy5 : SINT := 10;
+
+    aSintDummy6 : SINT := 11;
+    bSintDummy6 : SINT := 12;
+
+    aSintDummy7 : SINT := 13;
+    bSintDummy7 : SINT := 14;
+
+    aSintDummy8 : SINT := 15;
+    bSintDummy8 : SINT := 16;
+
+    aSintDummy9 : SINT := 17;
+    bSintDummy9 : SINT := 18;
+
+    aSintDummy10 : SINT := 19;
+    bSintDummy10 : SINT := 20;
+
+    aSintDummy11 : SINT := 21;
+    bSintDummy11 : SINT := 22;
+
+    aSintDummy12 : SINT := 23;
+    bSintDummy12 : SINT := 24;
+
+    aSintDummy13 : SINT := 25;
+    bSintDummy13 : SINT := 26;
+
+    aSintDummy14 : SINT := 27;
+    bSintDummy14 : SINT := 28;
+
+    aSintDummy15 : SINT := 29;
+    bSintDummy15 : SINT := 30;
+
+    aSintDummy16 : SINT := 31;
+    bSintDummy16 : SINT := 32;
+
+    aSintDummy17 : SINT := 33;
+    bSintDummy17 : SINT := 34;
+
+    aSintDummy18 : SINT := 35;
+    bSintDummy18 : SINT := 36;
+
+    aSintDummy19 : SINT := 37;
+    bSintDummy19 : SINT := 38;
+
+    aSintDummy20 : SINT := 39;
+    bSintDummy20 : SINT := 40;
+
+    aSintDummy21 : SINT := 41;
+    bSintDummy21 : SINT := 42;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestWith44FailedAssertions');
+
+AssertEquals(Expected := aAny,
+             Actual := bAny,
+             Message := 'Values differ');
+
+AssertEquals_BOOL(Expected := aBool,
+                  Actual := bBool,
+                  Message := 'Values differ');
+
+AssertEquals_BOOL(Expected := aBool2,
+                  Actual := bBool2,
+                  Message := 'Values differ');
+
+AssertEquals_BYTE(Expected := aByte,
+                  Actual := bByte,
+                  Message := 'Values differ');
+
+AssertEquals_DATE_AND_TIME(Expected := aDateAndTime,
+                           Actual := bDateAndTime,
+                           Message := 'Values differ');
+
+AssertEquals_DATE(Expected := aDate,
+                  Actual := bDate,
+                  Message := 'Values differ');
+
+AssertEquals_DINT(Expected := aDint,
+                  Actual := bDint,
+                  Message := 'Values differ');
+
+AssertEquals_DWORD(Expected := aDword,
+                   Actual := bDword,
+                   Message := 'Values differ');
+
+AssertEquals_INT(Expected := aInt,
+                 Actual := bInt,
+                 Message := 'Values differ');
+
+AssertEquals_LINT(Expected := aLint,
+                  Actual := bLint,
+                  Message := 'Values differ');
+
+AssertEquals_LREAL(Expected := aLreal,
+                   Actual := bLreal,
+                   Delta := 0.2,
+                   Message := 'Values differ');
+
+AssertEquals_LTIME(Expected := aLtime,
+                   Actual := bLtime,
+                   Message := 'Values differ');
+
+AssertEquals_LWORD(Expected := aLword,
+                   Actual := bLword,
+                   Message := 'Values differ');
+
+AssertEquals_REAL(Expected := aReal,
+                  Actual := bReal,
+                  Delta := 0.1,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSint,
+                  Actual := bSint,
+                  Message := 'Values differ');
+
+AssertEquals_STRING(Expected := aString,
+                    Actual := bString,
+                    Message := 'Values differ');
+
+AssertEquals_TIME(Expected := aTime,
+                  Actual := bTime,
+                  Message := 'Values differ');
+
+AssertEquals_TIME_OF_DAY(Expected := aTimeOfDay,
+                         Actual := bTimeOfDay,
+                         Message := 'Values differ');
+
+AssertEquals_UDINT(Expected := aUdint,
+                   Actual := bUdint,
+                   Message := 'Values differ');
+
+AssertEquals_UINT(Expected := aUint,
+                  Actual := bUint,
+                  Message := 'Values differ');
+
+AssertEquals_ULINT(Expected := aUlint,
+                   Actual := bUlint,
+                   Message := 'Values differ');
+
+AssertEquals_USINT(Expected := aUsint,
+                   Actual := bUsint,
+                   Message := 'Values differ');
+
+AssertEquals_WORD(Expected := aWord,
+                  Actual := bWord,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy1,
+                  Actual := bSintDummy1,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy2,
+                  Actual := bSintDummy2,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy3,
+                  Actual := bSintDummy3,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy4,
+                  Actual := bSintDummy4,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy5,
+                  Actual := bSintDummy5,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy6,
+                  Actual := bSintDummy6,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy7,
+                  Actual := bSintDummy7,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy8,
+                  Actual := bSintDummy8,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy9,
+                  Actual := bSintDummy9,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy10,
+                  Actual := bSintDummy10,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy11,
+                  Actual := bSintDummy11,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy12,
+                  Actual := bSintDummy12,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy13,
+                  Actual := bSintDummy13,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy14,
+                  Actual := bSintDummy14,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy15,
+                  Actual := bSintDummy15,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy16,
+                  Actual := bSintDummy16,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy17,
+                  Actual := bSintDummy17,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy18,
+                  Actual := bSintDummy18,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy19,
+                  Actual := bSintDummy19,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy20,
+                  Actual := bSintDummy20,
+                  Message := 'Values differ');
+
+AssertEquals_SINT(Expected := aSintDummy21,
+                  Actual := bSintDummy21,
+                  Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestWith45SuccessfulArrayAssertions" Id="{a85ea318-3e9c-4c43-b87c-902b94ca1882}">
+      <Declaration><![CDATA[METHOD PRIVATE TestWith45SuccessfulArrayAssertions
+VAR
+    aBool : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
+    bBool : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
+
+    aByte : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
+    bByte : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
+
+    aDint : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+    bDint : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+
+    aDword : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
+    bDword : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012345];
+
+    aInt : ARRAY[-5..1] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+    bInt : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+
+    aLint : ARRAY[-1..0] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+    bLint : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+
+    aLreal : ARRAY[-5..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
+    bLreal : ARRAY[1..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+
+    aLreal2d : ARRAY[-5..-3,-1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    bLreal2d : ARRAY[1..3,0..1] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+
+    aLreal3d : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    bLreal3d : ARRAY[1..2,4..5,6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
+
+    aLword : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
+    bLword : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
+
+    aReal : ARRAY[-5..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
+    bReal : ARRAY[1..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+
+    aReal2d : ARRAY[-5..-3,-1..0] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    bReal2d : ARRAY[1..3,0..1] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+
+    aReal3d : ARRAY[-5..-4,-1..0,0..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    bReal3d : ARRAY[1..2,4..5,6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
+
+    aSint : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSint : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aUdint : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
+    bUdint : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
+
+    aUint : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
+    bUint : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
+
+    aUlint : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
+    bUlint : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
+
+    aUsint : ARRAY[0..100] OF USINT := [42, 100(33)];
+    bUsint : ARRAY[0..100] OF USINT := [42, 100(33)];
+
+    aWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
+    bWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
+
+    aSintDummy1 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy1 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy2 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy2 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy3 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy3 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy4 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy4 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy5 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy5 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy6 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy6 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy7 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy7 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy8 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy8 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy9 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy9 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy10 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy10 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy11 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy11 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy12 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy12 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy13 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy13 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy14 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy14 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy15 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy15 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy16 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy16 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy17 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy17 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy18 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy18 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy19 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy19 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy20 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy20 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy21 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy21 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy22 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy22 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy23 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy23 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy24 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy24 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy25 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy25 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aSintDummy26 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy26 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestWith45SuccessfulArrayAssertions');
+
+AssertArrayEquals_BOOL(Expecteds := aBool,
+                       Actuals := bBool,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_BYTE(Expecteds := aByte,
+                       Actuals := bByte,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_DINT(Expecteds := aDint,
+                       Actuals := bDint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_DWORD(Expecteds := aDword,
+                        Actuals := bDword,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_INT(Expecteds := aInt,
+                      Actuals := bInt,
+                      Message := 'Arrays differ');
+
+AssertArrayEquals_LINT(Expecteds := aLint,
+                      Actuals := bLint,
+                      Message := 'Arrays differ');
+
+AssertArrayEquals_LREAL(Expecteds := aLreal,
+                        Actuals := bLreal,
+                        Delta := 0.01,
+                        Message := 'Arrays differ');
+
+AssertArray2dEquals_LREAL(Expecteds := aLreal2d,
+                          Actuals := bLreal2d,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+AssertArray3dEquals_LREAL(Expecteds := aLreal3d,
+                          Actuals := bLreal3d,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+AssertArrayEquals_LWORD(Expecteds := aLword,
+                        Actuals := bLword,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_REAL(Expecteds := aReal,
+                       Actuals := bReal,
+                       Delta := 0.01,
+                       Message := 'Arrays differ');
+
+AssertArray2dEquals_REAL(Expecteds := aReal2d,
+                         Actuals := bReal2d,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+AssertArray3dEquals_REAL(Expecteds := aReal3d,
+                         Actuals := bReal3d,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSint,
+                       Actuals := bSint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_UDINT(Expecteds := aUdint,
+                        Actuals := bUdint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_UINT(Expecteds := aUint,
+                       Actuals := bUint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_ULINT(Expecteds := aUlint,
+                        Actuals := bUlint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_USINT(Expecteds := aUsint,
+                        Actuals := bUsint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_WORD(Expecteds := aWord,
+                       Actuals := bWord,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy1,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy2,
+                       Actuals := bSintDummy2,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy3,
+                       Actuals := bSintDummy3,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy4,
+                       Actuals := bSintDummy4,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy5,
+                       Actuals := bSintDummy5,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy6,
+                       Actuals := bSintDummy6,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy7,
+                       Actuals := bSintDummy7,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy8,
+                       Actuals := bSintDummy8,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy9,
+                       Actuals := bSintDummy9,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy10,
+                       Actuals := bSintDummy10,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy11,
+                       Actuals := bSintDummy11,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy12,
+                       Actuals := bSintDummy12,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy13,
+                       Actuals := bSintDummy13,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy14,
+                       Actuals := bSintDummy14,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy15,
+                       Actuals := bSintDummy15,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy16,
+                       Actuals := bSintDummy16,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy17,
+                       Actuals := bSintDummy17,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy18,
+                       Actuals := bSintDummy18,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy19,
+                       Actuals := bSintDummy19,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy20,
+                       Actuals := bSintDummy20,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy21,
+                       Actuals := bSintDummy21,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy22,
+                       Actuals := bSintDummy22,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy23,
+                       Actuals := bSintDummy23,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy24,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy25,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy26,
+                       Actuals := bSintDummy26,
+                       Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestWith46FailedArrayAssertions" Id="{393fa5a7-3c02-4541-95a4-9e5037f6e47e}">
+      <Declaration><![CDATA[METHOD PRIVATE TestWith46FailedArrayAssertions
+VAR
+    aBool : ARRAY[1..4] OF BOOL := [TRUE, FALSE, TRUE, FALSE];
+    bBool : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
+
+    aByte : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9F];
+    bByte : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
+
+    aDint : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
+    bDint : ARRAY[1..5] OF DINT := [64, 98, 2147483647, -2147483648, 0];
+
+    aDword : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
+    bDword : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012343];
+
+    aDword2 : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012343];
+    bDword2 : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
+
+    aInt : ARRAY[-5..1] OF INT := [64, 95, -32768, 32767, 5478, -378, 42];
+    bInt : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
+
+    aLint : ARRAY[-1..-1] OF LINT := [9_223_372_036_854_775_807];
+    bLint : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
+
+    aLreal : ARRAY[-5..1] OF LREAL := [64.0, 97.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
+    bLreal : ARRAY[1..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+
+    aLreal2d : ARRAY[-5..-3,-1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    bLreal2d : ARRAY[1..3,0..1] OF LREAL := [63.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+
+    aLreal3d : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    bLreal3d : ARRAY[1..2,4..5,6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5476.4002, -378.5003, 42.6001, 560344.0006];
+
+    aLword : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
+    bLword : ARRAY[1..2] OF LWORD := [16#012345678A0ABCDE, 16#EDCBA09876543210];
+
+    aReal : ARRAY[-5..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
+    bReal : ARRAY[1..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
+
+    aReal2d : ARRAY[-5..-3,-1..0] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    bReal2d : ARRAY[1..3,0..1] OF REAL := [64.0001, 98.0999, -32761.1995, 32767.3001, 5478.4002, -378.5003];
+
+    aReal3d : ARRAY[-5..-4,-1..0,0..1] OF REAL := [64.0, 93.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    bReal3d : ARRAY[1..2,4..5,6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
+
+    aSint : ARRAY[0..2] OF SINT := [-128, 127, -34];
+    bSint : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+
+    aUdint : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
+    bUdint : ARRAY[1..1] OF UDINT := [0];
+
+    aUint : ARRAY[0..4] OF UINT := [0, 65535, 2001, 34123, 59];
+    bUint : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
+
+    aUlint : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_614, 9_400_000_000_000, 3_213_000_444_000];
+    bUlint : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
+
+    aUsint : ARRAY[0..99] OF USINT := [42, 99(33)];
+    bUsint : ARRAY[0..100] OF USINT := [42, 100(33)];
+
+    aWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBF, 16#CCCC, 16#DDDD, 16#EEEE];
+    bWord : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
+    
+
+    aSintDummy1 : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
+    bSintDummy1 : ARRAY[0..3] OF SINT := [-128, 127, -34, 63];
+
+    aSintDummy2 : ARRAY[0..3] OF SINT := [-128, 127, -34, 64];
+    bSintDummy2 : ARRAY[0..3] OF SINT := [-128, 127, -34, 65];
+
+    aSintDummy3 : ARRAY[0..3] OF SINT := [-128, 127, -34, 66];
+    bSintDummy3 : ARRAY[0..3] OF SINT := [-128, 127, -34, 67];
+
+    aSintDummy4 : ARRAY[0..3] OF SINT := [-128, 127, -34, 68];
+    bSintDummy4 : ARRAY[0..3] OF SINT := [-128, 127, -34, 69];
+
+    aSintDummy5 : ARRAY[0..3] OF SINT := [-128, 127, -34, 70];
+    bSintDummy5 : ARRAY[0..3] OF SINT := [-128, 127, -34, 71];
+
+    aSintDummy6 : ARRAY[0..3] OF SINT := [-128, 127, -34, 72];
+    bSintDummy6 : ARRAY[0..3] OF SINT := [-128, 127, -34, 73];
+
+    aSintDummy7 : ARRAY[0..3] OF SINT := [-128, 127, -34, 74];
+    bSintDummy7 : ARRAY[0..3] OF SINT := [-128, 127, -34, 75];
+
+    aSintDummy8 : ARRAY[0..3] OF SINT := [-128, 127, -34, 76];
+    bSintDummy8 : ARRAY[0..3] OF SINT := [-128, 127, -34, 77];
+
+    aSintDummy9 : ARRAY[0..3] OF SINT := [-128, 127, -34, 78];
+    bSintDummy9 : ARRAY[0..3] OF SINT := [-128, 127, -34, 79];
+
+    aSintDummy10 : ARRAY[0..3] OF SINT := [-128, 127, -34, 80];
+    bSintDummy10 : ARRAY[0..3] OF SINT := [-128, 127, -34, 81];
+
+    aSintDummy11 : ARRAY[0..3] OF SINT := [-128, 127, -34, 82];
+    bSintDummy11 : ARRAY[0..3] OF SINT := [-128, 127, -34, 83];
+
+    aSintDummy12 : ARRAY[0..3] OF SINT := [-128, 127, -34, 84];
+    bSintDummy12 : ARRAY[0..3] OF SINT := [-128, 127, -34, 85];
+
+    aSintDummy13 : ARRAY[0..3] OF SINT := [-128, 127, -34, 86];
+    bSintDummy13 : ARRAY[0..3] OF SINT := [-128, 127, -34, 87];
+
+    aSintDummy14 : ARRAY[0..3] OF SINT := [-128, 127, -34, 88];
+    bSintDummy14 : ARRAY[0..3] OF SINT := [-128, 127, -34, 89];
+
+    aSintDummy15 : ARRAY[0..3] OF SINT := [-128, 127, -34, 90];
+    bSintDummy15 : ARRAY[0..3] OF SINT := [-128, 127, -34, 91];
+
+    aSintDummy16 : ARRAY[0..3] OF SINT := [-128, 127, -34, 92];
+    bSintDummy16 : ARRAY[0..3] OF SINT := [-128, 127, -34, 93];
+
+    aSintDummy17 : ARRAY[0..3] OF SINT := [-128, 127, -34, 94];
+    bSintDummy17 : ARRAY[0..3] OF SINT := [-128, 127, -34, 95];
+
+    aSintDummy18 : ARRAY[0..3] OF SINT := [-128, 127, -34, 96];
+    bSintDummy18 : ARRAY[0..3] OF SINT := [-128, 127, -34, 97];
+
+    aSintDummy19 : ARRAY[0..3] OF SINT := [-128, 127, -34, 98];
+    bSintDummy19 : ARRAY[0..3] OF SINT := [-128, 127, -34, 99];
+
+    aSintDummy20 : ARRAY[0..3] OF SINT := [-128, 127, -34, 100];
+    bSintDummy20 : ARRAY[0..3] OF SINT := [-128, 127, -34, 101];
+
+    aSintDummy21 : ARRAY[0..3] OF SINT := [-128, 127, -34, 102];
+    bSintDummy21 : ARRAY[0..3] OF SINT := [-128, 127, -34, 103];
+
+    aSintDummy22 : ARRAY[0..3] OF SINT := [-128, 127, -34, 104];
+    bSintDummy22 : ARRAY[0..3] OF SINT := [-128, 127, -34, 105];
+
+    aSintDummy23 : ARRAY[0..3] OF SINT := [-128, 127, -34, 106];
+    bSintDummy23 : ARRAY[0..3] OF SINT := [-128, 127, -34, 107];
+
+    aSintDummy24 : ARRAY[0..3] OF SINT := [-128, 127, -34, 108];
+    bSintDummy24 : ARRAY[0..3] OF SINT := [-128, 127, -34, 109];
+
+    aSintDummy25 : ARRAY[0..3] OF SINT := [-128, 127, -34, 110];
+    bSintDummy25 : ARRAY[0..3] OF SINT := [-128, 127, -34, 111];
+
+    aSintDummy26 : ARRAY[0..3] OF SINT := [-128, 127, -34, 112];
+    bSintDummy26 : ARRAY[0..3] OF SINT := [-128, 127, -34, 113];
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestWith46FailedArrayAssertions');
+
+AssertArrayEquals_BOOL(Expecteds := aBool,
+                       Actuals := bBool,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_BYTE(Expecteds := aByte,
+                       Actuals := bByte,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_DINT(Expecteds := aDint,
+                       Actuals := bDint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_DWORD(Expecteds := aDword,
+                        Actuals := bDword,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_DWORD(Expecteds := aDword2,
+                        Actuals := bDword2,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_INT(Expecteds := aInt,
+                      Actuals := bInt,
+                      Message := 'Arrays differ');
+
+AssertArrayEquals_LINT(Expecteds := aLint,
+                      Actuals := bLint,
+                      Message := 'Arrays differ');
+
+AssertArrayEquals_LREAL(Expecteds := aLreal,
+                        Actuals := bLreal,
+                        Delta := 0.01,
+                        Message := 'Arrays differ');
+
+AssertArray2dEquals_LREAL(Expecteds := aLreal2d,
+                          Actuals := bLreal2d,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+AssertArray3dEquals_LREAL(Expecteds := aLreal3d,
+                          Actuals := bLreal3d,
+                          Delta := 0.01,
+                          Message := 'Arrays differ');
+
+AssertArrayEquals_LWORD(Expecteds := aLword,
+                        Actuals := bLword,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_REAL(Expecteds := aReal,
+                       Actuals := bReal,
+                       Delta := 0.01,
+                       Message := 'Arrays differ');
+
+AssertArray2dEquals_REAL(Expecteds := aReal2d,
+                         Actuals := bReal2d,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+AssertArray3dEquals_REAL(Expecteds := aReal3d,
+                         Actuals := bReal3d,
+                         Delta := 0.01,
+                         Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSint,
+                       Actuals := bSint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_UDINT(Expecteds := aUdint,
+                        Actuals := bUdint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_UINT(Expecteds := aUint,
+                       Actuals := bUint,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_ULINT(Expecteds := aUlint,
+                        Actuals := bUlint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_USINT(Expecteds := aUsint,
+                        Actuals := bUsint,
+                        Message := 'Arrays differ');
+
+AssertArrayEquals_WORD(Expecteds := aWord,
+                       Actuals := bWord,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy1,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy2,
+                       Actuals := bSintDummy2,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy3,
+                       Actuals := bSintDummy3,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy4,
+                       Actuals := bSintDummy4,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy5,
+                       Actuals := bSintDummy5,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy6,
+                       Actuals := bSintDummy6,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy7,
+                       Actuals := bSintDummy7,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy8,
+                       Actuals := bSintDummy8,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy9,
+                       Actuals := bSintDummy9,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy10,
+                       Actuals := bSintDummy10,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy11,
+                       Actuals := bSintDummy11,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy12,
+                       Actuals := bSintDummy12,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy13,
+                       Actuals := bSintDummy13,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy14,
+                       Actuals := bSintDummy14,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy15,
+                       Actuals := bSintDummy15,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy16,
+                       Actuals := bSintDummy16,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy17,
+                       Actuals := bSintDummy17,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy18,
+                       Actuals := bSintDummy18,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy19,
+                       Actuals := bSintDummy19,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy20,
+                       Actuals := bSintDummy20,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy21,
+                       Actuals := bSintDummy21,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy22,
+                       Actuals := bSintDummy22,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy23,
+                       Actuals := bSintDummy23,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy24,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy25,
+                       Actuals := bSintDummy1,
+                       Message := 'Arrays differ');
+
+AssertArrayEquals_SINT(Expecteds := aSintDummy26,
+                       Actuals := bSintDummy26,
+                       Message := 'Arrays differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

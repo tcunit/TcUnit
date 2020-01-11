@@ -90,31 +90,43 @@ new FB_AssertEveryFailedTestTwiceArrayVersion(errors);
 This is an example of how it can look running the TcUnit-Verifier_DotNet:
 
 ```
-C:\Code\TcUnit\TcUnit-Verifier\TcUnit-Verifier_DotNet\TcUnit-Verifier\bin\Debug>TcUnit-Verifier.exe -v "C:\Code\TcUnit\TcUnit-Verifier\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"
-2019-12-08 14:42:40 - Starting TcUnit-Verifier...
-2019-12-08 14:42:40 - Loading the Visual Studio Development Tools Environment (DTE)...
-2019-12-08 14:42:50 - Cleaning and building TcUnit-Verifier_TwinCAT solution...
-2019-12-08 14:42:50 - Generating TcUnit-Verifier_TwinCAT boot project...
-2019-12-08 14:42:55 - Activating TcUnit-Verifier_TwinCAT configuration...
-2019-12-08 14:42:57 - Restarting TwinCAT...
-2019-12-08 14:42:57 - Waiting for TcUnit-Verifier_TwinCAT to finish running tests...
-2019-12-08 14:42:58 - ... got 0 report lines so far.
-2019-12-08 14:42:59 - ... got 0 report lines so far.
-2019-12-08 14:43:00 - ... got 0 report lines so far.
-2019-12-08 14:43:01 - ... got 14 report lines so far.
-2019-12-08 14:43:02 - ... got 31 report lines so far.
-2019-12-08 14:43:03 - ... got 47 report lines so far.
-2019-12-08 14:43:04 - ... got 64 report lines so far.
-2019-12-08 14:43:05 - ... got 81 report lines so far.
-2019-12-08 14:43:06 - ... got 97 report lines so far.
-2019-12-08 14:43:07 - ... got 114 report lines so far.
-2019-12-08 14:43:08 - ... got 131 report lines so far.
-2019-12-08 14:43:09 - ... got 147 report lines so far.
-2019-12-08 14:43:10 - ... got 168 report lines so far.
-2019-12-08 14:43:10 - Asserting results...
-2019-12-08 14:43:11 - Done.
-2019-12-08 14:43:11 - Closing the Visual Studio Development Tools Environment (DTE), please wait...
-2019-12-08 14:43:32 - Exiting application...
+C:\Code\GitHub_TcUnit\TcUnit\TcUnit-Verifier\TcUnit-Verifier_DotNet\TcUnit-Verifier\bin\Debug>TcUnit-Verifier.exe -v "C:\Code\GitHub_TcUnit\TcUnit\TcUnit-Verifier\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"
+2020-01-11 21:26:52 - Starting TcUnit-Verifier...
+2020-01-11 21:26:52 - Loading the Visual Studio Development Tools Environment (DTE)...
+2020-01-11 21:27:02 - Cleaning and building TcUnit-Verifier_TwinCAT solution...
+2020-01-11 21:27:02 - Generating TcUnit-Verifier_TwinCAT boot project...
+2020-01-11 21:27:08 - Activating TcUnit-Verifier_TwinCAT configuration...
+2020-01-11 21:27:10 - Restarting TwinCAT...
+2020-01-11 21:27:10 - Waiting for TcUnit-Verifier_TwinCAT to finish running tests...
+2020-01-11 21:27:11 - ... got 5 report lines so far.
+2020-01-11 21:27:12 - ... got 5 report lines so far.
+2020-01-11 21:27:13 - ... got 29 report lines so far.
+2020-01-11 21:27:14 - ... got 79 report lines so far.
+2020-01-11 21:27:15 - ... got 129 report lines so far.
+2020-01-11 21:27:16 - ... got 179 report lines so far.
+2020-01-11 21:27:17 - ... got 229 report lines so far.
+2020-01-11 21:27:18 - ... got 279 report lines so far.
+2020-01-11 21:27:19 - ... got 354 report lines so far.
+2020-01-11 21:27:21 - ... got 404 report lines so far.
+2020-01-11 21:27:22 - ... got 454 report lines so far.
+2020-01-11 21:27:23 - ... got 504 report lines so far.
+2020-01-11 21:27:24 - ... got 554 report lines so far.
+2020-01-11 21:27:25 - ... got 604 report lines so far.
+2020-01-11 21:27:26 - ... got 654 report lines so far.
+2020-01-11 21:27:27 - ... got 704 report lines so far.
+2020-01-11 21:27:28 - ... got 779 report lines so far.
+2020-01-11 21:27:29 - ... got 829 report lines so far.
+2020-01-11 21:27:30 - ... got 879 report lines so far.
+2020-01-11 21:27:31 - ... got 929 report lines so far.
+2020-01-11 21:27:32 - ... got 979 report lines so far.
+2020-01-11 21:27:33 - ... got 1029 report lines so far.
+2020-01-11 21:27:34 - ... got 1079 report lines so far.
+2020-01-11 21:27:35 - ... got 1154 report lines so far.
+2020-01-11 21:27:37 - ... got 1180 report lines so far.
+2020-01-11 21:27:37 - Asserting results...
+2020-01-11 21:27:37 - Done.
+2020-01-11 21:27:37 - Closing the Visual Studio Development Tools Environment (DTE), please wait...
+2020-01-11 21:27:59 - Exiting application...
 ```
 If there was an error in the TcUnit framework this would be shown between the
 lines `Asserting results...` and `Done.`. If nothing is shown between these

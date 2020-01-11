@@ -29,23 +29,5 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
     END_IF
 END_FOR]]></ST>
     </Implementation>
-    <LineIds Name="TEST">
-      <LineId Id="75" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="98" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="99" Count="0" />
-      <LineId Id="101" Count="0" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="102" Count="0" />
-      <LineId Id="100" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

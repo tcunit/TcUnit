@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="WRITE_PROTECTED_DINT" Id="{e753c22d-5f40-4162-b951-1bab50066302}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_DINT
 VAR_INPUT
@@ -9,8 +9,5 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>
-    <LineIds Name="WRITE_PROTECTED_DINT">
-      <LineId Id="7" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

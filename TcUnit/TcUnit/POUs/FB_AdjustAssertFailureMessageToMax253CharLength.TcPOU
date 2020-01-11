@@ -47,12 +47,5 @@ ELSE
     StringArgProcessed := '';
 END_IF]]></ST>
     </Implementation>
-    <LineIds Name="FB_AdjustAssertFailureMessageToMax253CharLength">
-      <LineId Id="22" Count="5" />
-      <LineId Id="29" Count="4" />
-      <LineId Id="35" Count="5" />
-      <LineId Id="42" Count="4" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

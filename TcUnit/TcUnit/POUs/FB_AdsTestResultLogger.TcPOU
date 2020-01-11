@@ -90,7 +90,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                                 MsgFmtStr := '| Test class name=%s',
                                                 StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
 
-            (* Print test result/status (SUCCESS, FAILED, SKIPPED) *)
+            (* Print test result/status (SUCCESS, FAILED, SKIPPED) + number of assertions made *)
             IF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed THEN
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_FAIL);
             ELSIF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsSkipped THEN
@@ -98,6 +98,10 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             ELSE
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_PASS);
 			END_IF
+            
+            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', No. of asserts=');
+            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
+                                                 UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts));
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := StringToPrint,
                                                 StrArg := '');
@@ -152,77 +156,5 @@ IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND 
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AdsTestResultLogger">
-      <LineId Id="18" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.FB_init">
-      <LineId Id="7" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.LogTestSuiteResults">
-      <LineId Id="298" Count="1" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="291" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="245" Count="1" />
-      <LineId Id="249" Count="1" />
-      <LineId Id="248" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="9" Count="1" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="70" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="66" Count="1" />
-      <LineId Id="85" Count="1" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="213" Count="0" />
-      <LineId Id="212" Count="0" />
-      <LineId Id="215" Count="0" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="208" Count="0" />
-      <LineId Id="77" Count="1" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="88" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="111" Count="0" />
-      <LineId Id="98" Count="1" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="113" Count="0" />
-      <LineId Id="117" Count="2" />
-      <LineId Id="259" Count="0" />
-      <LineId Id="256" Count="0" />
-      <LineId Id="260" Count="0" />
-      <LineId Id="266" Count="0" />
-      <LineId Id="268" Count="3" />
-      <LineId Id="267" Count="0" />
-      <LineId Id="273" Count="1" />
-      <LineId Id="272" Count="0" />
-      <LineId Id="216" Count="2" />
-      <LineId Id="221" Count="1" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="219" Count="0" />
-      <LineId Id="229" Count="0" />
-      <LineId Id="224" Count="4" />
-      <LineId Id="237" Count="0" />
-      <LineId Id="223" Count="0" />
-      <LineId Id="112" Count="0" />
-      <LineId Id="100" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="195" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="198" Count="1" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="159" Count="0" />
-      <LineId Id="124" Count="0" />
-      <LineId Id="292" Count="0" />
-      <LineId Id="131" Count="16" />
-      <LineId Id="127" Count="0" />
-      <LineId Id="125" Count="1" />
-    </LineIds>
   </POU>
 </TcPlcObject>

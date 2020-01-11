@@ -43,20 +43,5 @@ AssertEquals_DWORD(Expected := e,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest">
-      <LineId Id="21" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest.Assert_SeveralTimes">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-      <LineId Id="18" Count="2" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="39" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

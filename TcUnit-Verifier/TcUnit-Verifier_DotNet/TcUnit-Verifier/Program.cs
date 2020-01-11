@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitVerifierPath = null;
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 109; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 112; // Update this if you add intentionally failing tests
 
         [STAThread]
         static int Main(string[] args)
@@ -170,6 +170,7 @@ namespace TcUnit.Verifier
             new FB_CheckIfSpecificTestIsFinished(errors);
             new FB_WriteProtectedFunctions(errors);
             new FB_TestFinishedNamed(errors);
+            new FB_TestNumberOfAssertionsCalculation(errors);
 
             log.Info("Done.");
 

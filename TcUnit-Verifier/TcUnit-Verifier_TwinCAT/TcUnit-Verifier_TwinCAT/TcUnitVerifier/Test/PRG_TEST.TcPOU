@@ -24,6 +24,7 @@ VAR
     CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;
     WriteProtectedFunctions : FB_WriteProtectedFunctions;
     TestFinishedNamed : FB_TestFinishedNamed;
+    TestNumberOfAssertionsCalculation : FB_TestNumberOfAssertionsCalculation;
 
     (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
        to test the function of where a test with a name that doesn't exist is set to finished *)
@@ -32,8 +33,5 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TcUnit.RUN();]]></ST>
     </Implementation>
-    <LineIds Name="PRG_TEST">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

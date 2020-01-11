@@ -19,7 +19,10 @@ VAR CONSTANT
     MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Find the test suite and set the test in that test suite as finished
+      <ST><![CDATA[(* Find the test suite and:
+   1. Set the test in that test suite as finished
+   2. Calculate and set the number of asserts made for that test
+*)
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
@@ -38,33 +41,12 @@ FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
 				AlreadyPrintedFinalWarning := TRUE;
 			END_IF
         ELSE
+            GVL_TcUnit.TestSuiteAddresses[Counter]^.CalculateAndSetNumberOfAssertsForTest(TestName := TestName);
             GVL_TcUnit.CurrentTestIsFinished := TRUE;
 		END_IF
         RETURN;
     END_IF
 END_FOR]]></ST>
     </Implementation>
-    <LineIds Name="TEST_FINISHED_NAMED">
-      <LineId Id="3" Count="2" />
-      <LineId Id="75" Count="0" />
-      <LineId Id="97" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="57" Count="1" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="115" Count="0" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="18" Count="1" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

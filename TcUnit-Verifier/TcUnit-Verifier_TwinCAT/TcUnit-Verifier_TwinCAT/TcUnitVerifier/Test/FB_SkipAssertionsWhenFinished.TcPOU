@@ -63,29 +63,5 @@ IF Timer^.Q THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_SkipAssertionsWhenFinished">
-      <LineId Id="9" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="29" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_AssertImmediatelyAfterFinished">
-      <LineId Id="5" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="11" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_LongTest">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="9" Count="2" />
-    </LineIds>
-    <LineIds Name="FB_SkipAssertionsWhenFinished.Test_ShortTest">
-      <LineId Id="10" Count="0" />
-      <LineId Id="12" Count="1" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="7" Count="2" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

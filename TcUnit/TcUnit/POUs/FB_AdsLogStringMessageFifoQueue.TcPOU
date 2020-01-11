@@ -86,34 +86,5 @@ MemRingBuffer.A_AddTail(pWrite := ADR(AdsLogStringMessage),
 Error := NOT MemRingBuffer.bOk;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AdsLogStringMessageFifoQueue">
-      <LineId Id="67" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="63" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="34" Count="1" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="66" Count="0" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="23" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsLogStringMessageFifoQueue.GetLog">
-      <LineId Id="9" Count="3" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsLogStringMessageFifoQueue.GetLogCount">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsLogStringMessageFifoQueue.WriteLog">
-      <LineId Id="36" Count="0" />
-      <LineId Id="21" Count="2" />
-      <LineId Id="8" Count="4" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

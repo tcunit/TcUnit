@@ -80,32 +80,5 @@ TestResultLogger.LogTestSuiteResults();
 GVL_TcUnit.AdsMessageQueue();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_TcUnitRunner">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcUnitRunner.AbortRunningTestSuiteTests">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcUnitRunner.RunTestSuiteTests">
-      <LineId Id="306" Count="0" />
-      <LineId Id="131" Count="0" />
-      <LineId Id="128" Count="1" />
-      <LineId Id="10" Count="1" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="183" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="213" Count="0" />
-      <LineId Id="217" Count="0" />
-      <LineId Id="214" Count="2" />
-      <LineId Id="23" Count="2" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="247" Count="0" />
-      <LineId Id="308" Count="7" />
-    </LineIds>
   </POU>
 </TcPlcObject>

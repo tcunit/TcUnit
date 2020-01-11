@@ -126,28 +126,5 @@ IF CalledAll THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests">
-      <LineId Id="25" Count="12" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimes">
-      <LineId Id="32" Count="11" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="57" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimesAgain">
-      <LineId Id="32" Count="11" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="56" Count="1" />
-      <LineId Id="55" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests.Assert_SeveralTimesAgainAgain">
-      <LineId Id="32" Count="11" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="55" Count="2" />
-      <LineId Id="54" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

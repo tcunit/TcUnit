@@ -80,41 +80,5 @@ AssertEquals_INT(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_CreateFourTestsWithSameName">
-      <LineId Id="18" Count="2" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_Again">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgain">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CreateFourTestsWithSameName.TestOne_AgainAgainAgain">
-      <LineId Id="5" Count="0" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="209" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

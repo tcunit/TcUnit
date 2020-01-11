@@ -77,40 +77,5 @@ AssertTrue(Condition := (a <> b),
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AssertTrueFalse">
-      <LineId Id="19" Count="3" />
-    </LineIds>
-    <LineIds Name="FB_AssertTrueFalse.AssertThatINTsAreEqual">
-      <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertTrueFalse.AssertThatINTsAreNotEqual">
-      <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertTrueFalse.AssertThatWORDsAreEqual">
-      <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertTrueFalse.AssertThatWORDsAreNotEqual">
-      <LineId Id="5" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

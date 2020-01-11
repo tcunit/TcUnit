@@ -9,7 +9,7 @@ VAR
     TestName : Tc2_System.T_MaxString; 
     TestIsFinished : BOOL;
     TestIsSkipped : BOOL; // This is set to true, if test is disabled (by putting the string "disabled_" in front of the test name
-    NumberOfAssertions : UINT(0..GVL_Param_TcUnit.MaxNumberOfAsserts);
+    NumberOfAssertions : UINT;
 
     (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
@@ -35,6 +35,12 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC GetName : Tc2_System.T_MaxString;]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetName := TestName;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetNumberOfAssertions" Id="{0cfa1f03-0295-4f8f-bfd9-24d7b7f17e37}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfAssertions : UINT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetNumberOfAssertions := NumberOfAssertions;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsFailed" Id="{e42409e3-251f-4133-8b14-3630785983d6}">
@@ -100,6 +106,15 @@ END_VAR]]></Declaration>
         <ST><![CDATA[TestName := Name;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="SetNumberOfAssertions" Id="{94c630e9-29b9-45f4-8716-809aab6fb076}">
+      <Declaration><![CDATA[METHOD PUBLIC SetNumberOfAssertions
+VAR_INPUT
+    NoOfAssertions : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfAssertions := NoOfAssertions;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="SetSkipped" Id="{e9a94cad-c60d-4460-92bf-2b70cf2f46b2}">
       <Declaration><![CDATA[(* Sets the test case to skipped *)
 METHOD PUBLIC SetSkipped]]></Declaration>
@@ -107,46 +122,5 @@ METHOD PUBLIC SetSkipped]]></Declaration>
         <ST><![CDATA[TestIsSkipped := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_Test">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.GetAssertionMessage">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.GetAssertionType">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.GetName">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.IsFailed">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.IsFinished">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.IsSkipped">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetAssertionMessage">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetAssertionType">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetFailed">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetFinished">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetName">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_Test.SetSkipped">
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

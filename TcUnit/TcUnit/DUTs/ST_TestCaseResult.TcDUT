@@ -9,6 +9,7 @@ STRUCT
     TestIsSkipped : BOOL;
     FailureMessage : Tc2_System.T_MaxString;
     FailureType : E_AssertionType;
+    NumberOfAsserts : UINT;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

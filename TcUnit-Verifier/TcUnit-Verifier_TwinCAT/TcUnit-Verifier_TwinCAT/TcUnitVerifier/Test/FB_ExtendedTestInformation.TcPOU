@@ -98,45 +98,5 @@ AssertEquals_LINT(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_ExtendedTestInformation">
-      <LineId Id="9" Count="0" />
-      <LineId Id="17" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="18" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BOOL_AssertFailed">
-      <LineId Id="10" Count="5" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BOOL_AssertSuccess">
-      <LineId Id="10" Count="5" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_BYTE_TwoFailedAsserts">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-      <LineId Id="26" Count="2" />
-      <LineId Id="25" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="13" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_LINT_AssertFailed">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="17" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_ExtendedTestInformation.Test_ExtendedTestInformation_LINT_AssertSuccess">
-      <LineId Id="5" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="11" Count="1" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="17" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

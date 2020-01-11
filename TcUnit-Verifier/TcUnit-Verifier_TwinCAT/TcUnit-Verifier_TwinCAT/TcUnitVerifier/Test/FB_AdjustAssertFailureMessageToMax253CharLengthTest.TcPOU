@@ -120,51 +120,5 @@ AssertEquals_STRING(Expected := ShortTestMessageExpectedResult,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AdjustAssertFailureMessageToMax253CharLengthTest">
-      <LineId Id="15" Count="2" />
-    </LineIds>
-    <LineIds Name="FB_AdjustAssertFailureMessageToMax253CharLengthTest.TestInstancePath221CharsExpectShortenedTestInstancePath">
-      <LineId Id="5" Count="0" />
-      <LineId Id="24" Count="4" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="29" Count="3" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="34" Count="1" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="72" Count="0" />
-      <LineId Id="71" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdjustAssertFailureMessageToMax253CharLengthTest.TestInstancePath253CharsExpectTooLongTestInstancePath">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="29" Count="1" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="32" Count="1" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="51" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdjustAssertFailureMessageToMax253CharLengthTest.TestInstancePath255CharsExpectTooLongTestInstancePath">
-      <LineId Id="5" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="28" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="29" Count="1" />
-      <LineId Id="34" Count="0" />
-      <LineId Id="32" Count="1" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="51" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

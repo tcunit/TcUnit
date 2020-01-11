@@ -311,50 +311,5 @@ END_VAR]]></Declaration>
         <ST><![CDATA[Buffer.Append := Header;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_XmlControl">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.ClearBuffer">
-      <LineId Id="3" Count="4" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.CloseTag">
-      <LineId Id="3" Count="11" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.Length.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NewComment">
-      <LineId Id="4" Count="3" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="22" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NewParameter">
-      <LineId Id="4" Count="4" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NewTag">
-      <LineId Id="3" Count="7" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NewTagData">
-      <LineId Id="3" Count="2" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NextParameter">
-      <LineId Id="3" Count="11" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.NextTag">
-      <LineId Id="3" Count="26" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.SetBuffer">
-      <LineId Id="3" Count="2" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.ToStartBuffer">
-      <LineId Id="3" Count="3" />
-    </LineIds>
-    <LineIds Name="FB_XmlControl.WriteDocumentHeader">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

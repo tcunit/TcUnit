@@ -27,16 +27,5 @@ AssertEquals_INT(Expected := a,
 TEST_FINISHED_NAMED('AnotherTestNameThatDoesNotExist');]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_TestFinishedNamedDoesNotExist">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TestFinishedNamedDoesNotExist.Test_FinishedNamed">
-      <LineId Id="6" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="16" Count="1" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

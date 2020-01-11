@@ -35,11 +35,5 @@ END_IF
 
 F_RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>
     </Implementation>
-    <LineIds Name="F_RemoveInstancePathAndProjectNameFromTestInstancePath">
-      <LineId Id="13" Count="18" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="32" Count="2" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

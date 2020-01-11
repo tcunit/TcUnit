@@ -14,7 +14,7 @@
 FUNCTION_BLOCK FB_AssertResultStatic
 VAR
     (* The total number of instances of each of the "AssertResults" *)
-    AssertResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAsserts] OF ST_AssertResult;
+    AssertResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite] OF ST_AssertResult;
 
     (* The total number of unique asserts *)
     TotalAsserts : UINT := 0;
@@ -23,7 +23,7 @@ VAR
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
 
     (* The total number of instances of each of the "AssertResults" *)
-    AssertResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAsserts] OF ST_AssertResultInstances;
+    AssertResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite] OF ST_AssertResultInstances;
 
     (* The last PLC cycle count *)
     CycleCount : UDINT;
@@ -61,7 +61,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
     AssertResultInstances[IteratorCounter].DetectionCount := AssertResultInstances[IteratorCounter].DetectionCountThisCycle;
     AssertResultInstances[IteratorCounter].DetectionCountThisCycle := 0;
 END_FOR]]></ST>
@@ -83,7 +83,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
     IF AssertResultInstances[IteratorCounter].DetectionCount = 0 AND
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle = 0 THEN // Find first free spot
         AssertResultInstances[IteratorCounter].AssertResult.Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
@@ -112,7 +112,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                  ExpectedOrActualSize := ExpectedSize,
                                  ExpectedOrActualTypeClass := ExpectedTypeClass,
@@ -144,7 +144,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAsserts BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
     IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                 ExpectedOrActualSize := ExpectedSize,
                                 ExpectedOrActualTypeClass := ExpectedTypeClass,
@@ -158,6 +158,27 @@ END_VAR]]></Declaration>
         GetDetectionCountThisCycle := AssertResultInstances[IteratorCounter].DetectionCountThisCycle;
     END_IF
 END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetNumberOfAssertsForTest" Id="{a073fba3-9c9c-44bc-b792-f90e25f50f64}">
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfAssertsForTest : UINT
+VAR_INPUT
+    CompleteTestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    Counter : UINT;
+    NumberOfAsserts : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TotalAsserts > 0 THEN
+    FOR Counter := 1 TO TotalAsserts BY 1 DO
+        IF AssertResults[Counter].TestInstancePath = CompleteTestInstancePath THEN
+            NumberOfAsserts := NumberOfAsserts + 1;
+		END_IF
+	END_FOR
+END_IF
+
+GetNumberOfAssertsForTest := NumberOfAsserts;]]></ST>
       </Implementation>
     </Method>
     <Method Name="ReportResult" Id="{675e4dfe-54f1-4dc0-a6fd-481bc63973c5}">
@@ -284,88 +305,5 @@ END_IF
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AssertResultStatic">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.AddAssertResult">
-      <LineId Id="11" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="29" Count="0" />
-      <LineId Id="14" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.CopyDetectionCountAndResetDetectionCountInThisCycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="11" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.CreateAssertResultInstance">
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="21" Count="1" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="10" Count="1" />
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.GetDetectionCount">
-      <LineId Id="5" Count="0" />
-      <LineId Id="46" Count="6" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.GetDetectionCountThisCycle">
-      <LineId Id="5" Count="0" />
-      <LineId Id="45" Count="1" />
-      <LineId Id="48" Count="4" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AssertResultStatic.ReportResult">
-      <LineId Id="562" Count="0" />
-      <LineId Id="464" Count="0" />
-      <LineId Id="564" Count="0" />
-      <LineId Id="563" Count="0" />
-      <LineId Id="561" Count="0" />
-      <LineId Id="338" Count="0" />
-      <LineId Id="343" Count="1" />
-      <LineId Id="340" Count="2" />
-      <LineId Id="613" Count="0" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="731" Count="3" />
-      <LineId Id="736" Count="2" />
-      <LineId Id="735" Count="0" />
-      <LineId Id="666" Count="1" />
-      <LineId Id="670" Count="4" />
-      <LineId Id="677" Count="0" />
-      <LineId Id="675" Count="1" />
-      <LineId Id="669" Count="0" />
-      <LineId Id="615" Count="0" />
-      <LineId Id="426" Count="0" />
-      <LineId Id="425" Count="0" />
-      <LineId Id="413" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="739" Count="6" />
-      <LineId Id="815" Count="0" />
-      <LineId Id="749" Count="5" />
-      <LineId Id="747" Count="0" />
-      <LineId Id="453" Count="0" />
-      <LineId Id="415" Count="0" />
-      <LineId Id="756" Count="5" />
-      <LineId Id="755" Count="0" />
-      <LineId Id="463" Count="0" />
-      <LineId Id="461" Count="1" />
-      <LineId Id="451" Count="0" />
-      <LineId Id="336" Count="0" />
-      <LineId Id="335" Count="0" />
-      <LineId Id="334" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

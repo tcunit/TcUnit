@@ -24,18 +24,5 @@ AssertEquals_BOOL(Expected := TRUE,
                   Message:='Values differ after finishing');]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_CheckIfSpecificTestIsFinished">
-      <LineId Id="15" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_CheckIfSpecificTestIsFinished.CheckBeforeAndAfterFinishing">
-      <LineId Id="5" Count="0" />
-      <LineId Id="24" Count="2" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="22" Count="1" />
-      <LineId Id="21" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
