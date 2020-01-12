@@ -20,6 +20,10 @@ VAR
     (* If this flag is set, it means that some external event triggered the
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
+        
+    (* publishes a jUnit compatible xml file *)
+    JUnitXmlPublisher : FB_JUnitXmlPublisher(TestResults);
+    XmlPublisher : I_TestResultLogger := JUnitXmlPublisher;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -77,7 +81,10 @@ TestResults();
 TestResultLogger.LogTestSuiteResults();
 
 (* Run the buffered ADS logger *)
-GVL_TcUnit.AdsMessageQueue();]]></ST>
+GVL_TcUnit.AdsMessageQueue();
+
+(* publish the jUnit Xml file only once *)
+XmlPublisher.LogTestSuiteResults();]]></ST>
       </Implementation>
     </Method>
   </POU>

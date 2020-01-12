@@ -3,26 +3,25 @@
   <POU Name="FB_XmlControl" Id="{f48b7de2-5c07-4763-a8be-3d8ab3c1f58c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
 Organizes parsing and composing of XML data. Data can be treated as STRING or char array.
-Filebuffersize is default 4096 bytes and can be set via Gvl_Param_XmlControl
+Filebuffersize can be set via Gvl_Param_XmlControl
 
 Usage example:
 
 1. Initiate
     VAR
-        XML : XML_Control;
-        Buffer: STRING(GVL_Param_XmlControl.udiMaxFileSize);
+        XML : FB_XMLControl;
+        Buffer: STRING(GVL_Param_XmlControl.MaxFileSize);
         //or
-        Buffer: ARRAY [0..GVL_Param_XmlControl.udiMaxFileSize] OF CHAR;
+        Buffer: ARRAY [0..GVL_Param_XmlControl.MaxFileSize] OF BYTE;
     END_VAR
 
-    XML.pBuffer: = ADR (buffer);
-    XML.LenBuffer: = SIZEOF (buffer);
+        XML.pBuffer: = ADR (buffer);
+        XML.LenBuffer: = SIZEOF (buffer);
 
-
-    Add your own preferred fileheader like:
-    XML: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-
-    XML.WriteDocumentHeader( '<?xml version=\"1.0\" encoding=\"UTF-8\"?>');
+    Add your own preferred fileheader like so:
+    XML: <?xml version="1.0" encoding="UTF-8"?>
+   
+        XML.WriteDocumentHeader( '<?xml version="1.0" encoding="UTF-8"?>');
 
 2. Compose a tag with a parameters:
 XML: <MyTag ParaName = "11" />
@@ -58,16 +57,16 @@ XML.NextPara(sPara: = LastValue);
 Feedback: sPara returns the value found (string)
 
 *)
-{attribute 'hide_all_locals'}
+//{attribute 'hide_all_locals'}
 FUNCTION_BLOCK FB_XmlControl
 VAR
-    Buffer : FB_StringBuffer;
-    TagList : FB_StringBuffer;
-    sTags : Tc2_System.T_MaxString;
-    TagListSeek : FB_StringBuffer;
+    Buffer : FB_StreamBuffer;
+    TagList : FB_StreamBuffer;
+    sTags : T_MaxString;
+    TagListSeek : FB_StreamBuffer;
     sTagsSeek : STRING;
-    Tag : FB_StringBuffer;
-    sTag : Tc2_System.T_MaxString;
+    Tag : FB_StreamBuffer;
+    sTag : T_MaxString;
     xTagOpen: BOOL;
     iSelect : UDINT;
     iSelectStart : UDINT;
@@ -82,7 +81,7 @@ END_VAR
 VAR CONSTANT
     TAG_OPEN : STRING(1) := '<';
     TAG_CLOSE : STRING(1) := '>';
-    END_TAG_CLOSE : STRING(4) := '/>$R$L';
+    END_TAG_CLOSE : STRING(4) := '/>';
     SPACE : STRING(1) := ' ';
     EQUALS : STRING(1) := '=';
     QUOTE : STRING(1) := '"';
@@ -90,6 +89,16 @@ VAR CONSTANT
     FORWARD_SLASH : STRING(1) := '/';
     OPEN_COMMENT : STRING(5) := '<!-- ';
     CLOSE_COMMENT : STRING(4) := ' -->';
+    TAB : STRING(2) := '$T';
+	CR_LF : STRING(4) := '$R$N';
+  
+	//$OD : ASCII code for carriage return (CR)
+	//$$ : to add a $R
+	//$' : to add ' (apostrophe)
+	//$L or $l : line feed
+	//$N or $n : new line
+	//$P or $p : next page
+	//$R or $r : end of line
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -110,11 +119,11 @@ sTag := '';]]></ST>
     <Method Name="CloseTag" Id="{eedd2aac-2425-4325-8128-bfe1e984f3f7}">
       <Declaration><![CDATA[(*
     Closes a Tag:
-    XML: <MyTag />
+    XML: <MyTag />'
 
     Method: XML.CloseTag();
 *)
-METHOD PUBLIC CloseTag : Tc2_System.T_MaxString]]></Declaration>
+METHOD PUBLIC CloseTag : T_MaxString]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF xTagOpen THEN
     Buffer.Append := END_TAG_CLOSE;
@@ -148,7 +157,7 @@ END_IF]]></ST>
 *)
 METHOD PUBLIC NewComment
 VAR_INPUT
-    Comment : Tc2_System.T_MaxString;
+    Comment : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF xTagOpen THEN
@@ -168,8 +177,8 @@ Buffer.Append := CLOSE_COMMENT;]]></ST>
 *)
 METHOD PUBLIC NewParameter
 VAR_INPUT
-    Name : Tc2_System.T_MaxString;
-    Value : Tc2_System.T_MaxString;
+    Name : T_MaxString;
+    Value : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Buffer.Append := SPACE;  
@@ -189,7 +198,7 @@ Buffer.Append := QUOTE;]]></ST>
 *)
 METHOD PUBLIC NewTag
 VAR_INPUT
-    Name : Tc2_System.T_MaxString;
+    Name : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF xTagOpen THEN
@@ -205,7 +214,7 @@ TagList.Append := Name;]]></ST>
     <Method Name="NewTagData" Id="{e4679d3f-10eb-47fd-936c-97e3aaaa3768}">
       <Declaration><![CDATA[METHOD PUBLIC NewTagData
 VAR_INPUT
-    Data : Tc2_System.T_MaxString;
+    Data : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Buffer.Append := TAG_CLOSE;
@@ -214,12 +223,12 @@ xTagOpen := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="NextParameter" Id="{4394d0a2-f7bc-4847-9625-00022c462a79}">
-      <Declaration><![CDATA[METHOD PUBLIC NextParameter : Tc2_System.T_MaxString;
+      <Declaration><![CDATA[METHOD PUBLIC NextParameter : T_MaxString;
 VAR_OUTPUT
-    Parameter : Tc2_System.T_MaxString;
+    Parameter : T_MaxString;
 END_VAR
 VAR
-    Name : Tc2_System.T_MaxString;
+    Name : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[iSelectEndPara := Buffer.Find(sSearchString := EQUALS, udiStartPos := iSelectStartPara);
@@ -237,7 +246,7 @@ NextParameter := Name;]]></ST>
       </Implementation>
     </Method>
     <Method Name="NextTag" Id="{d039b781-905d-4b69-b5aa-bb0323e598de}">
-      <Declaration><![CDATA[METHOD PUBLIC NextTag : Tc2_System.T_MaxString]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC NextTag : T_MaxString]]></Declaration>
       <Implementation>
         <ST><![CDATA[iSelectStart := Buffer.Find(sSearchString := TAG_OPEN, udiStartPos := udiSearchPos);
 iSelectEnd := Buffer.Find(sSearchString := TAG_CLOSE, udiStartPos := iSelectStart);
@@ -251,11 +260,11 @@ IF iSelectStart < Buffer.Length AND iSelectEnd < Buffer.Length THEN
     ELSE
         NextTag := Buffer.Copy( udiStart:= iSelectStart + 1, udiEnd:= iSelectStartPara);
     END_IF;
-    IF iSelectTagClose = iSelectStart +1 THEN
+    IF iSelectTagClose = iSelectStart + 1 THEN
         iSelect := TagListSeek.FindBack(sSearchString := FORWARD_SLASH);
         TagListSeek.CutOff(udiStartPos:= iSelect);
     ELSIF iSelectTagClose > iSelectStart AND iSelectTagClose < iSelectEnd THEN
-        TagListSeek.Append := '/';
+        TagListSeek.Append := FORWARD_SLASH;
         TagListSeek.Append := NextTag;
         iSelect := TagListSeek.FindBack(sSearchString := FORWARD_SLASH);
         TagListSeek.CutOff(udiStartPos:= iSelect);
@@ -298,17 +307,17 @@ sTag := '';]]></ST>
     <Method Name="WriteDocumentHeader" Id="{14bf2549-9e7d-451f-8ab5-fe662eb30712}">
       <Declaration><![CDATA[(*
     Add your own preffered fileheader like:
-    XML: <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    XML: <?xml version="1.0" encoding="UTF-8"?>
 
-    XML.WriteDocumentHeader('<?xml version=\"1.0\" encoding=\"UTF-8\"?>');
-
+    XML.WriteDocumentHeader('<?xml version="1.0" encoding="UTF-8"?>');
 *)
 METHOD PUBLIC WriteDocumentHeader
 VAR_INPUT
-    Header : Tc2_System.T_MaxString;
+    Header : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Buffer.Append := Header;]]></ST>
+        <ST><![CDATA[//Buffer.Prepend := Concat(Header, CR_LF);
+Buffer.Prepend := Header;]]></ST>
       </Implementation>
     </Method>
   </POU>
