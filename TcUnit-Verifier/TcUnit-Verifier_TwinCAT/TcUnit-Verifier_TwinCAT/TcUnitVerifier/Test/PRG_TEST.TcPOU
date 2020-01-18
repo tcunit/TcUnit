@@ -25,7 +25,7 @@ VAR
     WriteProtectedFunctions : FB_WriteProtectedFunctions;
     TestFinishedNamed : FB_TestFinishedNamed;
     TestNumberOfAssertionsCalculation : FB_TestNumberOfAssertionsCalculation;
-    TestFileControl : FB_TestFileControl;
+    //TestFileControl : FB_TestFileControl;
     TestStreamBuffer : FB_TestStreamBuffer;
 
     (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
