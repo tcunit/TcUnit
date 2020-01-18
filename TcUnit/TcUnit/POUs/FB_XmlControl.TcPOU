@@ -317,7 +317,8 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[//Buffer.Prepend := Concat(Header, CR_LF);
-Buffer.Prepend := Header;]]></ST>
+//Buffer.Prepend := Header;
+Buffer.Append := Header;]]></ST>
       </Implementation>
     </Method>
   </POU>

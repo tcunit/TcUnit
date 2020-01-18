@@ -14,7 +14,7 @@ END_VAR
       <ST><![CDATA[Test_BufferSize();
 Test_Length();
 Test_Append();
-Test_Prepend();
+//Test_Prepend();
 Test_Clear();
 Test_Find();
 Test_Copy();
@@ -47,7 +47,7 @@ Stream.Clear();
 
 Stream.Append:= Str;
 
-Stream.Prepend := PreStr;
+//Stream.Prepend := PreStr;
 
 (* start search at 1st char *)
 Found := ( Stream.Find( sSearchString := str, udiStartPos := 1 ) >=0 ); 
@@ -111,7 +111,7 @@ Stream.Clear();
 
 Stream.Append:= Str;
 
-Stream.Prepend := PreStr;
+//Stream.Prepend := PreStr;
 
 (* copy from 8th char 3 chars (8+3=11), should be 'qui' *)
 Cpy := Stream.Copy(udiStart := 8, UdiEnd := 11, udiCopyLen => CopyLen); 
@@ -170,7 +170,7 @@ Stream.Clear();
 
 Stream.Append:= Str;
 
-Stream.Prepend := PreStr;
+//Stream.Prepend := PreStr;
 
 (* start search at 1st char *)
 Found := ( Stream.Find( sSearchString := str, udiStartPos := 1 ) >=0 ); 
@@ -219,7 +219,7 @@ Stream.Clear();
 
 Stream.Append:= Str;
 
-Stream.Prepend := PreStr;
+//Stream.Prepend := PreStr;
 
 (* start search at 1st char *)
 Found := ( Stream.Find( sSearchString := PreStr, udiStartPos := 1 ) >=0 ); 

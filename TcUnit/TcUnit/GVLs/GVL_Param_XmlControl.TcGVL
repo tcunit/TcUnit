@@ -8,7 +8,7 @@ VAR_GLOBAL CONSTANT
     // Maximum filesize in bytes (64 kb default, reserved in PLC memory)
     MaxFileSize : UDINT := 65535;
     // Filepath for testresults.xml, e.g.: for use with jenkins 
-    FilePath : T_MaxString := 'testresults.xml';
+    FilePath : T_MaxString := 'C:\testresults.xml';
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -80,11 +80,11 @@ TestResults();
 (* Log test suite results continuously *)
 TestResultLogger.LogTestSuiteResults();
 
-(* Run the buffered ADS logger *)
-GVL_TcUnit.AdsMessageQueue();
-
 (* publish the jUnit Xml file only once *)
-XmlPublisher.LogTestSuiteResults();]]></ST>
+XmlPublisher.LogTestSuiteResults();
+
+(* Run the buffered ADS logger *)
+GVL_TcUnit.AdsMessageQueue();]]></ST>
       </Implementation>
     </Method>
   </POU>
