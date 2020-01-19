@@ -21,9 +21,9 @@ VAR
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
         
-    (* publishes a jUnit compatible xml file *)
-    JUnitXmlPublisher : FB_JUnitXmlPublisher(TestResults);
-    XmlPublisher : I_TestResultLogger := JUnitXmlPublisher;
+    (* publishes a xUnit compatible xml file *)
+    xUnitXmlPublisher : FB_xUnitXmlPublisher(TestResults);
+    XmlTestResultPublisher : I_TestResultLogger := xUnitXmlPublisher;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -80,8 +80,8 @@ TestResults();
 (* Log test suite results continuously *)
 TestResultLogger.LogTestSuiteResults();
 
-(* publish the jUnit Xml file only once *)
-XmlPublisher.LogTestSuiteResults();
+(* publish the xUnit Xml file once if enabled *)
+XmlTestResultPublisher.LogTestSuiteResults();
 
 (* Run the buffered ADS logger *)
 GVL_TcUnit.AdsMessageQueue();]]></ST>
