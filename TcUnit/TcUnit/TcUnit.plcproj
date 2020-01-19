@@ -84,9 +84,6 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\GVL_Param_XmlControl.TcGVL">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GVLs\GVL_TcUnit.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -112,7 +109,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_FileControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_JUnitXmlPublisher.TcPOU">
+    <Compile Include="POUs\FB_xUnitXmlPublisher.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_StreamBuffer.TcPOU">
@@ -270,11 +267,6 @@ Documentation and examples are available at www.tcunit.org</Description>
     <LibraryReference Include="Base Interfaces,newest,System">
       <Namespace>IBaseLibrary</Namespace>
     </LibraryReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SubObject Include="FB_StreamBuffer.Prepend">
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </SubObject>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
