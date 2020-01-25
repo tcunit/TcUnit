@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_xUnitXmlPublisher" Id="{6597c0b3-0890-4d5d-8d3a-2d0d0b2355db}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+	Publishes testresults into a xUnit compatible Xml file
+*)
+FUNCTION_BLOCK FB_xUnitXmlPublisher IMPLEMENTS I_TestResultLogger
+VAR     
+    // Dependancy Injection via FB_Init
+    TestResults : I_TestResults;
+         
+    // File access mode
+    AccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
+        
+    File : FB_FileControl;
+	Xml : FB_XMLControl;
+    BufferInitialised : BOOL := FALSE;
+	Buffer : ARRAY [0..(GVL_Param_TcUnit.BufferSize-1)] OF BYTE;
+    WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    PublishTrigger : R_TRIG;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="DeleteOpenWriteClose" Id="{84256533-6eb5-465b-b1e5-db6f61e2e6c3}">
+      <Declaration><![CDATA[(*
+    Deletes the former file (if it excists).
+    Opens the file, writes the buffer and closes it.
+*)
+METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;   
+IF Initialised() THEN
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.FilePath));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.FilePath, FileAccessMode := AccessMode));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Write(pString := ADR(Buffer), xml.Length)); 
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Close());
+ELSE
+    DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_NOBUFFER;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{0f23c47b-7245-415e-b489-0ae429217263}">
+      <Declaration><![CDATA[(*
+    FB_Init is always available implicitly AND it is used primarily FOR initialization.
+    The return value is not evaluated. For a specific influence, you can also declare the
+    methods explicitly and provide additional code there with the standard initialization
+    code. You can evaluate the return value.
+*)
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+    iTestResults : I_TestResults; // Interface dependency injection
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Set buffer and flag
+Xml.SetBuffer(PointerToBuffer := ADR(Buffer), SizeOfBuffer := SIZEOF(Buffer));
+
+// Set buffer initialised
+BufferInitialised := TRUE;
+
+// Set testresult interface
+TestResults := iTestResults;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Initialised" Id="{dac11801-83e2-4726-b3a7-dcd7f73621e3}">
+      <Declaration><![CDATA[METHOD PRIVATE Initialised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Initialised := THIS^.BufferInitialised;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="LogTestSuiteResults" Id="{32c3ccd7-3470-4554-b54c-b3a0a6491553}">
+      <Declaration><![CDATA[(*
+    This method is responsible for the entire generation of the testresults.xml output. 
+    The output of the xml writer is NOT beautified.
+    
+    When new data is available, feel free to add it to the report
+*)
+METHOD PUBLIC LogTestSuiteResults
+VAR
+    CfUnitTestResults : REFERENCE TO ST_TestSuiteResults;
+    CurSuiteNr: UINT;
+    CurTestCnt : UINT;
+END_VAR
+VAR CONSTANT
+    TEST_STATUS_SKIP : STRING := 'SKIP';
+    TEST_STATUS_PASS : STRING := 'PASS';
+    TEST_STATUS_FAIL : STRING := 'FAIL';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CfUnitTestResults REF=TestResults.GetTestSuiteResults();
+
+// Only publish once if "EnablePublish" is enabled and all test results are stored.
+PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.EnablePublish) );
+IF PublishTrigger.Q THEN
+          
+    (* <?xml version="1.0" encoding="UTF-8"?> *)
+    Xml.writeDocumentHeader(Header := '<?xml version="1.0" encoding="UTF-8"?>');
+    
+    (* <testsuites> *)
+    xml.NewTag('testsuites');
+    Xml.NewParameter('disabled', '');
+    Xml.NewParameter('failures', UINT_TO_STRING(CfUnitTestResults.NumberOfFailedTestCases));
+    Xml.NewParameter('tests', UINT_TO_STRING(CfUnitTestResults.NumberOfSuccessfulTestCases));
+
+    FOR CurSuiteNr := 1 TO CfUnitTestResults.NumberOfTestSuites BY 1 DO 
+        (* <testsuite> *)
+        xml.NewTag('testsuite');
+        Xml.NewParameter('id', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].Identity));
+        Xml.NewParameter('name', CfUnitTestResults.TestSuiteResults[CurSuiteNr].name);
+        Xml.NewParameter('tests', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfTests));        
+        Xml.NewParameter('failures', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfFailedTests));
+           
+        FOR CurTestCnt := 1 TO CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfTests BY 1 DO
+            (* <testcase> *)
+            Xml.NewTag('testcase');
+            Xml.NewParameter('name', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestName);
+            Xml.NewParameter('classname', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestClassName);
+            
+            IF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestIsFailed THEN
+                Xml.NewParameter('status', TEST_STATUS_FAIL);
+            ELSIF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestIsSkipped THEN   
+                Xml.NewParameter('status', TEST_STATUS_SKIP);
+            ELSE
+                Xml.NewParameter('status', TEST_STATUS_PASS);
+			END_IF
+
+            (* determine testcase fail or succes *)
+            IF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureType <> E_AssertionType.Type_UNDEFINED THEN 
+                (* in case of fail 
+                    <failure message="Values differ" type="BYTE" />
+                *)
+                Xml.NewTag('failure');
+                Xml.NewParameter('message', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureMessage );
+                Xml.NewParameter('type', F_AssertionTypeToString(CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureType) );       
+                (* close failure tag*)
+                Xml.CloseTag();
+                
+            ELSE
+            (* In case of succes *)
+            Xml.NewTagData('');
+            
+            END_IF
+            (* close testcase tag*)         
+            Xml.CloseTag();
+            
+        END_FOR
+        (* close testsuite tag *)
+        Xml.CloseTag();
+        
+    END_FOR    
+    (* Close testsuites *)
+    Xml.CloseTag();
+
+    (* Delete, open, save and close the file *)
+    DeleteOpenWriteClose();
+    
+    (* clear the internal buffer *)
+    Xml.ClearBuffer();
+    
+    (* inform user *)
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                        msgFmtStr := '%s',
+                                        strArg := '| ==========TEST RESULTS EXPORTED===========');
+                                                                                         
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
+                                        msgFmtStr :=  '| Location: %s ',                 
+                                        strArg := GVL_Param_TcUnit.FilePath);            
+                                                                                         
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
+                                        MsgFmtStr := '%s',                               
+                                        StrArg := '| ======================================');
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
