@@ -21,27 +21,27 @@ namespace TcUnit.Verifier
 
         private void TestMixed33SuccessulAnd9FailedAssertions()
         {
-            AssertContainsMessage("| Test status=FAIL, No. of asserts=42", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
+            AssertContainsMessage("| Test status=FAIL, number of asserts=42", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
         private void TestWith43SuccessfulAssertions()
         {
-            AssertContainsMessage("| Test status=PASS, No. of asserts=43", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
+            AssertContainsMessage("| Test status=PASS, number of asserts=43", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
         private void TestWith44FailedAssertions()
         {
-            AssertContainsMessage("| Test status=FAIL, No. of asserts=44", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
+            AssertContainsMessage("| Test status=FAIL, number of asserts=44", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
         private void TestWith45SuccessfulArrayAssertions()
         {
-            AssertContainsMessage("| Test status=PASS, No. of asserts=45", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
+            AssertContainsMessage("| Test status=PASS, number of asserts=45", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
         private void TestWith46FailedArrayAssertions()
         {
-            AssertContainsMessage("| Test status=FAIL, No. of asserts=46", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
+            AssertContainsMessage("| Test status=FAIL, number of asserts=46", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
     }

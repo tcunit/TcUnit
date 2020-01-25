@@ -99,7 +99,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_PASS);
 			END_IF
             
-            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', No. of asserts=');
+            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', number of asserts=');
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
                                                  UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts));
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,

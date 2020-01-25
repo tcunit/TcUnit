@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
 VAR
-    (* Test results*)
+    (* Test results *)
     TestSuiteResults : ST_TestSuiteResults;
     
     (* Misc variables *)

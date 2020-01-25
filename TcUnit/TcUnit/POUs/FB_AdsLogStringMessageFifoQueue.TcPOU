@@ -7,12 +7,11 @@
 *)
 FUNCTION_BLOCK FB_AdsLogStringMessageFifoQueue
 VAR
-    ArrayBuffer : ARRAY[0..((RING_BUFFER_SIZE * (SIZEOF(ST_ADSLogStringMessage) + MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD)) - 1)] OF BYTE;
+    ArrayBuffer : ARRAY[0..((GVL_Param_TcUnit.AdsLogMessageFifoRingBufferSize * (SIZEOF(ST_ADSLogStringMessage) + MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD)) - 1)] OF BYTE;
     MemRingBuffer : Tc2_Utilities.FB_MemRingBuffer;
     TimerBetweenMessages : Tc2_Standard.TON := (IN := TRUE, PT := TIME_BETWEEN_MESSAGES);
 END_VAR
 VAR CONSTANT
-    RING_BUFFER_SIZE : UINT := 1000;
     MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD : USINT := 4;
     TIME_BETWEEN_MESSAGES : TIME := T#10MS;
 END_VAR
@@ -26,8 +25,8 @@ END_VAR]]></Declaration>
 IF GetLogCount() > 0 THEN
     // Timer has elapsed, print message
     IF TimerBetweenMessages.Q THEN
-        GetLog(AdsLogStringMessage => MessageToBeSent,
-               Error => ErrorGet);
+        GetAndRemoveLogFromQueue(AdsLogStringMessage => MessageToBeSent,
+                                 Error => ErrorGet);
         IF NOT ErrorGet THEN
             ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := MessageToBeSent.MsgCtrlMask,
                                                 msgFmtStr := MessageToBeSent.MsgFmtStr,
@@ -38,9 +37,9 @@ IF GetLogCount() > 0 THEN
     END_IF
 END_IF]]></ST>
     </Implementation>
-    <Method Name="GetLog" Id="{cf4219dc-c784-4d39-983c-1e64371c4d5f}">
+    <Method Name="GetAndRemoveLogFromQueue" Id="{cf4219dc-c784-4d39-983c-1e64371c4d5f}">
       <Declaration><![CDATA[(* Reads and removes the oldest message *)
-METHOD PRIVATE GetLog
+METHOD PRIVATE GetAndRemoveLogFromQueue
 VAR_OUTPUT
     AdsLogStringMessage : ST_ADSLogStringMessage;
     Error : BOOL; // Buffer empty
