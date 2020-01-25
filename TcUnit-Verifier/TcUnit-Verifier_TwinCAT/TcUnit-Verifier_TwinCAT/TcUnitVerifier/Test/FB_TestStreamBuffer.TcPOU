@@ -1,26 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_TestStreamBuffer" Id="{434f58c4-0d06-4401-96df-b925ff7016a9}" SpecialFunc="None">
+  <POU Name="FB_TestStreamBuffer" Id="{93715912-c883-4a03-854d-0419c551b14f}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains tests that verify the StreamBuffer function block methods
 *)
 FUNCTION_BLOCK FB_TestStreamBuffer EXTENDS TcUnit.FB_TestSuite
 VAR
     Stream : FB_StreamBuffer;
-    Buffer: ARRAY [0.. TcUnit.GVL_Param_XmlControl.MaxFileSize-1] OF BYTE;
+    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.BufferSize-1] OF BYTE;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BufferSize();
 Test_Length();
 Test_Append();
-//Test_Prepend();
 Test_Clear();
 Test_Find();
 Test_Copy();
 Test_CutOff();]]></ST>
     </Implementation>
-    <Method Name="FB_Init" Id="{720708a8-1b4a-481f-9ecb-7340ef13c824}">
+    <Method Name="FB_Init" Id="{d1d5b2df-a457-4a7f-a363-2b069698df60}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
     bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -28,37 +27,37 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Stream.Set(ADR(Buffer), SIZEOF(Buffer));
+        <ST><![CDATA[Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_Append" Id="{6d794ebb-50bc-429b-bdf0-67485b24f229}">
+    <Method Name="Test_Append" Id="{c9f256b4-b10a-4c18-ac2e-375993748010}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Append
 VAR
-    Str    : STRING := 'Vita est dolor sic ars.';
-    PreStr : STRING := 'Vincit qui se vincit.  ';
-    Found : BOOL;
+    Str1    : STRING := 'Vita est dolor sic ars.';
+    Str2    : STRING := 'Vincit qui se vincit.  ';
+    Search  : STRING := 'se';
+    Test    : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_Append');
+        <ST><![CDATA[TcUnit.TEST('Test_Append');
 
 Stream.Clear();
 
-Stream.Append:= Str;
+Stream.Append:= Str1;
+Stream.Append:= Str2;
 
-//Stream.Prepend := PreStr;
+(* search *)
+Test := ( Stream.Find( SearchString := Search, StartPos := 1 ) >=0 ); 
 
-(* start search at 1st char *)
-Found := ( Stream.Find( sSearchString := str, udiStartPos := 1 ) >=0 ); 
-
-AssertTrue(Condition := Found, 
+AssertTrue(Condition := Test, 
            Message := 'Append Failed');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_BufferSize" Id="{737938c1-5953-432f-a171-a8c0d4376f29}">
+    <Method Name="Test_BufferSize" Id="{cf4c2c43-ae1b-4bba-857c-6ebb6d182932}">
       <Declaration><![CDATA[METHOD PRIVATE Test_BufferSize
 VAR
 END_VAR
@@ -66,14 +65,15 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('Test_BufferSize');
 
-AssertEquals_UDINT(Expected := TcUnit.GVL_Param_XmlControl.MaxFileSize,
+(* Compare initialised buffersize with expected buffersize *)
+AssertEquals_UDINT(Expected := GVL_Param_TcUnit.BufferSize,
                    Actual := Stream.BufferSize, 
                    Message := 'BufferSize differs');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_Clear" Id="{fc32d0ae-502d-4a73-b236-b5f1396d8bef}">
+    <Method Name="Test_Clear" Id="{591d2216-16ba-4bde-a924-7cd4ef7f6cf2}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Clear
 VAR
     Str : STRING := 'vita est dolor sic ars';
@@ -95,12 +95,12 @@ AssertEquals_UDINT(Expected := 0,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_Copy" Id="{5176b675-03c3-4e01-87ed-ca5a61b34943}">
+    <Method Name="Test_Copy" Id="{bf842fe0-711d-49e6-a319-2598d4654f70}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Copy
 VAR
-    Str    : STRING := 'Vita est dolor sic ars.';
-    PreStr : STRING := 'Vincit qui se vincit.  ';
-    Cpy    : STRING;
+    Str1    : STRING := 'Vincit qui se vincit.  ';
+    Str2    : STRING := 'Vita est dolor sic ars.';
+    Cpy     : STRING;
     CopyLen : UDINT;
 END_VAR
 ]]></Declaration>
@@ -109,12 +109,12 @@ END_VAR
 
 Stream.Clear();
 
-Stream.Append:= Str;
+Stream.Append := Str1;
 
-//Stream.Prepend := PreStr;
+Stream.Append := Str2;
 
 (* copy from 8th char 3 chars (8+3=11), should be 'qui' *)
-Cpy := Stream.Copy(udiStart := 8, UdiEnd := 11, udiCopyLen => CopyLen); 
+Cpy := Stream.Copy(StartPos := 8, EndPos := 11, CopyLen => CopyLen); 
 
 AssertEquals_STRING(Expected := 'qui',
                     Actual := Cpy,
@@ -123,7 +123,7 @@ AssertEquals_STRING(Expected := 'qui',
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_CutOff" Id="{964f719c-786d-4695-b2cd-f3f316f96eb1}">
+    <Method Name="Test_CutOff" Id="{fe4a5c0d-d938-476b-a07d-39bbb0824237}">
       <Declaration><![CDATA[METHOD PRIVATE Test_CutOff
 VAR
     Str : STRING := 'vita est dolor sic ars';
@@ -144,9 +144,9 @@ Stream.Append := Str;
 Cut := (Stream.Length-2); 
 
 (* CutOff should contain 'ars' *)
-CutOff := Stream.CutOff( UdiStartPos := Cut, udiCutLen => Length);
+CutOff := Stream.CutOff(StartPos := Cut, CutLen => Length);
 
-Expected := Stream.Copy(udiStart := 1, UdiEnd := Stream.Length); 
+Expected := Stream.Copy(StartPos := 1, EndPos := Stream.Length); 
 
 AssertEquals_String(Expected := Expected, 
                     Actual := 'vita est dolor sic',
@@ -155,33 +155,31 @@ AssertEquals_String(Expected := Expected,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_Find" Id="{c4a3695b-5eed-486c-892e-616c4e8795eb}">
+    <Method Name="Test_Find" Id="{808d1d3f-d265-4faa-8209-c1d8803e9c8f}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Find
 VAR
     Str    : STRING := 'Vita est dolor sic ars.';
-    PreStr : STRING := 'Vincit qui se vincit.  ';
-    Found : BOOL;
+    Search : STRING := 'dolor';
+    Test : BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_Find');
+        <ST><![CDATA[TcUnit.TEST('Test_Find');
 
 Stream.Clear();
 
 Stream.Append:= Str;
 
-//Stream.Prepend := PreStr;
-
 (* start search at 1st char *)
-Found := ( Stream.Find( sSearchString := str, udiStartPos := 1 ) >=0 ); 
+Test := ( Stream.Find(SearchString := str, StartPos := 1 ) >=0 ); 
 
-AssertTrue(Condition := Found, 
+AssertTrue(Condition := Test, 
            Message := 'Find Failed');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_Length" Id="{127a62cd-01fe-4aa9-a03e-7bf9d0360475}">
+    <Method Name="Test_Length" Id="{6f36830f-7238-4c4d-8783-cb9afb4c22b1}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Length
 VAR
     Str : STRING := 'vita est dolor sic ars';
@@ -200,32 +198,6 @@ Length := TO_UDINT(LEN(Str));
 AssertEquals_UDINT(Expected := length, 
                    Actual := Stream.Length, 
                    Message := 'Length differs');
-
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_Prepend" Id="{8bb6b432-2afd-4bd3-ace7-2c3309c826e1}">
-      <Declaration><![CDATA[METHOD PRIVATE Test_Prepend
-VAR
-    Str    : STRING := 'Vita est dolor sic ars.';
-    PreStr : STRING := 'Vincit qui se vincit.  ';
-    Found : BOOL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_Prepend');
-
-Stream.Clear();
-
-Stream.Append:= Str;
-
-//Stream.Prepend := PreStr;
-
-(* start search at 1st char *)
-Found := ( Stream.Find( sSearchString := PreStr, udiStartPos := 1 ) >=0 ); 
-
-AssertTrue(Condition := Found, 
-           Message := 'Prepend Failed');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

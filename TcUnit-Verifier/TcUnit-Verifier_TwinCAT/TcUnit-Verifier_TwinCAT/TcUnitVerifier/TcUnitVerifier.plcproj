@@ -128,6 +128,16 @@
     <PlaceholderReference Include="TcUnit">
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
+      <Parameters>
+        <Parameter>
+          <Key>FILEPATH</Key>
+          <Value>'c:\TcUnit_xunit_testresults.xml'</Value>
+        </Parameter>
+        <Parameter>
+          <Key>ENABLEPUBLISH</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
@@ -144,11 +154,6 @@
     <LibraryReference Include="Base Interfaces,newest,System">
       <Namespace>IBaseLibrary</Namespace>
     </LibraryReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SubObject Include="FB_TestStreamBuffer.Test_Prepend">
-      <ExcludeFromBuild>true</ExcludeFromBuild>
-    </SubObject>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
