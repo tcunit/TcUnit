@@ -109,10 +109,10 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_FileControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_xUnitXmlPublisher.TcPOU">
+    <Compile Include="POUs\FB_StreamBuffer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_StreamBuffer.TcPOU">
+    <Compile Include="POUs\FB_xUnitXmlPublisher.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_TestResults.TcPOU">

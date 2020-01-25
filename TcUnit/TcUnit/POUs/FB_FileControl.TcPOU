@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_FileControl" Id="{c9bec8fc-2de3-45f4-b839-e6c4276a6b5a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_FileControl
+    <Declaration><![CDATA[(*
+    This functionblock can open, close, read, write and delete files on the local filesystem
+*)
+FUNCTION_BLOCK FB_FileControl
 VAR
-    FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
+    FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_APPEND_PLUS; // Append_Plus creates the file if it doesn't exist yet. 
     FileHandle : SysFile.SysTypes.RTS_IEC_HANDLE;
 END_VAR]]></Declaration>
     <Implementation>
@@ -11,7 +14,7 @@ END_VAR]]></Declaration>
     </Implementation>
     <Method Name="Close" Id="{519e9011-283c-40b1-afd4-31686c5b81fe}">
       <Declaration><![CDATA[(*
-    Closes the current file
+    Closes the current opened file.
 *)
 METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
@@ -29,7 +32,7 @@ END_IF]]></ST>
 METHOD PUBLIC Delete  : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     (* File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/) *)
-    FileName : T_MaxString := 'filepath/output.xml'; 
+    FileName : T_MaxString; 
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Delete := SysFile.SysFileDelete(szFileName := FileName);]]></ST>
@@ -41,7 +44,7 @@ END_VAR]]></Declaration>
 *)
 METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    FileName : T_MaxString; // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
+    FileName : T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
     FileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
 END_VAR]]></Declaration>
       <Implementation>

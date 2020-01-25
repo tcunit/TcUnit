@@ -8,37 +8,15 @@ FUNCTION_BLOCK FB_TestFileControl EXTENDS TcUnit.FB_TestSuite
 VAR
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Test_FileOpen_AssertSucces();
-Test_FileOpen_AssertFail();
-Test_FileWrite_AssertSucces();
-Test_FileWrite_AssertFail();
-Test_FileRead_AssertSucces();
-Test_FileRead_AssertFail();
-Test_FileClose_AssertSucces();
-Test_FileClose_AssertFail();
-Test_FileDelete_AssertSucces();
-Test_FileDelete_AssertFail();]]></ST>
+      <ST><![CDATA[Test_FileRead();
+Test_FileOpen();
+Test_FileWrite();
+Test_FileClose();
+Test_FileDelete();
+]]></ST>
     </Implementation>
-    <Method Name="Test_FileClose_AssertFail" Id="{2ba05e02-2e56-42bf-84b0-fa319724db6f}">
-      <Declaration><![CDATA[METHOD Test_FileClose_AssertFail
-VAR
-    FileControl : TcUnit.FB_FileControl;
-    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_FileClose_AssertFail');
-
-Actual := FileControl.Close();
-
-AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
-                   Actual := Actual,
-                   Message := 'File Close failed');
-
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_FileClose_AssertSucces" Id="{8ecb2e7b-a0fb-4904-8010-b38c5dbb2520}">
-      <Declaration><![CDATA[METHOD Test_FileClose_AssertSucces
+    <Method Name="Test_FileClose" Id="{8ecb2e7b-a0fb-4904-8010-b38c5dbb2520}">
+      <Declaration><![CDATA[METHOD Test_FileClose
 VAR
     FileControl : TcUnit.FB_FileControl;
     TestFile : STRING := 'Test_FileClose.txt';
@@ -46,7 +24,7 @@ VAR
     Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_FileClose_AssertSucces');
+        <ST><![CDATA[TEST('Test_FileClose');
 
 FileControl.Open(TestFile, Mode );
 
@@ -61,27 +39,8 @@ FileControl.Delete(TestFile);
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_FileDelete_AssertFail" Id="{00520e2b-4400-4b84-a27a-6afe81238459}">
-      <Declaration><![CDATA[METHOD Test_FileDelete_AssertFail
-VAR
-    FileControl : TcUnit.FB_FileControl;
-    TestFile : STRING := 'Test_FileDelete.txt';
-    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_FileDelete_AssertFail');
-
-Actual := FileControl.Delete(TestFile);
-
-AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
-                   Actual := Actual,
-                   Message := 'File deletion failed');
-                   
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_FileDelete_AssertSucces" Id="{43c5a8eb-c44f-4cb6-9caa-77374a56762a}">
-      <Declaration><![CDATA[METHOD Test_FileDelete_AssertSucces
+    <Method Name="Test_FileDelete" Id="{43c5a8eb-c44f-4cb6-9caa-77374a56762a}">
+      <Declaration><![CDATA[METHOD Test_FileDelete
 VAR
     FileControl : TcUnit.FB_FileControl;
     TestFile : STRING := 'Test_FileDelete.txt';
@@ -89,7 +48,7 @@ VAR
     Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_FileDelete_AssertSucces');
+        <ST><![CDATA[TEST('Test_FileDelete');
 
 FileControl.Open(TestFile, Mode );
 
@@ -104,29 +63,8 @@ AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
 TcUnit.TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_FileOpen_AssertFail" Id="{8dd34ba1-1248-4a99-b4ff-3f88a7e20459}">
-      <Declaration><![CDATA[METHOD Test_FileOpen_AssertFail
-VAR
-    FileControl : FB_FileControl;
-    TestFile : STRING := 'Test_FileOpen.txt';
-    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_READ_PLUS;
-    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_FileOpen_AssertFail');
-
-// fails because of the wrong mode
-Actual := FileControl.Open(TestFile, Mode);
-
-AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_FILE_ERROR,
-                   Actual := Actual,
-                   Message := 'File Open failed');
-
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_FileOpen_AssertSucces" Id="{db456e81-0cb4-4b0d-956e-6ebfc36a29c8}">
-      <Declaration><![CDATA[METHOD Test_FileOpen_AssertSucces
+    <Method Name="Test_FileOpen" Id="{db456e81-0cb4-4b0d-956e-6ebfc36a29c8}">
+      <Declaration><![CDATA[METHOD Test_FileOpen
 VAR
     FileControl : FB_FileControl;
     TestFile : STRING := 'Test_FileOpen.txt';
@@ -134,7 +72,7 @@ VAR
     Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_FileOpen_AssertSucces');
+        <ST><![CDATA[TEST('Test_FileOpen');
 
 FileControl.Open(TestFile, Mode);
 
@@ -149,8 +87,8 @@ FileControl.Delete(TestFile);
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_FileRead_AssertFail" Id="{9b9323b6-47f7-405d-b40b-5cea0777e7d9}">
-      <Declaration><![CDATA[METHOD Test_FileRead_AssertFail : FB_Test
+    <Method Name="Test_FileRead" Id="{a77a057a-0ac1-4f5c-9cce-e70debd0e862}">
+      <Declaration><![CDATA[METHOD Test_FileRead
 VAR
     FileControl : FB_FileControl;
     TestFile : STRING := 'Test_FileRead.txt';
@@ -161,42 +99,7 @@ VAR
     ReadContents : STRING(64);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_FileRead_AssertFail');
-
-FileControl.Open(TestFile, Mode );
-
-FileControl.Write(pString := ADR(WriteContents), Size := SIZEOF(WriteContents) );
-                 
-FileControl.Close();
-
-FileControl.Open(TestFile, TcUnit.SysFile.ACCESS_MODE.AM_WRITE_PLUS );
-     
-Result := FileControl.Read(pString := ADR(ReadContents), SIZEOF(ReadContents), FileSize => FileSize);
-                    
-AssertEquals_STRING(Expected := WriteContents,
-                   Actual := ReadContents,
-                   Message := 'File Read failed');
-
-FileControl.Close();
-
-FileControl.Delete(TestFile);
-
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_FileRead_AssertSucces" Id="{a77a057a-0ac1-4f5c-9cce-e70debd0e862}">
-      <Declaration><![CDATA[METHOD Test_FileRead_AssertSucces
-VAR
-    FileControl : FB_FileControl;
-    TestFile : STRING := 'Test_FileRead.txt';
-    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
-    Result : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
-    FileSize : TcUnit.SysFile.SysTypes.RTS_IEC_SIZE;
-    WriteContents : STRING(64) := '0KflxSh6C%ixPs8ReCPwFuJu)D$p*qfi66iTj&YKMdpq*EGBGiwgAsOs1s(dci';
-    ReadContents : STRING(64);
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_FileRead_AssertSucces');
+        <ST><![CDATA[TEST('Test_FileRead');
 
 FileControl.Open(TestFile, Mode );
 
@@ -219,35 +122,8 @@ FileControl.Delete(TestFile);
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Test_FileWrite_AssertFail" Id="{bd8bfe3b-b442-4322-879a-c43d761efa2e}">
-      <Declaration><![CDATA[METHOD Test_FileWrite_AssertFail
-VAR
-    FileControl : FB_FileControl;
-    Contents : STRING(64) := 'G#NkAM%Muah+nbwAk&8MnQZ9csi*YAoiGkcKzwvsYz5k@yY)aOz&cvQxXQyI6c';
-    TestFile : STRING := 'Test_FileWrite.txt';
-    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_READ;
-    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[TEST('Test_FileWrite_AssertFail');
-
-FileControl.Open(TestFile, Mode );
-
-Actual := FileControl.Write(pString := ADR(Contents), Size := SIZEOF(Contents) );
-
-AssertEquals_UDINT(Expected := TcUnit.sysdir.CmpErrors.Errors.ERR_FILE_ERROR,
-                   Actual := Actual,
-                   Message := 'File Write failed');
-                   
-FileControl.Close();
-
-FileControl.Delete(TestFile);
-
-TEST_FINISHED();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Test_FileWrite_AssertSucces" Id="{f3e8932a-7303-488e-9e0f-fbab44112a6c}">
-      <Declaration><![CDATA[METHOD Test_FileWrite_AssertSucces
+    <Method Name="Test_FileWrite" Id="{f3e8932a-7303-488e-9e0f-fbab44112a6c}">
+      <Declaration><![CDATA[METHOD Test_FileWrite
 VAR
     FileControl : FB_FileControl;
     Contents : STRING(64) := 'G#NkAM%Muah+nbwAk&8MnQZ9csi*YAoiGkcKzwvsYz5k@yY)aOz&cvQxXQyI6c';
@@ -256,7 +132,7 @@ VAR
     Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TEST('Test_FileWrite_AssertSucces');
+        <ST><![CDATA[TEST('Test_FileWrite');
 
 FileControl.Open(TestFile, Mode );
 

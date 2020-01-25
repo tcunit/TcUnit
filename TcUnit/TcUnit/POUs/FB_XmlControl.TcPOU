@@ -104,7 +104,7 @@ END_VAR]]></Declaration>
     </Implementation>
     <Method Name="ClearBuffer" Id="{651b4460-232e-47e8-95ba-ecea1541fbb9}">
       <Declaration><![CDATA[(* 
-    Clears the contents of the entire buffer
+    Clears the contents of the entire buffer.
 *)
 METHOD PUBLIC ClearBuffer]]></Declaration>
       <Implementation>
@@ -127,11 +127,11 @@ METHOD PUBLIC CloseTag : T_MaxString]]></Declaration>
         <ST><![CDATA[IF TagOpen THEN
     XmlBuffer.Append := END_TAG_CLOSE;
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
-    CloseTag := TagListBuffer.CutOff(udiStartPos:= Select);
+    CloseTag := TagListBuffer.CutOff(StartPos:= Select);
     TagOpen := FALSE;
 ELSE
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
-    CloseTag := TagListBuffer.CutOff(udiStartPos:= Select);
+    CloseTag := TagListBuffer.CutOff(StartPos:= Select);
     XmlBuffer.Append := TAG_OPEN;
     XmlBuffer.Append := CloseTag;
     XmlBuffer.Append := TAG_CLOSE;
@@ -248,29 +248,37 @@ NextParameter := Name;]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC NextTag : T_MaxString]]></Declaration>
       <Implementation>
         <ST><![CDATA[SelectStart := XmlBuffer.Find(SearchString := TAG_OPEN, StartPos := SearchPosition);
+
 SelectEnd := XmlBuffer.Find(SearchString := TAG_CLOSE, StartPos := SelectStart);
+
 SelectStartParameter := XmlBuffer.Find(SearchString := SPACE, StartPos := SelectStart);
+
 SelectTagClose := XmlBuffer.Find(SearchString := FORWARD_SLASH, StartPos := SelectStart);
+
 IF SelectStart < XmlBuffer.Length AND SelectEnd < XmlBuffer.Length THEN
     SearchPosition := SelectEnd;
+    
     Tag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectEnd);
+    
     IF SelectEnd < SelectStartParameter THEN
         NextTag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectEnd);
     ELSE
         NextTag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectStartParameter);
     END_IF;
+    
     IF SelectTagClose = SelectStart + 1 THEN
         Select := TagListSeekBuffer.FindBack(SearchString := FORWARD_SLASH);
-        TagListSeekBuffer.CutOff(udiStartPos:= Select);
+        TagListSeekBuffer.CutOff(StartPos:= Select);
     ELSIF SelectTagClose > SelectStart AND SelectTagClose < SelectEnd THEN
         TagListSeekBuffer.Append := FORWARD_SLASH;
         TagListSeekBuffer.Append := NextTag;
         Select := TagListSeekBuffer.FindBack(SearchString := FORWARD_SLASH);
-        TagListSeekBuffer.CutOff(udiStartPos:= Select);
+        TagListSeekBuffer.CutOff(StartPos:= Select);
     ELSE
         TagListSeekBuffer.Append := FORWARD_SLASH;
         TagListSeekBuffer.Append := NextTag;
     END_IF;
+    
 ELSE
     SearchPosition := XmlBuffer.Length;
     NextTag := '';
@@ -284,10 +292,13 @@ VAR_INPUT
     SizeOfBuffer : UDINT; // SIZEOF(..)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.SetBuffer(PointerToStringBuf := PointerToBuffer, BufSize := SizeOfBuffer);
-TagListBuffer.SetBuffer(PointerToStringBuf := ADR(Tags), BufSize := SIZEOF(Tags));
-TagListSeekBuffer.SetBuffer(PointerToStringBuf := ADR(TagsSeek), BufSize := SIZEOF(TagsSeek));
-TagBuffer.SetBuffer(PointerToStringBuf := ADR(Tag), BufSize := SIZEOF(Tag));]]></ST>
+        <ST><![CDATA[XmlBuffer.SetBuffer(PointerToBufferAdress:= PointerToBuffer, SizeOfBuffer := SizeOfBuffer);
+
+TagListBuffer.SetBuffer(PointerToBufferAdress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
+
+TagListSeekBuffer.SetBuffer(PointerToBufferAdress := ADR(TagsSeek), SizeOfBuffer := SIZEOF(TagsSeek));
+
+TagBuffer.SetBuffer(PointerToBufferAdress := ADR(Tag), SizeOfBuffer := SIZEOF(Tag));]]></ST>
       </Implementation>
     </Method>
     <Method Name="ToStartBuffer" Id="{cb065068-a6c8-48d5-8c1d-535a21365348}">
