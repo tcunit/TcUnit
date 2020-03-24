@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_xUnitXmlPublisher" Id="{6597c0b3-0890-4d5d-8d3a-2d0d0b2355db}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-	Publishes testresults into a xUnit compatible Xml file
+    Publishes test results into an xUnit compatible Xml file
 *)
 FUNCTION_BLOCK FB_xUnitXmlPublisher IMPLEMENTS I_TestResultLogger
 VAR     
@@ -13,9 +13,9 @@ VAR
     AccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
         
     File : FB_FileControl;
-	Xml : FB_XMLControl;
+    Xml : FB_XMLControl;
     BufferInitialised : BOOL := FALSE;
-	Buffer : ARRAY [0..(GVL_Param_TcUnit.BufferSize-1)] OF BYTE;
+    Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize-1)] OF BYTE;
     WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     PublishTrigger : R_TRIG;
 END_VAR]]></Declaration>
@@ -31,8 +31,8 @@ METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Decla
       <Implementation>
         <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;   
 IF Initialised() THEN
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.FilePath));
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.FilePath, FileAccessMode := AccessMode));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.XUnitFilePath));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.XUnitFilePath, FileAccessMode := AccessMode));
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Write(pString := ADR(Buffer), xml.Length)); 
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Close());
 ELSE
@@ -82,9 +82,9 @@ END_VAR
 *)
 METHOD PUBLIC LogTestSuiteResults
 VAR
-    CfUnitTestResults : REFERENCE TO ST_TestSuiteResults;
-    CurSuiteNr: UINT;
-    CurTestCnt : UINT;
+    UnitTestResults : REFERENCE TO ST_TestSuiteResults;
+    CurrentSuiteNumber: UINT;
+    CurrentTestCount : UINT;
 END_VAR
 VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
@@ -92,10 +92,10 @@ VAR CONSTANT
     TEST_STATUS_FAIL : STRING := 'FAIL';
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CfUnitTestResults REF=TestResults.GetTestSuiteResults();
+        <ST><![CDATA[UnitTestResults REF=TestResults.GetTestSuiteResults();
 
 // Only publish once if "EnablePublish" is enabled and all test results are stored.
-PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.EnablePublish) );
+PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.XUnitEnablePublish) );
 IF PublishTrigger.Q THEN
           
     (* <?xml version="1.0" encoding="UTF-8"?> *)
@@ -104,39 +104,39 @@ IF PublishTrigger.Q THEN
     (* <testsuites> *)
     xml.NewTag('testsuites');
     Xml.NewParameter('disabled', '');
-    Xml.NewParameter('failures', UINT_TO_STRING(CfUnitTestResults.NumberOfFailedTestCases));
-    Xml.NewParameter('tests', UINT_TO_STRING(CfUnitTestResults.NumberOfSuccessfulTestCases));
+    Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.NumberOfFailedTestCases));
+    Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.NumberOfSuccessfulTestCases));
 
-    FOR CurSuiteNr := 1 TO CfUnitTestResults.NumberOfTestSuites BY 1 DO 
+    FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO 
         (* <testsuite> *)
         xml.NewTag('testsuite');
-        Xml.NewParameter('id', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].Identity));
-        Xml.NewParameter('name', CfUnitTestResults.TestSuiteResults[CurSuiteNr].name);
-        Xml.NewParameter('tests', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfTests));        
-        Xml.NewParameter('failures', UINT_TO_STRING(CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfFailedTests));
+        Xml.NewParameter('id', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Identity));
+        Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
+        Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));        
+        Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
            
-        FOR CurTestCnt := 1 TO CfUnitTestResults.TestSuiteResults[CurSuiteNr].NumberOfTests BY 1 DO
+        FOR CurrentTestCount := 1 TO UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests BY 1 DO
             (* <testcase> *)
             Xml.NewTag('testcase');
-            Xml.NewParameter('name', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestName);
-            Xml.NewParameter('classname', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestClassName);
+            Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
+            Xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
             
-            IF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestIsFailed THEN
+            IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsFailed THEN
                 Xml.NewParameter('status', TEST_STATUS_FAIL);
-            ELSIF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].TestIsSkipped THEN   
+            ELSIF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsSkipped THEN   
                 Xml.NewParameter('status', TEST_STATUS_SKIP);
             ELSE
                 Xml.NewParameter('status', TEST_STATUS_PASS);
 			END_IF
 
             (* determine testcase fail or succes *)
-            IF CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureType <> E_AssertionType.Type_UNDEFINED THEN 
+            IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType <> E_AssertionType.Type_UNDEFINED THEN 
                 (* in case of fail 
                     <failure message="Values differ" type="BYTE" />
                 *)
                 Xml.NewTag('failure');
-                Xml.NewParameter('message', CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureMessage );
-                Xml.NewParameter('type', F_AssertionTypeToString(CfUnitTestResults.TestSuiteResults[CurSuiteNr].TestCaseResults[CurTestCnt].FailureType) );       
+                Xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage );
+                Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType) );       
                 (* close failure tag*)
                 Xml.CloseTag();
                 
@@ -169,7 +169,7 @@ IF PublishTrigger.Q THEN
                                                                                          
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
                                         msgFmtStr :=  '| Location: %s ',                 
-                                        strArg := GVL_Param_TcUnit.FilePath);            
+                                        strArg := GVL_Param_TcUnit.XUnitFilePath);            
                                                                                          
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
                                         MsgFmtStr := '%s',                               

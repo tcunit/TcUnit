@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="FB_TestXmlControl" Id="{363fde2d-bb7b-452f-a760-baf03449eb88}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Contains tests that verify the XmlControl function block methods
+*)
+FUNCTION_BLOCK FB_TestXmlControl EXTENDS TcUnit.FB_TestSuite
+VAR
+    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize-1] OF BYTE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_NewTag();
+Test_NewTagNested();
+Test_NewParameter();
+Test_NewComment();
+Test_CloseOpenTag();
+Test_CloseTag();
+Test_NewTagData();
+Test_NextTagFlat();
+Test_NextTagNested();]]></ST>
+    </Implementation>
+    <Method Name="Setup" Id="{a523e726-082a-4e31-bdb5-31f9c8d19f4c}">
+      <Declaration><![CDATA[METHOD Setup
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Clear buffer
+MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_CloseOpenTag" Id="{7b197c98-60c2-43ce-badc-40234f3381a4}">
+      <Declaration><![CDATA[METHOD Test_CloseOpenTag
+VAR
+	XmlControl : FB_XmlControl;
+	TagName : STRING := 'MyTag';
+	ExpectedBuffer : STRING := '<MyTag/>';
+	ActualBuffer : STRING;	
+	ExpectedResult : STRING;
+	ActualResult : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_CloseOpenTag');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewTag(TagName);
+XmlControl.CloseTag();
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+
+AssertEquals_String(Expected := ExpectedResult, 
+				   Actual :=  ActualResult,
+				   Message := 'CloseTag result does not contain expected content');
+				   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_CloseTag" Id="{86a45281-5940-451a-893d-0b71e25ee014}">
+      <Declaration><![CDATA[METHOD Test_CloseTag
+VAR
+	XmlControl : FB_XmlControl;
+	TagName : STRING := 'MyTag';
+	ExpectedBuffer : STRING := '<MyTag>TagData</MyTag>';
+	ActualBuffer : STRING;
+	ExpectedResult : STRING := '/MyTag';
+	ActualResult : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_CloseTag');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewTag(TagName);
+XmlControl.NewTagData('TagData');
+
+ActualResult := XmlControl.CloseTag();
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+
+AssertEquals_String(Expected := ExpectedResult, 
+				   Actual :=  ActualResult,
+				   Message := 'CloseTag result does not contain expected content');
+				   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NewComment" Id="{ab168c91-bfbc-487b-89f0-c1ac5f41d253}">
+      <Declaration><![CDATA[METHOD Test_NewComment
+VAR
+	XmlControl : FB_XmlControl;
+	Comment : STRING := 'MyComment';
+	ExpectedBuffer : STRING := '<!-- MyComment -->';
+	ActualBuffer : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NewComment');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewComment(Comment);
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NewParameter" Id="{284909d6-3d4c-4d69-a860-e3305f25c350}">
+      <Declaration><![CDATA[METHOD Test_NewParameter
+VAR
+	XmlControl : FB_XmlControl;
+	ParameterName : STRING := 'ParaName';
+	ParameterValue : STRING := 'Value';
+	ExpectedBuffer : STRING := ' ParaName="Value"';
+	ActualBuffer : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NewParameter');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewParameter(ParameterName, ParameterValue);
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NewTag" Id="{9b9a0770-0e6c-4cd6-899b-75d9d6644278}">
+      <Declaration><![CDATA[METHOD Test_NewTag
+VAR
+	XmlControl : FB_XmlControl;
+	TagName : STRING := 'MyTag';
+	ExpectedBuffer : STRING := '<MyTag';
+	ActualBuffer : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NewTag');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewTag(TagName);
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NewTagData" Id="{3fa16241-ed1c-41c3-a210-bb00b57ea42c}">
+      <Declaration><![CDATA[METHOD Test_NewTagData
+VAR
+	XmlControl : FB_XmlControl;
+	TagName : STRING := 'MyTag';
+	ExpectedBuffer : STRING := '<MyTag>TagData';
+	ActualBuffer : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NewTagData');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+XmlControl.NewTag(TagName);
+XmlControl.NewTagData('TagData');
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+				   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NewTagNested" Id="{127a0665-e103-419e-812d-fe0e6e4c808f}">
+      <Declaration><![CDATA[METHOD Test_NewTagNested
+VAR
+	XmlControl : FB_XmlControl;
+	Tag1Name : STRING := 'MyTag1';
+	Tag2Name : STRING := 'MyTag2';
+	Tag3Name : STRING := 'MyTag3';
+	Tag4Name : STRING := 'MyTag4';
+	ExpectedBuffer : STRING := '<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>';
+	ActualBuffer : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NewTagNested');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+(*
+<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>
+*)
+XmlControl.NewTag(Tag1Name);
+XmlControl.NewTag(Tag2Name);
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag3Name);
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag4Name);
+XmlControl.CloseTag();
+XmlControl.CloseTag();
+
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+
+AssertEquals_String(Expected := ExpectedBuffer, 
+                   Actual :=  ActualBuffer,
+                   Message := 'Buffer does not contain expected content');
+							   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NextTagFlat" Id="{be5c0bce-67b5-4c53-bf4a-782a40ad7b9c}">
+      <Declaration><![CDATA[METHOD Test_NextTagFlat
+VAR
+	XmlControl : FB_XmlControl;
+	Tag1Name : STRING := 'MyTag1';
+	Tag2Name : STRING := 'MyTag2';
+	Tag3Name : STRING := 'MyTag3';
+	ActualTag : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NextTagFlat');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+(* <MyTag1>TagData</MyTag1><MyTag2/><MyTag3/> *)
+XmlControl.NewTag(Tag1Name);
+XmlControl.NewTagData('TagData');
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag2Name);
+XmlControl.NewTagData('Tag2Data');
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag3Name);
+XmlControl.CloseTag();
+
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag1Name, 
+                   Actual :=  ActualTag,
+                   Message := 'Buffer does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag1Name, 
+                   Actual :=  ActualTag,
+                   Message := 'Buffer does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag2Name, 
+                   Actual :=  ActualTag,
+                   Message := 'Buffer does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag3Name, 
+                   Actual :=  ActualTag,
+                   Message := 'Buffer does not contain expected content');
+				   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_NextTagNested" Id="{d191c64a-a707-4300-a2dd-e118c034d98d}">
+      <Declaration><![CDATA[METHOD Test_NextTagNested
+VAR
+	XmlControl : FB_XmlControl;
+	Tag1Name : STRING := 'MyTag1';
+	Tag2Name : STRING := 'MyTag2';
+	Tag3Name : STRING := 'MyTag3';
+	Tag4Name : STRING := 'MyTag4';
+	ActualTag : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_NextTagNested');
+
+Setup();
+
+XmlControl.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
+(*
+<MyTag1><MyTag2/><MyTag3>Data</MyTag3><MyTag4/></MyTag1>
+*)
+XmlControl.NewTag(Tag1Name);
+XmlControl.NewTag(Tag2Name);
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag3Name);
+XmlControl.NewTagData('Data');
+XmlControl.CloseTag();
+XmlControl.NewTag(Tag4Name);
+XmlControl.CloseTag();
+XmlControl.CloseTag();
+
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag1Name, 
+                   Actual :=  ActualTag,
+                   Message := 'NextTag does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag2Name, 
+                   Actual :=  ActualTag,
+                   Message := 'NextTag does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag3Name, 
+                   Actual :=  ActualTag,
+                   Message := 'NextTag does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag4Name, 
+                   Actual :=  ActualTag,
+                   Message := 'NextTag does not contain expected content');
+ActualTag := XmlControl.NextTag();
+AssertEquals_String(Expected := Tag1Name, 
+                   Actual :=  ActualTag,
+                   Message := 'NextTag does not contain expected content');				   							   
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

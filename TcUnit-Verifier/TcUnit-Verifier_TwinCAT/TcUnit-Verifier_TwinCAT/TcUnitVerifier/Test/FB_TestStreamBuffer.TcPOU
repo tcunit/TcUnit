@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_TestStreamBuffer" Id="{93715912-c883-4a03-854d-0419c551b14f}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains tests that verify the StreamBuffer function block methods
 *)
 FUNCTION_BLOCK FB_TestStreamBuffer EXTENDS TcUnit.FB_TestSuite
 VAR
-    Stream : FB_StreamBuffer;
-    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.BufferSize-1] OF BYTE;
+    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize-1] OF BYTE;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -19,21 +18,21 @@ Test_Find();
 Test_Copy();
 Test_CutOff();]]></ST>
     </Implementation>
-    <Method Name="FB_Init" Id="{d1d5b2df-a457-4a7f-a363-2b069698df60}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Method Name="Setup" Id="{661742e7-8095-416e-ad24-7ce398db0b67}">
+      <Declaration><![CDATA[METHOD Setup
 VAR_INPUT
-    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-    bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
-]]></ST>
+        <ST><![CDATA[// Clear buffer
+MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_Append" Id="{c9f256b4-b10a-4c18-ac2e-375993748010}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Append
 VAR
+	Stream : FB_StreamBuffer;
+	
     Str1    : STRING := 'Vita est dolor sic ars.';
     Str2    : STRING := 'Vincit qui se vincit.  ';
     Search  : STRING := 'se';
@@ -43,7 +42,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TcUnit.TEST('Test_Append');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 Stream.Append:= Str1;
 Stream.Append:= Str2;
@@ -60,13 +61,18 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_BufferSize" Id="{cf4c2c43-ae1b-4bba-857c-6ebb6d182932}">
       <Declaration><![CDATA[METHOD PRIVATE Test_BufferSize
 VAR
+	Stream : FB_StreamBuffer;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BufferSize');
 
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+
 (* Compare initialised buffersize with expected buffersize *)
-AssertEquals_UDINT(Expected := GVL_Param_TcUnit.BufferSize,
+AssertEquals_UDINT(Expected := GVL_Param_TcUnit.XUnitBufferSize,
                    Actual := Stream.BufferSize, 
                    Message := 'BufferSize differs');
 
@@ -76,13 +82,17 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Clear" Id="{591d2216-16ba-4bde-a924-7cd4ef7f6cf2}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Clear
 VAR
+	Stream : FB_StreamBuffer;
+	
     Str : STRING := 'vita est dolor sic ars';
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Test('Test_Clear');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 Stream.Append := Str;
 
@@ -98,6 +108,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Copy" Id="{bf842fe0-711d-49e6-a319-2598d4654f70}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Copy
 VAR
+	Stream : FB_StreamBuffer;
+	
     Str1    : STRING := 'Vincit qui se vincit.  ';
     Str2    : STRING := 'Vita est dolor sic ars.';
     Cpy     : STRING;
@@ -107,7 +119,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('Test_Copy');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 Stream.Append := Str1;
 
@@ -126,6 +140,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_CutOff" Id="{fe4a5c0d-d938-476b-a07d-39bbb0824237}">
       <Declaration><![CDATA[METHOD PRIVATE Test_CutOff
 VAR
+	Stream : FB_StreamBuffer;
+	
     Str : STRING := 'vita est dolor sic ars';
     Cut : UDINT;
     Length : UDINT;
@@ -136,7 +152,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('Test_CutOff');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 (* Last char - 2 chars = 3 chars in total *)
 Stream.Append := Str;
@@ -157,7 +175,9 @@ TEST_FINISHED();]]></ST>
     </Method>
     <Method Name="Test_Find" Id="{808d1d3f-d265-4faa-8209-c1d8803e9c8f}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Find
-VAR
+VAR	
+	Stream : FB_StreamBuffer;
+	
     Str    : STRING := 'Vita est dolor sic ars.';
     Search : STRING := 'dolor';
     Test : BOOL;
@@ -166,7 +186,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TcUnit.TEST('Test_Find');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 Stream.Append:= Str;
 
@@ -182,6 +204,8 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Length" Id="{6f36830f-7238-4c4d-8783-cb9afb4c22b1}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Length
 VAR
+	Stream : FB_StreamBuffer;
+	
     Str : STRING := 'vita est dolor sic ars';
     Length : UDINT;
 END_VAR
@@ -189,7 +213,9 @@ END_VAR
       <Implementation>
         <ST><![CDATA[TEST('Test_Length');
 
-Stream.Clear();
+Setup();
+
+Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 Stream.Append := Str;
 
