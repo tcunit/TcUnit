@@ -31,7 +31,7 @@ MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
     <Method Name="Test_Append" Id="{c9f256b4-b10a-4c18-ac2e-375993748010}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Append
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str1    : STRING := 'Vita est dolor sic ars.';
     Str2    : STRING := 'Vincit qui se vincit.  ';
@@ -61,7 +61,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_BufferSize" Id="{cf4c2c43-ae1b-4bba-857c-6ebb6d182932}">
       <Declaration><![CDATA[METHOD PRIVATE Test_BufferSize
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -82,7 +82,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Clear" Id="{591d2216-16ba-4bde-a924-7cd4ef7f6cf2}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Clear
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str : STRING := 'vita est dolor sic ars';
 END_VAR
@@ -108,7 +108,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Copy" Id="{bf842fe0-711d-49e6-a319-2598d4654f70}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Copy
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str1    : STRING := 'Vincit qui se vincit.  ';
     Str2    : STRING := 'Vita est dolor sic ars.';
@@ -140,7 +140,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_CutOff" Id="{fe4a5c0d-d938-476b-a07d-39bbb0824237}">
       <Declaration><![CDATA[METHOD PRIVATE Test_CutOff
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str : STRING := 'vita est dolor sic ars';
     Cut : UDINT;
@@ -176,7 +176,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Find" Id="{808d1d3f-d265-4faa-8209-c1d8803e9c8f}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Find
 VAR	
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str    : STRING := 'Vita est dolor sic ars.';
     Search : STRING := 'dolor';
@@ -204,7 +204,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_Length" Id="{6f36830f-7238-4c4d-8783-cb9afb4c22b1}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Length
 VAR
-	Stream : FB_StreamBuffer;
+    Stream : FB_StreamBuffer;
 	
     Str : STRING := 'vita est dolor sic ars';
     Length : UDINT;
