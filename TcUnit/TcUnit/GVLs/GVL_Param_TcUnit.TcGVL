@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <GVL Name="GVL_Param_TcUnit" Id="{8914b509-ade2-41d9-a869-a8850ad59b87}" ParameterList="True">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
@@ -10,13 +10,13 @@ VAR_GLOBAL CONSTANT
     MaxNumberOfAssertsForEachTestSuite : UINT := 1000;
     
     (* Enable (TRUE) or disable (FALSE) publishing of the xUnit Xml report *)
-    XUnitEnablePublish : BOOL := FALSE;
+    xUnitEnablePublish : BOOL := FALSE;
     
     (* Default reserved PLC memory buffer used for composition of the xUnit xml file (64 kb default) *)
-    XUnitBufferSize: UDINT := 65535;
+    xUnitBufferSize: UDINT := 65535;
     
     (* Default path and filename for the xunit testresults e.g.: for use with jenkins *)
-    XUnitFilePath : T_MaxString := 'C:\tcunit_xunit_testresults.xml';
+    xUnitFilePath : T_MaxString := 'C:\tcunit_xunit_testresults.xml';
     
     (* This is the maximum number of ADS-messages that can be stored for reporting at the same time.
        Having a size of 2000 means that it's possible to report up to ~400 test cases in one single

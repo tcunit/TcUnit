@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_xUnitXmlPublisher" Id="{6597c0b3-0890-4d5d-8d3a-2d0d0b2355db}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Publishes test results into an xUnit compatible Xml file
@@ -31,8 +31,8 @@ METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Decla
       <Implementation>
         <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;   
 IF Initialised() THEN
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.XUnitFilePath));
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.XUnitFilePath, FileAccessMode := AccessMode));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.xUnitFilePath));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := AccessMode));
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Write(pString := ADR(Buffer), xml.Length)); 
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Close());
 ELSE
@@ -95,7 +95,7 @@ END_VAR]]></Declaration>
         <ST><![CDATA[UnitTestResults REF=TestResults.GetTestSuiteResults();
 
 // Only publish once if "EnablePublish" is enabled and all test results are stored.
-PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.XUnitEnablePublish) );
+PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish) );
 IF PublishTrigger.Q THEN
           
     (* <?xml version="1.0" encoding="UTF-8"?> *)
@@ -169,7 +169,7 @@ IF PublishTrigger.Q THEN
                                                                                          
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
                                         msgFmtStr :=  '| Location: %s ',                 
-                                        strArg := GVL_Param_TcUnit.XUnitFilePath);            
+                                        strArg := GVL_Param_TcUnit.xUnitFilePath);            
                                                                                          
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
                                         MsgFmtStr := '%s',                               
