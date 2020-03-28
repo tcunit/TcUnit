@@ -16,7 +16,7 @@ namespace TcUnit.Verifier
     class Program
     {
         private static string tcUnitVerifierPath = null;
-        private static string tcUnitTargetAdsNetId = "127.0.0.1.1.1";
+        private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
         private static int expectedNumberOfFailedTests = 112; // Update this if you add intentionally failing tests
@@ -31,7 +31,7 @@ namespace TcUnit.Verifier
 
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
-                .Add("t=|TcUnitTargetAdsNetId=", "Ads Target Net Id", t => tcUnitTargetAdsNetId = t)
+                .Add("t=|TcUnitTargetNetId=", "(Optional, default 127.0.0.1.1.1) Target NetId of TwinCAT runtime to deploy TcUnit-Verifier PLC to", t => tcUnitTargetNetId = t)
                 .Add("?|h|help", h => showHelp = h != null);
 
             try
@@ -83,7 +83,7 @@ namespace TcUnit.Verifier
 
             log.Info("Cleaning and building TcUnit-Verifier_TwinCAT solution...");
             AutomationInterface automationInterface = new AutomationInterface(vsInstance);
-            automationInterface.ITcSysManager.SetTargetNetId(tcUnitTargetAdsNetId);
+            automationInterface.ITcSysManager.SetTargetNetId(tcUnitTargetNetId);
             ITcSmTreeItem plcProject = automationInterface.PlcTreeItem.Child[1];
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
