@@ -91,6 +91,9 @@
     <Compile Include="Test\FB_TestStreamBuffer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_TestXmlControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_WriteProtectedFunctions.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -129,12 +132,8 @@
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
       <Parameters>
-        <Parameter>
-          <Key>FILEPATH</Key>
-          <Value>'c:\TcUnit_xunit_testresults.xml'</Value>
-        </Parameter>
-        <Parameter>
-          <Key>ENABLEPUBLISH</Key>
+        <Parameter xmlns="">
+          <Key>XUNITENABLEPUBLISH</Key>
           <Value>TRUE</Value>
         </Parameter>
       </Parameters>
