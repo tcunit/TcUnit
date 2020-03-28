@@ -18,8 +18,6 @@ namespace TcUnit.Verifier
             Test_CloseOpenTag();
             Test_CloseTag();
             Test_NewTagData();
-            Test_NextTagFlat();
-            Test_NextTagNested();
         }
 
         private void Test_NewTag()
@@ -61,18 +59,6 @@ namespace TcUnit.Verifier
         private void Test_NewTagData()
         {
             string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_NewTagData";
-            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
-        }
-
-        private void Test_NextTagFlat()
-        {
-            string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_NextTagFlat";
-            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
-        }
-
-        private void Test_NextTagNested()
-        {
-            string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_NextTagNested";
             AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }

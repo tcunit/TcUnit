@@ -47,15 +47,6 @@ XML.toStartBuffer();
 XML: <!-- MyComment -->
 
     XML.newComment(sTagName: = 'MyComment');
-
-6. Returns the next tag from the current position in buffer
-XML.NextTag();
-
-
-7. Output the parameter of the tag
-XML.NextPara(sPara: = LastValue);
-Feedback: sPara returns the value found (string)
-
 *)
 FUNCTION_BLOCK FB_XmlControl
 VAR
@@ -68,13 +59,6 @@ VAR
     Tag : T_MaxString;
     TagOpen: BOOL;
     Select : UDINT;
-    SelectStart : UDINT;
-    SelectEnd : UDINT;
-    SelectStartParameter : UDINT;
-    SelectEndParameter : UDINT;
-    SelectTagClose : UDINT;
-    SelectStartValue : UDINT;
-    SelectEndValue : UDINT;
     SearchPosition : UDINT; 
 END_VAR
 VAR CONSTANT
@@ -89,7 +73,7 @@ VAR CONSTANT
     OPEN_COMMENT : STRING(5) := '<!-- ';
     CLOSE_COMMENT : STRING(4) := ' -->';
     TAB : STRING(2) := '$T';
-	CR_LF : STRING(4) := '$R$N';
+    CR_LF : STRING(4) := '$R$N';
   
 	//$OD : ASCII code for carriage return (CR)
 	//$$ : to add a $R
@@ -219,70 +203,6 @@ END_VAR]]></Declaration>
         <ST><![CDATA[XmlBuffer.Append := TAG_CLOSE;
 XmlBuffer.Append := Data;
 TagOpen := FALSE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="NextParameter" Id="{4394d0a2-f7bc-4847-9625-00022c462a79}">
-      <Declaration><![CDATA[METHOD PUBLIC NextParameter : T_MaxString;
-VAR_OUTPUT
-    Parameter : T_MaxString;
-END_VAR
-VAR
-    Name : T_MaxString;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SelectEndParameter := XmlBuffer.Find(SearchString := EQUALS, StartPos := SelectStartParameter);
-IF SelectStartParameter < SelectEnd AND SelectEndParameter < SelectEnd THEN
-    Name := XmlBuffer.Copy( StartPos := SelectStartParameter + 1, EndPos := SelectEndParameter);
-    SelectStartValue := XmlBuffer.Find(SearchString := QUOTE, StartPos := SelectEndParameter);
-    SelectEndValue := XmlBuffer.Find(SearchString := QUOTE, StartPos := SelectStartValue);
-    Parameter := XmlBuffer.Copy( StartPos := SelectStartValue + 1, EndPos := SelectEndValue);
-    SelectStartParameter := SelectEndValue + 1;
-ELSE
-    SelectEndValue := XmlBuffer.Find(SearchString := TAG_OPEN, StartPos := SearchPosition);
-    Name := XmlBuffer.Copy( StartPos := SearchPosition + 1, EndPos := SelectEndValue); 
-END_IF;
-NextParameter := Name;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="NextTag" Id="{d039b781-905d-4b69-b5aa-bb0323e598de}">
-      <Declaration><![CDATA[METHOD PUBLIC NextTag : T_MaxString]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[SelectStart := XmlBuffer.Find(SearchString := TAG_OPEN, StartPos := SearchPosition);
-
-SelectEnd := XmlBuffer.Find(SearchString := TAG_CLOSE, StartPos := SelectStart);
-
-SelectStartParameter := XmlBuffer.Find(SearchString := SPACE, StartPos := SelectStart);
-
-SelectTagClose := XmlBuffer.Find(SearchString := FORWARD_SLASH, StartPos := SelectStart);
-
-IF SelectStart < XmlBuffer.Length AND SelectEnd < XmlBuffer.Length THEN
-    SearchPosition := SelectEnd;
-    
-    Tag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectEnd);
-    
-    IF SelectEnd < SelectStartParameter THEN
-        NextTag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectEnd);
-    ELSE
-        NextTag := XmlBuffer.Copy( StartPos:= SelectStart + 1, EndPos:= SelectStartParameter);
-    END_IF;
-    
-    IF SelectTagClose = SelectStart + 1 THEN
-        Select := TagListSeekBuffer.FindBack(SearchString := FORWARD_SLASH);
-        TagListSeekBuffer.CutOff(StartPos:= Select);
-    ELSIF SelectTagClose > SelectStart AND SelectTagClose < SelectEnd THEN
-        TagListSeekBuffer.Append := FORWARD_SLASH;
-        TagListSeekBuffer.Append := NextTag;
-        Select := TagListSeekBuffer.FindBack(SearchString := FORWARD_SLASH);
-        TagListSeekBuffer.CutOff(StartPos:= Select);
-    ELSE
-        TagListSeekBuffer.Append := FORWARD_SLASH;
-        TagListSeekBuffer.Append := NextTag;
-    END_IF;
-    
-ELSE
-    SearchPosition := XmlBuffer.Length;
-    NextTag := '';
-END_IF;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetBuffer" Id="{cbfaa6d5-eab9-48d0-a339-a8bf334e344e}">
