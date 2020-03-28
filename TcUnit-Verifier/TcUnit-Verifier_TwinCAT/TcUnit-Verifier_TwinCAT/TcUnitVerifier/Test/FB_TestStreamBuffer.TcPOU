@@ -16,7 +16,8 @@ Test_Append();
 Test_Clear();
 Test_Find();
 Test_Copy();
-Test_CutOff();]]></ST>
+Test_CutOff();
+Test_BufferOverflow();]]></ST>
     </Implementation>
     <Method Name="Setup" Id="{661742e7-8095-416e-ad24-7ce398db0b67}">
       <Declaration><![CDATA[METHOD Setup
@@ -53,6 +54,41 @@ Test := ( Stream.Find( SearchString := Search, StartPos := 1 ) >=0 );
 
 AssertTrue(Condition := Test, 
            Message := 'Append Failed');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_BufferOverflow" Id="{872d20aa-6944-4da6-84a5-e91d50d7be68}">
+      <Declaration><![CDATA[METHOD Test_BufferOverflow
+VAR
+    Stream : FB_StreamBuffer;
+    Str1    : STRING := 'abcdef';
+    Str2    : STRING := 'uwxyz';
+    Cpy     : STRING;
+    CopyLen : UDINT;
+    SmallBuffer: ARRAY [0..SMALL_BUFFER_SIZE-1] OF BYTE;
+END_VAR
+VAR CONSTANT
+    SMALL_BUFFER_SIZE : UDINT := 10;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TcUnit.TEST('Test_BufferOverflow');
+
+Setup();
+
+Stream.Setbuffer(ADR(SmallBuffer), SIZEOF(SmallBuffer));
+
+Stream.Append:= Str1;
+Stream.Append:= Str2;
+
+AssertEquals_UDINT(SMALL_BUFFER_SIZE, Stream.Length, 'Stream not at maximum length');
+
+Cpy := Stream.Copy(StartPos := 1, EndPos := Stream.Length, CopyLen => CopyLen); 
+
+// expected behavior: the buffer receives up to Buffer Size - 1 of string, the last byte is NULL character (termination)
+AssertEquals_STRING(Expected := 'abcdefuwx',
+                    Actual := Cpy,
+                    Message := 'Stream was not truncated as expected');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

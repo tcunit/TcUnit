@@ -18,6 +18,7 @@ namespace TcUnit.Verifier
             Test_Find();
             Test_Copy();
             Test_CutOff();
+            Test_BufferOverflow();
         }
 
         private void Test_BufferSizeDiffers()
@@ -59,6 +60,12 @@ namespace TcUnit.Verifier
         private void Test_Length()
         {
             string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_Length";
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_BufferOverflow()
+        {
+            string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_BufferOverflow";
             AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }
