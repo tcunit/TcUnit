@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TestStreamBuffer" Id="{93715912-c883-4a03-854d-0419c551b14f}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains tests that verify the StreamBuffer function block methods
@@ -32,7 +32,6 @@ MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Append
 VAR
     Stream : FB_StreamBuffer;
-	
     Str1    : STRING := 'Vita est dolor sic ars.';
     Str2    : STRING := 'Vincit qui se vincit.  ';
     Search  : STRING := 'se';
@@ -83,7 +82,6 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Clear
 VAR
     Stream : FB_StreamBuffer;
-	
     Str : STRING := 'vita est dolor sic ars';
 END_VAR
 ]]></Declaration>
@@ -109,7 +107,6 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Copy
 VAR
     Stream : FB_StreamBuffer;
-	
     Str1    : STRING := 'Vincit qui se vincit.  ';
     Str2    : STRING := 'Vita est dolor sic ars.';
     Cpy     : STRING;
@@ -141,7 +138,6 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_CutOff
 VAR
     Stream : FB_StreamBuffer;
-	
     Str : STRING := 'vita est dolor sic ars';
     Cut : UDINT;
     Length : UDINT;
@@ -175,9 +171,8 @@ TEST_FINISHED();]]></ST>
     </Method>
     <Method Name="Test_Find" Id="{808d1d3f-d265-4faa-8209-c1d8803e9c8f}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Find
-VAR	
+VAR
     Stream : FB_StreamBuffer;
-	
     Str    : STRING := 'Vita est dolor sic ars.';
     Search : STRING := 'dolor';
     Test : BOOL;
@@ -205,7 +200,6 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Length
 VAR
     Stream : FB_StreamBuffer;
-	
     Str : STRING := 'vita est dolor sic ars';
     Length : UDINT;
 END_VAR

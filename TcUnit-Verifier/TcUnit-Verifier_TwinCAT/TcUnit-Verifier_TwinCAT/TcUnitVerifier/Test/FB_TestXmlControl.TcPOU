@@ -31,12 +31,12 @@ MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
     <Method Name="Test_CloseOpenTag" Id="{7b197c98-60c2-43ce-badc-40234f3381a4}">
       <Declaration><![CDATA[METHOD Test_CloseOpenTag
 VAR
-	XmlControl : FB_XmlControl;
-	TagName : STRING := 'MyTag';
-	ExpectedBuffer : STRING := '<MyTag/>';
-	ActualBuffer : STRING;	
-	ExpectedResult : STRING;
-	ActualResult : STRING;
+    XmlControl : FB_XmlControl;
+    TagName : STRING := 'MyTag';
+    ExpectedBuffer : STRING := '<MyTag/>';
+    ActualBuffer : STRING;	
+    ExpectedResult : STRING;
+    ActualResult : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -56,21 +56,21 @@ AssertEquals_String(Expected := ExpectedBuffer,
                    Message := 'Buffer does not contain expected content');
 
 AssertEquals_String(Expected := ExpectedResult, 
-				   Actual :=  ActualResult,
-				   Message := 'CloseTag result does not contain expected content');
-				   
+                   Actual :=  ActualResult,
+                   Message := 'CloseTag result does not contain expected content');
+                   
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_CloseTag" Id="{86a45281-5940-451a-893d-0b71e25ee014}">
       <Declaration><![CDATA[METHOD Test_CloseTag
 VAR
-	XmlControl : FB_XmlControl;
-	TagName : STRING := 'MyTag';
-	ExpectedBuffer : STRING := '<MyTag>TagData</MyTag>';
-	ActualBuffer : STRING;
-	ExpectedResult : STRING := '/MyTag';
-	ActualResult : STRING;
+    XmlControl : FB_XmlControl;
+    TagName : STRING := 'MyTag';
+    ExpectedBuffer : STRING := '<MyTag>TagData</MyTag>';
+    ActualBuffer : STRING;
+    ExpectedResult : STRING := '/MyTag';
+    ActualResult : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -92,19 +92,19 @@ AssertEquals_String(Expected := ExpectedBuffer,
                    Message := 'Buffer does not contain expected content');
 
 AssertEquals_String(Expected := ExpectedResult, 
-				   Actual :=  ActualResult,
-				   Message := 'CloseTag result does not contain expected content');
-				   
+                   Actual :=  ActualResult,
+                   Message := 'CloseTag result does not contain expected content');
+                   
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_NewComment" Id="{ab168c91-bfbc-487b-89f0-c1ac5f41d253}">
       <Declaration><![CDATA[METHOD Test_NewComment
 VAR
-	XmlControl : FB_XmlControl;
-	Comment : STRING := 'MyComment';
-	ExpectedBuffer : STRING := '<!-- MyComment -->';
-	ActualBuffer : STRING;
+    XmlControl : FB_XmlControl;
+    Comment : STRING := 'MyComment';
+    ExpectedBuffer : STRING := '<!-- MyComment -->';
+    ActualBuffer : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -128,11 +128,11 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_NewParameter" Id="{284909d6-3d4c-4d69-a860-e3305f25c350}">
       <Declaration><![CDATA[METHOD Test_NewParameter
 VAR
-	XmlControl : FB_XmlControl;
-	ParameterName : STRING := 'ParaName';
-	ParameterValue : STRING := 'Value';
-	ExpectedBuffer : STRING := ' ParaName="Value"';
-	ActualBuffer : STRING;
+    XmlControl : FB_XmlControl;
+    ParameterName : STRING := 'ParaName';
+    ParameterValue : STRING := 'Value';
+    ExpectedBuffer : STRING := ' ParaName="Value"';
+    ActualBuffer : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -156,10 +156,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_NewTag" Id="{9b9a0770-0e6c-4cd6-899b-75d9d6644278}">
       <Declaration><![CDATA[METHOD Test_NewTag
 VAR
-	XmlControl : FB_XmlControl;
-	TagName : STRING := 'MyTag';
-	ExpectedBuffer : STRING := '<MyTag';
-	ActualBuffer : STRING;
+    XmlControl : FB_XmlControl;
+    TagName : STRING := 'MyTag';
+    ExpectedBuffer : STRING := '<MyTag';
+    ActualBuffer : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -183,10 +183,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_NewTagData" Id="{3fa16241-ed1c-41c3-a210-bb00b57ea42c}">
       <Declaration><![CDATA[METHOD Test_NewTagData
 VAR
-	XmlControl : FB_XmlControl;
-	TagName : STRING := 'MyTag';
-	ExpectedBuffer : STRING := '<MyTag>TagData';
-	ActualBuffer : STRING;
+    XmlControl : FB_XmlControl;
+    TagName : STRING := 'MyTag';
+    ExpectedBuffer : STRING := '<MyTag>TagData';
+    ActualBuffer : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -204,20 +204,20 @@ MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 AssertEquals_String(Expected := ExpectedBuffer, 
                    Actual :=  ActualBuffer,
                    Message := 'Buffer does not contain expected content');
-				   
+                   
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_NewTagNested" Id="{127a0665-e103-419e-812d-fe0e6e4c808f}">
       <Declaration><![CDATA[METHOD Test_NewTagNested
 VAR
-	XmlControl : FB_XmlControl;
-	Tag1Name : STRING := 'MyTag1';
-	Tag2Name : STRING := 'MyTag2';
-	Tag3Name : STRING := 'MyTag3';
-	Tag4Name : STRING := 'MyTag4';
-	ExpectedBuffer : STRING := '<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>';
-	ActualBuffer : STRING;
+    XmlControl : FB_XmlControl;
+    Tag1Name : STRING := 'MyTag1';
+    Tag2Name : STRING := 'MyTag2';
+    Tag3Name : STRING := 'MyTag3';
+    Tag4Name : STRING := 'MyTag4';
+    ExpectedBuffer : STRING := '<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>';
+    ActualBuffer : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -244,7 +244,7 @@ MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 AssertEquals_String(Expected := ExpectedBuffer, 
                    Actual :=  ActualBuffer,
                    Message := 'Buffer does not contain expected content');
-							   
+                               
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
