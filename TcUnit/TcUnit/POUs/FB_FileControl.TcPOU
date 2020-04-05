@@ -1,29 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <POU Name="FB_FileControl" Id="{92b054f5-6c17-4a97-bba0-430785a7dda3}" SpecialFunc="None">
-    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+  <POU Name="FB_FileControl" Id="{c9bec8fc-2de3-45f4-b839-e6c4276a6b5a}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This functionblock can open, close, read, write and delete files on the local filesystem
+*)
 FUNCTION_BLOCK FB_FileControl
 VAR
-    FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
+    FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_APPEND_PLUS; // Append_Plus creates the file if it doesn't exist yet. 
     FileHandle : SysFile.SysTypes.RTS_IEC_HANDLE;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="Close" Id="{9e59e2f2-4c01-4eef-a03e-ca6cece47c41}">
-      <Declaration><![CDATA[// Closes the current file
+    <Method Name="Close" Id="{519e9011-283c-40b1-afd4-31686c5b81fe}">
+      <Declaration><![CDATA[(*
+    Closes the current opened file.
+*)
 METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
     Close := SysFile.SysFileClose(hFile := FileHandle);
+ELSE
+    Close := sysdir.cmperrors.Errors.ERR_INVALID_HANDLE;                  
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Open" Id="{edeba3e3-eab7-4baf-8c37-097da76a12ae}">
-      <Declaration><![CDATA[// Opens a file
+    <Method Name="Delete" Id="{e27996e3-6698-47c5-be0e-65fca18115ae}">
+      <Declaration><![CDATA[(*
+    Deletes a file specified by name, if it excists.
+*)
+METHOD PUBLIC Delete  : SysFile.SysTypes.RTS_IEC_RESULT;
+VAR_INPUT
+    (* File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/) *)
+    FileName : T_MaxString; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Delete := SysFile.SysFileDelete(szFileName := FileName);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Open" Id="{1873bb2c-c6a3-4681-8948-02aa2bad0a9b}">
+      <Declaration><![CDATA[(*
+    Opens a file
+*)
 METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    FileName : Tc2_System.T_MaxString := 'filepath/output.xml'; // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
+    FileName : T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
     FileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
 END_VAR]]></Declaration>
       <Implementation>
@@ -32,8 +53,11 @@ END_VAR]]></Declaration>
                                   pResult := ADR(Open));]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Read" Id="{f93ea44f-4d8d-464c-9dd2-7b8491d1d0cf}">
-      <Declaration><![CDATA[METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT;
+    <Method Name="Read" Id="{3984ae50-1cdb-4045-af99-0bb56917afb2}">
+      <Declaration><![CDATA[(*
+    Reads a file from disk into the buffer
+*)
+METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     pString : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF(); 
@@ -47,13 +71,17 @@ END_VAR]]></Declaration>
                                     pbyBuffer := pString,
                                     ulSize := Size,
                                     pResult := ADR(Read));
+ELSE
+    Read := sysdir.cmperrors.Errors.ERR_INVALID_HANDLE;                  
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Save" Id="{2f313ee5-51e4-4400-81ec-246d44b99c29}">
-      <Declaration><![CDATA[// Saves the contents of the buffer into a file
-// Be sure to call Open() before calling Save()
-METHOD Save : SysFile.SysTypes.RTS_IEC_RESULT;
+    <Method Name="Write" Id="{c4146a99-50c6-4ce0-88ab-794dbfb1af62}">
+      <Declaration><![CDATA[(* 
+    Writes the contents of the buffer into a file.
+    Make sure to call Open() before calling Save() !
+*)
+METHOD Write : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     pString : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF();
@@ -63,7 +91,7 @@ END_VAR]]></Declaration>
     SysFile.SysFileWrite(hFile := FileHandle,
                          pbyBuffer := pString,
                          ulSize := Size,
-                         pResult := ADR(Save));
+                         pResult := ADR(Write));
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -79,10 +79,19 @@
     <Compile Include="Test\FB_PrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_TestFileControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_TestFinishedNamed.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_TestNumberOfAssertionsCalculation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_TestStreamBuffer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_TestXmlControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_WriteProtectedFunctions.TcPOU">
@@ -122,6 +131,12 @@
     <PlaceholderReference Include="TcUnit">
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
+      <Parameters>
+        <Parameter xmlns="">
+          <Key>XUNITENABLEPUBLISH</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>

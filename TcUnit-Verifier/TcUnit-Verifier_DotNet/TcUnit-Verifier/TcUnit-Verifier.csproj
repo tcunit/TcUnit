@@ -55,6 +55,9 @@
     <Compile Include="AutomationInterface.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ErrorList.cs" />
+    <Compile Include="FB_TestXmlControl.cs" />
+    <Compile Include="FB_TestFileControl.cs" />
+    <Compile Include="FB_TestStreamBuffer.cs" />
     <Compile Include="FB_TestNumberOfAssertionsCalculation.cs" />
     <Compile Include="FB_WriteProtectedFunctions.cs" />
     <Compile Include="FB_ExtendedTestInformation.cs" />

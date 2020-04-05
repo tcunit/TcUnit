@@ -16,6 +16,7 @@ namespace TcUnit.Verifier
     class Program
     {
         private static string tcUnitVerifierPath = null;
+        private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
         private static int expectedNumberOfFailedTests = 112; // Update this if you add intentionally failing tests
@@ -30,6 +31,7 @@ namespace TcUnit.Verifier
 
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
+                .Add("t=|TcUnitTargetNetId=", "(Optional, default 127.0.0.1.1.1) Target NetId of TwinCAT runtime to deploy TcUnit-Verifier PLC to", t => tcUnitTargetNetId = t)
                 .Add("?|h|help", h => showHelp = h != null);
 
             try
@@ -81,7 +83,7 @@ namespace TcUnit.Verifier
 
             log.Info("Cleaning and building TcUnit-Verifier_TwinCAT solution...");
             AutomationInterface automationInterface = new AutomationInterface(vsInstance);
-            automationInterface.ITcSysManager.SetTargetNetId("127.0.0.1.1.1");
+            automationInterface.ITcSysManager.SetTargetNetId(tcUnitTargetNetId);
             ITcSmTreeItem plcProject = automationInterface.PlcTreeItem.Child[1];
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
@@ -169,8 +171,10 @@ namespace TcUnit.Verifier
             new FB_AdjustAssertFailureMessageToMax253CharLengthTest(errors);
             new FB_CheckIfSpecificTestIsFinished(errors);
             new FB_WriteProtectedFunctions(errors);
+            new FB_TestFileControl(errors);
+            new FB_TestXmlControl(errors);
+            new FB_TestStreamBuffer(errors);
             new FB_TestFinishedNamed(errors);
-            new FB_TestNumberOfAssertionsCalculation(errors);
 
             log.Info("Done.");
 

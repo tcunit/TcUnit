@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TestFileControl" Id="{e3aef5a6-1d75-4d4d-ab13-cf35fb51f8e5}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Contains tests that verify the FileControl function block methods
+*)
+FUNCTION_BLOCK FB_TestFileControl EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_FileRead();
+Test_FileOpen();
+Test_FileWrite();
+Test_FileClose();
+Test_FileDelete();
+]]></ST>
+    </Implementation>
+    <Method Name="Test_FileClose" Id="{8ecb2e7b-a0fb-4904-8010-b38c5dbb2520}">
+      <Declaration><![CDATA[METHOD Test_FileClose
+VAR
+    FileControl : TcUnit.FB_FileControl;
+    TestFile : STRING := 'Test_FileClose.txt';
+    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FileClose');
+
+FileControl.Open(TestFile, Mode );
+
+Actual := FileControl.Close();
+
+AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
+                   Actual := Actual,
+                   Message := 'File Close failed');
+
+FileControl.Delete(TestFile);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_FileDelete" Id="{43c5a8eb-c44f-4cb6-9caa-77374a56762a}">
+      <Declaration><![CDATA[METHOD Test_FileDelete
+VAR
+    FileControl : TcUnit.FB_FileControl;
+    TestFile : STRING := 'Test_FileDelete.txt';
+    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FileDelete');
+
+FileControl.Open(TestFile, Mode );
+
+FileControl.Close();
+
+Actual := FileControl.Delete(TestFile);
+
+AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
+                   Actual := Actual,
+                   Message := 'File deletion failed');
+                   
+TcUnit.TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_FileOpen" Id="{db456e81-0cb4-4b0d-956e-6ebfc36a29c8}">
+      <Declaration><![CDATA[METHOD Test_FileOpen
+VAR
+    FileControl : FB_FileControl;
+    TestFile : STRING := 'Test_FileOpen.txt';
+    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FileOpen');
+
+FileControl.Open(TestFile, Mode);
+
+AssertEquals_UDINT(Expected := TcUnit.Sysdir.CmpErrors.Errors.ERR_OK,
+                   Actual := Actual,
+                   Message := 'File Open failed');
+                   
+FileControl.Close();
+
+FileControl.Delete(TestFile);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_FileRead" Id="{a77a057a-0ac1-4f5c-9cce-e70debd0e862}">
+      <Declaration><![CDATA[METHOD Test_FileRead
+VAR
+    FileControl : FB_FileControl;
+    TestFile : STRING := 'Test_FileRead.txt';
+    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    Result : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
+    FileSize : TcUnit.SysFile.SysTypes.RTS_IEC_SIZE;
+    WriteContents : STRING(64) := '0KflxSh6C%ixPs8ReCPwFuJu)D$p*qfi66iTj&YKMdpq*EGBGiwgAsOs1s(dci';
+    ReadContents : STRING(64);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FileRead');
+
+FileControl.Open(TestFile, Mode );
+
+FileControl.Write(pString := ADR(WriteContents), Size := SIZEOF(WriteContents) );
+                 
+FileControl.Close();
+
+FileControl.Open(TestFile, FileAccessMode := TcUnit.SysFile.AM_READ );
+     
+Result := FileControl.Read(pString := ADR(ReadContents), SIZEOF(ReadContents), FileSize => FileSize);
+                    
+AssertEquals_STRING(Expected := WriteContents,
+                   Actual := ReadContents,
+                   Message := 'File Read failed');
+
+FileControl.Close();
+
+FileControl.Delete(TestFile);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_FileWrite" Id="{f3e8932a-7303-488e-9e0f-fbab44112a6c}">
+      <Declaration><![CDATA[METHOD Test_FileWrite
+VAR
+    FileControl : FB_FileControl;
+    Contents : STRING(64) := 'G#NkAM%Muah+nbwAk&8MnQZ9csi*YAoiGkcKzwvsYz5k@yY)aOz&cvQxXQyI6c';
+    TestFile : STRING := 'Test_FileWrite.txt';
+    Mode : TcUnit.SysFile.ACCESS_MODE := TcUnit.SysFile.ACCESS_MODE.AM_APPEND_PLUS;
+    Actual : TcUnit.SysFile.SysTypes.RTS_IEC_RESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_FileWrite');
+
+FileControl.Open(TestFile, Mode );
+
+Actual := FileControl.Write(pString := ADR(Contents), Size := SIZEOF(Contents) );
+
+AssertEquals_UDINT(Expected := TcUnit.sysdir.CmpErrors.Errors.ERR_OK,
+                   Actual := Actual,
+                   Message := 'File Write failed');
+                   
+FileControl.Close();
+
+FileControl.Delete(TestFile);
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

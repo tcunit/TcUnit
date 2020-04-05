@@ -23,8 +23,11 @@ VAR
     EmptyTestSuite : FB_EmptyTestSuite;
     CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;
     WriteProtectedFunctions : FB_WriteProtectedFunctions;
-    TestFinishedNamed : FB_TestFinishedNamed;
     TestNumberOfAssertionsCalculation : FB_TestNumberOfAssertionsCalculation;
+    TestFileControl : FB_TestFileControl;
+    TestXmlControl : FB_TestXmlControl;
+    TestStreamBuffer : FB_TestStreamBuffer;
+    TestFinishedNamed : FB_TestFinishedNamed;
 
     (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
        to test the function of where a test with a name that doesn't exist is set to finished *)
