@@ -164,8 +164,8 @@ END_VAR]]></Declaration>
     FOR Counter := 1 TO TotalArrayAsserts BY 1 DO
         IF AssertArrayResults[Counter].TestInstancePath = CompleteTestInstancePath THEN
             NumberOfArrayAsserts := NumberOfArrayAsserts + 1;
-		END_IF
-	END_FOR
+        END_IF
+    END_FOR
 END_IF
 
 GetNumberOfArrayAssertsForTest := NumberOfArrayAsserts;]]></ST>

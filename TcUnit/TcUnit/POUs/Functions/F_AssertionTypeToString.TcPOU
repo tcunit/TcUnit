@@ -13,7 +13,7 @@ END_VAR]]></Declaration>
         F_AssertionTypeToString := 'UNDEFINED';
     E_AssertionType.Type_ANY :
         F_AssertionTypeToString := 'ANY';
-    
+
     (* Primitive types *)
     E_AssertionType.Type_BOOL :
         F_AssertionTypeToString := 'BOOL';
@@ -97,10 +97,10 @@ END_VAR]]></Declaration>
         F_AssertionTypeToString := 'Array_USINT';
     E_AssertionType.Type_Array_WORD :
         F_AssertionTypeToString := 'Array_WORD';
-    
+
     ELSE
         F_AssertionTypeToString := 'UNDEFINED';
-    
+
 END_CASE]]></ST>
     </Implementation>
   </POU>

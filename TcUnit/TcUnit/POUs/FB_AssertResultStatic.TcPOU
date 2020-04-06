@@ -174,8 +174,8 @@ END_VAR]]></Declaration>
     FOR Counter := 1 TO TotalAsserts BY 1 DO
         IF AssertResults[Counter].TestInstancePath = CompleteTestInstancePath THEN
             NumberOfAsserts := NumberOfAsserts + 1;
-		END_IF
-	END_FOR
+        END_IF
+    END_FOR
 END_IF
 
 GetNumberOfAssertsForTest := NumberOfAsserts;]]></ST>

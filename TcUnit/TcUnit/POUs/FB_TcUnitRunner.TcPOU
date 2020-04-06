@@ -20,8 +20,8 @@ VAR
     (* If this flag is set, it means that some external event triggered the
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
-        
-    (* publishes a xUnit compatible xml file *)
+
+    (* Publishes a xUnit compatible XML file *)
     xUnitXmlPublisher : FB_xUnitXmlPublisher(TestResults);
     XmlTestResultPublisher : I_TestResultLogger := xUnitXmlPublisher;
 END_VAR]]></Declaration>
@@ -67,7 +67,7 @@ IF NOT AllTestSuitesFinished THEN
            This can be accomplished by setting the result of the test suites run to finished. *)
         IF AbortRunningTestSuites THEN
             NumberOfTestSuitesFinished := GVL_TcUnit.NumberOfInitializedTestSuites;
-		END_IF
+        END_IF
         IF NumberOfTestSuitesFinished = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             AllTestSuitesFinished := TRUE;
         END_IF

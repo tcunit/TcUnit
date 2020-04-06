@@ -6,9 +6,8 @@
 *)
 FUNCTION_BLOCK FB_TestStreamBuffer EXTENDS TcUnit.FB_TestSuite
 VAR
-    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize-1] OF BYTE;
-END_VAR
-]]></Declaration>
+    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize - 1] OF BYTE;
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BufferSize();
 Test_Length();
@@ -20,40 +19,35 @@ Test_CutOff();
 Test_BufferOverflow();]]></ST>
     </Implementation>
     <Method Name="Setup" Id="{661742e7-8095-416e-ad24-7ce398db0b67}">
-      <Declaration><![CDATA[METHOD Setup
-VAR_INPUT
-END_VAR
-]]></Declaration>
+      <Declaration><![CDATA[METHOD PRIVATE Setup]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Clear buffer
-MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
+Tc2_System.MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_Append" Id="{c9f256b4-b10a-4c18-ac2e-375993748010}">
       <Declaration><![CDATA[METHOD PRIVATE Test_Append
 VAR
     Stream : FB_StreamBuffer;
-    Str1    : STRING := 'Vita est dolor sic ars.';
-    Str2    : STRING := 'Vincit qui se vincit.  ';
-    Search  : STRING := 'se';
-    Test    : BOOL;
-END_VAR
-]]></Declaration>
+    Str1 : STRING := 'Vita est dolor sic ars.';
+    Str2 : STRING := 'Vincit qui se vincit.  ';
+    Search : STRING := 'se';
+    TestResult : BOOL;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TcUnit.TEST('Test_Append');
+        <ST><![CDATA[TEST('Test_Append');
 
 Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
+Stream.Append := Str1;
+Stream.Append := Str2;
 
-Stream.Append:= Str1;
-Stream.Append:= Str2;
+(* Search *)
+TestResult := (Stream.Find(SearchString := Search, StartPos := 1) >= 0);
 
-(* search *)
-Test := ( Stream.Find( SearchString := Search, StartPos := 1 ) >=0 ); 
-
-AssertTrue(Condition := Test, 
-           Message := 'Append Failed');
+AssertTrue(Condition := TestResult,
+           Message := 'Append failed');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -62,30 +56,29 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_BufferOverflow
 VAR
     Stream : FB_StreamBuffer;
-    Str1    : STRING := 'abcdef';
-    Str2    : STRING := 'uwxyz';
-    Cpy     : STRING;
+    Str1 : STRING := 'abcdef';
+    Str2 : STRING := 'uwxyz';
+    Cpy : STRING;
     CopyLen : UDINT;
-    SmallBuffer: ARRAY [0..SMALL_BUFFER_SIZE-1] OF BYTE;
+    SmallBuffer : ARRAY [0..SMALL_BUFFER_SIZE-1] OF BYTE;
 END_VAR
 VAR CONSTANT
     SMALL_BUFFER_SIZE : UDINT := 10;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TcUnit.TEST('Test_BufferOverflow');
+        <ST><![CDATA[TEST('Test_BufferOverflow');
 
 Setup();
 
-Stream.Setbuffer(ADR(SmallBuffer), SIZEOF(SmallBuffer));
-
-Stream.Append:= Str1;
-Stream.Append:= Str2;
+Stream.SetBuffer(ADR(SmallBuffer), SIZEOF(SmallBuffer));
+Stream.Append := Str1;
+Stream.Append := Str2;
 
 AssertEquals_UDINT(SMALL_BUFFER_SIZE, Stream.Length, 'Stream not at maximum length');
 
-Cpy := Stream.Copy(StartPos := 1, EndPos := Stream.Length, CopyLen => CopyLen); 
+Cpy := Stream.Copy(StartPos := 1, EndPos := Stream.Length, CopyLen => CopyLen);
 
-// expected behavior: the buffer receives up to Buffer Size - 1 of string, the last byte is NULL character (termination)
+// Expected behavior: the buffer receives up to Buffer Size - 1 of string, the last byte is NULL character (termination)
 AssertEquals_STRING(Expected := 'abcdefuwx',
                     Actual := Cpy,
                     Message := 'Stream was not truncated as expected');
@@ -97,8 +90,7 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_BufferSize
 VAR
     Stream : FB_StreamBuffer;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BufferSize');
 
@@ -107,8 +99,8 @@ Setup();
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 (* Compare initialised buffersize with expected buffersize *)
-AssertEquals_UDINT(Expected := GVL_Param_TcUnit.XUnitBufferSize,
-                   Actual := Stream.BufferSize, 
+AssertEquals_UDINT(Expected := GVL_Param_TcUnit.xUnitBufferSize,
+                   Actual := Stream.BufferSize,
                    Message := 'BufferSize differs');
 
 TEST_FINISHED();]]></ST>
@@ -119,17 +111,14 @@ TEST_FINISHED();]]></ST>
 VAR
     Stream : FB_StreamBuffer;
     Str : STRING := 'vita est dolor sic ars';
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Test('Test_Clear');
+        <ST><![CDATA[TEST('Test_Clear');
 
 Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
-
 Stream.Append := Str;
-
 Stream.Clear();
 
 AssertEquals_UDINT(Expected := 0,
@@ -143,25 +132,22 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Copy
 VAR
     Stream : FB_StreamBuffer;
-    Str1    : STRING := 'Vincit qui se vincit.  ';
-    Str2    : STRING := 'Vita est dolor sic ars.';
-    Cpy     : STRING;
+    Str1 : STRING := 'Vincit qui se vincit.  ';
+    Str2 : STRING := 'Vita est dolor sic ars.';
+    Cpy : STRING;
     CopyLen : UDINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Copy');
 
 Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
-
 Stream.Append := Str1;
-
 Stream.Append := Str2;
 
-(* copy from 8th char 3 chars (8+3=11), should be 'qui' *)
-Cpy := Stream.Copy(StartPos := 8, EndPos := 11, CopyLen => CopyLen); 
+(* Copy from 8th char 3 chars (8+3=11), should be 'qui' *)
+Cpy := Stream.Copy(StartPos := 8, EndPos := 11, CopyLen => CopyLen);
 
 AssertEquals_STRING(Expected := 'qui',
                     Actual := Cpy,
@@ -178,9 +164,8 @@ VAR
     Cut : UDINT;
     Length : UDINT;
     CutOff : STRING;
-    Expected: STRING;
-END_VAR
-]]></Declaration>
+    Expected : STRING;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_CutOff');
 
@@ -190,12 +175,10 @@ Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
 (* Last char - 2 chars = 3 chars in total *)
 Stream.Append := Str;
-
-Cut := (Stream.Length-2); 
+Cut := (Stream.Length - 2); 
 
 (* CutOff should contain 'ars' *)
 CutOff := Stream.CutOff(StartPos := Cut, CutLen => Length);
-
 Expected := Stream.Copy(StartPos := 1, EndPos := Stream.Length); 
 
 AssertEquals_String(Expected := Expected, 
@@ -209,24 +192,22 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_Find
 VAR
     Stream : FB_StreamBuffer;
-    Str    : STRING := 'Vita est dolor sic ars.';
+    Str : STRING := 'Vita est dolor sic ars.';
     Search : STRING := 'dolor';
-    Test : BOOL;
-END_VAR
-]]></Declaration>
+    TestResult : BOOL;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TcUnit.TEST('Test_Find');
+        <ST><![CDATA[TEST('Test_Find');
 
 Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
-
 Stream.Append:= Str;
 
-(* start search at 1st char *)
-Test := ( Stream.Find(SearchString := str, StartPos := 1 ) >=0 ); 
+(* Start search at 1st char *)
+TestResult := (Stream.Find(SearchString := Str, StartPos := 1 ) >= 0); 
 
-AssertTrue(Condition := Test, 
+AssertTrue(Condition := TestResult,
            Message := 'Find Failed');
 
 TEST_FINISHED();]]></ST>
@@ -238,21 +219,18 @@ VAR
     Stream : FB_StreamBuffer;
     Str : STRING := 'vita est dolor sic ars';
     Length : UDINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Length');
 
 Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
-
 Stream.Append := Str;
-
 Length := TO_UDINT(LEN(Str));
 
-AssertEquals_UDINT(Expected := length, 
-                   Actual := Stream.Length, 
+AssertEquals_UDINT(Expected := length,
+                   Actual := Stream.Length,
                    Message := 'Length differs');
 
 TEST_FINISHED();]]></ST>

@@ -62,7 +62,7 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
       <Declaration><![CDATA[(* Writes a new data set into the ring buffer *)
 METHOD PUBLIC WriteLog
 VAR_INPUT
-	MsgCtrlMask : DWORD;
+    MsgCtrlMask : DWORD;
     MsgFmtStr : Tc2_System.T_MaxString;
     StrArg : Tc2_System.T_MaxString;
 END_VAR

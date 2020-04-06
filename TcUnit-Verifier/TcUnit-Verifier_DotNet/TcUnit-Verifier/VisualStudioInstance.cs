@@ -182,7 +182,6 @@ namespace TcUnit.Verifier
         {
             this.visualStudioSolution.SolutionBuild.Clean(true);
             this.visualStudioSolution.SolutionBuild.Build(true);
-
         }
 
         public ErrorItems GetErrorItems()

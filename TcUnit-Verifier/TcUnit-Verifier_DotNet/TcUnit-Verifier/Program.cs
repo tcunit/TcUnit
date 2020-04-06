@@ -112,7 +112,7 @@ namespace TcUnit.Verifier
 
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
 
                 ErrorItems errorItems = vsInstance.GetErrorItems();
                 log.Info("... got " + errorItems.Count + " report lines so far.");
@@ -175,6 +175,7 @@ namespace TcUnit.Verifier
             new FB_TestXmlControl(errors);
             new FB_TestStreamBuffer(errors);
             new FB_TestFinishedNamed(errors);
+            new FB_TestNumberOfAssertionsCalculation(errors);
 
             log.Info("Done.");
 

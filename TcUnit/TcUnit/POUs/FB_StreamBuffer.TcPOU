@@ -17,7 +17,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[(*
     Appends a string to the buffer
 *)
-PROPERTY Append : T_MaxString]]></Declaration>
+PROPERTY Append : Tc2_System.T_MaxString]]></Declaration>
       <Set Name="Set" Id="{773bf1db-6b9a-4581-be33-e4745bbc41df}">
         <Declaration><![CDATA[VAR
     ByteIn : POINTER TO BYTE;
@@ -29,16 +29,13 @@ ByteBuffer := _PointerToStringBuffer + _Length; // set start address
 
 WHILE ByteIn^ <> 0 AND (_Length < _BufferSize ) DO
     ByteBuffer^ := ByteIn^; //Copy the 1st byte
-    
     _Length := _Length + 1; // set new buffer length
-    
     ByteIn := ByteIn + 1; // calculate new start address 
     ByteBuffer := ByteBuffer + 1; // calculate new start address 
 END_WHILE;
 
 ByteBuffer := _PointerToStringBuffer + _Length; // String End
-ByteBuffer^ := 0; // null terminated string
-]]></ST>
+ByteBuffer^ := 0; // null terminated string]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -58,29 +55,27 @@ PROPERTY BufferSize : UDINT]]></Declaration>
       <Declaration><![CDATA[(*  
     Clears the buffer and sets the length to 0
 *)
-METHOD Clear
-VAR 
-	count : UDINT;
-END_VAR
-
-]]></Declaration>
+METHOD PUBLIC Clear
+VAR
+	Count : UDINT;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (_PointerToStringBuffer = 0) OR (_BufferSize = 0) THEN
-	RETURN;
+    RETURN;
 END_IF
 
-FOR count := 0 TO (_BufferSize-1) DO
-	_PointerToStringBuffer[count] := 0;
+FOR Count := 0 TO (_BufferSize - 1) DO
+    _PointerToStringBuffer[Count] := 0;
 END_FOR
 
-_Length := 0; ]]></ST>
+_Length := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Copy" Id="{fd1ed528-0ae6-4cdf-afa3-b493b38da967}">
       <Declaration><![CDATA[(*
     Copies a string from the character buffer
 *)
-METHOD Copy : T_MaxString
+METHOD PUBLIC Copy : Tc2_System.T_MaxString
 VAR_INPUT
     StartPos : UDINT;
     EndPos : UDINT;
@@ -120,7 +115,7 @@ CopyLen :=  Loop;]]></ST>
       </Implementation>
     </Method>
     <Method Name="CutOff" Id="{341d1e3e-5391-492c-b254-9eeda8f77da4}">
-      <Declaration><![CDATA[METHOD CutOff : STRING
+      <Declaration><![CDATA[METHOD PUBLIC CutOff : Tc2_System.T_MaxString
 VAR_INPUT
     StartPos : UDINT;
 END_VAR
@@ -131,33 +126,33 @@ END_VAR
 VAR
     Loop : UDINT;
     PointerToByteToCut : POINTER TO BYTE;
-    pByteBuffer : POINTER TO BYTE;
+    PointerToByteBuffer : POINTER TO BYTE;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Loop := 0;
 PointerToByteToCut := ADR(CutOff);
-pByteBuffer := _PointerToStringBuffer + StartPos - 1;
+PointerToByteBuffer := _PointerToStringBuffer + StartPos - 1;
 
-WHILE pByteBuffer^ <> 0 AND(Loop < SIZEOF(CutOff)) AND StartPos -1  + Loop < _Length DO
-    PointerToByteToCut^ := pByteBuffer^;
+WHILE PointerToByteBuffer^ <> 0 AND(Loop < SIZEOF(CutOff)) AND StartPos -1  + Loop < _Length DO
+    PointerToByteToCut^ := PointerToByteBuffer^;
     Loop := Loop + 1;
     PointerToByteToCut := ADR(CutOff) + Loop;
-    pByteBuffer := _PointerToStringBuffer + StartPos - 1 + Loop;
+    PointerToByteBuffer := _PointerToStringBuffer + StartPos - 1 + Loop;
 END_WHILE;
 
-IF pByteBuffer^ = 0 THEN
+IF PointerToByteBuffer^ = 0 THEN
     XmlError := E_XmlError.OK;
 ELSIF Loop = SIZEOF(CutOff) THEN
     XmlError := E_XmlError.ErrorStringLen;
-ELSIF StartPos -1 + Loop = _Length THEN
+ELSIF StartPos - 1 + Loop = _Length THEN
     XmlError := E_XmlError.ErrorMaxBufferLen;
 END_IF;
 
 PointerToByteToCut^ := 0;
 _Length := StartPos -1;
 
-pByteBuffer := _PointerToStringBuffer + StartPos - 1;
-pByteBuffer^ := 0;
+PointerToByteBuffer := _PointerToStringBuffer + StartPos - 1;
+PointerToByteBuffer^ := 0;
 
 CutLen := Loop;]]></ST>
       </Implementation>
@@ -167,7 +162,7 @@ CutLen := Loop;]]></ST>
     Find a searchstring in the buffer and returns its position.
     It's possible to add a preffered startposition within buffer
 *)
-METHOD Find : UDINT
+METHOD PUBLIC Find : UDINT
 VAR_INPUT
     SearchString : STRING;
     StartPos : UDINT;
@@ -183,27 +178,27 @@ END_VAR]]></Declaration>
 Search := 0;
 
 PointerToBuffer := _PointerToStringBuffer + StartPos;
-PointerToSearch := ADR( SearchString);
+PointerToSearch := ADR(SearchString);
 
 WHILE(PointerToSearch^ <> 0 ) AND Loop + StartPos < _Length DO
     IF PointerToBuffer^ <> PointerToSearch^ THEN
         Loop := Loop + 1;
         PointerToBuffer := _PointerToStringBuffer + StartPos + Loop;
-        PointerToSearch := ADR( SearchString);
+        PointerToSearch := ADR(SearchString);
         Search := 0;
     ELSE
-        Search := Search +1;
+        Search := Search + 1;
         PointerToBuffer := _PointerToStringBuffer + StartPos + Loop + Search;
-        PointerToSearch := ADR( SearchString ) + Search;
+        PointerToSearch := ADR(SearchString ) + Search;
     END_IF;
 END_WHILE;
 Find := Loop + 1 + StartPos;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FindBack" Id="{a337c425-1f09-4c1d-bd2b-84a002e37811}">
-      <Declaration><![CDATA[METHOD FindBack : UDINT
+      <Declaration><![CDATA[METHOD PUBLIC FindBack : UDINT
 VAR_INPUT
-    SearchString : T_MaxString;
+    SearchString : Tc2_System.T_MaxString;
 END_VAR
 VAR
     Loop : UDINT;
@@ -218,27 +213,26 @@ Search := 0;
 PointerToBuffer := _PointerToStringBuffer + _Length;
 PointerToSearch := ADR(SearchString);
 
-WHILE(PointerToSearch^ <> 0 ) AND Loop < _Length DO
+WHILE(PointerToSearch^ <> 0) AND Loop < _Length DO
     IF PointerToBuffer^ <> PointerToSearch^ THEN
         Loop := Loop + 1;
         PointerToBuffer := _PointerToStringBuffer + _Length - Loop;
-        PointerToSearch := ADR( SearchString);
+        PointerToSearch := ADR(SearchString);
         Search := 0;
     ELSE
         Search := Search + 1;
         PointerToBuffer := _PointerToStringBuffer + _Length - Loop + Search;
-        PointerToSearch := ADR( SearchString ) + Search;
+        PointerToSearch := ADR(SearchString ) + Search;
     END_IF;
 END_WHILE;
-FindBack :=  _Length - Loop + 1;]]></ST>
+FindBack := _Length - Loop + 1;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Length" Id="{15fcf071-8b31-4039-8bff-7191e342bda2}">
       <Declaration><![CDATA[(*
     Gets/Sets the current length (in bytes) of the streambuffer
 *)
-PROPERTY Length : UDINT
-]]></Declaration>
+PROPERTY Length : UDINT]]></Declaration>
       <Get Name="Get" Id="{d9ee832e-be82-4ebc-bf0b-bb382927ac05}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
@@ -253,22 +247,19 @@ PROPERTY Length : UDINT
       </Set>
     </Property>
     <Method Name="SetBuffer" Id="{bbd47c2a-5140-429c-a3f1-6edaac587279}">
-      <Declaration><![CDATA[(* Sets the Buffer *)
-METHOD SetBuffer : BOOL;
+      <Declaration><![CDATA[METHOD PUBLIC SetBuffer : BOOL;
 VAR_INPUT
-    // Set buffer adress (ADR ...)
-    PointerToBufferAdress : POINTER TO BYTE;
-    // Set buffer size (SIZEOF ...)
-    SizeOfBuffer : UDINT;
+    PointerToBufferAddress : POINTER TO BYTE; // Set buffer address (ADR ...)
+    SizeOfBuffer : UDINT; // Set buffer size (SIZEOF ...)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF (PointerToBufferAdress = 0) OR (SizeOfBuffer = 0) THEN
+        <ST><![CDATA[IF (PointerToBufferAddress = 0) OR (SizeOfBuffer = 0) THEN
     SetBuffer := FALSE;
     RETURN;
 END_IF;
 
 _BufferSize := SizeOfBuffer;
-_PointerToStringBuffer := PointerToBufferAdress;
+_PointerToStringBuffer := PointerToBufferAddress;
 
 SetBuffer := TRUE;]]></ST>
       </Implementation>

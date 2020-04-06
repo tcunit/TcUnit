@@ -116,6 +116,14 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="SysDir">
+      <DefaultResolution>SysDir, * (System)</DefaultResolution>
+      <Namespace>SysDir</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="SysFile">
+      <DefaultResolution>SysFile, * (System)</DefaultResolution>
+      <Namespace>SysFile</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -131,12 +139,6 @@
     <PlaceholderReference Include="TcUnit">
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
-      <Parameters>
-        <Parameter xmlns="">
-          <Key>XUNITENABLEPUBLISH</Key>
-          <Value>TRUE</Value>
-        </Parameter>
-      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>

@@ -2,61 +2,18 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_XmlControl" Id="{f48b7de2-5c07-4763-a8be-3d8ab3c1f58c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
-Organizes parsing and composing of XML data. Data can be treated as STRING or char array.
-Filebuffersize can be set via Gvl_Param_XmlControl
-
-Usage example:
-
-1. Initiate
-    VAR
-        XML : FB_XMLControl;
-        Buffer: STRING(GVL_Param_XmlControl.MaxFileSize);
-        //or
-        Buffer: ARRAY [0..GVL_Param_XmlControl.MaxFileSize] OF BYTE;
-    END_VAR
-
-        XML.pBuffer: = ADR (buffer);
-        XML.LenBuffer: = SIZEOF (buffer);
-
-    Add your own preferred fileheader like so:
-    XML: <?xml version="1.0" encoding="UTF-8"?>
-   
-        XML.WriteDocumentHeader( '<?xml version="1.0" encoding="UTF-8"?>');
-
-2. Compose a tag with a parameters:
-XML: <MyTag ParaName = "11" />
-
-    XML.newTag(sTagName: = 'MyTag');
-    XML.newPara(sName: = 'ParaName', sPara: = sValue);
-    XML.CloseTag();
-
-
-3. Add tag value:
-XML: <MyTag> MyText </ MyTag>
-
-    XML.newTag(sName := 'MyTag');
-    XML.newTagData(sTagData :='MyText');
-    XML.CloseTag();
-
-
-4. Jump to the beginning of the XML data
-XML.toStartBuffer();
-
-
-5. Add a comment:
-XML: <!-- MyComment -->
-
-    XML.newComment(sTagName: = 'MyComment');
+    Organizes parsing and composing of XML data. Data can be treated as STRING or char array.
+    Buffer size of file can be set via GVL_Param_TcUnit (xUnitBufferSize)
 *)
 FUNCTION_BLOCK FB_XmlControl
 VAR
     XmlBuffer : FB_StreamBuffer;
     TagListBuffer : FB_StreamBuffer;
-    Tags : T_MaxString;
+    Tags : Tc2_System.T_MaxString;
     TagListSeekBuffer : FB_StreamBuffer;
     TagsSeek : STRING;
     TagBuffer : FB_StreamBuffer;
-    Tag : T_MaxString;
+    Tag : Tc2_System.T_MaxString;
     TagOpen: BOOL;
     Select : UDINT;
     SearchPosition : UDINT; 
@@ -64,7 +21,7 @@ END_VAR
 VAR CONSTANT
     TAG_OPEN : STRING(1) := '<';
     TAG_CLOSE : STRING(1) := '>';
-    END_TAG_CLOSE : STRING(4) := '/>';
+    END_TAG_CLOSE : STRING(2) := '/>';
     SPACE : STRING(1) := ' ';
     EQUALS : STRING(1) := '=';
     QUOTE : STRING(1) := '"';
@@ -74,14 +31,14 @@ VAR CONSTANT
     CLOSE_COMMENT : STRING(4) := ' -->';
     TAB : STRING(2) := '$T';
     CR_LF : STRING(4) := '$R$N';
-  
-	//$OD : ASCII code for carriage return (CR)
-	//$$ : to add a $R
-	//$' : to add ' (apostrophe)
-	//$L or $l : line feed
-	//$N or $n : new line
-	//$P or $p : next page
-	//$R or $r : end of line
+
+    // $OD : ASCII code for carriage return (CR)
+    // $$ : to add a $R
+    // $' : to add ' (apostrophe)
+    // $L or $l : line feed
+    // $N or $n : new line
+    // $P or $p : next page
+    // $R or $r : end of line
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -106,20 +63,25 @@ Tag := '';]]></ST>
 
     Method: XML.CloseTag();
 *)
-METHOD PUBLIC CloseTag : T_MaxString]]></Declaration>
+METHOD PUBLIC CloseTag : Tc2_System.T_MaxString
+VAR
+    ClosedTag : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
     XmlBuffer.Append := END_TAG_CLOSE;
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
-    CloseTag := TagListBuffer.CutOff(StartPos:= Select);
+    ClosedTag := TagListBuffer.CutOff(StartPos := Select);
     TagOpen := FALSE;
 ELSE
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
-    CloseTag := TagListBuffer.CutOff(StartPos:= Select);
+    ClosedTag := TagListBuffer.CutOff(StartPos := Select);
     XmlBuffer.Append := TAG_OPEN;
-    XmlBuffer.Append := CloseTag;
+    XmlBuffer.Append := ClosedTag;
     XmlBuffer.Append := TAG_CLOSE;
-END_IF]]></ST>
+END_IF
+
+CloseTag := ClosedTag;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Length" Id="{4fdf30b6-5fe7-4452-ad0a-85e866e236d0}">
@@ -133,14 +95,14 @@ END_IF]]></ST>
     </Property>
     <Method Name="NewComment" Id="{0f41fa45-b92e-4e7e-b2b3-ecb5d5918326}">
       <Declaration><![CDATA[(*
-    Adds a comment;
+    Adds a comment
     XML: <!-- MyComment -->
 
     XML.NewComment(Comment: = 'MyComment');
 *)
 METHOD PUBLIC NewComment
 VAR_INPUT
-    Comment : T_MaxString;
+    Comment : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
@@ -160,14 +122,14 @@ XmlBuffer.Append := CLOSE_COMMENT;]]></ST>
 *)
 METHOD PUBLIC NewParameter
 VAR_INPUT
-    Name : T_MaxString;
-    Value : T_MaxString;
+    Name : Tc2_System.T_MaxString;
+    Value : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.Append := SPACE;  
+        <ST><![CDATA[XmlBuffer.Append := SPACE;
 XmlBuffer.Append := Name;
-XmlBuffer.Append := EQUALS; 
-XmlBuffer.Append := QUOTE; 
+XmlBuffer.Append := EQUALS;
+XmlBuffer.Append := QUOTE;
 XmlBuffer.Append := Value;
 XmlBuffer.Append := QUOTE;]]></ST>
       </Implementation>
@@ -181,7 +143,7 @@ XmlBuffer.Append := QUOTE;]]></ST>
 *)
 METHOD PUBLIC NewTag
 VAR_INPUT
-    Name : T_MaxString;
+    Name : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
@@ -197,7 +159,7 @@ TagListBuffer.Append := Name;]]></ST>
     <Method Name="NewTagData" Id="{e4679d3f-10eb-47fd-936c-97e3aaaa3768}">
       <Declaration><![CDATA[METHOD PUBLIC NewTagData
 VAR_INPUT
-    Data : T_MaxString;
+    Data : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := TAG_CLOSE;
@@ -212,13 +174,10 @@ VAR_INPUT
     SizeOfBuffer : UDINT; // SIZEOF(..)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.SetBuffer(PointerToBufferAdress:= PointerToBuffer, SizeOfBuffer := SizeOfBuffer);
-
-TagListBuffer.SetBuffer(PointerToBufferAdress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
-
-TagListSeekBuffer.SetBuffer(PointerToBufferAdress := ADR(TagsSeek), SizeOfBuffer := SIZEOF(TagsSeek));
-
-TagBuffer.SetBuffer(PointerToBufferAdress := ADR(Tag), SizeOfBuffer := SIZEOF(Tag));]]></ST>
+        <ST><![CDATA[XmlBuffer.SetBuffer(PointerToBufferAddress:= PointerToBuffer, SizeOfBuffer := SizeOfBuffer);
+TagListBuffer.SetBuffer(PointerToBufferAddress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
+TagListSeekBuffer.SetBuffer(PointerToBufferAddress := ADR(TagsSeek), SizeOfBuffer := SIZEOF(TagsSeek));
+TagBuffer.SetBuffer(PointerToBufferAddress := ADR(Tag), SizeOfBuffer := SIZEOF(Tag));]]></ST>
       </Implementation>
     </Method>
     <Method Name="ToStartBuffer" Id="{cb065068-a6c8-48d5-8c1d-535a21365348}">
@@ -245,7 +204,7 @@ Tag := '';]]></ST>
 *)
 METHOD PUBLIC WriteDocumentHeader
 VAR_INPUT
-    Header : T_MaxString;
+    Header : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := Header;]]></ST>

@@ -16,9 +16,9 @@ END_VAR
 VAR_TEMP
     TestSuiteName : Tc2_System.T_MaxString;
     TestName : Tc2_System.T_MaxString;
-    
+
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-    
+
     TestToBeStored : FB_Test;
     GeneralTestResultsTestSuitesCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
@@ -71,7 +71,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             (* Store number of assertions made *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts :=
                 TestToBeStored.GetNumberOfAssertions();
-		END_FOR
+        END_FOR
 
         IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             StoredTestSuiteResults := TRUE;
@@ -92,7 +92,7 @@ IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
                                                         (TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests -
                                                          TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests);
         TestSuiteResults.NumberOfFailedTestCases := TestSuiteResults.NumberOfFailedTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfFailedTests;
-	END_FOR
+    END_FOR
     StoredGeneralTestResults := TRUE;
 END_IF]]></ST>
     </Implementation>

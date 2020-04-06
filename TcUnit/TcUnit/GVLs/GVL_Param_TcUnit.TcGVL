@@ -4,20 +4,20 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
     MaxNumberOfTestSuites : UINT := 1000;
-    
+
     MaxNumberOfTestsForEachTestSuite : UINT := 100;
-    
+
     MaxNumberOfAssertsForEachTestSuite : UINT := 1000;
-    
+
     (* Enable (TRUE) or disable (FALSE) publishing of the xUnit Xml report *)
     xUnitEnablePublish : BOOL := FALSE;
-    
+
     (* Default reserved PLC memory buffer used for composition of the xUnit xml file (64 kb default) *)
-    xUnitBufferSize: UDINT := 65535;
-    
+    xUnitBufferSize : UDINT := 65535;
+
     (* Default path and filename for the xunit testresults e.g.: for use with jenkins *)
-    xUnitFilePath : T_MaxString := 'C:\tcunit_xunit_testresults.xml';
-    
+    xUnitFilePath : Tc2_System.T_MaxString := 'C:\tcunit_xunit_testresults.xml';
+
     (* This is the maximum number of ADS-messages that can be stored for reporting at the same time.
        Having a size of 2000 means that it's possible to report up to ~400 test cases in one single
        PLC cycle. Each entry consumes around 500 bytes, so with an example of a ring buffer size of

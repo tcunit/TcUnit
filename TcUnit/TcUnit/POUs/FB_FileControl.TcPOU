@@ -21,18 +21,18 @@ METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
         <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
     Close := SysFile.SysFileClose(hFile := FileHandle);
 ELSE
-    Close := sysdir.cmperrors.Errors.ERR_INVALID_HANDLE;                  
+    Close := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Delete" Id="{e27996e3-6698-47c5-be0e-65fca18115ae}">
       <Declaration><![CDATA[(*
-    Deletes a file specified by name, if it excists.
+    Deletes a file specified by name, if it exists.
 *)
-METHOD PUBLIC Delete  : SysFile.SysTypes.RTS_IEC_RESULT;
+METHOD PUBLIC Delete : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    (* File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/) *)
-    FileName : T_MaxString; 
+    (* File name can contain an absolute or relative path to the file. Path entries must be separated with a forward slash (/) *)
+    FileName : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Delete := SysFile.SysFileDelete(szFileName := FileName);]]></ST>
@@ -44,7 +44,7 @@ END_VAR]]></Declaration>
 *)
 METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    FileName : T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
+    FileName : Tc2_System.T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
     FileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
 END_VAR]]></Declaration>
       <Implementation>
@@ -59,7 +59,7 @@ END_VAR]]></Declaration>
 *)
 METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    pString : POINTER TO BYTE; // Call with ADR();
+    BufferPointer : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF(); 
 END_VAR
 VAR_OUTPUT
@@ -67,31 +67,32 @@ VAR_OUTPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
-    FileSize := SysFile.SysFileread(hFile := FileHandle, 
-                                    pbyBuffer := pString,
+    FileSize := SysFile.SysFileRead(hFile := FileHandle, 
+                                    pbyBuffer := BufferPointer,
                                     ulSize := Size,
                                     pResult := ADR(Read));
 ELSE
-    Read := sysdir.cmperrors.Errors.ERR_INVALID_HANDLE;                  
+    Read := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;                  
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Write" Id="{c4146a99-50c6-4ce0-88ab-794dbfb1af62}">
       <Declaration><![CDATA[(* 
     Writes the contents of the buffer into a file.
-    Make sure to call Open() before calling Save() !
 *)
 METHOD Write : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    pString : POINTER TO BYTE; // Call with ADR();
+    BufferPointer : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF();
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
     SysFile.SysFileWrite(hFile := FileHandle,
-                         pbyBuffer := pString,
+                         pbyBuffer := BufferPointer,
                          ulSize := Size,
                          pResult := ADR(Write));
+ELSE
+    Write := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;                  
 END_IF]]></ST>
       </Implementation>
     </Method>
