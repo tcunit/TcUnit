@@ -88,11 +88,19 @@ namespace TcUnit.Verifier
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
             log.Info("Generating TcUnit-Verifier_TwinCAT boot project...");
+            System.Threading.Thread.Sleep(10000);
             iecProject.GenerateBootProject(true);
             iecProject.BootProjectAutostart = true;
 
             log.Info("Activating TcUnit-Verifier_TwinCAT configuration...");
             automationInterface.ITcSysManager.ActivateConfiguration();
+
+            /* Clean the solution. This is the only way to clean the error list which needs to be
+             * clean prior to starting the TwinCAT runtime */
+            vsInstance.CleanSolution();
+
+            // Wait
+            System.Threading.Thread.Sleep(1000);
 
             log.Info("Restarting TwinCAT...");
             automationInterface.ITcSysManager.StartRestartTwinCAT();

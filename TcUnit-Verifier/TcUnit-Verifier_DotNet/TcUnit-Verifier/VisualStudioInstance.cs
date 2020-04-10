@@ -184,6 +184,11 @@ namespace TcUnit.Verifier
             this.visualStudioSolution.SolutionBuild.Build(true);
         }
 
+        public void CleanSolution()
+        {
+            visualStudioSolution.SolutionBuild.Clean(true);
+        }
+
         public ErrorItems GetErrorItems()
         {
             return dte.ToolWindows.ErrorList.ErrorItems;
