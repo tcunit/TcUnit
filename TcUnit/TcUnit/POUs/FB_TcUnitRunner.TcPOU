@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -41,8 +41,6 @@ METHOD PUBLIC AbortRunningTestSuiteTests]]></Declaration>
 VAR
     Counter : UINT := 0;
     BusyPrinting : BOOL;
-END_VAR
-VAR_INST
     (* We need to hold a temporary state of the statistics 
        as we don't consider the tests to be completely finished until all test suites have executed completely.
        The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
