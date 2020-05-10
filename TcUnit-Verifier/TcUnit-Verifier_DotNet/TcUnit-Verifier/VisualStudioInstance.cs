@@ -1,4 +1,3 @@
-﻿//using log4net;
 using EnvDTE80;
 using log4net;
 using System;
