@@ -87,10 +87,10 @@ The equivalent test class in TcVD needs to be instantiated in the following way:
 new FB_AssertEveryFailedTestTwiceArrayVersion(errors);
 ```
 
-This is an example of how it can look running the TcUnit-Verifier_DotNet:
+You can run the Verifier by navigating to the `TcUnit-Verifier\bin\Debug\` directory and running the following command `TcUnit-Verifier.exe -v "..\..\..\..\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"`. This should give you the following output:
 
 ```
-C:\Code\GitHub_TcUnit\TcUnit\TcUnit-Verifier\TcUnit-Verifier_DotNet\TcUnit-Verifier\bin\Debug>TcUnit-Verifier.exe -v "C:\Code\GitHub_TcUnit\TcUnit\TcUnit-Verifier\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"
+C:\Code\GitHub_TcUnit\TcUnit\TcUnit-Verifier\TcUnit-Verifier_DotNet\TcUnit-Verifier\bin\Debug>TcUnit-Verifier.exe -v "TcUnit-Verifier.exe -v "..\..\..\..\TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.sln"
 2020-04-06 05:51:43 - Starting TcUnit-Verifier...
 2020-04-06 05:51:43 - Loading the Visual Studio Development Tools Environment (DTE)...
 2020-04-06 05:52:00 - Cleaning and building TcUnit-Verifier_TwinCAT solution...
