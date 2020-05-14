@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TCatSysManagerLib;
+﻿using TCatSysManagerLib;
 
 namespace TcUnit.Verifier
 {
@@ -18,7 +13,6 @@ namespace TcUnit.Verifier
         private ITcConfigManager configManager = null;
         private ITcSmTreeItem plcTreeItem = null;
         private ITcSmTreeItem routesTreeItem = null;
-
 
         public AutomationInterface(EnvDTE.Project project)
         {
