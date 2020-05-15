@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TcUnit.Verifier
 {
@@ -31,7 +27,6 @@ namespace TcUnit.Verifier
             Test_WRITE_PROTECTED_USINT();
             Test_WRITE_PROTECTED_ULINT();
             Test_WRITE_PROTECTED_WORD();
-            
         }
 
         private void Test_WRITE_PROTECTED_BOOL()
@@ -152,6 +147,5 @@ namespace TcUnit.Verifier
             string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_WRITE_PROTECTED_WORD";
             AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
-
     }
 }

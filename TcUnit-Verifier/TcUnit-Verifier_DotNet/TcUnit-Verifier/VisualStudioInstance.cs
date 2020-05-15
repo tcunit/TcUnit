@@ -1,12 +1,7 @@
 using EnvDTE80;
 using log4net;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TCatSysManagerLib;
 
 namespace TcUnit.Verifier
@@ -91,7 +86,6 @@ namespace TcUnit.Verifier
             loaded = false;
         }
 
-
         /// <summary>
         /// Opens the main *.sln-file and finds the version of VS used for creation of the solution
         /// </summary>
@@ -175,12 +169,6 @@ namespace TcUnit.Verifier
         public EnvDTE80.DTE2 GetDevelopmentToolsEnvironment()
         {
             return this.dte;
-        }
-
-        public void CleanAndBuildSolution()
-        {
-            this.visualStudioSolution.SolutionBuild.Clean(true);
-            this.visualStudioSolution.SolutionBuild.Build(true);
         }
 
         public void CleanSolution()
