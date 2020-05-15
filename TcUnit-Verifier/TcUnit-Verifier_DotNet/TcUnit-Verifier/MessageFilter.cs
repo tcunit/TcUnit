@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TcUnit.Verifier {
+namespace TcUnit.Verifier
+{
     public class MessageFilter : IOleMessageFilter {
         // Class containing the IOleMessageFilter
         // thread error-handling functions.
@@ -23,7 +20,6 @@ namespace TcUnit.Verifier {
             CoRegisterMessageFilter(null, out oldFilter);
         }
 
-        //
         // IOleMessageFilter functions.
         // Handle incoming thread requests.
         int IOleMessageFilter.HandleInComingCall(int dwCallType,
