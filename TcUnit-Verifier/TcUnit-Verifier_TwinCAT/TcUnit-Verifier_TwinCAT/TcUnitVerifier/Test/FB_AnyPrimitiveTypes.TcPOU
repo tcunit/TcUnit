@@ -40,6 +40,7 @@ Test_ANY_SINT_Equals();
 Test_ANY_SINT_Differ();
 Test_ANY_STRING_Equals();
 Test_ANY_STRING_Differ();
+Test_ANY_STRING_Differ_2();
 Test_ANY_TIME_Equals();
 Test_ANY_TIME_Differ();
 Test_ANY_TIME_OF_DAY_Equals();
@@ -53,7 +54,10 @@ Test_ANY_ULINT_Differ();
 Test_ANY_USINT_Equals();
 Test_ANY_USINT_Differ();
 Test_ANY_WORD_Equals();
-Test_ANY_WORD_Differ();]]></ST>
+Test_ANY_WORD_Differ();
+Test_ANY_WSTRING_Equals();
+Test_ANY_WSTRING_Differ();
+Test_ANY_WSTRING_Differ_2();]]></ST>
     </Implementation>
     <Method Name="Test_ANY_BOOL_Differ" Id="{9def4202-9b1d-4fca-a694-7baecaa73c6d}">
       <Declaration><![CDATA[METHOD PRIVATE Test_ANY_BOOL_Differ
@@ -487,6 +491,22 @@ AssertEquals(Expected := a,
 TEST_FINISHED();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="Test_ANY_STRING_Differ_2" Id="{1979c19d-5f81-4ca1-b2ab-1e735e3c2f9f}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_STRING_Differ_2
+VAR
+    a : STRING := 'This is a string';
+    b : STRING := 'This is b string';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_STRING_Differ_2');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Test_ANY_STRING_Equals" Id="{45fb731e-62a5-4739-983d-66e18d9850be}">
       <Declaration><![CDATA[METHOD PRIVATE Test_ANY_STRING_Equals
 VAR
@@ -719,6 +739,54 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WORD_Equals');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_WSTRING_Differ" Id="{47cc195f-2b65-4c94-84a6-ca1ea74f987f}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_WSTRING_Differ
+VAR
+    a : WSTRING := "äö";
+    b : WSTRING := "æå";
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_WSTRING_Differ');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_WSTRING_Differ_2" Id="{edbbe9e9-fe3b-4d3b-8d0a-cb170d68100f}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_WSTRING_Differ_2
+VAR
+    a : WSTRING := "äö◦";
+    b : WSTRING := "æå";
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_WSTRING_Differ_2');
+
+AssertEquals(Expected := a,
+             Actual := b,
+             Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ANY_WSTRING_Equals" Id="{2359fafa-0714-42b0-8ab4-3be6341813c5}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_ANY_WSTRING_Equals
+VAR
+    a : WSTRING := "ĠĦ";
+    b : WSTRING := "ĠĦ";
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ANY_WSTRING_Equals');
 
 AssertEquals(Expected := a,
              Actual := b,

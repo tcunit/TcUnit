@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="WRITE_PROTECTED_WSTRING" Id="{d2b8e71b-44e5-4ea8-8ec3-be2deccd6175}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_WSTRING
+VAR_INPUT
+    Ptr : POINTER TO WSTRING;
+    Value : WSTRING;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Ptr^ := Value;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -80,7 +80,9 @@ namespace TcUnit.Verifier
 
             testMessage = CreateFailedTestMessage("TwiceAssertCall", "0xABCD", "0x89EF", "Not equal WORD");
             AssertMessageCount(testMessage, 1, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            testMessage = CreateFailedTestMessage("TwiceAssertCall", "Not possible to print EXP unicode WSTRING value", "Not possible to print ACT unicode WSTRING value", "Not equal WSTRING");
+            AssertMessageCount(testMessage, 1, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
-        
     }
 }

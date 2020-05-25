@@ -450,7 +450,7 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_WSTRING" Id="{cd24edfa-28c7-4bf7-ad9e-262f073a3ddf}">
       <Declaration><![CDATA[METHOD PRIVATE Test_WSTRING
 VAR
-    a : WSTRING := "This is a random string";
+    a : WSTRING := "åäöĦ";
     result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>

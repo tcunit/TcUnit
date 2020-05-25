@@ -51,6 +51,8 @@ namespace TcUnit.Verifier
             Test_USINT_Differ();
             Test_WORD_Equals();
             Test_WORD_Differ();
+            Test_WSTRING_Equals();
+            Test_WSTRING_Differ();
         }
 
         private void Test_ANY_Equals()
@@ -321,6 +323,18 @@ namespace TcUnit.Verifier
         private void Test_WORD_Differ()
         {
             string testMessage = CreateFailedTestMessage("Test_WORD_Differ", "0xEF01", "0x2345", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_WSTRING_Equals()
+        {
+            string testMessage = CreateFailedTestMessage("Test_WSTRING_Equals", "Not possible to print EXP unicode WSTRING value", "Not possible to print ACT unicode WSTRING value", "Values differ");
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_WSTRING_Differ()
+        {
+            string testMessage = CreateFailedTestMessage("Test_WSTRING_Differ", "Not possible to print EXP unicode WSTRING value", "Not possible to print ACT unicode WSTRING value", "Values differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }

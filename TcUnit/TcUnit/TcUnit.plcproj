@@ -205,6 +205,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_STRING.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_WSTRING.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\WRITE_PROTECTED_\WRITE_PROTECTED_TIME.TcPOU">
       <SubType>Code</SubType>
     </Compile>

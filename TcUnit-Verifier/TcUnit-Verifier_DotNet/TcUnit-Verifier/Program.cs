@@ -16,7 +16,7 @@ namespace TcUnit.Verifier
         private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 112; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 115; // Update this if you add intentionally failing tests
 
         [STAThread]
         static int Main(string[] args)

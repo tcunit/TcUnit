@@ -6,7 +6,7 @@ FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
 VAR
     (* Test results *)
     TestSuiteResults : ST_TestSuiteResults;
-    
+
     (* Misc variables *)
     StoringTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     StoringTestSuiteTrigger : Tc2_Standard.R_TRIG;
@@ -51,7 +51,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             (* Store test class name *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName :=
                 F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
-            
+
             (* Store whether the test has failed *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed :=
                 TestToBeStored.IsFailed();
@@ -63,7 +63,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             (* Store the (first failed) assertion message *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage :=
                 TestToBeStored.GetAssertionMessage();
-           
+
             (* Store the (first failed) assertion type *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType :=
                 TestToBeStored.GetAssertionType();
@@ -84,7 +84,7 @@ END_IF
 
 (* If all test suites have finished running, store the general test results *)
 IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
-   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND StoredTestSuiteResults AND (NOT StoredGeneralTestResults) THEN//  THEN
+   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND StoredTestSuiteResults AND (NOT StoredGeneralTestResults) THEN
     TestSuiteResults.NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
     FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         TestSuiteResults.NumberOfTestCases := TestSuiteResults.NumberOfTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;

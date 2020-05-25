@@ -114,8 +114,7 @@ namespace TcUnit.Verifier
 
         private void Test_STRING()
         {
-            string testMessage = CreateFailedTestMessage("Test_STRING", "(Data size = 81)", "(Data size = 256)", "Values differ");
-            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+            AssertDoesNotContainMessage("'PRG_TEST." + _testFunctionBlockInstance + "@Test_STRING'", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
         private void Test_STRING_2()

@@ -25,7 +25,8 @@ Test_WRITE_PROTECTED_UDINT();
 Test_WRITE_PROTECTED_UINT();
 Test_WRITE_PROTECTED_USINT();
 Test_WRITE_PROTECTED_ULINT();
-Test_WRITE_PROTECTED_WORD();]]></ST>
+Test_WRITE_PROTECTED_WORD();
+Test_WRITE_PROTECTED_WSTRING();]]></ST>
     </Implementation>
     <Method Name="Test_WRITE_PROTECTED_BOOL" Id="{11a2dddd-2fbe-4039-a6b5-d4eaf7d9434c}">
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_BOOL
@@ -363,6 +364,23 @@ AssertEquals_WORD(1, ProtectedVariables.InputWORD, 'Overwriting protected InputW
 
 WRITE_PROTECTED_WORD(ADR(ProtectedVariables.VarWORD), 1);
 AssertEquals_WORD(1, ProtectedVariables.VarWORD, 'Overwriting protected VarWORD');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_WRITE_PROTECTED_WSTRING" Id="{2de6c70d-8caa-48f3-bf87-e9275e199bed}">
+      <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_WSTRING
+VAR
+    ProtectedVariables : FB_ProtectedVariables;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_WRITE_PROTECTED_WSTRING');
+
+WRITE_PROTECTED_WSTRING(ADR(ProtectedVariables.InputWSTRING), "ŢŶǮ");
+AssertEquals_WSTRING("ŢŶǮ", ProtectedVariables.InputWSTRING, 'Overwriting protected InputWSTRING');
+
+WRITE_PROTECTED_WSTRING(ADR(ProtectedVariables.VarWSTRING), "ŢŶǮ");
+AssertEquals_WSTRING("ŢŶǮ", ProtectedVariables.VarWSTRING, 'Overwriting protected VarWSTRING');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

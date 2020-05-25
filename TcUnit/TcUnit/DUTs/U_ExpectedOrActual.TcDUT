@@ -20,7 +20,7 @@ UNION
     ulintExpectedOrActual : ULINT;
     realExpectedOrActual : REAL;
     lrealExpectedOrActual : LREAL;
-    wstringExpectedOrActual : WSTRING;
+    wstringExpectedOrActual : WSTRING(255);
     timeExpectedOrActual : TIME;
     ltimeExpectedOrActual : LTIME;
     dateExpectedOrActual : DATE;

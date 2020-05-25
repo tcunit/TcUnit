@@ -30,7 +30,8 @@ TYPE E_AssertionType :
     Type_ULINT,
     Type_USINT,
     Type_WORD,
-    
+    Type_WSTRING,
+
     (* Array types *)
     Type_Array2D_LREAL,
     Type_Array2D_REAL,
@@ -52,7 +53,6 @@ TYPE E_AssertionType :
     Type_Array_USINT,
     Type_Array_WORD
 ) BYTE;
-END_TYPE
-]]></Declaration>
+END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

@@ -35,6 +35,7 @@ namespace TcUnit.Verifier
             Test_ANY_SINT_Differ();
             Test_ANY_STRING_Equals();
             Test_ANY_STRING_Differ();
+            Test_ANY_STRING_Differ_2();
             Test_ANY_TIME_Equals();
             Test_ANY_TIME_Differ();
             Test_ANY_TIME_OF_DAY_Equals();
@@ -49,6 +50,9 @@ namespace TcUnit.Verifier
             Test_ANY_USINT_Differ();
             Test_ANY_WORD_Equals();
             Test_ANY_WORD_Differ();
+            Test_ANY_WSTRING_Equals();
+            Test_ANY_WSTRING_Differ();
+            Test_ANY_WSTRING_Differ_2();
         }
 
        
@@ -217,9 +221,16 @@ namespace TcUnit.Verifier
 
         private void Test_ANY_STRING_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_ANY_STRING_Differ", "This is a string", "This is another string", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_ANY_STRING_Differ", "(Data size (LEN) = 16)", "(Data size (LEN) = 22)", "Values differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
+
+        private void Test_ANY_STRING_Differ_2()
+        {
+            string testMessage = CreateFailedTestMessage("Test_ANY_STRING_Differ_2", "This is a string", "This is b string", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
 
         private void Test_ANY_TIME_Equals()
         {
@@ -311,5 +322,24 @@ namespace TcUnit.Verifier
             string testMessage = CreateFailedTestMessage("Test_ANY_WORD_Differ", "0xEF01", "0x2345", "Values differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
+
+        private void Test_ANY_WSTRING_Equals()
+        {
+            string testMessage = CreateFailedTestMessage("Test_ANY_WSTRING_Equals", "Not possible to print EXP unicode WSTRING value", "Not possible to print ACT unicode WSTRING value", "Values differ");
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_ANY_WSTRING_Differ()
+        {
+            string testMessage = CreateFailedTestMessage("Test_ANY_WSTRING_Differ", "Not possible to print EXP unicode WSTRING value", "Not possible to print ACT unicode WSTRING value", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_ANY_WSTRING_Differ_2()
+        {
+            string testMessage = CreateFailedTestMessage("Test_ANY_WSTRING_Differ_2", "(Data size (WLEN) = 3)", "(Data size (WLEN) = 2)", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
     }
 }

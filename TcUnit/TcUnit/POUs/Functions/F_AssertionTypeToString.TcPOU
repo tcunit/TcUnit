@@ -57,6 +57,9 @@ END_VAR]]></Declaration>
         F_AssertionTypeToString := 'USINT';
     E_AssertionType.Type_WORD :
         F_AssertionTypeToString := 'WORD';
+    E_AssertionType.Type_WSTRING :
+        F_AssertionTypeToString := 'WSTRING';
+
 
     (* Array types *)
     E_AssertionType.Type_Array2D_LREAL :

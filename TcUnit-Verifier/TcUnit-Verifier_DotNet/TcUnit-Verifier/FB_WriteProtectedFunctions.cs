@@ -27,6 +27,7 @@ namespace TcUnit.Verifier
             Test_WRITE_PROTECTED_USINT();
             Test_WRITE_PROTECTED_ULINT();
             Test_WRITE_PROTECTED_WORD();
+            Test_WRITE_PROTECTED_WSTRING();
         }
 
         private void Test_WRITE_PROTECTED_BOOL()
@@ -145,6 +146,12 @@ namespace TcUnit.Verifier
         private void Test_WRITE_PROTECTED_WORD()
         {
             string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_WRITE_PROTECTED_WORD";
+            AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_WRITE_PROTECTED_WSTRING()
+        {
+            string testMessage = "PRG_TEST." + _testFunctionBlockInstance + "@Test_WRITE_PROTECTED_WSTRING";
             AssertDoesNotContainMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
     }

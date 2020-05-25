@@ -34,7 +34,7 @@ ELSIF Tc2_Standard.LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARA
     MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
     MsgFmtStringProcessed := Tc2_Standard.CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
     StringArgProcessed := '';
-// If test message is too long (so we cant fit the text "...TestMsg too long") to the end of it, shorten it so that we can.
+// If test message is too long (so we cant fit the text "...TestMsg too long" to the end of it) , shorten it (so that we can fit the text)
 ELSIF (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong)) >= Tc2_Standard.LEN(STR := MsgFmtString) THEN
     MsgFmtStringProcessed := MsgFmtString;
     StringArgProcessed := Tc2_Standard.LEFT(STR := StringArg,

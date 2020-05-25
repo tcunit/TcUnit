@@ -173,8 +173,8 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT; // Index when looping through Dimensions
@@ -327,8 +327,8 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT; // Index when looping through Dimensions
@@ -481,8 +481,8 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT;  // Index when looping through Dimensions
@@ -662,8 +662,8 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     DimensionIndex : USINT;  // Index when looping through Dimensions
@@ -846,8 +846,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -894,23 +894,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_BOOL,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := BOOL_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := BOOL_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := BOOL_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := BOOL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -936,8 +936,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -989,29 +989,29 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedByteString := Tc2_Standard.CONCAT(STR1 := '0x',
                                                   STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Expecteds[ExpectedsIndex],
                                                                                        iPrecision := 2,
                                                                                        bLoCase := FALSE));
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ExpectedByteString);
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := ExpectedByteString);
 
         ActualByteString := Tc2_Standard.CONCAT(STR1 := '0x',
                                                 STR2 := Tc2_Utilities.BYTE_TO_HEXSTR(in := Actuals[ActualsIndex],
                                                                                      iPrecision := 2,
                                                                                      bLoCase := FALSE));
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := ActualByteString);
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := ActualByteString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1037,8 +1037,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1085,23 +1085,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_DINT,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1127,8 +1127,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1179,29 +1179,29 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
-                                                  STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Expecteds[ExpectedsIndex],
-                                                                                        iPrecision := 8,
-                                                                                        bLoCase := FALSE));
+                                                   STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Expecteds[ExpectedsIndex],
+                                                                                         iPrecision := 8,
+                                                                                         bLoCase := FALSE));
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ExpectedDWordString);
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := ExpectedDWordString);
 
         ActualDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
-                                                STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Actuals[ActualsIndex],
-                                                                                      iPrecision := 8,
-                                                                                      bLoCase := FALSE));
+                                                 STR2 := Tc2_Utilities.DWORD_TO_HEXSTR(in := Actuals[ActualsIndex],
+                                                                                       iPrecision := 8,
+                                                                                       bLoCase := FALSE));
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1227,8 +1227,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1275,23 +1275,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_INT,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := INT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := INT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := INT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := INT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1317,8 +1317,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1367,21 +1367,21 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := LINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := LINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := LINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1408,8 +1408,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1458,21 +1458,21 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1498,14 +1498,14 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
     SizeOfActuals : DINT;
-    ExpectedDWordString : STRING;
-    ActualDWordString : STRING;
+    ExpectedLWordString : STRING;
+    ActualLWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
@@ -1550,29 +1550,29 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
-        ExpectedDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
+        ExpectedLWordString := Tc2_Standard.CONCAT(STR1 := '0x',
                                                   STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Expecteds[ExpectedsIndex],
                                                                                         iPrecision := 16,
                                                                                         bLoCase := FALSE));
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ExpectedDWordString);
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := ExpectedLWordString);
 
-        ActualDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
-                                                STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Actuals[ActualsIndex],
-                                                                                      iPrecision := 16,
-                                                                                      bLoCase := FALSE));
+        ActualLWordString := Tc2_Standard.CONCAT(STR1 := '0x',
+                                                 STR2 := Tc2_Utilities.LWORD_TO_HEXSTR(in := Actuals[ActualsIndex],
+                                                                                       iPrecision := 16,
+                                                                                       bLoCase := FALSE));
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := ActualLWordString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1599,8 +1599,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1649,21 +1649,21 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1689,8 +1689,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1739,21 +1739,21 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := SINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := SINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := SINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := SINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1779,8 +1779,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1829,21 +1829,22 @@ IF NOT AlreadyReported AND NOT Equals THEN
                   AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := UDINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := UDINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := UDINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.
+CONCAT(STR1 := ActualString, STR2 := UDINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1869,8 +1870,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -1917,23 +1918,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_UINT,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := UINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := UINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := UINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := UINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -1959,8 +1960,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -2007,23 +2008,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_ULINT,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ULINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := ULINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := ULINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := ULINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -2049,8 +2050,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -2097,23 +2098,23 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_USINT,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_Standard.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := USINT_TO_STRING(Expecteds[ExpectedsIndex]));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_Standard.CONCAT(STR1 := ExpectedString, STR2 := USINT_TO_STRING(Expecteds[ExpectedsIndex]));
 
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := USINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_Standard.CONCAT(STR1 := ActualString, STR2 := USINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -2139,8 +2140,8 @@ VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
     Index : DINT;
-    ExpectedString : STRING;
-    ActualString : STRING;
+    ExpectedString : Tc2_System.T_MaxString;
+    ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
     SizeOfExpecteds : DINT;
@@ -2189,31 +2190,31 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_WORD,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
-        Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
+        Message := Tc2_System.CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
+        ExpectedString := Tc2_System.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+        ActualString := Tc2_System.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
     ELSE
         ExpectedDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
                                                   STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Expecteds[ExpectedsIndex],
                                                                                        iPrecision := 4,
                                                                                        bLoCase := FALSE));
         ExpectedString := 'ARRAY[';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ExpectedDWordString);
+        ExpectedString := Tc2_System.CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
+        ExpectedString := Tc2_System.CONCAT(STR1 := ExpectedString, STR2 := '] = ');
+        ExpectedString := Tc2_System.CONCAT(STR1 := ExpectedString, STR2 := ExpectedDWordString);
 
         ActualDWordString := Tc2_Standard.CONCAT(STR1 := '0x',
-                                                STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Actuals[ActualsIndex],
-                                                                                     iPrecision := 4,
-                                                                                     bLoCase := FALSE));
+                                                 STR2 := Tc2_Utilities.WORD_TO_HEXSTR(in := Actuals[ActualsIndex],
+                                                                                      iPrecision := 4,
+                                                                                      bLoCase := FALSE));
         ActualString := 'ARRAY[';
-        ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
-        ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
+        ActualString := Tc2_System.CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
+        ActualString := Tc2_System.CONCAT(STR1 := ActualString, STR2 := '] = ');
+        ActualString := Tc2_System.CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
     END_IF
 
     AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
@@ -2237,8 +2238,8 @@ VAR_INPUT
 END_VAR
 VAR
     Count : DINT;
-    ExpectedDataString : STRING(80);
-    ActualDataString : STRING(80);
+    ExpectedDataString : Tc2_System.T_MaxString;
+    ActualDataString : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
 
@@ -2270,6 +2271,8 @@ VAR
     sintActual : SINT;
     stringExpected : Tc2_System.T_MaxString;
     stringActual : Tc2_System.T_MaxString;
+    wstringExpected : WSTRING(255);
+    wstringActual : WSTRING(255);
     timeExpected : TIME;
     timeActual : TIME;
     timeOfDayExpected : TIME_OF_DAY;
@@ -2284,7 +2287,7 @@ VAR
     usintActual : USINT;
     wordExpected : WORD;
     wordActual : WORD;
-    
+
     (* ANY comparison variables *)
     DataTypesNotEquals : BOOL; // The data type of the two ANY input parameters are not equal
     DataSizeNotEquals : BOOL; // The data size of the two ANY input parameters are not equal
@@ -2309,7 +2312,17 @@ END_IF
 
 (* Check whether the size of the inputs differs *)
 IF NOT DataTypesNotEquals THEN
-    IF (Expected.diSize <> Actual.diSize) THEN
+    (* Take special care of STRING and WSTRING, as these can be declared with different sizes,
+       although their content might be the same *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(stringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(stringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        DataSizeNotEquals := Tc2_Standard.LEN(STR := stringExpected) <> Tc2_Standard.LEN(STR := stringActual);
+    ELSIF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(wstringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(wstringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        DataSizeNotEquals := Tc2_Standard.WLEN(STR := wstringExpected) <> Tc2_Standard.WLEN(STR := wstringActual);
+    ELSIF (Expected.diSize <> Actual.diSize) THEN
         DataSizeNotEquals := TRUE;
     END_IF
 END_IF
@@ -2445,6 +2458,14 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
+    (* WSTRING *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(wstringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(wstringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        AssertEquals_WSTRING(Expected := wstringExpected, Actual := wstringActual, Message := Message);
+        RETURN;
+    END_IF
+
     (* TIME *)
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_TIME THEN
         Tc2_System.MEMCPY(destAddr := ADR(timeExpected), srcAddr := Expected.pValue, n := SIZEOF(TIME));
@@ -2513,9 +2534,23 @@ IF DataTypesNotEquals THEN
     ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString(Actual.TypeClass));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF DataSizeNotEquals THEN
-    ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
+    (* Take special care of STRING and WSTRING, as these can be declared with different sizes,
+       although their content might be the same *)
+    IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(stringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(stringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size (LEN) = ', STR2 := INT_TO_STRING(Tc2_Standard.LEN(STR := stringExpected)));
+        ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size (LEN) = ', STR2 := INT_TO_STRING(Tc2_Standard.LEN(STR := stringActual)));
+    ELSIF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING THEN
+        Tc2_System.MEMCPY(destAddr := ADR(wstringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
+        Tc2_System.MEMCPY(destAddr := ADR(wstringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
+        ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size (WLEN) = ', STR2 := INT_TO_STRING(Tc2_Standard.WLEN(STR := wstringExpected)));
+        ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size (WLEN) = ', STR2 := INT_TO_STRING(Tc2_Standard.WLEN(STR := wstringActual)));
+    ELSE
+        ExpectedDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Expected.diSize));
+        ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
+    END_IF
     ExpectedDataString := Tc2_Standard.CONCAT(STR1 := ExpectedDataString, STR2 := ')');
-    ActualDataString := Tc2_Standard.CONCAT(STR1 := '(Data size = ', STR2 := DINT_TO_STRING(Actual.diSize));
     ActualDataString := Tc2_Standard.CONCAT(STR1 := ActualDataString, STR2 := ')');
 ELSIF DataContentNotEquals THEN
     FOR Count := 0 TO MIN(Expected.diSize-1, 38) BY 1 DO // One byte will equal two characters (example: 255 = 0xff, 1 = 0x01)
@@ -3472,6 +3507,48 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="AssertEquals_WSTRING" Id="{74750f5e-0a5e-499f-bc11-ef38c3a2fafb}">
+      <Declaration><![CDATA[(*
+    Asserts that two WSTRINGs are equal. If they are not, an assertion error is created.
+*)
+METHOD PUBLIC AssertEquals_WSTRING
+VAR_INPUT
+    Expected : WSTRING(255); // WSTRING expected value
+    Actual : WSTRING(255); // WSTRING actual value
+    Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
+END_VAR
+VAR
+    TestInstancePath : Tc2_System.T_MaxString;
+    AlreadyReported : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+    RETURN;
+END_IF
+
+TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+
+AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
+                           ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_WSTRING,
+                           ExpectedValue := ADR(Expected),
+                           ActualSize := SIZEOF(Actual),
+                           ActualTypeClass := IBaseLibrary.TypeClass.TYPE_WSTRING,
+                           ActualValue := ADR(Actual),
+                           Message := Message,
+                           TestInstancePath := TestInstancePath,
+                           AlreadyReported => AlreadyReported);
+
+IF NOT AlreadyReported AND (Tc2_Standard.WLEN(STR := Expected) <> Tc2_Standard.WLEN(STR := Actual) OR (Expected <> Actual)) THEN
+    SetTestFailed(AssertionType := E_AssertionType.Type_WSTRING,
+                  AssertionMessage := Message);
+
+    AssertMessageFormatter.LogAssertFailure(Expected := 'Not possible to print EXP unicode WSTRING value',
+                                            Actual := 'Not possible to print ACT unicode WSTRING value',
+                                            Message := Message,
+                                            TestInstancePath := TestInstancePath);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="AssertFalse" Id="{022665a8-9003-4aaa-8ef4-bd39fe196883}">
       <Declaration><![CDATA[(*
     Asserts that a condition is false. If it is not, an assertion error is created.
@@ -3534,8 +3611,7 @@ END_IF]]></ST>
 VAR_INPUT
     bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
     bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
 GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;]]></ST>
@@ -3620,8 +3696,7 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsTestFinished := FALSE;
 IF NumberOfTests > 0 THEN

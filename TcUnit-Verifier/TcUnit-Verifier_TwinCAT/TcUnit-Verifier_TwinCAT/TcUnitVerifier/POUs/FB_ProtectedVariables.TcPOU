@@ -28,6 +28,7 @@ VAR_INPUT
     InputULINT AT %I* : ULINT;
     InputUSINT AT %I* : USINT;
     InputWORD AT %I* : WORD;
+    InputWSTRING AT %I* : WSTRING;
 END_VAR
 VAR
     VarBOOL : BOOL;
@@ -50,6 +51,7 @@ VAR
     VarULINT : ULINT;
     VarUSINT : USINT;
     VarWORD : WORD;
+    VarWSTRING : WSTRING;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>

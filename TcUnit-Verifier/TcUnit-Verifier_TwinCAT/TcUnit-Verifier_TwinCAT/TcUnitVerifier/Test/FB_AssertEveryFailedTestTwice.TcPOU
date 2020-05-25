@@ -80,8 +80,10 @@ VAR
 
     aWORD : WORD := 16#ABCD;
     bWORD : WORD := 16#89EF;
-END_VAR
-]]></Declaration>
+
+	aWSTRING : WSTRING := "åäöĦ";
+    bWSTRING : WSTRING := "åäöŅ";
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TwiceAssertCall');
 
@@ -174,6 +176,10 @@ AssertEquals_TIME_OF_DAY(Expected := aTIME_OF_DAY,
 AssertEquals_WORD(Expected := aWORD,
                   Actual := bWORD,
                   Message := 'Not equal WORD');
+
+AssertEquals_WSTRING(Expected := aWSTRING,
+                     Actual := bWSTRING,
+                     Message := 'Not equal WSTRING');
 
 AssertCount := AssertCount + 1;
 IF AssertCount = 2 THEN
