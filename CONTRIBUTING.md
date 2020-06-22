@@ -15,7 +15,7 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 
 1. Fork the repo and create your branch from `master`.
 2. If you've added new functionality, it's necessary to add tests. For this there is a separate test project called [TcUnit-Verifier](https://github.com/tcunit/TcUnit/tree/master/TcUnit-Verifier). In that project there are several test suites defined to test the different functionality of TcUnit. Please read the [README.MD](https://github.com/tcunit/TcUnit/blob/master/TcUnit-Verifier/README.md) in that project for further instructions. **No new functionality will be accepted without any proper tests**.
-3. If you've changed APIs, send an e-mail with the API change so that the official homepage can be updated.
+3. If you've changed APIs, include the API change in the Pull Request so that the official homepage can be updated.
 4. Ensure the test suite passes.
 5. Issue that pull request!
 
@@ -42,7 +42,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 * Make sure to edit the project with the same build of TwinCAT XAE as the master branch. Which build of TwinCAT that is currently used can be deduced from the [TcUnit.tsproj](https://github.com/tcunit/TcUnit/blob/master/TcUnit/TcUnit.tsproj)-file. The "TcVersion"-attribute will give you the version of TwinCAT that was lastly used to edit the project. The build is the third number from the left (for example 4020, 4022 or 4024)
 * Make sure that your TwinCAT development environment uses spaces instead of tabs. The default behaviour of the TwinCAT development environment is to use tabs so it needs to be changed, which can be done according to [this guide](https://alltwincat.com/2017/04/14/replace-tabs-with-whitespaces/)
 * The prefixes of naming of function blocks/variables/etc from the [Beckhoff TwinCAT3 identifier/name conventions](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014401873267083.html&id=) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
-* Make sure to set your TwinCAT development environment to use Separate LineIDs. This is available in the TwinCAT XAE under **Tools→Options→TwinCAT→Write options→Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=))
+* Make sure to set your TwinCAT development environment to use Separate LineIDs. This is available in the TwinCAT XAE under **Tools→Options→TwinCAT→PLC Environment→Write options→Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=))
 
 ## License
 By contributing, you agree that your contributions will be licensed under its MIT License.
