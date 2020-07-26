@@ -73,16 +73,19 @@ VAR
     AdsLogStringMessage : ST_AdsLogStringMessage;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
-AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
-AdsLogStringMessage.StrArg := StrArg;
+        <ST><![CDATA[(* Only log message types of ERROR if log extended results is not enabled *)
+IF MsgCtrlMask = Tc2_System.ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN
+    AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
+    AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
+    AdsLogStringMessage.StrArg := StrArg;
 
-MemRingBuffer.A_AddTail(pWrite := ADR(AdsLogStringMessage),
-                        cbWrite := SIZEOF(ST_AdsLogStringMessage),
-                        pBuffer := ADR(ArrayBuffer),
-                        cbBuffer := SIZEOF(ArrayBuffer));
+    MemRingBuffer.A_AddTail(pWrite := ADR(AdsLogStringMessage),
+                            cbWrite := SIZEOF(ST_AdsLogStringMessage),
+                            pBuffer := ADR(ArrayBuffer),
+                            cbBuffer := SIZEOF(ArrayBuffer));
 
-Error := NOT MemRingBuffer.bOk;]]></ST>
+    Error := NOT MemRingBuffer.bOk;
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>

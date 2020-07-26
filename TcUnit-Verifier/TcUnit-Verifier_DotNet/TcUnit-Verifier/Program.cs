@@ -115,26 +115,25 @@ namespace TcUnit.Verifier
 
             ErrorList errorList = new ErrorList();
 
+            ErrorItems errorItems;
             while (true)
             {
                 Thread.Sleep(10000);
 
-                ErrorItems errorItems = vsInstance.GetErrorItems();
+                errorItems = vsInstance.GetErrorItems();
                 log.Info("... got " + errorItems.Count + " report lines so far.");
-
-                var newErrors = errorList.AddNew(errorItems);
-
-                foreach (var error in newErrors.Where(e => e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh))
+                for (int i = 1; i <= errorItems.Count; i++)
                 {
+                    ErrorItem error = errorItems.Item(i);
                     if (error.Description.Contains("| ==========TESTS FINISHED RUNNING=========="))
                         testsFinishedRunningFirstLineFound = true;
-                    if (error.Description.Contains("| TEST SUITES:"))
+                    if (error.Description.Contains("| Test suites:"))
                         amountOfTestSuitesLineFound = true;
-                    if (error.Description.Contains("| TESTS:"))
+                    if (error.Description.Contains("| Tests:"))
                         amountOfTestsLineFound = true;
-                    if (error.Description.Contains("| SUCCESSFUL TESTS:"))
+                    if (error.Description.Contains("| Successful tests:"))
                         amountOfSuccesfulTestsLineFound = true;
-                    if (error.Description.Contains("| FAILED TESTS:"))
+                    if (error.Description.Contains("| Failed tests:"))
                     {
                         amountOfFailedTestsLineFound = true;
                         // Grab the number of failed tests so we can validate it during the assertion phase
@@ -147,7 +146,9 @@ namespace TcUnit.Verifier
                 if (testsFinishedRunningFirstLineFound && amountOfTestSuitesLineFound && amountOfTestsLineFound && amountOfSuccesfulTestsLineFound
                     && amountOfFailedTestsLineFound && testsFinishedRunningLastLineFound)
                     break;
+
             }
+            var newErrors = errorList.AddNew(errorItems);
 
             log.Info("Asserting results...");
 
