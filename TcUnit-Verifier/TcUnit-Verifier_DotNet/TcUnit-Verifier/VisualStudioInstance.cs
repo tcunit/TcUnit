@@ -1,6 +1,8 @@
 using EnvDTE80;
 using log4net;
 using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using TCatSysManagerLib;
 
@@ -92,35 +94,27 @@ namespace TcUnit.Verifier
         /// <returns>The version of Visual Studio used to create the solution</returns>
         private string FindVisualStudioVersion()
         {
-            /* Find visual studio version */
-            string line;
-            string vsVersion = null;
-
-            System.IO.StreamReader file = new System.IO.StreamReader(@filePath);
-            while ((line = file.ReadLine()) != null)
+            string file;
+            try
             {
-                if (line.StartsWith("VisualStudioVersion"))
-                {
-                    string version = line.Substring(line.LastIndexOf('=') + 2);
-                    //log.Info("In Visual Studio solution file, found visual studio version " + version);
-                    string[] numbers = version.Split('.');
-                    string major = numbers[0];
-                    string minor = numbers[1];
-
-                    int n;
-                    int n2;
-
-                    bool isNumericMajor = int.TryParse(major, out n);
-                    bool isNumericMinor = int.TryParse(minor, out n2);
-
-                    if (isNumericMajor && isNumericMinor)
-                    {
-                        vsVersion = major + "." + minor;
-                    }
-                }
+                file = File.ReadAllText(@filePath);
             }
-            file.Close();
-            return vsVersion;
+            catch (ArgumentException)
+            {
+                return null;
+            }
+
+            string pattern = @"^VisualStudioVersion\s+=\s+(?<version>\d+\.\d+)";
+            Match match = Regex.Match(file, pattern, RegexOptions.Multiline);
+
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void LoadDevelopmentToolsEnvironment(string visualStudioVersion)
