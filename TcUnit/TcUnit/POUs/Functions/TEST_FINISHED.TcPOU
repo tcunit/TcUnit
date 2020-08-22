@@ -6,7 +6,8 @@ FUNCTION TEST_FINISHED : BOOL
 VAR
     TestName : Tc2_System.T_MaxString;
     Counter : UINT := 0;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Grab the currently running test name
 TestName := GVL_TcUnit.CurrentTestNameBeingCalled;

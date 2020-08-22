@@ -21,7 +21,8 @@ VAR
 END_VAR
 VAR CONSTANT
     MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 253; // This is actually 254, but if StrArg-argument is used (which it is in TcUnit) it is 253.
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Check if any of the two strings are too long (or the combination of them)
 

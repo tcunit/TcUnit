@@ -14,9 +14,9 @@ VAR
     TagsSeek : STRING;
     TagBuffer : FB_StreamBuffer;
     Tag : Tc2_System.T_MaxString;
-    TagOpen: BOOL;
+    TagOpen : BOOL;
     Select : UDINT;
-    SearchPosition : UDINT; 
+    SearchPosition : UDINT;
 END_VAR
 VAR CONSTANT
     TAG_OPEN : STRING(1) := '<';
@@ -31,7 +31,7 @@ VAR CONSTANT
     CLOSE_COMMENT : STRING(4) := ' -->';
     TAB : STRING(2) := '$T';
     CR_LF : STRING(4) := '$R$N';
-
+    
     // $OD : ASCII code for carriage return (CR)
     // $$ : to add a $R
     // $' : to add ' (apostrophe)
@@ -39,7 +39,8 @@ VAR CONSTANT
     // $N or $n : new line
     // $P or $p : next page
     // $R or $r : end of line
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -47,7 +48,8 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[(* 
     Clears the contents of the entire buffer.
 *)
-METHOD PUBLIC ClearBuffer]]></Declaration>
+METHOD PUBLIC ClearBuffer
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[SearchPosition := 0;
 TagListSeekBuffer.Length := 0;
@@ -61,12 +63,13 @@ Tag := '';]]></ST>
     Closes a Tag:
     XML: <MyTag />'
 
-    Method: XML.CloseTag();
+Method : XML.CloseTag();
 *)
 METHOD PUBLIC CloseTag : Tc2_System.T_MaxString
 VAR
     ClosedTag : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
     XmlBuffer.Append := END_TAG_CLOSE;
@@ -85,7 +88,8 @@ CloseTag := ClosedTag;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Length" Id="{4fdf30b6-5fe7-4452-ad0a-85e866e236d0}">
-      <Declaration><![CDATA[PROPERTY Length : UDINT]]></Declaration>
+      <Declaration><![CDATA[PROPERTY Length : UDINT
+]]></Declaration>
       <Get Name="Get" Id="{267105d4-b124-4c5c-a359-0434c4992afc}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
@@ -103,7 +107,8 @@ CloseTag := ClosedTag;]]></ST>
 METHOD PUBLIC NewComment
 VAR_INPUT
     Comment : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
     XmlBuffer.Append := TAG_CLOSE;
@@ -124,7 +129,8 @@ METHOD PUBLIC NewParameter
 VAR_INPUT
     Name : Tc2_System.T_MaxString;
     Value : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := SPACE;
 XmlBuffer.Append := Name;
@@ -144,7 +150,8 @@ XmlBuffer.Append := QUOTE;]]></ST>
 METHOD PUBLIC NewTag
 VAR_INPUT
     Name : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
     XmlBuffer.Append := TAG_CLOSE;
@@ -160,7 +167,8 @@ TagListBuffer.Append := Name;]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC NewTagData
 VAR_INPUT
     Data : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := TAG_CLOSE;
 XmlBuffer.Append := Data;
@@ -172,7 +180,8 @@ TagOpen := FALSE;]]></ST>
 VAR_INPUT
     PointerToBuffer : POINTER TO BYTE; // ADR(..)
     SizeOfBuffer : UDINT; // SIZEOF(..)
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.SetBuffer(PointerToBufferAddress:= PointerToBuffer, SizeOfBuffer := SizeOfBuffer);
 TagListBuffer.SetBuffer(PointerToBufferAddress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
@@ -185,7 +194,8 @@ TagBuffer.SetBuffer(PointerToBufferAddress := ADR(Tag), SizeOfBuffer := SIZEOF(T
     Jump to the beginning of the XML data
     XML.ToStartBuffer();
 *)
-METHOD PUBLIC ToStartBuffer]]></Declaration>
+METHOD PUBLIC ToStartBuffer
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[SearchPosition := 0;
 TagListSeekBuffer.Length := 0;
@@ -197,7 +207,7 @@ Tag := '';]]></ST>
       <Declaration><![CDATA[(*
     Add your own preffered fileheader like:
     XML: <?xml version="1.0" encoding="UTF-8"?>
-    
+
     Start with calling this method before appending any other tags!
 
     XML.WriteDocumentHeader('<?xml version="1.0" encoding="UTF-8"?>');
@@ -205,7 +215,8 @@ Tag := '';]]></ST>
 METHOD PUBLIC WriteDocumentHeader
 VAR_INPUT
     Header : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := Header;]]></ST>
       </Implementation>

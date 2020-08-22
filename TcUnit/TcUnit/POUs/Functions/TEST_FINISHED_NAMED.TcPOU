@@ -17,7 +17,8 @@ VAR_STAT
 END_VAR
 VAR CONSTANT
     MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Find the test suite and:
    1. Set the test in that test suite as finished

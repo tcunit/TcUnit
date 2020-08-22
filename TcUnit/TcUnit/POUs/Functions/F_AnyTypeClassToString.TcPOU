@@ -7,7 +7,8 @@
 FUNCTION F_AnyTypeClassToString : STRING
 VAR_INPUT
     AnyTypeClass : __SYSTEM.TYPE_CLASS;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE UDINT_TO_INT(AnyTypeClass) OF
     IBaseLibrary.TypeClass.TYPE_BOOL :

@@ -10,7 +10,8 @@ VAR_INPUT
 END_VAR
 VAR
     AnyExpectedOrActual : U_ExpectedOrActual;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[AnyExpectedOrActual := F_AnyToUnionValue(AnySize := ExpectedOrActualSize,
                                          AnyTypeClass := ExpectedOrActualTypeClass,

@@ -8,7 +8,8 @@ END_VAR
 VAR
     TestSuiteName : Tc2_System.T_MaxString;
     FindPosition : INT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := TestInstancePath);
 (* Remove everything except the test suite name *)

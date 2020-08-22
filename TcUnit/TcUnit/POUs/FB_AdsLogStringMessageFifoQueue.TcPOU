@@ -9,7 +9,7 @@ FUNCTION_BLOCK FB_AdsLogStringMessageFifoQueue
 VAR
     ArrayBuffer : ARRAY[0..((GVL_Param_TcUnit.AdsLogMessageFifoRingBufferSize * (SIZEOF(ST_ADSLogStringMessage) + MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD)) - 1)] OF BYTE;
     MemRingBuffer : Tc2_Utilities.FB_MemRingBuffer;
-    TimerBetweenMessages : Tc2_Standard.TON := (IN := TRUE, PT := TIME_BETWEEN_MESSAGES);
+    TimerBetweenMessages : Tc2_Standard.TON := (IN:=TRUE, PT:=TIME_BETWEEN_MESSAGES);
 END_VAR
 VAR CONSTANT
     MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD : USINT := 4;
@@ -19,7 +19,8 @@ VAR_TEMP
     MessageToBeSent : ST_ADSLogStringMessage;
     ErrorGet : BOOL;
     ReturnValue : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TimerBetweenMessages();
 IF GetLogCount() > 0 THEN
@@ -43,7 +44,8 @@ METHOD PRIVATE GetAndRemoveLogFromQueue
 VAR_OUTPUT
     AdsLogStringMessage : ST_ADSLogStringMessage;
     Error : BOOL; // Buffer empty
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[MemRingBuffer.A_RemoveHead(pRead := ADR(AdsLogStringMessage),
                            cbRead := SIZEOF(ST_ADSLogStringMessage),
@@ -53,7 +55,8 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetLogCount" Id="{b92b4756-7e23-4fd6-b9d4-ba80d89e5be5}">
-      <Declaration><![CDATA[METHOD PRIVATE GetLogCount : UDINT]]></Declaration>
+      <Declaration><![CDATA[METHOD PRIVATE GetLogCount : UDINT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetLogCount := MemRingBuffer.nCount;]]></ST>
       </Implementation>
@@ -71,7 +74,8 @@ VAR_OUTPUT
 END_VAR
 VAR
     AdsLogStringMessage : ST_AdsLogStringMessage;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Only log message types of ERROR if log extended results is not enabled *)
 IF MsgCtrlMask = Tc2_System.ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN

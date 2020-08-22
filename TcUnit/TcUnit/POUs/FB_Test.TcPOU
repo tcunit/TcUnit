@@ -6,57 +6,65 @@
 *)
 FUNCTION_BLOCK FB_Test
 VAR
-    TestName : Tc2_System.T_MaxString; 
+    TestName : Tc2_System.T_MaxString;
     TestIsFinished : BOOL;
     TestIsSkipped : BOOL; // This is set to true, if test is disabled (by putting the string "disabled_" in front of the test name
     NumberOfAssertions : UINT;
-
+    
     (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
     AssertionMessage : Tc2_System.T_MaxString; // Assertion message for the first assertion in this test
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="GetAssertionMessage" Id="{273c4e89-faee-43b5-803d-428cdf75ac48}">
-      <Declaration><![CDATA[METHOD PUBLIC GetAssertionMessage : Tc2_System.T_MaxString]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetAssertionMessage : Tc2_System.T_MaxString
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAssertionMessage := AssertionMessage;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetAssertionType" Id="{cd1419c3-7b07-4183-b487-40bdbb0bbce3}">
-      <Declaration><![CDATA[METHOD PUBLIC GetAssertionType : E_AssertionType]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetAssertionType : E_AssertionType
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAssertionType := AssertionType;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetName" Id="{94757f0e-9979-49d0-ad9f-e35c823175d4}">
-      <Declaration><![CDATA[METHOD PUBLIC GetName : Tc2_System.T_MaxString;]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetName : Tc2_System.T_MaxString
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetName := TestName;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfAssertions" Id="{0cfa1f03-0295-4f8f-bfd9-24d7b7f17e37}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfAssertions : UINT]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfAssertions : UINT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfAssertions := NumberOfAssertions;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsFailed" Id="{e42409e3-251f-4133-8b14-3630785983d6}">
-      <Declaration><![CDATA[METHOD PUBLIC IsFailed : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC IsFailed : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsFailed := TestIsFailed;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsFinished" Id="{813a9067-b864-4739-9c14-830160e0eabc}">
-      <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC IsFinished : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsFinished := TestIsFinished;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsSkipped" Id="{ff97feb1-1a4a-4f36-ba1d-f8483e588d4f}">
-      <Declaration><![CDATA[METHOD PUBLIC IsSkipped : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC IsSkipped : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsSkipped := TestIsSkipped;]]></ST>
       </Implementation>
@@ -66,7 +74,8 @@ END_VAR]]></Declaration>
 METHOD PUBLIC SetAssertionMessage
 VAR_INPUT
     AssertMessage : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF Tc2_Standard.LEN(STR := AssertionMessage) = 0 THEN
     AssertionMessage := AssertMessage;
@@ -78,7 +87,8 @@ END_IF]]></ST>
 METHOD PUBLIC SetAssertionType
 VAR_INPUT
     AssertType : E_AssertionType;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF AssertionType = E_AssertionType.Type_UNDEFINED THEN
     AssertionType := AssertType;
@@ -86,13 +96,15 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetFailed" Id="{b840b41b-4045-4fd9-b97d-0bf226c46fb3}">
-      <Declaration><![CDATA[METHOD PUBLIC SetFailed]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC SetFailed
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFailed := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
-      <Declaration><![CDATA[METHOD SetFinished : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD SetFinished : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFinished := TRUE;]]></ST>
       </Implementation>
@@ -101,7 +113,8 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD PUBLIC SetName
 VAR_INPUT
     Name : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestName := Name;]]></ST>
       </Implementation>
@@ -110,14 +123,16 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD PUBLIC SetNumberOfAssertions
 VAR_INPUT
     NoOfAssertions : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[NumberOfAssertions := NoOfAssertions;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetSkipped" Id="{e9a94cad-c60d-4460-92bf-2b70cf2f46b2}">
       <Declaration><![CDATA[(* Sets the test case to skipped *)
-METHOD PUBLIC SetSkipped]]></Declaration>
+METHOD PUBLIC SetSkipped
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsSkipped := TRUE;]]></ST>
       </Implementation>

@@ -6,7 +6,7 @@ FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
 VAR
     (* Test results *)
     TestSuiteResults : ST_TestSuiteResults;
-
+    
     (* Misc variables *)
     StoringTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     StoringTestSuiteTrigger : Tc2_Standard.R_TRIG;
@@ -16,12 +16,13 @@ END_VAR
 VAR_TEMP
     TestSuiteName : Tc2_System.T_MaxString;
     TestName : Tc2_System.T_MaxString;
-
+    
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-
+    
     TestToBeStored : FB_Test;
     GeneralTestResultsTestSuitesCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* The body of the function block stores the test results *)
 IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT StoredTestSuiteResults THEN
@@ -98,13 +99,15 @@ END_IF]]></ST>
     </Implementation>
     <Method Name="GetAreTestResultsAvailable" Id="{1405a17f-835e-481b-8bc4-6f447bc860a2}">
       <Declaration><![CDATA[(* Returns whether the storing of the test results is finished *)
-METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
+METHOD PUBLIC GetAreTestResultsAvailable : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAreTestResultsAvailable := (StoredTestSuiteResults AND StoredGeneralTestResults);]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestSuiteResults" Id="{3d7cfdb1-16a3-456d-be0a-82cecf4820a8}">
-      <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults;]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetTestSuiteResults : REFERENCE TO ST_TestSuiteResults
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
       </Implementation>

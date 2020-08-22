@@ -4,12 +4,13 @@
     <Declaration><![CDATA[(*
     This functionblock acts as a stream buffer for use with FB_XmlControl
 *)
-FUNCTION_BLOCK FB_StreamBuffer 
+FUNCTION_BLOCK FB_StreamBuffer
 VAR
     _PointerToStringBuffer : POINTER TO BYTE;
     _BufferSize : UDINT;
     _Length : UDINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -17,12 +18,14 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[(*
     Appends a string to the buffer
 *)
-PROPERTY Append : Tc2_System.T_MaxString]]></Declaration>
+PROPERTY Append : Tc2_System.T_MaxString
+]]></Declaration>
       <Set Name="Set" Id="{773bf1db-6b9a-4581-be33-e4745bbc41df}">
         <Declaration><![CDATA[VAR
     ByteIn : POINTER TO BYTE;
     ByteBuffer : POINTER TO BYTE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
         <Implementation>
           <ST><![CDATA[ByteIn := ADR(Append); 
 ByteBuffer := _PointerToStringBuffer + _Length; // set start address
@@ -43,7 +46,8 @@ ByteBuffer^ := 0; // null terminated string]]></ST>
       <Declaration><![CDATA[(*
     Read current Buffersize
 *)
-PROPERTY BufferSize : UDINT]]></Declaration>
+PROPERTY BufferSize : UDINT
+]]></Declaration>
       <Get Name="Get" Id="{41dc436d-8e79-4934-92fd-8311aee18e1d}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
@@ -57,8 +61,9 @@ PROPERTY BufferSize : UDINT]]></Declaration>
 *)
 METHOD PUBLIC Clear
 VAR
-	Count : UDINT;
-END_VAR]]></Declaration>
+    Count : UDINT;
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (_PointerToStringBuffer = 0) OR (_BufferSize = 0) THEN
     RETURN;
@@ -89,7 +94,8 @@ VAR
     PointerToByteToCopy : POINTER TO BYTE;
     PointerToBuffer : POINTER TO BYTE;
     CurPos : UDINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[Loop := 0;
 PointerToByteToCopy := ADR(Copy);
@@ -120,14 +126,15 @@ VAR_INPUT
     StartPos : UDINT;
 END_VAR
 VAR_OUTPUT
-    CutLen : UDINT; 
+    CutLen : UDINT;
     XmlError : E_XmlError;
 END_VAR
 VAR
     Loop : UDINT;
     PointerToByteToCut : POINTER TO BYTE;
     PointerToByteBuffer : POINTER TO BYTE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[Loop := 0;
 PointerToByteToCut := ADR(CutOff);
@@ -172,7 +179,8 @@ VAR
     Search : UDINT;
     PointerToBuffer : POINTER TO BYTE;
     PointerToSearch : POINTER TO BYTE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[Loop := 0;
 Search := 0;
@@ -205,7 +213,8 @@ VAR
     Search : UDINT;
     PointerToBuffer : POINTER TO BYTE;
     PointerToSearch : POINTER TO BYTE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[Loop := 0;
 Search := 0;
@@ -232,7 +241,8 @@ FindBack := _Length - Loop + 1;]]></ST>
       <Declaration><![CDATA[(*
     Gets/Sets the current length (in bytes) of the streambuffer
 *)
-PROPERTY Length : UDINT]]></Declaration>
+PROPERTY Length : UDINT
+]]></Declaration>
       <Get Name="Get" Id="{d9ee832e-be82-4ebc-bf0b-bb382927ac05}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
@@ -247,11 +257,12 @@ PROPERTY Length : UDINT]]></Declaration>
       </Set>
     </Property>
     <Method Name="SetBuffer" Id="{bbd47c2a-5140-429c-a3f1-6edaac587279}">
-      <Declaration><![CDATA[METHOD PUBLIC SetBuffer : BOOL;
+      <Declaration><![CDATA[METHOD PUBLIC SetBuffer : BOOL
 VAR_INPUT
     PointerToBufferAddress : POINTER TO BYTE; // Set buffer address (ADR ...)
     SizeOfBuffer : UDINT; // Set buffer size (SIZEOF ...)
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (PointerToBufferAddress = 0) OR (SizeOfBuffer = 0) THEN
     SetBuffer := FALSE;

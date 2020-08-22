@@ -10,7 +10,8 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Mark this test as the current one being executed *)
 GVL_TcUnit.CurrentTestNameBeingCalled := TestName;

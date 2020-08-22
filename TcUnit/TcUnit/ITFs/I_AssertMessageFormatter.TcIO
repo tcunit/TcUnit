@@ -10,7 +10,8 @@ VAR_INPUT
     Actual : Tc2_System.T_MaxString;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     </Method>
   </Itf>
 </TcPlcObject>
