@@ -63,7 +63,7 @@ Tag := '';]]></ST>
     Closes a Tag:
     XML: <MyTag />'
 
-Method : XML.CloseTag();
+    Method : XML.CloseTag();
 *)
 METHOD PUBLIC CloseTag : Tc2_System.T_MaxString
 VAR
