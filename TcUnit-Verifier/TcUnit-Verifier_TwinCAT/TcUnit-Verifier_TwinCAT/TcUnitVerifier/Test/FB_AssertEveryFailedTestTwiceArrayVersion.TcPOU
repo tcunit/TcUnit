@@ -9,7 +9,8 @@
 FUNCTION_BLOCK FB_AssertEveryFailedTestTwiceArrayVersion EXTENDS TcUnit.FB_TestSuite
 VAR
     AssertCount : USINT := 0;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TwiceAssertCall_Arrays();]]></ST>
     </Implementation>
@@ -18,58 +19,58 @@ END_VAR]]></Declaration>
 VAR
     aBOOL : ARRAY[0..5] OF BOOL := [TRUE, TRUE, FALSE, TRUE, FALSE, TRUE];
     bBOOL : ARRAY[0..5] OF BOOL := [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE];
-
+    
     aBYTE : ARRAY[0..3] OF BYTE := [16#AB, 16#AA, 16#BB, 16#89];
     bBYTE : ARRAY[0..3] OF BYTE := [16#AB, 16#CD, 16#BB, 16#89];
-
+    
     aDINT : ARRAY[3..5] OF DINT := [-4746, -2147483645, 0];
     bDINT : ARRAY[3..5] OF DINT := [-4746, -2147483641, 0];
-
+    
     aDWORD : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EFAA2346, 16#ABABABAB, 16#EEEEEEEE];
     bDWORD : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#ABABABAB, 16#EEEEEEEE];
-
+    
     aINT : ARRAY[-8..-6] OF INT := [42, -23, -32768];
     bINT : ARRAY[1..3] OF INT := [42, 24, -32768];
-
+    
     aLINT : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_853_775_808, 55];
     bLINT : ARRAY[4..6] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
-
+    
     aLREAL : ARRAY[-2..1] OF LREAL := [3.55, 7.88, 2.44];
     bLREAL : ARRAY[-1..2] OF LREAL := [3.56, 7.99, 2.44];
-
+    
     aLREAL2d : ARRAY[0..1, 0..1] OF LREAL := [4.44, 5.75, 6.96, 7.77];
     bLREAL2d : ARRAY[0..1, 0..1] OF LREAL := [4.45, 5.75, 6.68, 7.77];
-
+    
     aLREAL3d : ARRAY[0..1, 0..1, 0..1] OF LREAL := [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0];
     bLREAL3d : ARRAY[0..1, 0..1, 0..1] OF LREAL := [1.0, 2.0, 3.0, 4.0, 5.0, 6.4, 7.0, 8.0];
-
+    
     aLWORD : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     bLWORD : ARRAY[1..1] OF LWORD := [16#01234567890ABCDE];
-
+    
     aREAL : ARRAY[0..2] OF REAL := [6.55000001, 3.54, 2.44001];
     bREAL : ARRAY[0..2] OF REAL := [6.55, 3.54, 2.44003];
-
+    
     aREAL2d : ARRAY[0..1, 0..1] OF REAL := [4.45, 5.75, 6.960001, 7.7701];
     bREAL2d : ARRAY[0..1, 0..1] OF REAL := [4.45, 5.75, 6.960002, 7.7703];
-
+    
     aREAL3d : ARRAY[0..1, 0..1, 0..1] OF REAL := [1.0, 2.0, 3.0, 4.01, 5.0, 6.0, 7.0, 8.0];
     bREAL3d : ARRAY[0..1, 0..1, 0..1] OF REAL := [1.0, 2.0, 3.0, 4.021, 5.0, 6.0, 7.0, 8.0];
-
+    
     aSINT : ARRAY[0..0] OF SINT := [-128];
     bSINT : ARRAY[0..0] OF SINT := [127];
-
+    
     aUDINT : ARRAY[-5..-4] OF UDINT := [4294967295, 5];
     bUDINT : ARRAY[0..1] OF UDINT := [4294967295, 4];
-
+    
     aUINT : ARRAY[0..3] OF UINT := [0, 4, 8, 99];
     bUINT : ARRAY[0..3] OF UINT := [0, 4, 8, 12];
-
+    
     aULINT : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 9_400_000_000_000];
     bULINT : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 18_446_744_073_709_551_615];
-
-    aUSINT : ARRAY[0..10] OF USINT := [0,1,2,3,6(4),5];
-    bUSINT : ARRAY[0..10] OF USINT := [0,1,2,3,6(5),6];
-
+    
+    aUSINT : ARRAY[0..10] OF USINT := [0, 1, 2, 3, 6(4), 5];
+    bUSINT : ARRAY[0..10] OF USINT := [0, 1, 2, 3, 6(5), 6];
+    
     aWORD : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1133];
     bWORD : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1122];
 END_VAR

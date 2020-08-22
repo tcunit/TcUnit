@@ -12,9 +12,10 @@
 *)
 FUNCTION_BLOCK FB_SkipAssertionsWhenFinished EXTENDS TcUnit.FB_TestSuite
 VAR
-    ShortTimer : Tc2_Standard.TON := (PT := T#200MS);
-    LongTimer : Tc2_Standard.TON := (PT := T#1S);
-END_VAR]]></Declaration>
+    ShortTimer : Tc2_Standard.TON := (PT:=T#200MS);
+    LongTimer : Tc2_Standard.TON := (PT:=T#1S);
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_LongTest(ADR(LongTimer));
 Test_ShortTest(ADR(ShortTimer));
@@ -25,7 +26,8 @@ Test_AssertImmediatelyAfterFinished();]]></ST>
     Assertions called immediately after (and within the same cycle as) TEST_FINISHED should be
     ignored.
 *)
-METHOD Test_AssertImmediatelyAfterFinished]]></Declaration>
+METHOD Test_AssertImmediatelyAfterFinished
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_AssertImmediatelyAfterFinished');
 TEST_FINISHED();
@@ -37,7 +39,8 @@ AssertTrue(FALSE, 'This failing assertion should be skipped because the test is 
       <Declaration><![CDATA[METHOD Test_LongTest
 VAR_INPUT
     Timer : POINTER TO Tc2_Standard.TON;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LongTest');
 
@@ -51,7 +54,8 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD Test_ShortTest
 VAR_INPUT
     Timer : POINTER TO Tc2_Standard.TON;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ShortTest');
 

@@ -9,7 +9,8 @@
         2. One test that fails, where the size of the arrays differs
         3. One test that fails, where the content of the array differs
 *)
-FUNCTION_BLOCK FB_ArrayPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_ArrayPrimitiveTypes EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BOOL_Array_Equals();
 Test_BOOL_Array_DifferInSize();
@@ -89,7 +90,8 @@ Test_WORD_Array_DifferInContent();
 VAR
     a : ARRAY[0..5] OF BOOL := [TRUE, TRUE, FALSE, TRUE, FALSE, TRUE];
     b : ARRAY[0..5] OF BOOL := [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL_Array_DifferInContent');
 
@@ -105,7 +107,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..6] OF BOOL := [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE];
     b : ARRAY[1..4] OF BOOL := [TRUE, TRUE, TRUE, TRUE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL_Array_DifferInSize');
 
@@ -121,7 +124,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
     b : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL_Array_Equals');
 
@@ -137,7 +141,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..3] OF BYTE := [16#AB, 16#AA, 16#BB, 16#89];
     b : ARRAY[0..3] OF BYTE := [16#AB, 16#CD, 16#BB, 16#89];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BYTE_Array_DifferInContent');
 
@@ -153,7 +158,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..2] OF BYTE := [16#AB, 16#CD];
     b : ARRAY[1..5] OF BYTE := [16#AB, 16#CD, 16#EF, 16#01, 16#23];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BYTE_Array_DifferInSize');
 
@@ -169,7 +175,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
     b : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BYTE_Array_Equals');
 
@@ -185,7 +192,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[3..5] OF DINT := [-4746, -2147483645, 0];
     b : ARRAY[3..5] OF DINT := [-4746, -2147483641, 0];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DINT_Array_DifferInContent');
 
@@ -201,7 +209,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[3..4] OF DINT := [-11, 2147483647];
     b : ARRAY[4..6] OF DINT := [-11, 2147483647, 0];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DINT_Array_DifferInSize');
 
@@ -217,7 +226,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
     b : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DINT_Array_Equals');
 
@@ -233,7 +243,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EFAA2346, 16#ABABABAB, 16#EEEEEEEE];
     b : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#ABABABAB, 16#EEEEEEEE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD_Array_DifferInContent');
 
@@ -249,7 +260,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#67890ABC, 16#DDDDDDDD];
     b : ARRAY[-3..-2] OF DWORD := [16#6789ABCD, 16#EF012345];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD_Array_DifferInSize');
 
@@ -265,7 +277,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
     b : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012345];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD_Array_Equals');
 
@@ -281,7 +294,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-8..-6] OF INT := [42, -23, -32768];
     b : ARRAY[1..3] OF INT := [42, 24, -32768];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_INT_Array_DifferInContent');
 
@@ -297,7 +311,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-4..3] OF INT := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
     b : ARRAY[1..5] OF INT := [64, 98, -32768, 32767, 5478];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_INT_Array_DifferInSize');
 
@@ -313,7 +328,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-5..1] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
     b : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_INT_Array_Equals');
 
@@ -329,7 +345,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_853_775_808, 55];
     b : ARRAY[4..6] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LINT_Array_DifferInContent');
 
@@ -345,7 +362,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
     b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LINT_Array_DifferInSize');
 
@@ -361,7 +379,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-1..0] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
     b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LINT_Array_Equals');
 
@@ -377,7 +396,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-8..-6] OF LREAL := [42, -23, -32768];
     b : ARRAY[1..3] OF LREAL := [42, 24, -32768];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array_DifferInContent');
 
@@ -394,7 +414,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-4..3] OF LREAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
     b : ARRAY[1..5] OF LREAL := [64, 98, -32768, 32767, 5478];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array_DifferInSize');
 
@@ -411,7 +432,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-5..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
     b : ARRAY[1..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array_Equals');
 
@@ -429,11 +451,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF LREAL := [      0,                        0.75069381424723836,      0.29093464244666262,     
                                                0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
-                                                    
+    
     b : ARRAY[0..2,3..5] OF LREAL :=   [       1,                        0.75069381424723836,      0.29093464244666262,     
                                                0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_LBOUND');
 
@@ -451,11 +474,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                0.034287043863109802,     0,                        0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
-                                                    
+    
     b : ARRAY[0..2,3..5] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                0.034287043883109802,     1,                        0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      0.0090356068727726144 ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_Middle');
 
@@ -473,11 +497,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      0                     ];
-                                                    
+    
     b : ARRAY[0..2,3..5] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
                                                0.30748602156875937,      0.63373366540006071,      1                     ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInContent_UBOUND');
 
@@ -496,10 +521,11 @@ VAR
     a : ARRAY[-4..-2, -1..0] OF LREAL := [    1.004110987573404E+62,  -2.873296335229452E+224,  
                                              -3.5901630626493139E+58, -1.0170839179102032E+220, 
                                              -1.1922268785979511E+79, -1.9309907712685427E+64    ];
-                                           
+    
     b : ARRAY[1..2, 0..1] OF LREAL := [       1.004110987573404E+62,  -2.873296335229452E+224,  
                                             -3.5901630626493139E+58,  -1.0170839179102032E+220   ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInSize_D1');
 
@@ -517,10 +543,11 @@ METHOD PRIVATE Test_LREAL_Array2d_DifferInSize_D2
 VAR
     a : ARRAY[-4..-3, -1..0] OF LREAL := [    1.004110987573404E+62,  -2.873296335229452E+224,  
                                              -3.5901630626493139E+58, -1.0170839179102032E+220    ];
-                                           
+    
     b : ARRAY[1..2, 0..2] OF LREAL :=    [    1.004110987573404E+62,  -2.873296335229452E+224,  -3.5901630626493139E+58,  
                                             -1.0170839179102032E+220,  -1.1922268785979511E+79,  -1.9309907712685427E+64  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_DifferInSize_D2');
 
@@ -535,9 +562,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_LREAL_Array2d_Equals" Id="{78fed880-525c-48dc-8dc2-6a8b82a2b4e4}">
       <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array2d_Equals
 VAR
-    a : ARRAY[-5..-3,-1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
-    b : ARRAY[1..3,0..1] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
-END_VAR]]></Declaration>
+    a : ARRAY[-5..-3, -1..0] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    b : ARRAY[1..3, 0..1] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array2d_Equals');
 
@@ -555,27 +583,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0,                        0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
                                                     0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
                                                     0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
                                                     0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
-                                                    
+    
     b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       1,                        0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
                                                     0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
                                                     0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
                                                     0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_LBOUND');
 
@@ -593,27 +622,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
                                                     0.99235347099246152,      0,                        0.53803785449733854,
                                                     0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
                                                     0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
-                                                    
+    
     b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
                                                     0.99235347099246152,      1,                        0.53803785449733854,
                                                     0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
                                                     0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     0.04804534513877954  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_Middle');
 
@@ -631,27 +661,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,1..3] OF LREAL := [      0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043863109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704580466591092,
                                                     0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
                                                     0.8536550946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388902942,
                                                     0.45163352808525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     0                     ];
-                                                    
+    
     b : ARRAY[0..2,3..5,5..7] OF LREAL :=   [       0.39153705462419292,      0.75069381424723836,      0.29093464244666262,     
                                                     0.034287043883109802,     0.4487738206278411,       0.53067566153159162,      
                                                     0.30748602156875937,      0.63373366540006071,      0.0090356068727726144,      
-
+    
                                                     0.86311411432135576,      0.56920950420629679,      0.10704582466591092,
                                                     0.99235347099246152,      0.64118643600548919,      0.53803785449733854,
                                                     0.8536556946783531,       0.40930482857362593,      0.96201282039378433,
-
+    
                                                     0.98258493467354446,      0.14997228521386732,      0.36854104388952942,
                                                     0.45163352803525487,      0.17645537628627167,      0.02055403311762681,
                                                     0.15098329919901829,      0.099172453907864375,     1                     ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInContent_UBOUND');
 
@@ -671,7 +702,7 @@ VAR
     a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  -2.2453945418753555E+134,  
                                                   8.5957093309297743E+301,  -5.9598471182139549E-139,  
-
+    
                                                   -7.2419908660524697E+76,  5.0020389252645754E-160,  
                                                   -3.3631038290869421E-213,  -1.4376587532865779E+110,  
                                                   -1.0876803662003504E-263,  3.2352832374899203E+165  ];
@@ -680,15 +711,16 @@ VAR
     b : ARRAY[0..2,3..5,6..7] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  -2.2453945418753555E+134,  
                                                   8.5957093309297743E+301,  -5.9598471182139549E-139,  
-
+    
                                                   -7.2419908660524697E+76,  5.0020389252645754E-160,  
                                                   -3.3631038290869421E-213,  -1.4376587532865779E+110,  
                                                   -1.0876803662003504E-263,  3.2352832374899203E+165,
-
+    
                                                   -4.6404382914454893E-67,  -1.3556949396573763E-104,  
                                                   -1.1830864377130754E+146,       7737.6071934405209,      
                                                   -470928678.08185887,       2.1842539859532993E-126    ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D1');
 
@@ -708,7 +740,7 @@ VAR
     a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  -2.2453945418753555E+134,  
                                                   8.5957093309297743E+301,  -5.9598471182139549E-139,  
-
+    
                                                   -7.2419908660524697E+76,  5.0020389252645754E-160,  
                                                   -3.3631038290869421E-213,  -1.4376587532865779E+110,  
                                                   -1.0876803662003504E-263,  3.2352832374899203E+165  ];
@@ -716,10 +748,11 @@ VAR
     // 2x2x2
     b : ARRAY[0..1,3..4,6..7] OF LREAL := [       2.082350040687358E+68,     1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  -2.2453945418753555E+134, 
- 
+    
                                                   8.5957093309297743E+301,  -5.9598471182139549E-139,  
                                                   -7.2419908660524697E+76,  5.0020389252645754E-160  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D2');
 
@@ -739,7 +772,7 @@ VAR
     a : ARRAY[-5..-4,0..2,-1..0] OF LREAL := [    2.082350040687358E+68,     1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  -2.2453945418753555E+134,  
                                                   8.5957093309297743E+301,  -5.9598471182139549E-139,  
-
+    
                                                   -7.2419908660524697E+76,  5.0020389252645754E-160,  
                                                   -3.3631038290869421E-213,  -1.4376587532865779E+110,  
                                                   -1.0876803662003504E-263,  3.2352832374899203E+165  ];
@@ -748,11 +781,12 @@ VAR
     b : ARRAY[0..1,3..5,6..6] OF LREAL := [       2.082350040687358E+68,     
                                                   1.0648482884583467E-159,  
                                                   2.6081154219341126E+236,  
-
+    
                                                  -2.2453945418753555E+134,
                                                   8.5957093309297743E+301,  
                                                  -5.9598471182139549E-139  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_DifferInSize_D3');
 
@@ -767,9 +801,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_LREAL_Array3d_Equals" Id="{35a98408-a9d2-467b-ab41-be1336f4d5d1}">
       <Declaration><![CDATA[METHOD PRIVATE Test_LREAL_Array3d_Equals
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
-    b : ARRAY[1..2,4..5,6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
-END_VAR]]></Declaration>
+    a : ARRAY[-5..-4, -1..0, 0..1] OF LREAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    b : ARRAY[1..2, 4..5, 6..7] OF LREAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array3d_Equals');
 
@@ -786,7 +821,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     b : ARRAY[1..1] OF LWORD := [16#01234567890ABCDE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LWORD_Array_DifferInContent');
 
@@ -802,7 +838,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     b : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LWORD_Array_DifferInSize');
 
@@ -818,7 +855,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
     b : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LWORD_Array_Equals');
 
@@ -834,7 +872,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-8..-6] OF REAL := [42, -23, -32768];
     b : ARRAY[1..3] OF REAL := [42, 24, -32768];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array_DifferInContent');
 
@@ -851,7 +890,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-4..3] OF REAL := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
     b : ARRAY[1..5] OF REAL := [64, 98, -32768, 32767, 5478];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array_DifferInSize');
 
@@ -868,7 +908,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-5..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6];
     b : ARRAY[1..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array_Equals');
 
@@ -886,11 +927,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF REAL := [      0,                0.349414557,      0.806114793,      
                                               0.832643092,      0.676487744,      0.422208548,       
                                                0.58663553,      0.108467624,      0.153285101  ];
-                                               
+    
     b : ARRAY[1..3,0..2] OF REAL :=    [      1,               0.349414557,      0.80611479,      
                                               0.83264309,      0.67648774,      0.42220855,       
                                                0.5866355,      0.108467624,      0.153285101  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_LBOUND');
 
@@ -908,11 +950,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF REAL := [      0.555157363,      0.349414557,      0.806114793,      
                                               0.832643092,      0,                0.422208548,       
                                                0.58663553,      0.108467624,      0.153285101  ];
-                                               
+    
     b : ARRAY[1..3,0..2] OF REAL :=    [      0.555157363,      0.349414557,      0.80611479,      
                                               0.83264309,      1,                 0.42220855,       
                                                0.5866355,      0.108467624,       0.153285101  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_Middle');
 
@@ -930,11 +973,12 @@ VAR
     a : ARRAY[-5..-3,-1..1] OF REAL := [      0.555157363,      0.349414557,      0.806114793,      
                                               0.832643092,      0.676487744,      0.422208548,       
                                                0.58663553,      0.108467624,      0           ];
-                                               
+    
     b : ARRAY[1..3,0..2] OF REAL :=    [      0.555157363,      0.349414557,      0.80611479,      
                                               0.83264309,      0.67648774,      0.42220855,       
                                                0.5866355,      0.108467624,      1            ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInContent_UBOUND');
 
@@ -953,10 +997,11 @@ VAR
     a : ARRAY[-4..-2, -1..0] OF REAL := [   6.89723951E-35, 1.255877E-08,   
                                             1.31490056E+30, 1.0130173,
                                             7.50187543E-38, -698122.938  ];
-                                           
+    
     b : ARRAY[1..2, 0..1] OF REAL :=    [   6.89723951E-35, 1.255877E-08,   
                                             1.31490056E+30, 1.0130173   ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInSize_D1');
 
@@ -974,10 +1019,11 @@ METHOD PRIVATE Test_REAL_Array2d_DifferInSize_D2
 VAR
     a : ARRAY[-4..-3, -1..0] OF REAL := [   6.89723951E-35, 1.255877E-08,
                                             1.31490056E+30, 1.0130173   ];
-                                           
+    
     b : ARRAY[1..2, 0..2] OF REAL :=    [   6.89723951E-35, 1.255877E-08,   1.31490056E+30,
                                             1.0130173,      7.50187543E-38,   -698122.938  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_DifferInSize_D2');
 
@@ -992,9 +1038,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_REAL_Array2d_Equals" Id="{c2e03616-7116-4142-98e9-1cdbbf9188f6}">
       <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array2d_Equals
 VAR
-    a : ARRAY[-5..-3,-1..0] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
-    b : ARRAY[1..3,0..1] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
-END_VAR]]></Declaration>
+    a : ARRAY[-5..-3, -1..0] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5];
+    b : ARRAY[1..3, 0..1] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003];
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array2d_Equals');
 
@@ -1012,27 +1059,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0,                0.349414557,     0.806114793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       0.837357402,     0.0384598672,      
                                                     0.485841662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138025,      0.780365825,      
                                                     0.680897593,      0.451427311,     0.151570886  ];
-                                                    
+    
     b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       1,                0.349414557,     0.806116793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       0.837357402,     0.0384598672,      
                                                     0.485844662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138125,      0.780365825,      
                                                     0.680897593,      0.451427311,     0.151520886  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_LBOUND');
 
@@ -1050,27 +1098,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0.555157363,      0.349414557,     0.806114793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       0,               0.0384598672,      
                                                     0.485841662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138025,      0.780365825,      
                                                     0.680897593,      0.451427311,     0.151570886  ];
-                                                    
+    
     b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       0.555157363,      0.349414557,     0.806116793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       1,               0.0384598672,      
                                                     0.485844662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138125,      0.780365825,      
                                                     0.680897593,      0.451427311,     0.151520886  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_Middle');
 
@@ -1088,27 +1137,28 @@ VAR
     a : ARRAY[-5..-3,-1..1,0..2] OF REAL := [       0.555157363,      0.349414557,     0.806114793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       0.837357402,     0.0384598672,      
                                                     0.485841662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138025,      0.780365825,      
                                                     0.680897593,      0.451427311,     0              ];
-                                                    
+    
     b : ARRAY[1..3,3..5,6..8] OF REAL :=    [       0.555157363,      0.349414557,     0.806116793,      
                                                     0.832643092,      0.676487744,     0.422208548,       
                                                     0.58663553,       0.108467624,     0.153285101,      
-
+    
                                                     0.331847638,      0.518251598,     0.396329135,       
                                                     0.68058759,       0.837357402,     0.0384598672,      
                                                     0.485844662,      0.103918776,     0.662022889,      
-
+    
                                                     0.576529145,      0.341899037,     0.375482976,       
                                                     0.77158308,       0.64138125,      0.780365825,      
                                                     0.680897593,      0.451427311,     1              ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInContent_UBOUND');
 
@@ -1128,16 +1178,17 @@ VAR
     a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
                                                  -6.32274414E-23,   2.51930489E-20,      
                                                 -13.6131887,        6.56142373E+29,   
-
+    
                                                  -7.4229119E+36,   -1.19216618E+17,  
                                                  -1.76541143E+10,   1.06367558E+38,   
                                                   9.62853863E+24,  -1.02125985E-17  ];
-                                                  
+    
     // 1x3x2                                      
     b : ARRAY[1..1,4..6,6..7] OF REAL :=  [   4.10516757E-36,        666455872,  
                                                  -6.32274414E-23,   2.51930489E-20,      
                                                 -13.6131887,        6.56142373E+29 ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D1');
 
@@ -1157,18 +1208,19 @@ VAR
     a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
                                                  -6.32274414E-23,   2.51930489E-20,      
                                                 -13.6131887,        6.56142373E+29,   
-
+    
                                                  -7.4229119E+36,   -1.19216618E+17,  
                                                  -1.76541143E+10,   1.06367558E+38,   
                                                   9.62853863E+24,  -1.02125985E-17  ];
-
+    
     // 2x2x2                                      
     b : ARRAY[1..2,4..5,6..7] OF REAL :=  [       4.10516757E-36,        666455872,  
                                                  -6.32274414E-23,   2.51930489E-20,      
-
+    
                                                 -13.6131887,        6.56142373E+29,   
                                                  -7.4229119E+36,   -1.19216618E+17  ];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D2');
 
@@ -1188,20 +1240,21 @@ VAR
     a : ARRAY[-5..-4,1..3,-2..-1] OF REAL := [   4.10516757E-36,        666455872,  
                                                  -6.32274414E-23,   2.51930489E-20,      
                                                 -13.6131887,        6.56142373E+29,   
-
+    
                                                  -7.4229119E+36,   -1.19216618E+17,  
                                                  -1.76541143E+10,   1.06367558E+38,   
                                                   9.62853863E+24,  -1.02125985E-17  ];
-                                                  
+    
     // 2x3x1
     b : ARRAY[1..2,4..6,6..6] OF REAL :=  [       4.10516757E-36,        
                                                         666455872,  
                                                   -6.32274414E-23,
-   
+    
                                                   2.51930489E-20,      
                                                      -13.6131887,   
                                                   6.56142373E+29 ]; 
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_DifferInSize_D3');
 
@@ -1216,9 +1269,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_REAL_Array3d_Equals" Id="{ac6e988d-1d5a-4b2f-9434-494cd25e9d00}">
       <Declaration><![CDATA[METHOD PRIVATE Test_REAL_Array3d_Equals
 VAR
-    a : ARRAY[-5..-4,-1..0,0..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
-    b : ARRAY[1..2,4..5,6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
-END_VAR]]></Declaration>
+    a : ARRAY[-5..-4, -1..0, 0..1] OF REAL := [64.0, 98.1, -32768.2, 32767.3, 5478.4, -378.5, 42.6, 560344.0005];
+    b : ARRAY[1..2, 4..5, 6..7] OF REAL := [64.0001, 98.0999, -32768.1995, 32767.3001, 5478.4002, -378.5003, 42.6001, 560344.0006];
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array3d_Equals');
 
@@ -1235,7 +1289,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..0] OF SINT := [-128];
     b : ARRAY[0..0] OF SINT := [127];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_SINT_Array_DifferInContent');
 
@@ -1251,7 +1306,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..0] OF SINT := [-128];
     b : ARRAY[0..1] OF SINT := [-128, 127];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_SINT_Array_DifferInSize');
 
@@ -1267,7 +1323,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
     b : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_SINT_Array_Equals');
 
@@ -1283,7 +1340,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-5..-4] OF UDINT := [4294967295, 5];
     b : ARRAY[0..1] OF UDINT := [4294967295, 4];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UDINT_Array_DifferInContent');
 
@@ -1299,7 +1357,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-5..-4] OF UDINT := [4294967295, 0];
     b : ARRAY[0..2] OF UDINT := [4294967295, 0, 5000];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UDINT_Array_DifferInSize');
 
@@ -1315,7 +1374,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
     b : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UDINT_Array_Equals');
 
@@ -1331,7 +1391,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..3] OF UINT := [0, 4, 8, 99];
     b : ARRAY[0..3] OF UINT := [0, 4, 8, 12];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UINT_Array_DifferInContent');
 
@@ -1347,7 +1408,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..2] OF UINT := [0, 4, 8];
     b : ARRAY[0..3] OF UINT := [0, 4, 8, 12];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UINT_Array_DifferInSize');
 
@@ -1363,7 +1425,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
     b : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UINT_Array_Equals');
 
@@ -1379,7 +1442,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 9_400_000_000_000];
     b : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 18_446_744_073_709_551_615];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ULINT_Array_DifferInContent');
 
@@ -1395,7 +1459,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..1] OF ULINT := [0, 9_400_000_000_000];
     b : ARRAY[0..0] OF ULINT := [0];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ULINT_Array_DifferInSize');
 
@@ -1411,7 +1476,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
     b : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ULINT_Array_Equals');
 
@@ -1425,9 +1491,10 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_USINT_Array_DifferInContent" Id="{a21148d1-d45d-4070-b3a5-fadc62daa9f6}">
       <Declaration><![CDATA[METHOD PRIVATE Test_USINT_Array_DifferInContent
 VAR
-    a : ARRAY[0..10] OF USINT := [0,1,2,3,6(4),5];
-    b : ARRAY[0..10] OF USINT := [0,1,2,3,6(5),6];
-END_VAR]]></Declaration>
+    a : ARRAY[0..10] OF USINT := [0, 1, 2, 3, 6(4), 5];
+    b : ARRAY[0..10] OF USINT := [0, 1, 2, 3, 6(5), 6];
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_USINT_Array_DifferInContent');
 
@@ -1443,7 +1510,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..100] OF USINT := [101(42)];
     b : ARRAY[0..70] OF USINT := [71(42)];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_USINT_Array_DifferInSize');
 
@@ -1459,7 +1527,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[0..100] OF USINT := [42, 100(33)];
     b : ARRAY[0..100] OF USINT := [42, 100(33)];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_USINT_Array_Equals');
 
@@ -1475,7 +1544,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1133];
     b : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1122];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WORD_Array_DifferInContent');
 
@@ -1491,7 +1561,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..5] OF WORD := [16#0000, 16#3333, 16#5555, 16#7777, 16#BBBB];
     b : ARRAY[1..7] OF WORD := [16#0000, 16#3333, 16#5555, 16#7777, 16#BBBB, 16#FFFF, 16#1122];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WORD_Array_DifferInSize');
 
@@ -1507,7 +1578,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
     b : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WORD_Array_Equals');
 

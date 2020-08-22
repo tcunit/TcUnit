@@ -8,7 +8,8 @@
 FUNCTION_BLOCK FB_AssertEveryFailedTestTwice EXTENDS TcUnit.FB_TestSuite
 VAR
     AssertCount : USINT := 0;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TwiceAssertCall();]]></ST>
     </Implementation>
@@ -17,73 +18,74 @@ END_VAR]]></Declaration>
 VAR
     aANY : INT := 55;
     bANY : INT := 77;
-
+    
     aBOOL : BOOL := TRUE;
     bBOOL : BOOL := FALSE;
-
+    
     aBYTE : BYTE := 16#AB;
     bBYTE : BYTE := 16#BA;
-
+    
     aDATE : DATE := DATE#1996-05-06;
     bDATE : DATE := DATE#2019-01-20;
-
+    
     aDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
     bDATE_AND_TIME : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
-
+    
     aDINT : DINT := 4444;
     bDINT : DINT := 3333;
-
+    
     aDWORD : DWORD := 16#AAAAAAAA;
     bDWORD : DWORD := 16#BBBBBBBB;
-
+    
     aINT : INT := 30000;
     bINT : INT := 32000;
-
+    
     aLINT : LINT := 50000;
     bLINT : LINT := 50001;
-
+    
     aLREAL : LREAL := 33.3;
     bLREAL : LREAL := 44.4;
-
+    
     aLTIME : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
     bLTIME : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
-
+    
     aLWORD : LWORD := 16#AAAAAAAAAAAAAAAA;
     bLWORD : LWORD := 16#BBBBBBBBBBBBBBBB;
-
+    
     aREAL : REAL := 44.4;
     bREAL : REAL := 22.2;
-
+    
     aSINT : SINT := 99;
     bSINT : SINT := 10;
-
+    
     aSTRING : STRING := 'Hello world';
     bSTRING : STRING := 'Hey there';
-
+    
     aUDINT : UDINT := 249494994;
     bUDINT : UDINT := 1223;
-
+    
     aUINT : UINT := 3444;
     bUINT : UINT := 3445;
-
+    
     aULINT : ULINT := 789234475;
     bULINT : ULINT := 34523327234;
-
+    
     aUSINT : USINT := 34;
     bUSINT : USINT := 36;
-
+    
     aTIME : TIME := T#12H34M15S10MS;
     bTIME : TIME := T#11H34M13S244MS;
-
+    
     aTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
     bTIME_OF_DAY : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
-
+    
     aWORD : WORD := 16#ABCD;
     bWORD : WORD := 16#89EF;
-
-	aWSTRING : WSTRING := "åäöĦ";
+    
+    aWSTRING : WSTRING := "åäöĦ";
     bWSTRING : WSTRING := "åäöŅ";
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TwiceAssertCall');
 

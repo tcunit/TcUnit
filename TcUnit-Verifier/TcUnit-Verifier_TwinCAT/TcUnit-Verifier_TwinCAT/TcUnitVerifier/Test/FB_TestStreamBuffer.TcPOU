@@ -6,8 +6,9 @@
 *)
 FUNCTION_BLOCK FB_TestStreamBuffer EXTENDS TcUnit.FB_TestSuite
 VAR
-    Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize - 1] OF BYTE;
-END_VAR]]></Declaration>
+    Buffer : ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize - 1] OF BYTE;
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_BufferSize();
 Test_Length();
@@ -19,7 +20,8 @@ Test_CutOff();
 Test_BufferOverflow();]]></ST>
     </Implementation>
     <Method Name="Setup" Id="{661742e7-8095-416e-ad24-7ce398db0b67}">
-      <Declaration><![CDATA[METHOD PRIVATE Setup]]></Declaration>
+      <Declaration><![CDATA[METHOD PRIVATE Setup
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Clear buffer
 Tc2_System.MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
@@ -33,7 +35,8 @@ VAR
     Str2 : STRING := 'Vincit qui se vincit.  ';
     Search : STRING := 'se';
     TestResult : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Append');
 
@@ -60,11 +63,12 @@ VAR
     Str2 : STRING := 'uwxyz';
     Cpy : STRING;
     CopyLen : UDINT;
-    SmallBuffer : ARRAY [0..SMALL_BUFFER_SIZE-1] OF BYTE;
+    SmallBuffer : ARRAY [0..SMALL_BUFFER_SIZE - 1] OF BYTE;
 END_VAR
 VAR CONSTANT
     SMALL_BUFFER_SIZE : UDINT := 10;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BufferOverflow');
 
@@ -90,7 +94,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_BufferSize
 VAR
     Stream : FB_StreamBuffer;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BufferSize');
 
@@ -111,7 +116,8 @@ TEST_FINISHED();]]></ST>
 VAR
     Stream : FB_StreamBuffer;
     Str : STRING := 'vita est dolor sic ars';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Clear');
 
@@ -136,7 +142,8 @@ VAR
     Str2 : STRING := 'Vita est dolor sic ars.';
     Cpy : STRING;
     CopyLen : UDINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Copy');
 
@@ -165,7 +172,8 @@ VAR
     Length : UDINT;
     CutOff : STRING;
     Expected : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_CutOff');
 
@@ -195,7 +203,8 @@ VAR
     Str : STRING := 'Vita est dolor sic ars.';
     Search : STRING := 'dolor';
     TestResult : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Find');
 
@@ -219,7 +228,8 @@ VAR
     Stream : FB_StreamBuffer;
     Str : STRING := 'vita est dolor sic ars';
     Length : UDINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_Length');
 

@@ -4,7 +4,8 @@
     <Declaration><![CDATA[(* This test suite makes sure to create different variants of tests that will produce various extended logs, i.e. the
    ADS-logs that provide information on how many tests have finished/are successful within the test suites.
    This test suite needs to be instantiated as the second test suite in the order in order to get the ID=1 as identity. *)
-FUNCTION_BLOCK FB_ExtendedTestInformation EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_ExtendedTestInformation EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_ExtendedTestInformation_BOOL_AssertFailed();
 Test_ExtendedTestInformation_BOOL_AssertSuccess();
@@ -17,7 +18,8 @@ Test_ExtendedTestInformation_LINT_AssertSuccess();]]></ST>
 VAR
     a : BOOL := TRUE;
     b : BOOL := FALSE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ExtendedTestInformation_BOOL_AssertFailed');
 
@@ -33,7 +35,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : BOOL := TRUE;
     b : BOOL := TRUE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ExtendedTestInformation_BOOL_AssertSuccess');
 
@@ -51,7 +54,8 @@ VAR
     b : BYTE := 16#CD;
     c : BYTE := 16#EF;
     d : BYTE := 16#01;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ExtendedTestInformation_BYTE_TwoFailedAsserts');
 
@@ -71,7 +75,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LINT := -451416345;
     b : LINT := 589532453;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ExtendedTestInformation_LINT_AssertFailed');
 
@@ -87,7 +92,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LINT := -123456789;
     b : LINT := -123456789;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ExtendedTestInformation_LINT_AssertSuccess');
 

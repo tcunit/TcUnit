@@ -6,8 +6,7 @@
     produce an error message that says so. This error message should also only be printed once.
 *)
 FUNCTION_BLOCK FB_TestFinishedNamedDoesNotExist EXTENDS TcUnit.FB_TestSuite
-VAR
-END_VAR]]></Declaration>
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_FinishedNamed();]]></ST>
     </Implementation>
@@ -16,7 +15,8 @@ END_VAR]]></Declaration>
 VAR
     a : INT := 2;
     b : INT := 2;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FinishedNamed');
 

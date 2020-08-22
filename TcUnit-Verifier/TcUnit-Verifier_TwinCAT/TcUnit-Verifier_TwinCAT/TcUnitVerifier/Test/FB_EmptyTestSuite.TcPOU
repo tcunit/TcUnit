@@ -4,8 +4,7 @@
     <Declaration><![CDATA[(* This is an empty testsuite with no test cases, so that we can verify that the system still prints the
    test results. *)
 FUNCTION_BLOCK FB_EmptyTestSuite EXTENDS TcUnit.FB_TestSuite
-VAR
-END_VAR]]></Declaration>
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

@@ -4,7 +4,8 @@
     <Declaration><![CDATA[(*
     This testsuite tests the WRITE_PROTECTED_* helper functions.
 *)
-FUNCTION_BLOCK FB_WriteProtectedFunctions EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_WriteProtectedFunctions EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_WRITE_PROTECTED_BOOL();
 Test_WRITE_PROTECTED_BYTE();
@@ -32,7 +33,8 @@ Test_WRITE_PROTECTED_WSTRING();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_BOOL
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_BOOL');
 
@@ -49,7 +51,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_BYTE
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_BYTE');
 
@@ -66,7 +69,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DATE
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DATE');
 
@@ -83,7 +87,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DATE_AND_TIME
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DATE_AND_TIME');
 
@@ -100,7 +105,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DINT');
 
@@ -117,7 +123,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_DWORD
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_DWORD');
 
@@ -134,7 +141,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_INT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_INT');
 
@@ -151,7 +159,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_LINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_LINT');
 
@@ -168,7 +177,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_LREAL
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_LREAL');
 
@@ -185,7 +195,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_LWORD
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_LWORD');
 
@@ -202,7 +213,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_REAL
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_REAL');
 
@@ -219,7 +231,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_SINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_SINT');
 
@@ -236,7 +249,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_STRING
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_STRING');
 
@@ -253,7 +267,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_TIME
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_TIME');
 
@@ -270,7 +285,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_TIME_OF_DAY
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_TIME_OF_DAY');
 
@@ -287,7 +303,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_UDINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_UDINT');
 
@@ -304,7 +321,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_UINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_UINT');
 
@@ -321,7 +339,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_ULINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_ULINT');
 
@@ -338,7 +357,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_USINT
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_USINT');
 
@@ -355,7 +375,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_WORD
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_WORD');
 
@@ -372,7 +393,8 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD Test_WRITE_PROTECTED_WSTRING
 VAR
     ProtectedVariables : FB_ProtectedVariables;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WRITE_PROTECTED_WSTRING');
 

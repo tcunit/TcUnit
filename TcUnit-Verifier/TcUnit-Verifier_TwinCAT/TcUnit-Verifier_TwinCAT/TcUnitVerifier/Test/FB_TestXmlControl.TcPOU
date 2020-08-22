@@ -6,8 +6,9 @@
 *)
 FUNCTION_BLOCK FB_TestXmlControl EXTENDS TcUnit.FB_TestSuite
 VAR
-    Buffer: ARRAY[0..TcUnit.GVL_Param_TcUnit.xUnitBufferSize - 1] OF BYTE;
-END_VAR]]></Declaration>
+    Buffer : ARRAY[0..TcUnit.GVL_Param_TcUnit.xUnitBufferSize - 1] OF BYTE;
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_NewTag();
 Test_NewTagNested();
@@ -18,7 +19,8 @@ Test_CloseTag();
 Test_NewTagData();]]></ST>
     </Implementation>
     <Method Name="Setup" Id="{a523e726-082a-4e31-bdb5-31f9c8d19f4c}">
-      <Declaration><![CDATA[METHOD PRIVATE Setup]]></Declaration>
+      <Declaration><![CDATA[METHOD PRIVATE Setup
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Clear buffer
 Tc2_System.MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
@@ -33,7 +35,8 @@ VAR
     ActualBuffer : STRING;
     ExpectedResult : STRING;
     ActualResult : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_CloseOpenTag');
 
@@ -64,7 +67,8 @@ VAR
     ActualBuffer : STRING;
     ExpectedResult : STRING := '/MyTag';
     ActualResult : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_CloseTag');
 
@@ -94,7 +98,8 @@ VAR
     Comment : STRING := 'MyComment';
     ExpectedBuffer : STRING := '<!-- MyComment -->';
     ActualBuffer : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_NewComment');
 
@@ -119,7 +124,8 @@ VAR
     ParameterValue : STRING := 'Value';
     ExpectedBuffer : STRING := ' ParaName="Value"';
     ActualBuffer : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_NewParameter');
 
@@ -143,7 +149,8 @@ VAR
     TagName : STRING := 'MyTag';
     ExpectedBuffer : STRING := '<MyTag';
     ActualBuffer : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_NewTag');
 
@@ -167,7 +174,8 @@ VAR
     TagName : STRING := 'MyTag';
     ExpectedBuffer : STRING := '<MyTag>TagData';
     ActualBuffer : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_NewTagData');
 
@@ -195,7 +203,8 @@ VAR
     Tag4Name : STRING := 'MyTag4';
     ExpectedBuffer : STRING := '<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>';
     ActualBuffer : STRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_NewTagNested');
 
