@@ -1,6 +1,8 @@
 using EnvDTE80;
 using log4net;
 using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using TCatSysManagerLib;
 
@@ -53,7 +55,7 @@ namespace TcUnit.Verifier
                 log.Error(message);
                 throw;
             }
-            
+
             if (!String.IsNullOrEmpty(@filePath))
             {
                 try
@@ -64,7 +66,7 @@ namespace TcUnit.Verifier
                 catch (Exception e)
                 {
                     string message = string.Format(
-                        "{0} Error loading solution at \"{1}\". Is the path correct?", 
+                        "{0} Error loading solution at \"{1}\". Is the path correct?",
                         e.Message, filePath);
                     log.Error(message);
                     throw;
@@ -93,34 +95,28 @@ namespace TcUnit.Verifier
         private string FindVisualStudioVersion()
         {
             /* Find visual studio version */
-            string line;
-            string vsVersion = null;
-
-            System.IO.StreamReader file = new System.IO.StreamReader(@filePath);
-            while ((line = file.ReadLine()) != null)
+            string file;
+            try
             {
-                if (line.StartsWith("VisualStudioVersion"))
-                {
-                    string version = line.Substring(line.LastIndexOf('=') + 2);
-                    //log.Info("In Visual Studio solution file, found visual studio version " + version);
-                    string[] numbers = version.Split('.');
-                    string major = numbers[0];
-                    string minor = numbers[1];
-
-                    int n;
-                    int n2;
-
-                    bool isNumericMajor = int.TryParse(major, out n);
-                    bool isNumericMinor = int.TryParse(minor, out n2);
-
-                    if (isNumericMajor && isNumericMinor)
-                    {
-                        vsVersion = major + "." + minor;
-                    }
-                }
+                file = File.ReadAllText(@filePath);
             }
-            file.Close();
-            return vsVersion;
+            catch (ArgumentException)
+            {
+                return null;
+            }
+
+            string pattern = @"^VisualStudioVersion\s+=\s+(?<version>\d+\.\d+)";
+            Match match = Regex.Match(file, pattern, RegexOptions.Multiline);
+
+            if (match.Success)
+            {
+                log.Info("In Visual Studio solution file, found visual studio version " + match.Groups[1].Value);
+                return match.Groups[1].Value;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void LoadDevelopmentToolsEnvironment(string visualStudioVersion)
@@ -131,7 +127,7 @@ namespace TcUnit.Verifier
             string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
             type = System.Type.GetTypeFromProgID(VisualStudioProgId);
             log.Info("Loading the Visual Studio Development Tools Environment (DTE)...");
-            dte = (EnvDTE80.DTE2) System.Activator.CreateInstance(type);
+            dte = (EnvDTE80.DTE2)System.Activator.CreateInstance(type);
             dte.UserControl = false; // have devenv.exe automatically close when launched using automation
             dte.SuppressUI = true;
             dte.ToolWindows.ErrorList.ShowErrors = true;

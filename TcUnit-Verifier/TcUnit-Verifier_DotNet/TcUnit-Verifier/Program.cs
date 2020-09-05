@@ -19,7 +19,7 @@ namespace TcUnit.Verifier
         private static int expectedNumberOfFailedTests = 115; // Update this if you add intentionally failing tests
 
         [STAThread]
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
             bool showHelp = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelKeyPressHandler);
@@ -39,21 +39,21 @@ namespace TcUnit.Verifier
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Try `TcUnit-Verifier --help' for more information.");
-                return Constants.RETURN_ERROR;
+                Environment.Exit(Constants.RETURN_ERROR);
             }
 
             /* Make sure the user has supplied the path for the Visual Studio solution file.
-            * Also verify that this file exists.
+            *  Also verify that this file exists.
             */
             if (showHelp || tcUnitVerifierPath == null)
             {
                 DisplayHelp(options);
-                return Constants.RETURN_ERROR;
+                Environment.Exit(Constants.RETURN_ERROR);
             }
             if (!File.Exists(tcUnitVerifierPath))
             {
                 log.Error("TcUnit-verifier solution " + tcUnitVerifierPath + " does not exist.");
-                return Constants.RETURN_ERROR;
+                Environment.Exit(Constants.RETURN_ERROR);
             }
 
             MessageFilter.Register();
@@ -68,14 +68,14 @@ namespace TcUnit.Verifier
             {
                 log.Error("Solution load failed");  // Detailed error messages output by vsInstance.Load()
                 CleanUp();
-                return Constants.RETURN_ERROR;
+                Environment.Exit(Constants.RETURN_ERROR);
             }
 
             if (vsInstance.GetVisualStudioVersion() == null)
             {
                 log.Error("Did not find Visual studio version in Visual studio solution file.");
                 CleanUp();
-                return Constants.RETURN_ERROR;
+                Environment.Exit(Constants.RETURN_ERROR);
             }
 
             log.Info("Cleaning and building TcUnit-Verifier_TwinCAT solution...");
@@ -187,7 +187,7 @@ namespace TcUnit.Verifier
 
             CleanUp();
 
-            return Constants.RETURN_SUCCESSFULL;
+            Environment.Exit(Constants.RETURN_SUCCESSFULL);
         }
 
         private static void DisplayHelp(OptionSet p)

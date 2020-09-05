@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
@@ -83,7 +83,10 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
 END_IF
 
 (* If all test suites have finished running, store the general test results *)
-IF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
+IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
+    StoredGeneralTestResults := TRUE;
+    StoredTestSuiteResults := TRUE;
+ELSIF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND
    GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND StoredTestSuiteResults AND (NOT StoredGeneralTestResults) THEN
     TestSuiteResults.NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
     FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
@@ -109,5 +112,17 @@ METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
         <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_TestResults">
+      <LineId Id="3" Count="59" />
+      <LineId Id="94" Count="2" />
+      <LineId Id="63" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetAreTestResultsAvailable">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetTestSuiteResults">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
