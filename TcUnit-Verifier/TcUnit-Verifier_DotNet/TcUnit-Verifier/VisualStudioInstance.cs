@@ -137,7 +137,7 @@ namespace TcUnit.Verifier
             tcAutomationSettings.SilentMode = true;
             // Uncomment this if you want to run a specific version of TwinCAT
             ITcRemoteManager remoteManager = dte.GetObject("TcRemoteManager");
-            remoteManager.Version = "3.1.4022.30";
+            remoteManager.Version = "3.1.4022.32";
         }
 
         private void LoadSolution(string filePath)

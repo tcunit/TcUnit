@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AdsTestResultLogger" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block reports the results from the tests using the built-in ADSLOGSTR functionality
@@ -98,7 +98,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             ELSE
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_PASS);
 			END_IF
-            
+
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', number of asserts=');
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
                                                  UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts));
@@ -120,9 +120,9 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                                     StrArg := F_AssertionTypeToString(AssertionType :=
                                                         TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType));
             END_IF
-            
+
 		END_FOR
-        
+
         IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             PrintedTestSuitesResults := TRUE;
         ELSE
@@ -133,8 +133,8 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
 END_IF
 
 (* Log end results once all test suites have finished running *)
-IF ( GVL_TcUnit.NumberOfInitializedTestSuites = 0 OR PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites )
-AND NOT PrintedFinalTestResults AND TestResults.GetAreTestResultsAvailable() THEN
+IF (GVL_TcUnit.NumberOfInitializedTestSuites = 0 OR PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites)
+    AND NOT PrintedFinalTestResults AND TestResults.GetAreTestResultsAvailable() THEN
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '%s',
                                         StrArg := '| ==========TESTS FINISHED RUNNING==========');
@@ -157,17 +157,5 @@ AND NOT PrintedFinalTestResults AND TestResults.GetAreTestResultsAvailable() THE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AdsTestResultLogger">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.FB_init">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.LogTestSuiteResults">
-      <LineId Id="3" Count="85" />
-      <LineId Id="119" Count="1" />
-      <LineId Id="90" Count="18" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
