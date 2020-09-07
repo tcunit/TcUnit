@@ -4,7 +4,8 @@
     <Declaration><![CDATA[(* This testsuite tests the function block FB_AdjustAssertFailureMessageToMax255CharLength_Test
    The total printed message can not be more than 253 characters long.
 *)
-FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax253CharLengthTest EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax253CharLengthTest EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestInstancePath253CharsExpectTooLongTestInstancePath();
 TestInstancePath221CharsExpectShortenedTestInstancePath();
@@ -14,19 +15,20 @@ TestInstancePath255CharsExpectTooLongTestInstancePath();]]></ST>
       <Declaration><![CDATA[METHOD TestInstancePath221CharsExpectShortenedTestInstancePath
 VAR
     AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
-
+    
     // @Text-Fixture
     TestInstancePathNameWith221Chars : Tc2_System.T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELON';
     TooLongTestMessage60Chars : Tc2_System.T_MaxString := 'Very long message that is 60 characters long which means tha';
     
     // @Test-Result-Expected
     // 221 + 32 = 253 (in other words, expected test message should be 32 characters long including '...TestMsg too long'
-    TestMessageResultExpected : Tc2_System.T_MaxString := 'Very long mes...TestMsg too long'; 
-
+    TestMessageResultExpected : Tc2_System.T_MaxString := 'Very long mes...TestMsg too long';
+    
     // @Test-Result
     TestInstancePathResult : Tc2_System.T_MaxString;
     TestMessageResult : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TestInstancePath221CharsExpectShortenedTestInstancePath');
 
@@ -51,19 +53,20 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE TestInstancePath253CharsExpectTooLongTestInstancePath
 VAR
     AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
-
+    
     // @Text-Fixture
     TestInstancePathNameWith253Chars : Tc2_System.T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAM';
     ShortTestMessage : Tc2_System.T_MaxString := 'Very short message';
-
+    
     // @Test-Result-Expected
     TestInstancePathNameWith253CharsExpectedResult : Tc2_System.T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELON...TestName too long';
     ShortTestMessageExpectedResult : Tc2_System.T_MaxString := '';
-
+    
     // @Test-Result
     TestInstancePathNameWith253CharsResult : Tc2_System.T_MaxString;
     ShortTestMessageResult : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TestInstancePath253CharsExpectTooLongTestInstancePath');
 
@@ -87,15 +90,15 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE TestInstancePath255CharsExpectTooLongTestInstancePath
 VAR
     AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
-
+    
     // @Text-Fixture
     TestInstancePathNameWith255Chars : Tc2_System.T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAGAV';
     ShortTestMessage : Tc2_System.T_MaxString := 'Very short message';
-
+    
     // @Test-Result-Expected
     TestInstancePathNameWith253CharsExpectedResult : Tc2_System.T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELON...TestName too long';
     ShortTestMessageExpectedResult : Tc2_System.T_MaxString := '';
-
+    
     // @Test-Result
     TestInstancePathNameWith253CharsResult : Tc2_System.T_MaxString;
     ShortTestMessageResult : Tc2_System.T_MaxString;

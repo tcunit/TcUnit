@@ -5,7 +5,8 @@
     This testsuite runs two tests. One that is enabled (and that is supposed to fail), and one that is disabled (and
     even though it also is failing is not supposed to run).
 *)
-FUNCTION_BLOCK FB_CreateDisabledTest EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_CreateDisabledTest EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestEnabled();
 TestDisabled();]]></ST>

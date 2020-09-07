@@ -10,7 +10,8 @@
     For every failing test the printed value should be the same as if we were using the primitive data type assert
     directly. 
 *)
-FUNCTION_BLOCK FB_AnyPrimitiveTypes EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_AnyPrimitiveTypes EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_ANY_BYTE_Equals();
 Test_ANY_BYTE_Differ();
@@ -64,7 +65,8 @@ Test_ANY_WSTRING_Differ_2();]]></ST>
 VAR
     a : BOOL := TRUE;
     b : BOOL := FALSE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BOOL_Differ');
 
@@ -80,7 +82,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : BOOL := TRUE;
     b : BOOL := TRUE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BOOL_Equals');
 
@@ -96,7 +99,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : BYTE := 16#AB;
     b : BYTE := 16#CD;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BYTE_Differ');
 
@@ -112,7 +116,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : BYTE := 16#CD;
     b : BYTE := 16#CD;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_BYTE_Equals');
 
@@ -128,7 +133,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
     b : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Differ');
 
@@ -144,7 +150,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
     b : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_AND_TIME_Equals');
 
@@ -160,7 +167,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DATE := DATE#1996-05-06;
     b : DATE := DATE#2019-01-20;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_Differ');
 
@@ -176,7 +184,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DATE := DATE#1996-05-06;
     b : DATE := DATE#1996-05-06;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DATE_Equals');
 
@@ -192,7 +201,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DINT := -55555;
     b : DINT := 70000;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DINT_Differ');
 
@@ -208,7 +218,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DINT := -80000;
     b : DINT := -80000;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DINT_Equals');
 
@@ -224,7 +235,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DWORD_Differ');
 
@@ -240,7 +252,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : DWORD := 16#7890ABCD;
     b : DWORD := 16#7890ABCD;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_DWORD_Equals');
 
@@ -256,7 +269,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : INT := -32000;
     b : INT := 15423;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_INT_Differ');
 
@@ -272,7 +286,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : INT := -12345;
     b : INT := -12345;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_INT_Equals');
 
@@ -288,7 +303,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LINT := -451416345;
     b : LINT := 589532453;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LINT_Differ');
 
@@ -304,7 +320,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LINT := -123456789;
     b : LINT := -123456789;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LINT_Equals');
 
@@ -320,7 +337,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.76;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LREAL_Differ');
 
@@ -336,7 +354,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.89;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LREAL_Equals');
 
@@ -352,7 +371,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
     b : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LTIME_Differ');
 
@@ -368,7 +388,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
     b : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LTIME_Equals');
 
@@ -384,7 +405,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LWORD := 16#0123656789ABCBEC;
     b : LWORD := 16#0123256789ABCAEE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LWORD_Differ');
 
@@ -400,7 +422,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LWORD := 16#0123456789ABCDEF;
     b : LWORD := 16#0123456789ABCDEF;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LWORD_Equals');
 
@@ -416,7 +439,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.4;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_REAL_Differ');
 
@@ -432,7 +456,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.5;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_REAL_Equals');
 
@@ -448,7 +473,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : SINT := 127;
     b : SINT := -30;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_SINT_Differ');
 
@@ -464,7 +490,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : SINT := -128;
     b : SINT := -128;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_SINT_Equals');
 
@@ -480,7 +507,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : STRING := 'This is a string';
     b : STRING := 'This is another string';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_STRING_Differ');
 
@@ -496,7 +524,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : STRING := 'This is a string';
     b : STRING := 'This is b string';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_STRING_Differ_2');
 
@@ -512,7 +541,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : STRING := 'Hello there';
     b : STRING := 'Hello there';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_STRING_Equals');
 
@@ -528,7 +558,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : TIME := T#12H34M15S10MS;
     b : TIME := T#11H34M13S244MS;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_Differ');
 
@@ -544,7 +575,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : TIME := T#11H34M13S244MS;
     b : TIME := T#11H34M13S244MS;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_Equals');
 
@@ -560,7 +592,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
     b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Differ');
 
@@ -576,7 +609,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
     b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_TIME_OF_DAY_Equals');
 
@@ -592,7 +626,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : UDINT := 34124214;
     b : UDINT := 52343244;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UDINT_Differ');
 
@@ -608,7 +643,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : UDINT := 21845123;
     b : UDINT := 21845123;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UDINT_Equals');
 
@@ -624,7 +660,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : UINT := 64322;
     b : UINT := 32312;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UINT_Differ');
 
@@ -640,7 +677,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : UINT := 65535;
     b : UINT := 65535;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_UINT_Equals');
 
@@ -656,7 +694,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ULINT := 10000;
     b : ULINT := 53685437234;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_ULINT_Differ');
 
@@ -672,7 +711,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ULINT := 45683838383;
     b : ULINT := 45683838383;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_ULINT_Equals');
 
@@ -688,7 +728,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : USINT := 3;
     b : USINT := 7;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_USINT_Differ');
 
@@ -704,7 +745,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : USINT := 5;
     b : USINT := 5;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_USINT_Equals');
 
@@ -720,7 +762,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : WORD := 16#EF01;
     b : WORD := 16#2345;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WORD_Differ');
 
@@ -736,7 +779,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : WORD := 16#ABCD;
     b : WORD := 16#ABCD;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WORD_Equals');
 
@@ -752,7 +796,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : WSTRING := "äö";
     b : WSTRING := "æå";
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WSTRING_Differ');
 
@@ -768,7 +813,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : WSTRING := "äö◦";
     b : WSTRING := "æå";
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WSTRING_Differ_2');
 
@@ -784,7 +830,8 @@ TEST_FINISHED();]]></ST>
 VAR
     a : WSTRING := "ĠĦ";
     b : WSTRING := "ĠĦ";
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_WSTRING_Equals');
 

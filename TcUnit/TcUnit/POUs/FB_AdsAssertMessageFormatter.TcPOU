@@ -6,7 +6,8 @@
     ADSLOGSTR functionality provided by the Tc2_System library. This sends the result using ADS, which
     is consumed by the error list of Visual Studio.
 *)
-FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]]></Declaration>
+FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -25,7 +26,8 @@ VAR
     ReturnValue : DINT;
     TestInstancePathProcessed : Tc2_System.T_MaxString;
     MessageProcessed : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
 TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);

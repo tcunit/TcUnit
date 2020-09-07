@@ -9,24 +9,25 @@
 FUNCTION_BLOCK FB_AdsTestResultLogger IMPLEMENTS I_TestResultLogger
 VAR
     TestResults : I_TestResults;
-
+    
     PrintingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     PrintingTestSuiteTrigger : Tc2_Standard.R_TRIG;
-
+    
     (* This flag is set once the final end result has printed *)
     PrintedFinalTestResults : BOOL;
-
+    
     (* This flag is set once the test suites result have been printed *)
     PrintedTestSuitesResults : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{351baac4-80f0-4844-87bd-6da6e16d230c}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
     iTestResults : I_TestResults;
 END_VAR
 ]]></Declaration>
@@ -38,14 +39,15 @@ END_VAR
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR
     TcUnitTestResults : REFERENCE TO ST_TestSuiteResults;
-    StringToPrint : Tc2_System.T_MaxString; 
+    StringToPrint : Tc2_System.T_MaxString;
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR
 VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
     TEST_STATUS_PASS : STRING := 'PASS';
     TEST_STATUS_FAIL : STRING := 'FAIL';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TcUnitTestResults REF= TestResults.GetTestSuiteResults();
 

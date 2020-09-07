@@ -8,7 +8,8 @@ END_VAR
 VAR
     CharacterPositionOfProjectName : INT;
     ProjectNameWithDot : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Add the '.' character to the project name for search *)
 ProjectNameWithDot := Tc2_Standard.CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');

@@ -8,17 +8,18 @@ FUNCTION_BLOCK FB_xUnitXmlPublisher IMPLEMENTS I_TestResultLogger
 VAR
     // Dependancy Injection via FB_Init
     TestResults : I_TestResults;
-
+    
     // File access mode
     AccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
-
+    
     File : FB_FileControl;
     Xml : FB_XMLControl;
     BufferInitialised : BOOL := FALSE;
     Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize - 1)] OF BYTE;
     WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     PublishTrigger : Tc2_Standard.R_TRIG;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -27,7 +28,8 @@ END_VAR]]></Declaration>
     Deletes the former file (if it exists).
     Opens the file, writes the buffer and closes it.
 *)
-METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
+METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;   
 IF Initialised() THEN
@@ -47,12 +49,13 @@ END_IF;]]></ST>
     methods explicitly and provide additional code there with the standard initialization
     code. You can evaluate the return value.
 *)
-METHOD FB_Init: BOOL
+METHOD FB_Init : BOOL
 VAR_INPUT
-    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
-    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+    bInitRetains : BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode : BOOL; // TRUE: the instance will be copied to the copy code afterward (online change)
     iTestResults : I_TestResults; // Interface dependency injection
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Set buffer and flag
 Xml.SetBuffer(PointerToBuffer := ADR(Buffer), SizeOfBuffer := SIZEOF(Buffer));
@@ -65,7 +68,8 @@ TestResults := iTestResults;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialised" Id="{dac11801-83e2-4726-b3a7-dcd7f73621e3}">
-      <Declaration><![CDATA[METHOD PRIVATE Initialised : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD PRIVATE Initialised : BOOL
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[Initialised := THIS^.BufferInitialised;]]></ST>
       </Implementation>
@@ -74,7 +78,7 @@ TestResults := iTestResults;]]></ST>
       <Declaration><![CDATA[(*
     This method is responsible for the entire generation of the output file. 
     The output of the xml writer is NOT beautified.
-    
+
     When new data is available, feel free to add it to the report
 *)
 METHOD PUBLIC LogTestSuiteResults
@@ -87,7 +91,8 @@ VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
     TEST_STATUS_PASS : STRING := 'PASS';
     TEST_STATUS_FAIL : STRING := 'FAIL';
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[UnitTestResults REF=TestResults.GetTestSuiteResults();
 

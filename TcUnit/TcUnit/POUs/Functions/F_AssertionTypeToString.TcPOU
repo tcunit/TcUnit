@@ -6,7 +6,8 @@
 FUNCTION F_AssertionTypeToString : Tc2_System.T_MaxString
 VAR_INPUT
     AssertionType : E_AssertionType;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE AssertionType OF
     E_AssertionType.Type_UNDEFINED :

@@ -5,7 +5,8 @@
 VAR_INPUT
     Ptr : POINTER TO ULINT;
     Value : ULINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>

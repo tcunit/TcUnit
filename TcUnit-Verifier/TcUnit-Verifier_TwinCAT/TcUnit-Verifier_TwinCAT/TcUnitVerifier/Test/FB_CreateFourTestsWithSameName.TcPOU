@@ -5,7 +5,8 @@
     This testsuite creates four tests in the same testsuite with the same name. Every test in a testsuite should have
     an unique name. Every assert should be ignored if a duplicate test is being run.
 *)
-FUNCTION_BLOCK FB_CreateFourTestsWithSameName EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_CreateFourTestsWithSameName EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestOne();
 TestOne_Again();

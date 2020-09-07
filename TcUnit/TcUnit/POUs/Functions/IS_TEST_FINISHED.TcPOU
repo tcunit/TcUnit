@@ -9,7 +9,8 @@ END_VAR
 VAR
     Counter : UINT;
     CurrentTest : FB_Test;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[IS_TEST_FINISHED := FALSE;
 

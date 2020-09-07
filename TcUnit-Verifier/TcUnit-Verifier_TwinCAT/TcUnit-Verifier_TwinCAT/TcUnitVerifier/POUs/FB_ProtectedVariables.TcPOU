@@ -52,7 +52,8 @@ VAR
     VarUSINT : USINT;
     VarWORD : WORD;
     VarWSTRING : WSTRING;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

@@ -8,30 +8,32 @@ FUNCTION_BLOCK FB_TcUnitRunner
 VAR
     (* Indication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
-
+    
     (* Test result information *)
     TestResults : FB_TestResults;
-
+    
     (* Prints the results to ADS so that Visual Studio can display the results.
        This test result formatter can be replaced with something else than ADS *)
     AdsTestResultLogger : FB_AdsTestResultLogger(TestResults);
     TestResultLogger : I_TestResultLogger := AdsTestResultLogger;
-
+    
     (* If this flag is set, it means that some external event triggered the
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
-
+    
     (* Publishes a xUnit compatible XML file *)
     xUnitXmlPublisher : FB_xUnitXmlPublisher(TestResults);
     XmlTestResultPublisher : I_TestResultLogger := xUnitXmlPublisher;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AbortRunningTestSuiteTests" Id="{3fcbd569-749a-493c-a697-2c976fa6e96a}">
       <Declaration><![CDATA[(* This function sets a flag which makes the runner stop running the tests
    in the test suites *)
-METHOD PUBLIC AbortRunningTestSuiteTests]]></Declaration>
+METHOD PUBLIC AbortRunningTestSuiteTests
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[AbortRunningTestSuites := TRUE;]]></ST>
       </Implementation>
@@ -46,7 +48,8 @@ VAR
        The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
        are finished (which might take many cycles), do we gather correct statistics *)
     NumberOfTestSuitesFinished : UINT := 0;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Run TcUnit test suites *)
 IF NOT AllTestSuitesFinished THEN

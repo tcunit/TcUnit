@@ -4,8 +4,7 @@
     <Declaration><![CDATA[(* This function blocks tests the TEST_FINISHED_NAMED function by creating various tests
    and finishing them in steps *)
 FUNCTION_BLOCK FB_TestFinishedNamed EXTENDS TcUnit.FB_TestSuite
-VAR
-END_VAR]]></Declaration>
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>

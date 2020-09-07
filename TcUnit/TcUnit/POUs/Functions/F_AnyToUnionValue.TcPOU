@@ -6,7 +6,8 @@ VAR_INPUT
     AnySize : UDINT;
     AnyTypeClass : IBaseLibrary.TypeClass;
     AnyValue : POINTER TO BYTE;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE AnyTypeClass OF
     IBaseLibrary.TypeClass.TYPE_BOOL :

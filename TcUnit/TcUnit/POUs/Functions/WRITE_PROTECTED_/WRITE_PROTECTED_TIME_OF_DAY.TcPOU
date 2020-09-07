@@ -5,7 +5,8 @@
 VAR_INPUT
     Ptr : POINTER TO TIME_OF_DAY;
     Value : TIME_OF_DAY;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>

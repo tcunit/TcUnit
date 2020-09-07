@@ -5,7 +5,8 @@
 VAR_INPUT
     Ptr : POINTER TO WORD;
     Value : WORD;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Ptr^ := Value;]]></ST>
     </Implementation>

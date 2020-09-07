@@ -4,12 +4,14 @@
     <Declaration><![CDATA[(*
     Verifies that the function IS_TEST_FINISHED('Name') works as intended.
 *)
-FUNCTION_BLOCK FB_CheckIfSpecificTestIsFinished EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_CheckIfSpecificTestIsFinished EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[CheckBeforeAndAfterFinishing();]]></ST>
     </Implementation>
     <Method Name="CheckBeforeAndAfterFinishing" Id="{bc4e3608-724f-4d4e-ad3f-c0950dd8383e}">
-      <Declaration><![CDATA[METHOD CheckBeforeAndAfterFinishing]]></Declaration>
+      <Declaration><![CDATA[METHOD CheckBeforeAndAfterFinishing
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('CheckBeforeAndAfterFinishing');
 

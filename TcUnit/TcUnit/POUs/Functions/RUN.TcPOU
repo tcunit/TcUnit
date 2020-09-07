@@ -4,7 +4,8 @@
     <Declaration><![CDATA[(*
     This function runs all test suites that have been initialized.
 *)
-FUNCTION RUN]]></Declaration>
+FUNCTION RUN
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[GVL_TcUnit.TcUnitRunner.RunTestSuiteTests();]]></ST>
     </Implementation>

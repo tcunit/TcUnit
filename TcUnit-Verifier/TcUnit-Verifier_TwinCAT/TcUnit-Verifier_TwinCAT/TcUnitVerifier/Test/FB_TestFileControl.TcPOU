@@ -4,7 +4,8 @@
     <Declaration><![CDATA[(*
     Contains tests that verify the FileControl function block methods
 *)
-FUNCTION_BLOCK FB_TestFileControl EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_TestFileControl EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_FileRead();
 Test_FileOpen();
@@ -19,7 +20,8 @@ VAR
     TestFile : STRING := 'Test_FileClose.txt';
     Mode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
     Actual : SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FileClose');
 
@@ -42,7 +44,8 @@ VAR
     TestFile : STRING := 'Test_FileDelete.txt';
     Mode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
     Actual : SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FileDelete');
 
@@ -64,7 +67,8 @@ VAR
     TestFile : STRING := 'Test_FileOpen.txt';
     Mode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
     Actual : SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FileOpen');
 
@@ -90,7 +94,8 @@ VAR
     FileSize : SysFile.SysTypes.RTS_IEC_SIZE;
     WriteContents : STRING(64) := '0KflxSh6C%ixPs8ReCPwFuJu)D$p*qfi66iTj&YKMdpq*EGBGiwgAsOs1s(dci';
     ReadContents : STRING(64);
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FileRead');
 
@@ -119,7 +124,8 @@ VAR
     TestFile : STRING := 'Test_FileWrite.txt';
     Mode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
     Actual : SysFile.SysTypes.RTS_IEC_RESULT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_FileWrite');
 

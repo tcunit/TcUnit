@@ -6,7 +6,8 @@
     by making sure that every assert-method (assert_true & assert_false) does both one failing and one successful
     assert.
 *)
-FUNCTION_BLOCK FB_AssertTrueFalse EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+FUNCTION_BLOCK FB_AssertTrueFalse EXTENDS TcUnit.FB_TestSuite
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[AssertThatINTsAreEqual();
 AssertThatINTsAreNotEqual();

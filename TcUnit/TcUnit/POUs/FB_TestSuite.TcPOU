@@ -13,13 +13,13 @@ VAR
     {attribute 'instance-path'}
     {attribute 'noinit'}
     InstancePath : Tc2_System.T_MaxString;
-
+    
     (* We need to have access to specific information of the current task that this test suite
        is executed in. This is for instance necessary when we need to know whether a test is
        defined already. The definition of a test that is defined already is that we call on it
        with the same name twice in the same cycle *)
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
-
+    
     NumberOfTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) := 0;
     Tests : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF FB_Test;
     (* Rising trigger of whether we have already notified the user of that the test name pointed to by the current
@@ -28,15 +28,16 @@ VAR
     (* Last cycle count index for a specific test. Used to detect whether this test has already been defined in the
        current test suite *)
     TestCycleCountIndex : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF UDINT;
-
+    
     AssertResults : FB_AssertResultStatic;
     AssertArrayResults : FB_AssertArrayResultStatic;
-
+    
     (* Prints the failed asserts to ADS so that Visual Studio can display the assert message.
        This assert formatter can be replaced with something else than ADS *)
     AdsAssertMessageFormatter : FB_AdsAssertMessageFormatter;
     AssertMessageFormatter : I_AssertMessageFormatter := AdsAssertMessageFormatter;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
@@ -55,7 +56,8 @@ VAR
     LowerCasedTestName : Tc2_System.T_MaxString;
     TrimmedTestName : Tc2_System.T_MaxString;
     IgnoreCurrentTestCase : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.IgnoreCurrentTest := FALSE; // Reset the ignore current test flag
 
@@ -125,7 +127,8 @@ VAR_INPUT
 END_VAR
 VAR
     CompleteTestInstancePath : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[CompleteTestInstancePath := Tc2_Utilities.CONCAT(STR1 := TestInstancePath, STR2 := '@');
 AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePath, STR2 := GVL_TcUnit.CurrentTestNameBeingCalled);]]></ST>
@@ -135,9 +138,10 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
       <Declaration><![CDATA[METHOD PUBLIC AreAllTestsFinished : BOOL
 VAR
     Counter : UINT;
-
+    
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[AreAllTestsFinished := FALSE;
 
@@ -163,8 +167,8 @@ END_IF]]></ST>
 *)
 METHOD PUBLIC AssertArray2dEquals_LREAL
 VAR_IN_OUT
-    Expecteds : ARRAY[*,*] OF LREAL; // LREAL 2d array with expected values
-    Actuals : ARRAY[*,*] OF LREAL; // LREAL 2d array with actual values
+    Expecteds : ARRAY[*, *] OF LREAL; // LREAL 2d array with expected values
+    Actuals : ARRAY[*, *] OF LREAL; // LREAL 2d array with actual values
 END_VAR
 VAR_INPUT
     Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
@@ -189,7 +193,8 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -317,8 +322,8 @@ END_IF]]></ST>
 *)
 METHOD PUBLIC AssertArray2dEquals_REAL
 VAR_IN_OUT
-    Expecteds : ARRAY[*,*] OF REAL; // REAL 2d array with expected values
-    Actuals : ARRAY[*,*] OF REAL; // REAL 2d array with actual values
+    Expecteds : ARRAY[*, *] OF REAL; // REAL 2d array with expected values
+    Actuals : ARRAY[*, *] OF REAL; // REAL 2d array with actual values
 END_VAR
 VAR_INPUT
     Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
@@ -343,7 +348,8 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : REAL; // Single expected value
     Actual : REAL; // Single actual value
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -471,8 +477,8 @@ END_IF]]></ST>
 *)
 METHOD PUBLIC AssertArray3dEquals_LREAL
 VAR_IN_OUT
-    Expecteds : ARRAY[*,*,*] OF LREAL; // LREAL 3d array with expected values
-    Actuals : ARRAY[*,*,*] OF LREAL; // LREAL 3d array with actual values
+    Expecteds : ARRAY[*, *, *] OF LREAL; // LREAL 3d array with expected values
+    Actuals : ARRAY[*, *, *] OF LREAL; // LREAL 3d array with actual values
 END_VAR
 VAR_INPUT
     Delta : LREAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
@@ -485,7 +491,7 @@ VAR
     ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-    DimensionIndex : USINT;  // Index when looping through Dimensions
+    DimensionIndex : USINT; // Index when looping through Dimensions
     LowerBoundExpecteds : ARRAY[1..3] OF DINT; // Lower bounds of Expecteds array in each dimension
     UpperBoundExpecteds : ARRAY[1..3] OF DINT; // Upper bounds of Expecteds array in each dimension
     LowerBoundActuals : ARRAY[1..3] OF DINT; // Lower bounds of Actuals array in each dimension
@@ -497,7 +503,8 @@ VAR
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -652,8 +659,8 @@ END_IF]]></ST>
 *)
 METHOD PUBLIC AssertArray3dEquals_REAL
 VAR_IN_OUT
-    Expecteds : ARRAY[*,*,*] OF REAL; // REAL 3d array with expected values
-    Actuals : ARRAY[*,*,*] OF REAL; // REAL 3d array with actual values
+    Expecteds : ARRAY[*, *, *] OF REAL; // REAL 3d array with expected values
+    Actuals : ARRAY[*, *, *] OF REAL; // REAL 3d array with actual values
 END_VAR
 VAR_INPUT
     Delta : REAL; // The maximum delta between the value of expected and actual for which both numbers are still considered equal, proportional to the expected value in that array cell
@@ -666,7 +673,7 @@ VAR
     ActualString : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-    DimensionIndex : USINT;  // Index when looping through Dimensions
+    DimensionIndex : USINT; // Index when looping through Dimensions
     LowerBoundExpecteds : ARRAY[1..3] OF DINT; // Lower bounds of Expecteds array in each dimension
     UpperBoundExpecteds : ARRAY[1..3] OF DINT; // Upper bounds of Expecteds array in each dimension
     LowerBoundActuals : ARRAY[1..3] OF DINT; // Lower bounds of Actuals array in each dimension
@@ -681,7 +688,8 @@ VAR
     ExpectedValueString : Tc2_System.T_MaxString;
     ActualValueString : Tc2_System.T_MaxString;
     FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -854,7 +862,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -946,7 +955,8 @@ VAR
     ActualByteString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1045,7 +1055,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1137,7 +1148,8 @@ VAR
     ActualDWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1235,7 +1247,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1325,7 +1338,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1416,7 +1430,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1508,7 +1523,8 @@ VAR
     ActualLWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1607,7 +1623,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1697,7 +1714,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1787,7 +1805,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1878,7 +1897,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -1968,7 +1988,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2058,7 +2079,8 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2150,7 +2172,8 @@ VAR
     ActualDWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2242,7 +2265,7 @@ VAR
     ActualDataString : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-
+    
     boolExpected : BOOL;
     boolActual : BOOL;
     byteExpected : BYTE;
@@ -2287,13 +2310,14 @@ VAR
     usintActual : USINT;
     wordExpected : WORD;
     wordActual : WORD;
-
+    
     (* ANY comparison variables *)
     DataTypesNotEquals : BOOL; // The data type of the two ANY input parameters are not equal
     DataSizeNotEquals : BOOL; // The data size of the two ANY input parameters are not equal
     DataContentNotEquals : BOOL; // The data content of the two ANY input parameters are not equal
     IteratorCounter : DINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2604,7 +2628,8 @@ END_VAR
 VAR
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2646,7 +2671,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2696,7 +2722,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2738,7 +2765,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2780,7 +2808,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2822,7 +2851,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2872,7 +2902,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2914,7 +2945,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2957,7 +2989,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -2999,7 +3032,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3041,7 +3075,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3086,13 +3121,14 @@ METHOD PUBLIC AssertEquals_REAL
 VAR_INPUT
     Expected : REAL; // REAL expected value
     Actual : REAL; // REAL actual value
-    Delta : REAL;  // The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
+    Delta : REAL; // The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3134,7 +3170,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3176,7 +3213,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3218,7 +3256,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3260,7 +3299,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3302,7 +3342,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3344,7 +3385,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3386,7 +3428,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3428,7 +3471,8 @@ END_VAR
 VAR
     AlreadyReported : BOOL;
     TestInstancePath : Tc2_System.T_MaxString;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3470,7 +3514,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3520,7 +3565,8 @@ END_VAR
 VAR
     TestInstancePath : Tc2_System.T_MaxString;
     AlreadyReported : BOOL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
     RETURN;
@@ -3557,7 +3603,8 @@ METHOD PUBLIC AssertFalse
 VAR_INPUT
     Condition : BOOL; // Condition to be checked
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[AssertEquals_BOOL(Expected := FALSE, Actual := Condition, Message := Message);]]></ST>
       </Implementation>
@@ -3570,7 +3617,8 @@ METHOD PUBLIC AssertTrue
 VAR_INPUT
     Condition : BOOL; // Condition to be checked
     Message : Tc2_System.T_MaxString; // The identifying message for the assertion error
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[AssertEquals_BOOL(Expected := TRUE, Actual := Condition, Message := Message);]]></ST>
       </Implementation>
@@ -3587,7 +3635,8 @@ VAR
     NumberOfArrayAsserts : UINT;
     
     IteratorCounter : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 NumberOfAsserts := AssertResults.GetNumberOfAssertsForTest(CompleteTestInstancePath := TestInstancePath);
@@ -3610,8 +3659,9 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
     bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-    bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-END_VAR]]></Declaration>
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
 GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;]]></ST>
@@ -3619,7 +3669,8 @@ GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;
     </Method>
     <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
       <Declaration><![CDATA[(* Searches for the instance path of the calling function block *)
-METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaration>
+METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
       </Implementation>
@@ -3636,7 +3687,8 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
 VAR
     Counter : UINT;
     FailedTestsCount : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
@@ -3654,7 +3706,8 @@ GetNumberOfFailedTests := FailedTestsCount;]]></ST>
 VAR
     Counter : UINT;
     SkippedTestsCount : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
@@ -3668,13 +3721,15 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSuccessfulTests : UINT]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSuccessfulTests : UINT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfSuccessfulTests := GetNumberOfTests() - GetNumberOfFailedTests() - GetNumberOfSkippedTests();]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfTests : UINT]]></Declaration>
+      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfTests : UINT
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTests := NumberOfTests;]]></ST>
       </Implementation>
@@ -3684,7 +3739,8 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
 METHOD PUBLIC GetTestByPosition : FB_Test
 VAR_INPUT
     Position : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTestByPosition := Tests[Position];]]></ST>
       </Implementation>
@@ -3696,7 +3752,8 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsTestFinished := FALSE;
 IF NumberOfTests > 0 THEN
@@ -3717,7 +3774,8 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
@@ -3734,13 +3792,14 @@ END_IF]]></ST>
       <Declaration><![CDATA[(* Marks the test as finished in this testsuite.
    Returns TRUE if test was found, and FALSE if a test with this name was not found in this testsuite
 *)
-METHOD PUBLIC SetTestFinished : BOOL;
+METHOD PUBLIC SetTestFinished : BOOL
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NumberOfTests > 0 THEN
     FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO

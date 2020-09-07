@@ -11,10 +11,11 @@
 *)
 FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests EXTENDS TcUnit.FB_TestSuite
 VAR
-    TimerAgain : Tc2_Standard.TON := (PT := T#1S); // Timer to call "AssertSeveralTimesAgain"
-    TimerAgainAgain : Tc2_Standard.TON := (PT := T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
+    TimerAgain : Tc2_Standard.TON := (PT:=T#1S); // Timer to call "AssertSeveralTimesAgain"
+    TimerAgainAgain : Tc2_Standard.TON := (PT:=T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
     CalledAll : BOOL; // Indication of whether we've called all tests
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
     <Implementation>
       <ST><![CDATA[TimerAgain(IN := TRUE);
 
@@ -35,13 +36,14 @@ END_IF]]></ST>
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
-
+    
     c : DWORD := 16#12345678;
     d : DWORD := 16#90ABCDEF;
-
+    
     e : DWORD := 16#12345678;
     f : DWORD := 16#90ABCDEF;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Assert_SeveralTimes');
 
@@ -67,13 +69,14 @@ END_IF]]></ST>
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
-
+    
     c : DWORD := 16#12345678;
     d : DWORD := 16#90ABCDEF;
-
+    
     e : DWORD := 16#12345678;
     f : DWORD := 16#90ABCDEF;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Assert_SeveralTimesAgain');
 
@@ -99,13 +102,14 @@ END_IF]]></ST>
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
-
+    
     c : DWORD := 16#12345678;
     d : DWORD := 16#90ABCDEF;
-
+    
     e : DWORD := 16#12345678;
     f : DWORD := 16#90ABCDEF;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Assert_SeveralTimesAgainAgain');
 
