@@ -8,10 +8,10 @@ VAR_GLOBAL CONSTANT
     MaxNumberOfAssertsForEachTestSuite : UINT := 1000;
 
     (* TcUnit logs complete test results. These include:
-         - Amount of test suites
-         - Amount of tests
-         - Amount of successful tests
-         - Amount of failed tests
+         - Number of test suites
+         - Number of tests
+         - Number of successful tests
+         - Number of failed tests
          - Any eventual failed assertion (with the expected & actual value plus an user defined message)
        These are all printed to the ADS logger (Visual Studio error list) marked with ERROR criticality
 
