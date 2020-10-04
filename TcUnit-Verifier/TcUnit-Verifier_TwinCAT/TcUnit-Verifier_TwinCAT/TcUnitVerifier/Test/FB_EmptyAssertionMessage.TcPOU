@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_EmptyAssertionMessage" Id="{d489f2ef-e9dc-4a48-95e4-bad84cbf1e42}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This testsuite creates a failed test with an empty assertion message *)
+FUNCTION_BLOCK FB_EmptyAssertionMessage EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IntegerEmptyAssertionMessage();]]></ST>
+    </Implementation>
+    <Method Name="IntegerEmptyAssertionMessage" Id="{993d3cc0-cd5a-4682-bc39-fee418867270}">
+      <Declaration><![CDATA[METHOD PRIVATE IntegerEmptyAssertionMessage
+VAR
+    a : INT := -32000;
+    b : INT := 15423;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('IntegerEmptyAssertionMessage');
+
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := '');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

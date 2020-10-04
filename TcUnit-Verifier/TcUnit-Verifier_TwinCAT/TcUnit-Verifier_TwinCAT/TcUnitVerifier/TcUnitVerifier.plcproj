@@ -58,6 +58,9 @@
     <Compile Include="Test\FB_CreateFourTestsWithSameName.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_EmptyAssertionMessage.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_EmptyTestSuite.TcPOU">
       <SubType>Code</SubType>
     </Compile>

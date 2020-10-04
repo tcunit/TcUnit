@@ -36,6 +36,14 @@ namespace TcUnit.Verifier
             return returnString;
         }
 
+        protected string CreateFailedTestMessageNoAssertionMessage(string method, string expected, string actual)
+        {
+            string returnString;
+            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" + method + "', "
+                + "EXP: " + expected + ", " + "ACT: " + actual;
+            return returnString;
+        }
+
         private bool AreErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
             return _errors.Any(e => (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
