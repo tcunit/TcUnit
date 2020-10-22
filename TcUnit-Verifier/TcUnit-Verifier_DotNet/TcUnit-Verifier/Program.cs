@@ -208,7 +208,7 @@ namespace TcUnit.Verifier
         {
             log.Info("Application interrupted by user");
             CleanUp();
-            Environment.Exit(0);
+            Environment.Exit(Constants.RETURN_SUCCESSFULL);
         }
 
         /// <summary>
