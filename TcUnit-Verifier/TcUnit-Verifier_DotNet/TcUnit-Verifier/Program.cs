@@ -104,10 +104,10 @@ namespace TcUnit.Verifier
 
             // Wait until tests have been running and are finished
             bool testsFinishedRunningFirstLineFound = false;
-            bool amountOfTestSuitesLineFound = false;
-            bool amountOfTestsLineFound = false;
-            bool amountOfSuccesfulTestsLineFound = false;
-            bool amountOfFailedTestsLineFound = false;
+            bool numberOfTestSuitesLineFound = false;
+            bool numberOfTestsLineFound = false;
+            bool numberOfSuccesfulTestsLineFound = false;
+            bool numberOfFailedTestsLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
             int numberOfFailedTests = 0;
 
@@ -128,14 +128,14 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains("| ==========TESTS FINISHED RUNNING=========="))
                         testsFinishedRunningFirstLineFound = true;
                     if (error.Description.Contains("| Test suites:"))
-                        amountOfTestSuitesLineFound = true;
+                        numberOfTestSuitesLineFound = true;
                     if (error.Description.Contains("| Tests:"))
-                        amountOfTestsLineFound = true;
+                        numberOfTestsLineFound = true;
                     if (error.Description.Contains("| Successful tests:"))
-                        amountOfSuccesfulTestsLineFound = true;
+                        numberOfSuccesfulTestsLineFound = true;
                     if (error.Description.Contains("| Failed tests:"))
                     {
-                        amountOfFailedTestsLineFound = true;
+                        numberOfFailedTestsLineFound = true;
                         // Grab the number of failed tests so we can validate it during the assertion phase
                         numberOfFailedTests = Int32.Parse(error.Description.Split().Last());
                     }
@@ -143,8 +143,14 @@ namespace TcUnit.Verifier
                         testsFinishedRunningLastLineFound = true;
                 }
 
-                if (testsFinishedRunningFirstLineFound && amountOfTestSuitesLineFound && amountOfTestsLineFound && amountOfSuccesfulTestsLineFound
-                    && amountOfFailedTestsLineFound && testsFinishedRunningLastLineFound)
+                if (
+                    testsFinishedRunningFirstLineFound 
+                    && numberOfTestSuitesLineFound 
+                    && numberOfTestsLineFound 
+                    && numberOfSuccesfulTestsLineFound
+                    && numberOfFailedTestsLineFound 
+                    && testsFinishedRunningLastLineFound
+                )
                     break;
 
             }
@@ -154,10 +160,18 @@ namespace TcUnit.Verifier
 
             if (numberOfFailedTests != expectedNumberOfFailedTests)
             {
-                log.Error("The number of tests that failed (" + numberOfFailedTests + ") does not match expectations (" + expectedNumberOfFailedTests + ")");
+                log.Error(
+                    "The number of tests that failed (" + numberOfFailedTests + ") " +
+                    "does not match expectations (" + expectedNumberOfFailedTests + ")"
+                );
             }
 
-            List<ErrorList.Error> errors = new List<ErrorList.Error>(errorList.Where(e => (e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)));
+            List<ErrorList.Error> errors = new List<ErrorList.Error>(
+                errorList.Where(e => (
+                    e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh 
+                    || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)
+                )
+            );
 
             /* Insert the test classes here */
             new FB_PrimitiveTypes(errors);
