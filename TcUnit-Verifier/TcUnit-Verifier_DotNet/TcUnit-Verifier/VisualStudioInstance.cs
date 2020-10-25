@@ -14,7 +14,7 @@ namespace TcUnit.Verifier
     /// </summary>
     class VisualStudioInstance
     {
-        private string @filePath = null;
+        private string filePath = null;
         private string vsVersion = null;
         private EnvDTE80.DTE2 dte = null;
         private Type type = null;
@@ -23,7 +23,7 @@ namespace TcUnit.Verifier
         ILog log = LogManager.GetLogger("TcUnit-Verifier");
         private bool loaded = false;
 
-        public VisualStudioInstance(string @visualStudioSolutionFilePath)
+        public VisualStudioInstance(string visualStudioSolutionFilePath)
         {
             this.filePath = visualStudioSolutionFilePath;
             string visualStudioVersion = FindVisualStudioVersion();
@@ -56,11 +56,11 @@ namespace TcUnit.Verifier
                 throw;
             }
 
-            if (!String.IsNullOrEmpty(@filePath))
+            if (!String.IsNullOrEmpty(filePath))
             {
                 try
                 {
-                    LoadSolution(@filePath);
+                    LoadSolution(filePath);
                     LoadProject();
                 }
                 catch (Exception e)
@@ -98,7 +98,7 @@ namespace TcUnit.Verifier
             string file;
             try
             {
-                file = File.ReadAllText(@filePath);
+                file = File.ReadAllText(filePath);
             }
             catch (ArgumentException)
             {

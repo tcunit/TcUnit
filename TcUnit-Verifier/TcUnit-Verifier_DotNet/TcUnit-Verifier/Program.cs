@@ -61,7 +61,7 @@ namespace TcUnit.Verifier
             log.Info("Starting TcUnit-Verifier...");
             try
             {
-                vsInstance = new VisualStudioInstance(@tcUnitVerifierPath);
+                vsInstance = new VisualStudioInstance(tcUnitVerifierPath);
                 vsInstance.Load();
             }
             catch
