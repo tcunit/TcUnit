@@ -137,7 +137,7 @@ namespace TcUnit.Verifier
                     {
                         numberOfFailedTestsLineFound = true;
                         // Grab the number of failed tests so we can validate it during the assertion phase
-                        numberOfFailedTests = Int32.Parse(error.Description.Split().Last());
+                        numberOfFailedTests = int.Parse(error.Description.Split().Last());
                     }
                     if (error.Description.Contains("| ======================================"))
                         testsFinishedRunningLastLineFound = true;

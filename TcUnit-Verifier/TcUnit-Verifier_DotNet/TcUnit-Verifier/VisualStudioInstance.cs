@@ -56,7 +56,7 @@ namespace TcUnit.Verifier
                 throw;
             }
 
-            if (!String.IsNullOrEmpty(filePath))
+            if (!string.IsNullOrEmpty(filePath))
             {
                 try
                 {
