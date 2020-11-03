@@ -23,8 +23,8 @@ namespace TcUnit.Verifier
         {
             bool showHelp = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelKeyPressHandler);
-            log4net.GlobalContext.Properties["LogLocation"] = AppDomain.CurrentDomain.BaseDirectory + "\\logs";
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
+            GlobalContext.Properties["LogLocation"] = AppDomain.CurrentDomain.BaseDirectory + "\\logs";
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
 
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
@@ -85,7 +85,7 @@ namespace TcUnit.Verifier
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
             log.Info("Generating TcUnit-Verifier_TwinCAT boot project...");
-            System.Threading.Thread.Sleep(10000);
+            Thread.Sleep(10000);
             iecProject.GenerateBootProject(true);
             iecProject.BootProjectAutostart = true;
 
@@ -97,7 +97,7 @@ namespace TcUnit.Verifier
             vsInstance.CleanSolution();
 
             // Wait
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(1000);
 
             log.Info("Restarting TwinCAT...");
             automationInterface.ITcSysManager.StartRestartTwinCAT();
