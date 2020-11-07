@@ -23,8 +23,8 @@ namespace TcUnit.Verifier
         {
             bool showHelp = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelKeyPressHandler);
-            log4net.GlobalContext.Properties["LogLocation"] = AppDomain.CurrentDomain.BaseDirectory + "\\logs";
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
+            GlobalContext.Properties["LogLocation"] = AppDomain.CurrentDomain.BaseDirectory + "\\logs";
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "log4net.config"));
 
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
@@ -61,7 +61,7 @@ namespace TcUnit.Verifier
             log.Info("Starting TcUnit-Verifier...");
             try
             {
-                vsInstance = new VisualStudioInstance(@tcUnitVerifierPath);
+                vsInstance = new VisualStudioInstance(tcUnitVerifierPath);
                 vsInstance.Load();
             }
             catch
@@ -85,7 +85,7 @@ namespace TcUnit.Verifier
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
             log.Info("Generating TcUnit-Verifier_TwinCAT boot project...");
-            System.Threading.Thread.Sleep(10000);
+            Thread.Sleep(10000);
             iecProject.GenerateBootProject(true);
             iecProject.BootProjectAutostart = true;
 
@@ -97,17 +97,17 @@ namespace TcUnit.Verifier
             vsInstance.CleanSolution();
 
             // Wait
-            System.Threading.Thread.Sleep(1000);
+            Thread.Sleep(1000);
 
             log.Info("Restarting TwinCAT...");
             automationInterface.ITcSysManager.StartRestartTwinCAT();
 
             // Wait until tests have been running and are finished
             bool testsFinishedRunningFirstLineFound = false;
-            bool amountOfTestSuitesLineFound = false;
-            bool amountOfTestsLineFound = false;
-            bool amountOfSuccesfulTestsLineFound = false;
-            bool amountOfFailedTestsLineFound = false;
+            bool numberOfTestSuitesLineFound = false;
+            bool numberOfTestsLineFound = false;
+            bool numberOfSuccesfulTestsLineFound = false;
+            bool numberOfFailedTestsLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
             int numberOfFailedTests = 0;
 
@@ -128,23 +128,29 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains("| ==========TESTS FINISHED RUNNING=========="))
                         testsFinishedRunningFirstLineFound = true;
                     if (error.Description.Contains("| Test suites:"))
-                        amountOfTestSuitesLineFound = true;
+                        numberOfTestSuitesLineFound = true;
                     if (error.Description.Contains("| Tests:"))
-                        amountOfTestsLineFound = true;
+                        numberOfTestsLineFound = true;
                     if (error.Description.Contains("| Successful tests:"))
-                        amountOfSuccesfulTestsLineFound = true;
+                        numberOfSuccesfulTestsLineFound = true;
                     if (error.Description.Contains("| Failed tests:"))
                     {
-                        amountOfFailedTestsLineFound = true;
+                        numberOfFailedTestsLineFound = true;
                         // Grab the number of failed tests so we can validate it during the assertion phase
-                        numberOfFailedTests = Int32.Parse(error.Description.Split().Last());
+                        numberOfFailedTests = int.Parse(error.Description.Split().Last());
                     }
                     if (error.Description.Contains("| ======================================"))
                         testsFinishedRunningLastLineFound = true;
                 }
 
-                if (testsFinishedRunningFirstLineFound && amountOfTestSuitesLineFound && amountOfTestsLineFound && amountOfSuccesfulTestsLineFound
-                    && amountOfFailedTestsLineFound && testsFinishedRunningLastLineFound)
+                if (
+                    testsFinishedRunningFirstLineFound 
+                    && numberOfTestSuitesLineFound 
+                    && numberOfTestsLineFound 
+                    && numberOfSuccesfulTestsLineFound
+                    && numberOfFailedTestsLineFound 
+                    && testsFinishedRunningLastLineFound
+                )
                     break;
 
             }
@@ -154,10 +160,18 @@ namespace TcUnit.Verifier
 
             if (numberOfFailedTests != expectedNumberOfFailedTests)
             {
-                log.Error("The number of tests that failed (" + numberOfFailedTests + ") does not match expectations (" + expectedNumberOfFailedTests + ")");
+                log.Error(
+                    "The number of tests that failed (" + numberOfFailedTests + ") " +
+                    "does not match expectations (" + expectedNumberOfFailedTests + ")"
+                );
             }
 
-            List<ErrorList.Error> errors = new List<ErrorList.Error>(errorList.Where(e => (e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)));
+            List<ErrorList.Error> errors = new List<ErrorList.Error>(
+                errorList.Where(e => (
+                    e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh 
+                    || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)
+                )
+            );
 
             /* Insert the test classes here */
             new FB_PrimitiveTypes(errors);
@@ -208,7 +222,7 @@ namespace TcUnit.Verifier
         {
             log.Info("Application interrupted by user");
             CleanUp();
-            Environment.Exit(0);
+            Environment.Exit(Constants.RETURN_SUCCESSFULL);
         }
 
         /// <summary>

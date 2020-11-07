@@ -14,16 +14,16 @@ namespace TcUnit.Verifier
     /// </summary>
     class VisualStudioInstance
     {
-        private string @filePath = null;
+        private string filePath = null;
         private string vsVersion = null;
-        private EnvDTE80.DTE2 dte = null;
+        private DTE2 dte = null;
         private Type type = null;
         private EnvDTE.Solution visualStudioSolution = null;
         EnvDTE.Project pro = null;
         ILog log = LogManager.GetLogger("TcUnit-Verifier");
         private bool loaded = false;
 
-        public VisualStudioInstance(string @visualStudioSolutionFilePath)
+        public VisualStudioInstance(string visualStudioSolutionFilePath)
         {
             this.filePath = visualStudioSolutionFilePath;
             string visualStudioVersion = FindVisualStudioVersion();
@@ -56,11 +56,11 @@ namespace TcUnit.Verifier
                 throw;
             }
 
-            if (!String.IsNullOrEmpty(@filePath))
+            if (!string.IsNullOrEmpty(filePath))
             {
                 try
                 {
-                    LoadSolution(@filePath);
+                    LoadSolution(filePath);
                     LoadProject();
                 }
                 catch (Exception e)
@@ -98,7 +98,7 @@ namespace TcUnit.Verifier
             string file;
             try
             {
-                file = File.ReadAllText(@filePath);
+                file = File.ReadAllText(filePath);
             }
             catch (ArgumentException)
             {
@@ -125,9 +125,9 @@ namespace TcUnit.Verifier
              * TwinCAT project was created in
              */
             string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
-            type = System.Type.GetTypeFromProgID(VisualStudioProgId);
+            type = Type.GetTypeFromProgID(VisualStudioProgId);
             log.Info("Loading the Visual Studio Development Tools Environment (DTE)...");
-            dte = (EnvDTE80.DTE2)System.Activator.CreateInstance(type);
+            dte = (DTE2)Activator.CreateInstance(type);
             dte.UserControl = false; // have devenv.exe automatically close when launched using automation
             dte.SuppressUI = true;
             dte.ToolWindows.ErrorList.ShowErrors = true;
@@ -162,7 +162,7 @@ namespace TcUnit.Verifier
             return this.pro;
         }
 
-        public EnvDTE80.DTE2 GetDevelopmentToolsEnvironment()
+        public DTE2 GetDevelopmentToolsEnvironment()
         {
             return this.dte;
         }
