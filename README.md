@@ -9,7 +9,7 @@ Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff T
 **[www.tcunit.org](https://www.tcunit.org)**
 
 **Unit testing... huh?**  
-Familiarize yourself with the basic concepts and specifics for TcUnit: [https://tcunit.org/unit-testing-concepts/](https://tcunit.org/unit-testing-concepts/)
+Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/unit-testing-concepts/). 
 
 **Want to know how to get started?**  
 Read the [user guide](https://tcunit.org/introduction-user-guide/).
@@ -25,3 +25,8 @@ Check out the [TcUnit-Runner project](https://github.com/tcunit/TcUnit-Runner).
 
 **Want to contribute to the project?**  
 That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
+
+**Found a bug or want to discuss an idea?**  
+Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
+If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new).
+For general idea/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
