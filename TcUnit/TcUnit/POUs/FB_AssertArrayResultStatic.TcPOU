@@ -151,7 +151,7 @@ END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfArrayAssertsForTest" Id="{73e503e0-e1d1-4f6d-bdbf-ae50167481e7}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfArrayAssertsForTest : UINT
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfArrayAssertsForTest : UINT
 VAR_INPUT
     CompleteTestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -202,7 +202,7 @@ GetNumberOfArrayAssertsForTest := NumberOfArrayAsserts;]]></ST>
         the stored detection-count for this combination, create a new report and add +1 to the storage of
         the detection-count.
 *)
-METHOD PUBLIC ReportResult
+METHOD INTERNAL ReportResult
 VAR_INPUT
     ExpectedsSize : UDINT;
     ExpectedsTypeClass : IBaseLibrary.TypeClass;

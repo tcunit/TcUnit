@@ -60,7 +60,7 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
     </Method>
     <Method Name="WriteLog" Id="{4ca4d063-d389-4869-8fdb-ce7017f310dc}">
       <Declaration><![CDATA[(* Writes a new data set into the ring buffer *)
-METHOD PUBLIC WriteLog
+METHOD INTERNAL WriteLog
 VAR_INPUT
     MsgCtrlMask : DWORD;
     MsgFmtStr : Tc2_System.T_MaxString;

@@ -3,6 +3,7 @@
   <POU Name="RUN" Id="{bd49b256-e7ba-4b73-b669-380d1f428417}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function runs all test suites that have been initialized.
+    The test suites are run in parallel (all at once).
 *)
 FUNCTION RUN]]></Declaration>
     <Implementation>

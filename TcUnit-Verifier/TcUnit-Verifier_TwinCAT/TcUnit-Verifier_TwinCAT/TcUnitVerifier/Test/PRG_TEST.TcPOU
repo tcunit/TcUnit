@@ -35,7 +35,14 @@ VAR
     //TestFinishedNamedDoesNotExist : FB_TestFinishedNamedDoesNotExist;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[TcUnit.RUN();]]></ST>
+      <ST><![CDATA[(* There are two ways to run TcUnit test suites:
+    1. The RUN() will run all the test suites in parallel
+    2. The RUN_IN_SEQUENCE() will run the test suites in sequence (one-by-one, next one doesn't start until the previous one is finished)
+    Only use one of them at a time
+*)
+
+TcUnit.RUN();
+//TcUnit.RUN_IN_SEQUENCE();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

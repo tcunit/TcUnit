@@ -11,7 +11,7 @@ FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="LogAssertFailure" Id="{48cbc6b0-5380-44b8-a045-57b6ad9f189d}">
-      <Declaration><![CDATA[METHOD LogAssertFailure
+      <Declaration><![CDATA[METHOD PUBLIC LogAssertFailure
 VAR_INPUT
     Expected : Tc2_System.T_MaxString;
     Actual : Tc2_System.T_MaxString;

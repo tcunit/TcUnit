@@ -14,7 +14,7 @@ END_VAR]]></Declaration>
     </Implementation>
     <Method Name="Close" Id="{519e9011-283c-40b1-afd4-31686c5b81fe}">
       <Declaration><![CDATA[(*
-    Closes the current opened file.
+    Closes the currently opened file.
 *)
 METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
@@ -57,7 +57,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[(*
     Reads a file from disk into the buffer
 *)
-METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT;
+METHOD PUBLIC Read : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     BufferPointer : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF(); 
@@ -80,7 +80,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[(* 
     Writes the contents of the buffer into a file.
 *)
-METHOD Write : SysFile.SysTypes.RTS_IEC_RESULT;
+METHOD PUBLIC Write : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     BufferPointer : POINTER TO BYTE; // Call with ADR();
     Size : UDINT; // Call with SIZEOF();

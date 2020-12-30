@@ -36,12 +36,15 @@ VAR
        This assert formatter can be replaced with something else than ADS *)
     AdsAssertMessageFormatter : FB_AdsAssertMessageFormatter;
     AssertMessageFormatter : I_AssertMessageFormatter := AdsAssertMessageFormatter;
+
+    (* Indication whether this test suite has started running its tests *)
+    HasStartedRunning : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
-      <Declaration><![CDATA[METHOD PUBLIC AddTest
+      <Declaration><![CDATA[METHOD INTERNAL AddTest
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
@@ -119,7 +122,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
-      <Declaration><![CDATA[METHOD PRIVATE AddTestNameToInstancePath : Tc2_System.T_MaxString
+      <Declaration><![CDATA[METHOD INTERNAL AddTestNameToInstancePath : Tc2_System.T_MaxString
 VAR_INPUT
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
@@ -132,10 +135,9 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
       </Implementation>
     </Method>
     <Method Name="AreAllTestsFinished" Id="{2b211901-49a8-4e51-90e1-4b1e298f9e0c}">
-      <Declaration><![CDATA[METHOD PUBLIC AreAllTestsFinished : BOOL
+      <Declaration><![CDATA[METHOD INTERNAL AreAllTestsFinished : BOOL
 VAR
     Counter : UINT;
-
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
 END_VAR]]></Declaration>
       <Implementation>
@@ -150,9 +152,9 @@ IF NumberOfTests > 0 THEN
 END_IF
 
 (* If we have been running at least one cycle and no tests are registered it means that this testsuite is empty
-   and doesn't contain any test cases. In that case, add a warning message and ignore this testsuite. *)
+   and doesn't contain any test cases. In that case, ignore this testsuite. *)
 GetCurTaskIndex();
-IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
+IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle AND HasStartedRunning THEN
     AreAllTestsFinished := TRUE;
 END_IF]]></ST>
       </Implementation>
@@ -3576,7 +3578,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="CalculateAndSetNumberOfAssertsForTest" Id="{a963cb6a-a176-4774-9e1c-6c7896b6a752}">
-      <Declaration><![CDATA[METHOD PUBLIC CalculateAndSetNumberOfAssertsForTest
+      <Declaration><![CDATA[METHOD INTERNAL CalculateAndSetNumberOfAssertsForTest
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
@@ -3624,15 +3626,21 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
         <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetHasStartedRunning" Id="{73f869b5-0951-4519-8e1e-dd573837cf2e}">
+      <Declaration><![CDATA[METHOD INTERNAL GetHasStartedRunning : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetHasStartedRunning := HasStartedRunning;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
-      <Declaration><![CDATA[METHOD PUBLIC GetInstancePath : Tc2_System.T_MaxString
+      <Declaration><![CDATA[METHOD INTERNAL GetInstancePath : Tc2_System.T_MaxString
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfFailedTests : UINT
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfFailedTests : UINT
 VAR
     Counter : UINT;
     FailedTestsCount : UINT;
@@ -3650,7 +3658,7 @@ GetNumberOfFailedTests := FailedTestsCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfSkippedTests" Id="{51a75168-98fa-4d92-8093-efb431316cf0}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSkippedTests : UINT
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfSkippedTests : UINT
 VAR
     Counter : UINT;
     SkippedTestsCount : UINT;
@@ -3668,20 +3676,20 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfSuccessfulTests" Id="{635213dc-96ca-4be6-9c0d-c0454c29d34d}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfSuccessfulTests : UINT]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfSuccessfulTests : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfSuccessfulTests := GetNumberOfTests() - GetNumberOfFailedTests() - GetNumberOfSkippedTests();]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfTests" Id="{6f67c6d5-c29e-4577-8651-51bd6db3ab63}">
-      <Declaration><![CDATA[METHOD PUBLIC GetNumberOfTests : UINT]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTests : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTests := NumberOfTests;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
       <Declaration><![CDATA[(* This method returns the test at the n'th position, ranging from 1.. NumberOfTests *)
-METHOD PUBLIC GetTestByPosition : FB_Test
+METHOD INTERNAL GetTestByPosition : FB_Test
 VAR_INPUT
     Position : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
@@ -3690,7 +3698,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="IsTestFinished" Id="{1ef139e2-1210-4139-ba5c-329f8493b09c}">
-      <Declaration><![CDATA[METHOD PUBLIC IsTestFinished : BOOL
+      <Declaration><![CDATA[METHOD INTERNAL IsTestFinished : BOOL
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR
@@ -3707,6 +3715,12 @@ IF NumberOfTests > 0 THEN
         END_IF
     END_FOR
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetHasStartedRunning" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
+      <Declaration><![CDATA[METHOD INTERNAL SetHasStartedRunning]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[HasStartedRunning := TRUE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -3734,7 +3748,7 @@ END_IF]]></ST>
       <Declaration><![CDATA[(* Marks the test as finished in this testsuite.
    Returns TRUE if test was found, and FALSE if a test with this name was not found in this testsuite
 *)
-METHOD PUBLIC SetTestFinished : BOOL;
+METHOD INTERNAL SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
 END_VAR

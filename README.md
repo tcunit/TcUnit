@@ -29,4 +29,4 @@ That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
 **Found a bug or want to discuss an idea?**  
 Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
 If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new).
-For general idea/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
+For general ideas/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
