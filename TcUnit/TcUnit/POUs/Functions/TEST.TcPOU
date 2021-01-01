@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function declares a new test (if it has not been already declared in an earlier cycle)
@@ -27,7 +27,13 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
         RETURN;
     END_IF
-END_FOR]]></ST>
+END_FOR
+]]></ST>
     </Implementation>
+    <LineIds Name="TEST">
+      <LineId Id="3" Count="14" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

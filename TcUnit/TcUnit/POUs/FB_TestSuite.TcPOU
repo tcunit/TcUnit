@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -139,14 +139,21 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
 VAR
     Counter : UINT;
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
+	TestToAnalyse: UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[AreAllTestsFinished := FALSE;
 
 IF NumberOfTests > 0 THEN
     AreAllTestsFinished := TRUE;
-    (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
-    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
+	(*Limit the test analyse to the max array limit of 'Tests[]'*)
+	IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+		TestToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+	ELSE
+		TestToAnalyse := GetNumberOfTests();
+	END_IF
+	(* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
+    FOR Counter := 1 TO TestToAnalyse BY 1 DO
         AreAllTestsFinished := AreAllTestsFinished AND (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped());
     END_FOR
 END_IF
@@ -3768,5 +3775,250 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_TestSuite">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AddTest">
+      <LineId Id="3" Count="57" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AddTestNameToInstancePath">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AreAllTestsFinished">
+      <LineId Id="3" Count="3" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="8" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray2dEquals_LREAL">
+      <LineId Id="3" Count="116" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray2dEquals_REAL">
+      <LineId Id="3" Count="116" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray3dEquals_LREAL">
+      <LineId Id="3" Count="143" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray3dEquals_REAL">
+      <LineId Id="3" Count="143" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_BOOL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_BYTE">
+      <LineId Id="3" Count="69" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_DINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_DWORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_INT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LREAL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LWORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_REAL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_SINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_UDINT">
+      <LineId Id="3" Count="61" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_UINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_ULINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_USINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_WORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals">
+      <LineId Id="3" Count="292" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_BOOL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_BYTE">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DATE">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DATE_AND_TIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DWORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_INT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LREAL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LTIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LWORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_REAL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_SINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_STRING">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_TIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_TIME_OF_DAY">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_UDINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_UINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_ULINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_USINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_WORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_WSTRING">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertFalse">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertTrue">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.CalculateAndSetNumberOfAssertsForTest">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.FB_init">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.FindTestSuiteInstancePath">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetHasStartedRunning">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetInstancePath">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfFailedTests">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfSkippedTests">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfSuccessfulTests">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfTests">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetTestByPosition">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.IsTestFinished">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetHasStartedRunning">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetTestFailed">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetTestFinished">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
