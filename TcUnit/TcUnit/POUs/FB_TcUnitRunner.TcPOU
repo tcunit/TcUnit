@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -91,7 +91,7 @@ GVL_TcUnit.AdsMessageQueue();]]></ST>
       <Declaration><![CDATA[(* This runs all the test suites in sequence (one after the other) *)
 METHOD INTERNAL RunTestSuiteTestsInSequence
 VAR_INPUT
-	DelayTime	:TIME;		// Time delay between a Test-Suite is finished and the next Test-Suite starts
+    TimeBetweenTestSuitesExecution : TIME; // Time delay between a test suite is finished and the next test suite starts
 END_VAR
 VAR
     BusyPrinting : BOOL;
@@ -105,25 +105,25 @@ VAR_INST
     (* This variable holds which current test suite is being called, as we are running
        each one in a sequence (one by one) *)
      CurrentlyRunningTestSuite : UINT := 1;
-	 TofDelayTime			   : Tc2_Standard.TOF;
+     TimerBetweenExecutionOfTestSuites : Tc2_Standard.TOF;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TofDelayTime(PT:=DelayTime);
+        <ST><![CDATA[TimerBetweenExecutionOfTestSuites(PT := TimeBetweenTestSuitesExecution);
 (* Run TcUnit test suites *)
 IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
     ELSIF GVL_TcUnit.NumberOfInitializedTestSuites > 0 THEN
-		IF TofDelayTime.Q THEN
-			TofDelayTime.IN := FALSE;
-		END_IF
+        IF TimerBetweenExecutionOfTestSuites.Q THEN
+            TimerBetweenExecutionOfTestSuites.IN := FALSE;
+        END_IF
         IF GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite]^.AreAllTestsFinished() THEN
             IF CurrentlyRunningTestSuite <> GVL_TcUnit.NumberOfInitializedTestSuites THEN
                 NumberOfTestSuitesFinished := NumberOfTestSuitesFinished + 1;
                 CurrentlyRunningTestSuite := CurrentlyRunningTestSuite + 1;
-				TofDelayTime.IN := TRUE;
+                TimerBetweenExecutionOfTestSuites.IN := TRUE;
             END_IF
-        ELSIF NOT TofDelayTime.Q THEN
+        ELSIF NOT TimerBetweenExecutionOfTestSuites.Q THEN
             GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite];
             GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetHasStartedRunning();
             GVL_TcUnit.CurrentTestSuiteBeingCalled^();
@@ -152,19 +152,5 @@ XmlTestResultPublisher.LogTestSuiteResults();
 GVL_TcUnit.AdsMessageQueue();]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_TcUnitRunner">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcUnitRunner.AbortRunningTestSuiteTests">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcUnitRunner.RunTestSuiteTests">
-      <LineId Id="3" Count="34" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_TcUnitRunner.RunTestSuiteTestsInSequence">
-      <LineId Id="90" Count="40" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

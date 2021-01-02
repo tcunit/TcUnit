@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_AdsTestResultLogger" Id="{d14d6247-3ce3-459f-be22-6ee3520279ed}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block reports the results from the tests using the built-in ADSLOGSTR functionality
@@ -97,7 +97,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_SKIP);
             ELSE
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_PASS);
-			END_IF
+            END_IF
 
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', number of asserts=');
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
@@ -120,15 +120,17 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                                     StrArg := F_AssertionTypeToString(AssertionType :=
                                                         TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType));
             END_IF
-		END_FOR
+        END_FOR
 
-		(* Print Error if there are too many tests in the Test Suite*)
+        (* Print error message if there are too many tests in the test suite *)
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                MsgFmtStr := '| Tests failed because = %s',
-                                                StrArg := concat (TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests) ,concat(' in this Test-Suite : ',concat(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name, '. It is more as in the GVL_Param_TcUnit configured'))));
-        END_IF		
-		
+                                                MsgFmtStr := '| Tests failed because the amount of tests (%s',
+                                                StrArg := Tc2_Standard.CONCAT(STR1 := TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests),
+                                                          STR2 := Tc2_Standard.CONCAT(STR1 := ') in the test suite $'',
+                                                          STR2 := Tc2_Standard.CONCAT(STR1 := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name, STR2 := '$' are more than is defined in parameter $'GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite$'. Please increase this parameter.'))));
+        END_IF
+
         IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             PrintedTestSuitesResults := TRUE;
         ELSE
@@ -163,21 +165,5 @@ IF (GVL_TcUnit.NumberOfInitializedTestSuites = 0 OR PrintingTestSuiteResultNumbe
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_AdsTestResultLogger">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.FB_init">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="FB_AdsTestResultLogger.LogTestSuiteResults">
-      <LineId Id="3" Count="72" />
-      <LineId Id="77" Count="0" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="122" Count="4" />
-      <LineId Id="78" Count="0" />
-      <LineId Id="121" Count="0" />
-      <LineId Id="79" Count="30" />
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

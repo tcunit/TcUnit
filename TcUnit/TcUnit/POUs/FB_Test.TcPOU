@@ -6,10 +6,15 @@
 *)
 FUNCTION_BLOCK FB_Test
 VAR
-    TestName : Tc2_System.T_MaxString; 
+    TestName : Tc2_System.T_MaxString;
     TestIsFinished : BOOL;
     TestIsSkipped : BOOL; // This is set to true, if test is disabled (by putting the string "disabled_" in front of the test name
     NumberOfAssertions : UINT;
+
+    (* In which order/sequence relative to the order tests should this test be executed/evaluated.
+       A value of 0 means it is not defined by TEST_ORDERED() but by un-ordered test (TEST()).
+       A value <> 0 tells in which order this test will be executed/evaluated. The lower the number, the earlier it will execute. *)
+    TestOrderNumber : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite); 
 
     (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
@@ -41,6 +46,13 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfAssertions : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfAssertions := NumberOfAssertions;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestOrder" Id="{c2cf620d-27f0-4dc3-9f43-cee6a8334a60}">
+      <Declaration><![CDATA[(* Gets in which order/sequence relative to the order tests should this test be executed/evaluated. *)
+METHOD INTERNAL GetTestOrder : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTestOrder := TestOrderNumber;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsFailed" Id="{e42409e3-251f-4133-8b14-3630785983d6}">
@@ -120,6 +132,16 @@ END_VAR]]></Declaration>
 METHOD INTERNAL SetSkipped]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsSkipped := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTestOrder" Id="{9154b373-5715-4bb9-b58b-0dd484b21841}">
+      <Declaration><![CDATA[(* Sets in which order/sequence relative to the order tests should this test be executed/evaluated. *)
+METHOD INTERNAL SetTestOrder
+VAR_INPUT
+    OrderNumber : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TestOrderNumber := OrderNumber;]]></ST>
       </Implementation>
     </Method>
   </POU>

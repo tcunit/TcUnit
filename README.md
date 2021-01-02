@@ -26,7 +26,7 @@ Check out the [TcUnit-Runner project](https://github.com/tcunit/TcUnit-Runner).
 **Want to contribute to the project?**  
 That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
 
-**Found a bug or want to discuss an idea?**  
-Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
+**Have any questions? Found a bug or want to discuss an idea?**  
+Check the [F.A.Q](https://tcunit.org/frequently-asked-questions/). Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
 If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new).
 For general ideas/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).

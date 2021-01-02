@@ -42,7 +42,7 @@ END_VAR]]></Declaration>
 *)
 
 TcUnit.RUN();
-//TcUnit.RUN_IN_SEQUENCE();]]></ST>
+//TcUnit.RUN_IN_SEQUENCE(T#0MS);]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

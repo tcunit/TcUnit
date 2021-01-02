@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="TEST_ORDERED" Id="{fa9a802f-5cdd-46c2-a549-653f4659fdd7}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This function declares a new ordered test (if it has not been already declared in an earlier cycle).
+   The test declared by this function will run in the order it is called, so if we have two tests:
+   TEST_ORDERED('Test_1')
+   TEST_ORDERED('Test_2')
+   All asserts of Test_2 will be ignored until Test_1 is declared with TEST_FINISHED().
+
+   The function returns TRUE if it's time to run this test (and thus asserts can be made)
+   The function returns FALSE if it's not time to run this test (because a previous test has not been finished)
+   If the function returns FALSE (and it's thus not time to run the test), any eventual asserts done for this 
+   test will be ignored. It thus makes sense to call this function in a manner like:
+   
+    IF TEST_ORDERED('Testname') THEN
+        fbFunctionBlockUnderTest();
+        
+        AssertEquals(Expected := 'SomeValue',
+                     Actual := fbFunctionBlockUnderTest.Out,
+                     Message := 'Test failed');
+        TEST_FINISHED();
+    END_IF
+
+*)
+FUNCTION TEST_ORDERED : BOOL
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR
+    CounterTestSuiteAddress : UINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Mark this test as the current one being executed *)
+GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
+
+(* Check if combination of address for the test suite and test name already exists.
+   For every test suite the name of the test case needs to be unique.
+   If a test with this name already exists, don't add it to the available tests.
+   Otherwise, add it to the available tests *)
+
+FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
+
+    (* Look for the test suite by comparing to the one that is currently running *)
+    IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
+        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := TRUE);
+        GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
+
+        (* Check that no previous code has set the currently running test to ignored (for example by setting the test to DISABLED *)
+        IF NOT GVL_TcUnit.IgnoreCurrentTest THEN
+            (* If the current test is not the current in the sequence of tests, set it to ignored until it is its turn to run
+               If the current test is the one supposed to be run, check whether it has finished running or not *)
+            IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.GetTestOrderNumber(TestName := TestName) =
+                GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] THEN
+                (* Check if test if finished, if so, increase the order number of this test suite to the next test *)
+                IF GVL_TcUnit.CurrentTestIsFinished THEN
+                    GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] := GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] + 1;
+                    (* No need to execute the test if it is already finished *)
+                    TEST_ORDERED := FALSE;
+                    GVL_TcUnit.IgnoreCurrentTest := TRUE;
+                ELSE
+                    (* Continue executing test *)
+                    TEST_ORDERED := TRUE;
+                END_IF
+            ELSE
+                (* If this is not the current test that we are supposed to run, ignore it until it is its turn *)
+                TEST_ORDERED := FALSE;
+                GVL_TcUnit.IgnoreCurrentTest := TRUE;
+			END_IF
+        (* This test should be ignored *)
+        ELSE
+            TEST_ORDERED := FALSE;
+            GVL_TcUnit.IgnoreCurrentTest := TRUE;
+		END_IF
+        RETURN;
+    END_IF
+END_FOR]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

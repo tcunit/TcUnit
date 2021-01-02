@@ -28,6 +28,11 @@ VAR_GLOBAL
     NumberOfInitializedTestSuites : UINT := 0;
     TestSuiteAddresses : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF POINTER TO FB_TestSuite;
 
+    (* If the user is utilizing the TEST_ORDERED(), we need to keep track of which ordered test is currently running.
+       We do this by defining an array, in where we can see which current TEST_ORDERED() is the one to be handled right now.
+       The below array is only used for TEST_ORDERED()-tests.  *)
+    CurrentlyRunningOrderedTestInTestSuite : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+
     (* Buffered ADS message queue for output to the error list *)
     AdsMessageQueue : FB_AdsLogStringMessageFifoQueue;
 END_VAR]]></Declaration>
