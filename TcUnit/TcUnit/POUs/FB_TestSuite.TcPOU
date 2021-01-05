@@ -62,6 +62,7 @@ VAR
     LowerCasedTestName : Tc2_System.T_MaxString;
     TrimmedTestName : Tc2_System.T_MaxString;
     IgnoreCurrentTestCase : BOOL;
+	NumberOfTestsToAnalyse: UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.IgnoreCurrentTest := FALSE; // Reset the ignore current test flag
@@ -83,8 +84,15 @@ GetCurrentTaskIndex(); // Gets the task index of where this function block insta
 
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
 
+(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := NumberOfTests;
+END_IF
+
 (* Iterate all the test names that up to this point have been added for this test suite *)
-FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TrimmedTestName THEN
         TestWithThisNameAlreadyExists := TRUE;
         (* Check if a test with this name has already been called in this PLC cycle *)
@@ -3661,17 +3669,27 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
 VAR
     Counter : UINT;
     FailedTestsCount : UINT;
+	NumberOfTestsToAnalyse: UINT;
+    NumberOfTestOverArrayLimit :UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+    NumberOfTestOverArrayLimit := GetNumberOfTests()-GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := GetNumberOfTests();
+END_IF
+
+IF NumberOfTests > 0 THEN
+    FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[Counter].IsFailed() THEN
             FailedTestsCount := FailedTestsCount + 1;
         END_IF
     END_FOR
 END_IF
 
-GetNumberOfFailedTests := FailedTestsCount;]]></ST>
+GetNumberOfFailedTests := FailedTestsCount + NumberOfTestOverArrayLimit;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfSkippedTests" Id="{51a75168-98fa-4d92-8093-efb431316cf0}">
@@ -3679,10 +3697,18 @@ GetNumberOfFailedTests := FailedTestsCount;]]></ST>
 VAR
     Counter : UINT;
     SkippedTestsCount : UINT;
+	NumberOfTestsToAnalyse: UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO GetNumberOfTests() BY 1 DO
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := GetNumberOfTests();
+END_IF
+
+IF NumberOfTests > 0 THEN
+    FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[Counter].IsSkipped() THEN
             SkippedTestsCount := SkippedTestsCount + 1;
         END_IF
@@ -3721,10 +3747,18 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
+	NumberOfTestsToAnalyse: UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := NumberOfTests;
+END_IF
+
+IF NumberOfTests > 0 THEN
+    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[IteratorCounter].GetName() = TestName THEN
             GetTestOrderNumber := Tests[IteratorCounter].GetTestOrder();
             RETURN;
@@ -3740,11 +3774,19 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
+	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IsTestFinished := FALSE;
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := NumberOfTests;
+END_IF
+
+IsTestFinished := FALSE;
 IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[IteratorCounter].GetName() = TestName THEN
             IsTestFinished := Tests[IteratorCounter].IsFinished();
             RETURN;
@@ -3767,10 +3809,18 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
+	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := NumberOfTests;
+END_IF
+
+IF NumberOfTests > 0 THEN
+    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[IteratorCounter].GetName() = GVL_TcUnit.CurrentTestNameBeingCalled THEN
             Tests[IteratorCounter].SetFailed();
             Tests[IteratorCounter].SetAssertionType(AssertType := AssertionType);
@@ -3790,10 +3840,17 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
+	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTests BY 1 DO
+        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+ELSE
+    NumberOfTestsToAnalyse := NumberOfTests;
+END_IF
+IF NumberOfTests > 0 THEN
+    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         IF Tests[IteratorCounter].GetName() = TestName THEN
             Tests[IteratorCounter].SetFinished();
             SetTestFinished := TRUE;

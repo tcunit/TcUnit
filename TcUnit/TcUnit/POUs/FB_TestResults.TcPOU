@@ -12,6 +12,7 @@ VAR
     StoringTestSuiteTrigger : Tc2_Standard.R_TRIG;
     StoredTestSuiteResults : BOOL;
     StoredGeneralTestResults : BOOL;
+	NumberOfTestsToAnalyse: UINT;
 END_VAR
 VAR_TEMP
     TestSuiteName : Tc2_System.T_MaxString;
@@ -41,9 +42,16 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
         (* Store number of failed tests in test suite *)
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].NumberOfFailedTests :=
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
-
+            
+        (* Limit the test analyse to the max array limit of 'Tests[]' *)
+        IF GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests()>  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
+            NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+        ELSE
+            NumberOfTestsToAnalyse := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
+        END_IF
+        
         (* Iterate and print all tests in test suite *)
-        FOR TestsInTestSuiteCounter := 1 TO GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests() BY 1 DO
+        FOR TestsInTestSuiteCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
             TestToBeStored := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestByPosition(TestsInTestSuiteCounter);
             (* Store test name *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName := TestToBeStored.GetName();

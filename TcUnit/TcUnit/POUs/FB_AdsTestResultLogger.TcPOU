@@ -37,9 +37,11 @@ END_VAR
     <Method Name="LogTestSuiteResults" Id="{3263938a-5e4f-4e5f-bfa0-9c9469439d97}">
       <Declaration><![CDATA[METHOD PUBLIC LogTestSuiteResults
 VAR
-    TcUnitTestResults : REFERENCE TO ST_TestSuiteResults;
-    StringToPrint : Tc2_System.T_MaxString; 
-    TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    TcUnitTestResults             : REFERENCE TO ST_TestSuiteResults;
+    StringToPrint                 : Tc2_System.T_MaxString; 
+    TestsInTestSuiteCounter       : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    NumberMaxTestToPrint          : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+
 END_VAR
 VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
@@ -79,8 +81,18 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                             MsgFmtStr := StringToPrint,
                                             StrArg := '');
 
+        (* Print Error if there are too many tests in the Test Suite*)
+        IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
+            NumberMaxTestToPrint := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+            GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                                MsgFmtStr := concat('| ',concat(TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests -  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) ,' Tests failed because = %s')),
+                                                StrArg := concat (TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests) ,concat(' in this Test-Suite : ',concat(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name, '. It is more as in the GVL_Param_TcUnit configured'))));   
+         ELSE
+            NumberMaxTestToPrint := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests;
+        END_IF	                                 
+                                            
         (* Iterate and print all tests in test suite *)
-        FOR TestsInTestSuiteCounter := 1 TO TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests BY 1 DO
+        FOR TestsInTestSuiteCounter := 1 TO NumberMaxTestToPrint BY 1 DO
             (* Print test name *)
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test name=%s',
