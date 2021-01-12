@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -62,7 +62,7 @@ VAR
     LowerCasedTestName : Tc2_System.T_MaxString;
     TrimmedTestName : Tc2_System.T_MaxString;
     IgnoreCurrentTestCase : BOOL;
-	NumberOfTestsToAnalyse: UINT;
+	NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.IgnoreCurrentTest := FALSE; // Reset the ignore current test flag
@@ -157,7 +157,7 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
 VAR
     Counter : UINT;
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
-    NumberOfTestsToAnalyse : UINT;
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[AreAllTestsFinished := FALSE;
@@ -3669,8 +3669,8 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
 VAR
     Counter : UINT;
     FailedTestsCount : UINT;
-	NumberOfTestsToAnalyse: UINT;
-    NumberOfTestOverArrayLimit :UINT;
+	NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    NumberOfTestOverArrayLimit : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
@@ -3697,7 +3697,7 @@ GetNumberOfFailedTests := FailedTestsCount + NumberOfTestOverArrayLimit;]]></ST>
 VAR
     Counter : UINT;
     SkippedTestsCount : UINT;
-	NumberOfTestsToAnalyse: UINT;
+	NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
@@ -3747,7 +3747,7 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-	NumberOfTestsToAnalyse: UINT;
+	NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
@@ -3774,7 +3774,7 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+	NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
@@ -3809,7 +3809,7 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+	NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
@@ -3840,7 +3840,7 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-	NumberOfTestsToAnalyse: UINT (0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+	NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
