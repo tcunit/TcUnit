@@ -40,8 +40,7 @@ VAR
     TcUnitTestResults : REFERENCE TO ST_TestSuiteResults;
     StringToPrint : Tc2_System.T_MaxString; 
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-    MaxNumberOfTestToPrint : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
-
+    MaxNumberOfTestsToPrint : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR
 VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
@@ -52,7 +51,6 @@ END_VAR]]></Declaration>
         <ST><![CDATA[TcUnitTestResults REF= TestResults.GetTestSuiteResults();
 
 IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedTestSuitesResults THEN
-    
     PrintingTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.AreAllTestsFinished());
     IF PrintingTestSuiteTrigger.Q THEN
         StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test suite ID=',
@@ -81,18 +79,15 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                             MsgFmtStr := StringToPrint,
                                             StrArg := '');
 
-        (* Print Error if there are too many tests in the Test Suite*)
+        (* Print error if there are too many tests in the test suite *)
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
-            MaxNumberOfTestToPrint := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-            GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                MsgFmtStr := Tc2_Standard.CONCAT('| ',Tc2_Standard.CONCAT(TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests -  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) ,' Tests failed because = %s')),
-                                                StrArg := Tc2_Standard.CONCAT (UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests) ,Tc2_Standard.CONCAT(' in this Test suite : ',concat(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name, '. It is more as in the GVL_Param_TcUnit configured'))));   
-         ELSE
-            MaxNumberOfTestToPrint := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests;
-        END_IF	                                 
-                                            
+            MaxNumberOfTestsToPrint := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
+        ELSE
+            MaxNumberOfTestsToPrint := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests;
+        END_IF
+
         (* Iterate and print all tests in test suite *)
-        FOR TestsInTestSuiteCounter := 1 TO MaxNumberOfTestToPrint BY 1 DO
+        FOR TestsInTestSuiteCounter := 1 TO MaxNumberOfTestsToPrint BY 1 DO
             (* Print test name *)
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test name=%s',
@@ -137,10 +132,13 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
         (* Print error message if there are too many tests in the test suite *)
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                MsgFmtStr := '| Tests failed because the amount of tests (%s',
+                                                MsgFmtStr := 'Tests failed because the amount of tests (%s',
                                                 StrArg := Tc2_Standard.CONCAT(STR1 := TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests),
-                                                          STR2 := Tc2_Standard.CONCAT(STR1 := ') in the test suite $'',
-                                                          STR2 := Tc2_Standard.CONCAT(STR1 := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name, STR2 := '$' are more than is defined in parameter $'GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite$'. Please increase this parameter.'))));
+                                                                              STR2 := Tc2_Standard.CONCAT(STR1 := ') in the test suite $'',
+                                                                                                          STR2 := Tc2_Standard.CONCAT(STR1 := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name,
+                                                                                                                                      STR2 := Tc2_Standard.CONCAT(STR1 := '$' are more than is defined in parameter $'GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite$' (',
+                                                                                                                                                                  STR2 := Tc2_Standard.CONCAT(STR1 := UINT_TO_STRING(GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite),
+                                                                                                                                                                                              STR2 := '). Please increase this parameter.'))))));
         END_IF
 
         IF PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites THEN

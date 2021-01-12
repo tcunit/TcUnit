@@ -28,7 +28,7 @@ namespace TcUnit.Verifier
 
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
-                .Add("t=|TcUnitTargetNetId=", "(Optional, default 127.0.0.1.1.1) Target NetId of TwinCAT runtime to deploy TcUnit-Verifier PLC to", t => tcUnitTargetNetId = t)
+                .Add("t=|TcUnitTargetNetId=", "[OPTIONAL] Target NetId of TwinCAT runtime to run TcUnit-Verifier", t => tcUnitTargetNetId = t)
                 .Add("?|h|help", h => showHelp = h != null);
 
             try

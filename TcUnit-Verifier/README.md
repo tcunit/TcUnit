@@ -8,7 +8,7 @@ test different functions in TcUnit. It consists of two separate programs:
 When verifying that TcUnit works as expected a developer needs to add tests to
 both of these programs.
 
-![TcUnit-Verifier concept](https://github.com/tcunit/TcUnit/blob/master/TcUnit-Verifier/img/TcUnit-Verifier_Concept_1280.png)
+![TcUnit-Verifier concept](img/TcUnit-Verifier_Concept_1280.png)
 
 ## TcUnit-Verifier_TwinCAT
 TcUnit-Verifier_TwinCAT (TcVT) is as the name implies a TwinCAT project.
@@ -34,9 +34,9 @@ running, another program is necessary that verifies that the output of the TcVT
 is as expected.
 
 ## TcUnit-Verifier_DotNet
-The TcUnit-Verifier_DotNet (TcVD) is a (Visual Studio 2013) C# program that opens
-and runs the TcUnit-Verifier_TwinCAT project by the usage of the TwinCAT automation
-interface. It basically does the following:
+The TcUnit-Verifier_DotNet (TcVD) is a (Visual Studio 2013) C# program that
+opens and runs the TcUnit-Verifier_TwinCAT project by the usage of the TwinCAT
+automation interface. It basically does the following:
 - Starts Visual Studio (using the same version that was used developing TcVT)
 - Opens TcVT
 - Does a clean/build of TcVT
@@ -112,3 +112,9 @@ lines (like in the example) it means that TcUnit behaves according to the tests
 defined in TcUnit-Verifier. As TcVD starts the TwinCAT runtime it is required 
 that a (trial) runtime license for TwinCAT is activated on the PC of where TcVD
 and TcVT will be running.
+
+To compile the project you will also need to install
+[log4net](https://logging.apache.org/log4net/).
+Open the project with VS2013. Go to
+`TOOLS->NuGet Package Manager->Package Manager Console`.
+In the console enter `Install-Package log4net -Version 2.0.12`.
