@@ -40,8 +40,8 @@ VAR
     (* Indication whether this test suite has started running its tests *)
     HasStartedRunning : BOOL;
 
-    (* Amount of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
-    AmountOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
+    NumberOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
