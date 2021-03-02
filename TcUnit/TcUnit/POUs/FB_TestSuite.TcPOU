@@ -127,8 +127,8 @@ IF NOT TestWithThisNameAlreadyExists THEN
 
     (* Extra information to be added if test is ordered (called by TEST_ORDERED()) *)
     IF IsTestOrdered THEN
-        AmountOfOrderedTests := AmountOfOrderedTests + 1;
-        Tests[IteratorCounter].SetTestOrder(OrderNumber := AmountOfOrderedTests);
+        NumberOfOrderedTests := NumberOfOrderedTests + 1;
+        Tests[IteratorCounter].SetTestOrder(OrderNumber := NumberOfOrderedTests);
     END_IF
 END_IF
 
