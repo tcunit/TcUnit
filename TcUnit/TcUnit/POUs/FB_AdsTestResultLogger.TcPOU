@@ -132,7 +132,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
         (* Print error message if there are too many tests in the test suite *)
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-                                                MsgFmtStr := 'Tests failed because the amount of tests (%s',
+                                                MsgFmtStr := 'Tests failed because the number of tests (%s',
                                                 StrArg := Tc2_Standard.CONCAT(STR1 := TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests),
                                                                               STR2 := Tc2_Standard.CONCAT(STR1 := ') in the test suite $'',
                                                                                                           STR2 := Tc2_Standard.CONCAT(STR1 := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name,
