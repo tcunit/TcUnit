@@ -64,7 +64,7 @@ namespace TcUnit.Verifier
         }
 
         /// <summary>
-        /// Asserts that at least one of the messages in the array exists the messageCount amount of times. Note that if the messageCount will
+        /// Asserts that at least one of the messages in the array exists the messageCount number of times. Note that if the messageCount will
         /// increase also if both messages exist.
         /// </summary>
         protected void AssertAtLeastOneMessageCount(string[] messages, int messageCount, vsBuildErrorLevel errorLevel)
