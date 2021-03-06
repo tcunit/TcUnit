@@ -153,7 +153,7 @@ AddTestNameToInstancePath := Tc2_Utilities.CONCAT(STR1 := CompleteTestInstancePa
       </Implementation>
     </Method>
     <Method Name="AreAllTestsFinished" Id="{2b211901-49a8-4e51-90e1-4b1e298f9e0c}">
-      <Declaration><![CDATA[METHOD INTERNAL AreAllTestsFinished : BOOL
+      <Declaration><![CDATA[METHOD PUBLIC AreAllTestsFinished : BOOL
 VAR
     Counter : UINT;
     GetCurTaskIndex : Tc2_System.GETCURTASKINDEX;
