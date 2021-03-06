@@ -5,12 +5,9 @@
     This function runs all test suites that have been initialized.
     The test suites are run in sequence (one after the other).
 *)
-FUNCTION RUN_IN_SEQUENCE
-VAR_INPUT
-    TimeBetweenTestSuitesExecution : TIME := T#0MS; // Time delay between a test suite is finished and the next test suite starts
-END_VAR]]></Declaration>
+FUNCTION RUN_IN_SEQUENCE]]></Declaration>
     <Implementation>
-      <ST><![CDATA[GVL_TcUnit.TcUnitRunner.RunTestSuiteTestsInSequence(TimeBetweenTestSuitesExecution := TimeBetweenTestSuitesExecution);]]></ST>
+      <ST><![CDATA[GVL_TcUnit.TcUnitRunner.RunTestSuiteTestsInSequence(TimeBetweenTestSuitesExecution := GVL_Param_TcUnit.TimeBetweenTestSuitesExecution);]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

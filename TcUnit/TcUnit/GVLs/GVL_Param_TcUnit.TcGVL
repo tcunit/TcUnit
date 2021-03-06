@@ -36,6 +36,10 @@ VAR_GLOBAL CONSTANT
        PLC cycle. Each entry consumes around 500 bytes, so with an example of a ring buffer size of
        2000 it means that TcUnit will consume around 1 MB of router memory. *) 
     AdsLogMessageFifoRingBufferSize : UINT := 2000;
+
+    (* Time delay between a test suite is finished and the execution of the next test suite starts
+       if using RUN_IN_SEQUENCE() *)
+    TimeBetweenTestSuitesExecution : TIME := T#0MS;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
