@@ -97,6 +97,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL_Differ');
 
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '2');
+
 AssertEquals_BOOL(Expected := a,
                   Actual := b,
                   Message := 'Values differ');
@@ -112,6 +116,10 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL_Equals');
+
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '1');
 
 AssertEquals_BOOL(Expected := a,
                   Actual := b,
@@ -256,6 +264,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD_Differ');
 
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_HINT,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '4');
+
 AssertEquals_DWORD(Expected := a,
                    Actual := b,
                    Message := 'Values differ');
@@ -271,6 +283,10 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD_Equals');
+
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_HINT,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '3');
 
 AssertEquals_DWORD(Expected := a,
                    Actual := b,
@@ -450,6 +466,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Differ');
 
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_WARN,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '6');
+
 AssertEquals_REAL(Expected := a,
                   Actual := b,
                   Delta := 0.05,
@@ -466,6 +486,10 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Equals');
+
+TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_WARN,
+                 msgFmtStr := 'This is just a string %s',
+                 strArg := '5');
 
 AssertEquals_REAL(Expected := a,
                   Actual := b,

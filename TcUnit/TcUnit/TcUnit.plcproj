@@ -166,6 +166,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\Functions\RUN_IN_SEQUENCE.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\TCUNIT_ADSLOGSTR.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\TEST.TcPOU">
       <SubType>Code</SubType>
     </Compile>

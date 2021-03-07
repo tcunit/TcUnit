@@ -1,7 +1,7 @@
 # TcUnit - TwinCAT unit testing framework
 
 
-Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff TwinCAT3](https://www.beckhoff.com/english.asp?twincat/twincat-3.htm).
+Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's TwinCAT3](https://www.beckhoff.com/twincat3/).
 
 ![TwinCAT logo](https://github.com/tcunit/TcUnit/blob/master/img/TcUnit-logo.jpg)
 
