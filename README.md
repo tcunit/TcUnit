@@ -8,7 +8,7 @@ Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's
 **Main documentation site is available on:**  
 **[www.tcunit.org](https://www.tcunit.org)**
 
-**Unit testing... huh?**  
+**What is test driven development and unit testing?**  
 Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/unit-testing-concepts/). 
 
 **Want to know how to get started?**  
