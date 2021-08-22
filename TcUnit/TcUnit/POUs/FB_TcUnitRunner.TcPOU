@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for holding track of the tests and executing them.
@@ -8,6 +8,7 @@ FUNCTION_BLOCK FB_TcUnitRunner
 VAR
     (* Indication of whether all test suites have reported that they are finished *)
     AllTestSuitesFinished : BOOL := FALSE;
+    AllTestSuitesFinishedTrigger : R_TRIG;
 
     (* Test result information *)
     TestResults : FB_TestResults;
@@ -49,7 +50,12 @@ VAR
     NumberOfTestSuitesFinished : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Run TcUnit test suites *)
+        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0
+THEN
+    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.StartedAt);
+END_IF
+
+(* Run TcUnit test suites *)
 IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
@@ -61,6 +67,7 @@ IF NOT AllTestSuitesFinished THEN
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetHasStartedRunning();
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
+                GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
             END_IF
         END_FOR
         (* Check if some event triggered an abortion of running the tests, in that case abort it now.
@@ -68,10 +75,19 @@ IF NOT AllTestSuitesFinished THEN
         IF AbortRunningTestSuites THEN
             NumberOfTestSuitesFinished := GVL_TcUnit.NumberOfInitializedTestSuites;
         END_IF
+        
         IF NumberOfTestSuitesFinished = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
+END_IF
+
+(* Measure the duration it took to run all testsuites *)
+AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
+IF AllTestSuitesFinishedTrigger.Q
+THEN
+    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
+    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) * 0.1;;
 END_IF
 
 (* Store test suite results continuously *)
@@ -108,7 +124,12 @@ VAR_INST
      TimerBetweenExecutionOfTestSuites : Tc2_Standard.TOF;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TimerBetweenExecutionOfTestSuites(PT := TimeBetweenTestSuitesExecution);
+        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0
+THEN
+    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.StartedAt);
+END_IF
+
+TimerBetweenExecutionOfTestSuites(PT := TimeBetweenTestSuitesExecution);
 (* Run TcUnit test suites *)
 IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
@@ -127,6 +148,7 @@ IF NOT AllTestSuitesFinished THEN
             GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite];
             GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetHasStartedRunning();
             GVL_TcUnit.CurrentTestSuiteBeingCalled^();
+            GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
         END_IF
         (* Check if some event triggered an abortion of running the tests, in that case abort it now.
            This can be accomplished by setting the result of the test suites run to finished. *)
@@ -137,6 +159,14 @@ IF NOT AllTestSuitesFinished THEN
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
+END_IF
+
+(* Measure the duration it took to run all testsuites *)
+AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
+IF AllTestSuitesFinishedTrigger.Q
+THEN
+    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
+    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) * 0.1;
 END_IF
 
 (* Store test suite results continuously *)

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <DUT Name="ST_TestSuiteResult" Id="{46edf1c4-cab0-428e-8570-28c096b4eecf}">
     <Declaration><![CDATA[TYPE ST_TestSuiteResult :
 STRUCT
@@ -7,6 +7,7 @@ STRUCT
     Identity : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestSuites); // Should be 0..GVL_Param_TcUnit.MaxNumberOfTestSuites-1 but gives unknown compiler error
     NumberOfTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
     NumberOfFailedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    Duration : LREAL;
     TestCaseResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF ST_TestCaseResult;
 END_STRUCT
 END_TYPE]]></Declaration>

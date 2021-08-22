@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function declares a new test (if it has not been already declared in an earlier cycle) *)
 FUNCTION TEST
@@ -8,6 +8,8 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
+    Test : REFERENCE TO FB_Test;
+    TestStartedAt : UDINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Mark this test as the current one being executed *)
@@ -21,8 +23,10 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
+        Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
+        GVL_TcUnit.GetCpuAccount(cpuAccountDW => TestStartedAt);
+        Test.SetStartedAtIfNotSet(Timestamp := TestStartedAt);
         RETURN;
     END_IF
 END_FOR]]></ST>
