@@ -10,7 +10,9 @@ VAR
     CounterTestSuiteAddress : UINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Mark this test as the current one being executed *)
+      <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
+
+(* Mark this test as the current one being executed *)
 GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 
 (* Check if combination of address for the test suite and test name already exists.

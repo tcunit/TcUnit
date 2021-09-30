@@ -19,7 +19,9 @@ VAR CONSTANT
     MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Find the test suite and:
+      <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
+
+(* Find the test suite and:
    1. Set the test in that test suite as finished
    2. Calculate and set the number of asserts made for that test
 *)
