@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
@@ -44,11 +44,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
 
         (* Limit the test analyse to the max array limit of 'Tests[]' in FB_TestSuite *)
-        IF GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests() > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-            NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-        ELSE
-            NumberOfTestsToAnalyse := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
-        END_IF
+        NumberOfTestsToAnalyse:= GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTestsToAnalyse();
 
         (* Iterate and print all tests in test suite *)
         FOR TestsInTestSuiteCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -121,5 +117,18 @@ METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
         <ST><![CDATA[GetTestSuiteResults REF=TestSuiteResults;]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_TestResults">
+      <LineId Id="3" Count="18" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="28" Count="56" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetAreTestResultsAvailable">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestResults.GetTestSuiteResults">
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

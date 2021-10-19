@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -85,11 +85,7 @@ GetCurrentTaskIndex(); // Gets the task index of where this function block insta
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
 
 (* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := NumberOfTests;
-END_IF
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
 
 (* Iterate all the test names that up to this point have been added for this test suite *)
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -160,28 +156,23 @@ VAR
     NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AreAllTestsFinished := FALSE;
-
-IF NumberOfTests > 0 THEN
+        <ST><![CDATA[GetCurTaskIndex();
+IF TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
+	(* NumberOfTests is 0 in first cycle *)
+	AreAllTestsFinished := FALSE;
+ELSE
     AreAllTestsFinished := TRUE;
     (* Limit the test analyse to the max array limit of 'Tests[]' *)
-    IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-        NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-    ELSE
-        NumberOfTestsToAnalyse := GetNumberOfTests();
-    END_IF
-    (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
+    NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
     FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        AreAllTestsFinished := AreAllTestsFinished AND (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped());
+        (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
+        IF NOT ( Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped() ) THEN
+            AreAllTestsFinished:= FALSE;
+            RETURN;
+        END_IF
     END_FOR
 END_IF
-
-(* If we have been running at least one cycle and no tests are registered it means that this testsuite is empty
-   and doesn't contain any test cases. In that case, ignore this testsuite. *)
-GetCurTaskIndex();
-IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle AND HasStartedRunning THEN
-    AreAllTestsFinished := TRUE;
-END_IF]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_LREAL" Id="{964c2fec-9de7-47ae-bee4-23c559ae4a3f}">
@@ -3674,20 +3665,16 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-    NumberOfTestOverArrayLimit := GetNumberOfTests()-GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := GetNumberOfTests();
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+IF GetNumberOfTests() > NumberOfTestsToAnalyse THEN
+    NumberOfTestOverArrayLimit := GetNumberOfTests()-NumberOfTestsToAnalyse;
 END_IF
 
-IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[Counter].IsFailed() THEN
-            FailedTestsCount := FailedTestsCount + 1;
-        END_IF
-    END_FOR
-END_IF
+FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[Counter].IsFailed() THEN
+        FailedTestsCount := FailedTestsCount + 1;
+    END_IF
+END_FOR
 
 GetNumberOfFailedTests := FailedTestsCount + NumberOfTestOverArrayLimit;]]></ST>
       </Implementation>
@@ -3701,19 +3688,13 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF GetNumberOfTests() >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := GetNumberOfTests();
-END_IF
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
 
-IF NumberOfTests > 0 THEN
-    FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[Counter].IsSkipped() THEN
-            SkippedTestsCount := SkippedTestsCount + 1;
-        END_IF
-    END_FOR
-END_IF
+FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[Counter].IsSkipped() THEN
+        SkippedTestsCount := SkippedTestsCount + 1;
+    END_IF
+END_FOR
 
 GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       </Implementation>
@@ -3728,6 +3709,12 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTests : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTests := NumberOfTests;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetNumberOfTestsToAnalyse" Id="{eab9a959-64bd-4b82-9237-0c256b2aadb6}">
+      <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetNumberOfTestsToAnalyse:= MIN( GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite );]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
@@ -3751,20 +3738,15 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := NumberOfTests;
-END_IF
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
 
-IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[IteratorCounter].GetName() = TestName THEN
-            GetTestOrderNumber := Tests[IteratorCounter].GetTestOrder();
-            RETURN;
-        END_IF
-    END_FOR
-END_IF]]></ST>
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        GetTestOrderNumber := Tests[IteratorCounter].GetTestOrder();
+        RETURN;
+    END_IF
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsTestFinished" Id="{1ef139e2-1210-4139-ba5c-329f8493b09c}">
@@ -3778,21 +3760,15 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := NumberOfTests;
-END_IF
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
 
 IsTestFinished := FALSE;
-IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[IteratorCounter].GetName() = TestName THEN
-            IsTestFinished := Tests[IteratorCounter].IsFinished();
-            RETURN;
-        END_IF
-    END_FOR
-END_IF]]></ST>
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        IsTestFinished := Tests[IteratorCounter].IsFinished();
+        RETURN;
+    END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetHasStartedRunning" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
@@ -3813,21 +3789,15 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := NumberOfTests;
-END_IF
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
 
-IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[IteratorCounter].GetName() = GVL_TcUnit.CurrentTestNameBeingCalled THEN
-            Tests[IteratorCounter].SetFailed();
-            Tests[IteratorCounter].SetAssertionType(AssertType := AssertionType);
-            Tests[IteratorCounter].SetAssertionMessage(AssertMessage := AssertionMessage);
-        END_IF
-    END_FOR
-END_IF]]></ST>
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = GVL_TcUnit.CurrentTestNameBeingCalled THEN
+        Tests[IteratorCounter].SetFailed();
+        Tests[IteratorCounter].SetAssertionType(AssertType := AssertionType);
+        Tests[IteratorCounter].SetAssertionMessage(AssertMessage := AssertionMessage);
+    END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFinished" Id="{1ec94335-80d7-46d3-a0f0-345f8eda2ea4}">
@@ -3844,22 +3814,284 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-IF NumberOfTests >  GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-    NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-ELSE
-    NumberOfTestsToAnalyse := NumberOfTests;
-END_IF
-IF NumberOfTests > 0 THEN
-    FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        IF Tests[IteratorCounter].GetName() = TestName THEN
-            Tests[IteratorCounter].SetFinished();
-            SetTestFinished := TRUE;
-            RETURN;
-        END_IF
-    SetTestFinished := FALSE;
-    END_FOR
-END_IF]]></ST>
+NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        Tests[IteratorCounter].SetFinished();
+        SetTestFinished := TRUE;
+        RETURN;
+    END_IF
+END_FOR
+SetTestFinished := FALSE;]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_TestSuite">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AddTest">
+      <LineId Id="3" Count="19" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="28" Count="45" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AddTestNameToInstancePath">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AreAllTestsFinished">
+      <LineId Id="67" Count="1" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="71" Count="8" />
+      <LineId Id="64" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray2dEquals_LREAL">
+      <LineId Id="3" Count="116" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray2dEquals_REAL">
+      <LineId Id="3" Count="116" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray3dEquals_LREAL">
+      <LineId Id="3" Count="143" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArray3dEquals_REAL">
+      <LineId Id="3" Count="143" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_BOOL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_BYTE">
+      <LineId Id="3" Count="69" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_DINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_DWORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_INT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LREAL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_LWORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_REAL">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_SINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_UDINT">
+      <LineId Id="3" Count="61" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_UINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_ULINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_USINT">
+      <LineId Id="3" Count="60" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertArrayEquals_WORD">
+      <LineId Id="3" Count="68" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals">
+      <LineId Id="3" Count="292" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_BOOL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_BYTE">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DATE">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DATE_AND_TIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_DWORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_INT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LREAL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LTIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_LWORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_REAL">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_SINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_STRING">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_TIME">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_TIME_OF_DAY">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_UDINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_UINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_ULINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_USINT">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_WORD">
+      <LineId Id="3" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertEquals_WSTRING">
+      <LineId Id="3" Count="23" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertFalse">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.AssertTrue">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.CalculateAndSetNumberOfAssertsForTest">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.FB_init">
+      <LineId Id="3" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.FindTestSuiteInstancePath">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetHasStartedRunning">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetInstancePath">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfFailedTests">
+      <LineId Id="3" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="11" Count="5" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfSkippedTests">
+      <LineId Id="3" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="10" Count="5" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfSuccessfulTests">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfTests">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetNumberOfTestsToAnalyse">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetTestByPosition">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.GetTestOrderNumber">
+      <LineId Id="3" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="6" />
+      <LineId Id="24" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.IsTestFinished">
+      <LineId Id="3" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="12" Count="5" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetHasStartedRunning">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetTestFailed">
+      <LineId Id="3" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="10" Count="7" />
+    </LineIds>
+    <LineIds Name="FB_TestSuite.SetTestFinished">
+      <LineId Id="3" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="10" Count="5" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="29" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
