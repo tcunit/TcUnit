@@ -85,7 +85,7 @@ GetCurrentTaskIndex(); // Gets the task index of where this function block insta
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
 
 (* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 (* Iterate all the test names that up to this point have been added for this test suite *)
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -163,10 +163,10 @@ IF TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
 ELSE
     AreAllTestsFinished := TRUE;
     (* Limit the test analyse to the max array limit of 'Tests[]' *)
-    NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+    NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
     FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
-        IF NOT ( Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped() ) THEN
+        IF NOT (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped()) THEN
             AreAllTestsFinished:= FALSE;
             RETURN;
         END_IF
@@ -3665,7 +3665,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 IF GetNumberOfTests() > NumberOfTestsToAnalyse THEN
     NumberOfTestOverArrayLimit := GetNumberOfTests()-NumberOfTestsToAnalyse;
 END_IF
@@ -3688,7 +3688,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[Counter].IsSkipped() THEN
@@ -3714,7 +3714,7 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
     <Method Name="GetNumberOfTestsToAnalyse" Id="{eab9a959-64bd-4b82-9237-0c256b2aadb6}">
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetNumberOfTestsToAnalyse:= MIN( GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite );]]></ST>
+        <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
@@ -3738,7 +3738,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
@@ -3760,7 +3760,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 IsTestFinished := FALSE;
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -3789,7 +3789,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = GVL_TcUnit.CurrentTestNameBeingCalled THEN
@@ -3814,7 +3814,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
-NumberOfTestsToAnalyse:= GetNumberOfTestsToAnalyse();
+NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
         Tests[IteratorCounter].SetFinished();
