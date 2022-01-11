@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_xUnitXmlPublisher" Id="{6597c0b3-0890-4d5d-8d3a-2d0d0b2355db}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Publishes test results into an xUnit compatible Xml file

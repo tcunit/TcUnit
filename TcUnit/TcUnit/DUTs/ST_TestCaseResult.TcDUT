@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <DUT Name="ST_TestCaseResult" Id="{9c511c0b-2edf-4938-bd37-33f5b59a1386}">
     <Declaration><![CDATA[TYPE ST_TestCaseResult :
 STRUCT

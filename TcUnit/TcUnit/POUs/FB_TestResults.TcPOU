@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults

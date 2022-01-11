@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
 
@@ -40,61 +40,34 @@ END_VAR]]></Declaration>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
 GVL_TcUnit.GetCpuAccount(cpuAccountDW => FinishedAt);
 
-
 (* Find the test suite and:
-
    1. Set the test in that test suite as finished
-
    2. Calculate and set the number of asserts made for that test
-
 *)
 
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
-
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName, FinishedAt := FinishedAt);
-
         IF NOT FoundTestName THEN
-
             IF FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
-
                 GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-
                                                     MsgFmtStr := 'Failed to find test $'%s$'',
-
                                                     StrArg := TestName);
-
                 FailedLookupCounter := FailedLookupCounter + 1;
-
                 (* Abort TcUnit *)
-
                 GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
-
             ELSIF NOT AlreadyPrintedFinalWarning THEN
-
                 GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
-
                                                     MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
-
                                                     StrArg := TestName);
-
                 AlreadyPrintedFinalWarning := TRUE;
-
             END_IF
-
         ELSE
-
             GVL_TcUnit.TestSuiteAddresses[Counter]^.CalculateAndSetNumberOfAssertsForTest(TestName := TestName);
-
             GVL_TcUnit.CurrentTestIsFinished := TRUE;
-
         END_IF
-
         RETURN;
-
     END_IF
-
 END_FOR]]></ST>
     </Implementation>
   </POU>
