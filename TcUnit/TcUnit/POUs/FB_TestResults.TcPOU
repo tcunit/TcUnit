@@ -48,11 +48,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetDuration();
 
         (* Limit the test analyse to the max array limit of 'Tests[]' in FB_TestSuite *)
-        IF GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests() > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite THEN
-            NumberOfTestsToAnalyse := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
-        ELSE
-            NumberOfTestsToAnalyse := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
-        END_IF
+        NumberOfTestsToAnalyse := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTestsToAnalyse();
 
         (* Iterate and print all tests in test suite *)
         FOR TestsInTestSuiteCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
