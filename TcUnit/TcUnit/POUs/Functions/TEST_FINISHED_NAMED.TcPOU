@@ -2,39 +2,22 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
-
    a TestName that has been previously defined in this test suite. *)
-
 FUNCTION TEST_FINISHED_NAMED
-
 VAR_INPUT
-
     TestName : Tc2_System.T_MaxString;
-
 END_VAR
-
 VAR
-
     Counter : UINT := 0;
-
     FoundTestName : BOOL := FALSE;
-
     FinishedAt : UDINT;
-
 END_VAR
-
 VAR_STAT
-
     FailedLookupCounter : UINT := 0;
-
     AlreadyPrintedFinalWarning : BOOL := FALSE;
-
 END_VAR
-
 VAR CONSTANT
-
     MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
-
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
@@ -44,7 +27,6 @@ GVL_TcUnit.GetCpuAccount(cpuAccountDW => FinishedAt);
    1. Set the test in that test suite as finished
    2. Calculate and set the number of asserts made for that test
 *)
-
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName, FinishedAt := FinishedAt);

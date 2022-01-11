@@ -3832,7 +3832,7 @@ END_VAR]]></Declaration>
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
-            Tests[IteratorCounter].SetFinished(FinishedAt := FinishedAt);
+        Tests[IteratorCounter].SetFinished(FinishedAt := FinishedAt);
         SetTestFinished := TRUE;
         RETURN;
     END_IF
