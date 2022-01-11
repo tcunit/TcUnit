@@ -87,7 +87,7 @@ AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
 IF AllTestSuitesFinishedTrigger.Q
 THEN
     GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
-    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) * 0.1;;
+    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) / 10000000; // seconds
 END_IF
 
 (* Store test suite results continuously *)
@@ -166,7 +166,7 @@ AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
 IF AllTestSuitesFinishedTrigger.Q
 THEN
     GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
-    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) * 0.1;
+    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) / 10000000; // seconds
 END_IF
 
 (* Store test suite results continuously *)

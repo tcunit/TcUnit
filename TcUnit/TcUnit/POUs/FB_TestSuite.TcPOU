@@ -3847,7 +3847,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetCpuAccount(cpuAccountDW => timestamp);
-Duration := Duration + UDINT_TO_LREAL(timestamp - StartedAt) * 0.1;]]></ST>
+Duration := Duration + UDINT_TO_LREAL(timestamp - StartedAt) / 10000000; // seconds]]></ST>
       </Implementation>
     </Method>
   </POU>

@@ -22,7 +22,7 @@ VAR_GLOBAL
     (* Timestamp for the first entry into on of the Run methods *)    
     StartedAt : UDINT;
     
-    (* Duration it took for a complete run *)
+    (* Duration it took for a complete run, in seconds *)
     Duration : LREAL;    
 
     (* Whether or not the current test being called has finished running *)

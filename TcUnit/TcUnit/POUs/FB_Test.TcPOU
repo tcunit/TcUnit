@@ -119,7 +119,7 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFinished := TRUE;
-Duration := UDINT_TO_LREAL(FinishedAt - StartedAt) * 0.1;]]></ST>
+Duration := UDINT_TO_LREAL(FinishedAt - StartedAt) / 10000000; // seconds]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
