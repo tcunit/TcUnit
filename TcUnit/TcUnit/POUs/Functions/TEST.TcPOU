@@ -27,8 +27,10 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
-        GVL_TcUnit.GetCpuAccount(cpuAccountDW => TestStartedAt);
-        Test.SetStartedAtIfNotSet(Timestamp := TestStartedAt);
+        IF __ISVALIDREF(Test) THEN
+          GVL_TcUnit.GetCpuAccount(cpuAccountDW => TestStartedAt);
+          Test.SetStartedAtIfNotSet(Timestamp := TestStartedAt);
+        END_IF
         RETURN;
     END_IF
 END_FOR]]></ST>
