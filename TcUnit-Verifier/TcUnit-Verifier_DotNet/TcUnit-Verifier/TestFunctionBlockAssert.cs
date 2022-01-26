@@ -2,6 +2,7 @@
 using log4net;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TcUnit.Verifier
 {
@@ -46,12 +47,24 @@ namespace TcUnit.Verifier
 
         private bool AreErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
-            return _errors.Any(e => (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
+            // no regex needed, do a fast check
+            if(!testMessage.Contains("%f"))
+                return _errors.Any(e => e.Description.Contains(testMessage.ToUpper()) && e.ErrorLevel.Equals(errorLevel));
+
+            // convert number placeholders (%f) to a regex that matches floating point values
+            testMessage = @".*?" + Regex.Escape(testMessage).Replace("%f", @"[+-]?(\d+([.]\d*)?([eE][+-]?\d+)?|[.]\d+([eE][+-]?\d+)?)") + @".*?";
+            return _errors.Any(e => Regex.Match(e.Description, testMessage, RegexOptions.IgnoreCase).Success && e.ErrorLevel.Equals(errorLevel));
         }
 
         private int CountErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
-            return _errors.Count(s => (s.Description.Contains(testMessage.ToUpper())) && s.ErrorLevel.Equals(errorLevel));
+            // no regex needed, do a fast check
+            if (!testMessage.Contains("%f"))
+                return _errors.Count(e => e.Description.Contains(testMessage.ToUpper()) && e.ErrorLevel.Equals(errorLevel));
+
+            // convert number placeholders (%f) to a regex that matches floating point values
+            testMessage = @".*?" + Regex.Escape(testMessage).Replace("%f", @"[+-]?(\d+([.]\d*)?([eE][+-]?\d+)?|[.]\d+([eE][+-]?\d+)?)") + @".*?";
+            return _errors.Count(e => Regex.Match(e.Description, testMessage, RegexOptions.IgnoreCase).Success && e.ErrorLevel.Equals(errorLevel));
         }
 
         protected void AssertMessageCount(string message, int messageCount, vsBuildErrorLevel errorLevel)

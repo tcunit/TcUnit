@@ -7,6 +7,7 @@ using System.Linq;
 using TCatSysManagerLib;
 using System.Threading;
 using EnvDTE80;
+using System.Text.RegularExpressions;
 
 namespace TcUnit.Verifier
 {
@@ -108,8 +109,12 @@ namespace TcUnit.Verifier
             bool numberOfTestsLineFound = false;
             bool numberOfSuccesfulTestsLineFound = false;
             bool numberOfFailedTestsLineFound = false;
+            bool durationLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
             int numberOfFailedTests = 0;
+            float duration;
+
+            const string durationStr = "| Duration:";
 
             log.Info("Waiting for TcUnit-Verifier_TwinCAT to finish running tests...");
 
@@ -139,6 +144,11 @@ namespace TcUnit.Verifier
                         // Grab the number of failed tests so we can validate it during the assertion phase
                         numberOfFailedTests = int.Parse(error.Description.Split().Last());
                     }
+                    if (error.Description.Contains(durationStr))
+                    {
+                        int durationIndex = error.Description.IndexOf(durationStr);
+                        durationLineFound = float.TryParse(error.Description.Substring(durationIndex + durationStr.Length), out duration);
+                    }
                     if (error.Description.Contains("| ======================================"))
                         testsFinishedRunningLastLineFound = true;
                 }
@@ -148,7 +158,8 @@ namespace TcUnit.Verifier
                     && numberOfTestSuitesLineFound 
                     && numberOfTestsLineFound 
                     && numberOfSuccesfulTestsLineFound
-                    && numberOfFailedTestsLineFound 
+                    && numberOfFailedTestsLineFound
+                    && durationLineFound
                     && testsFinishedRunningLastLineFound
                 )
                     break;
