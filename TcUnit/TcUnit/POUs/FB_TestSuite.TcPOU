@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -3725,11 +3725,10 @@ VAR_INPUT
 END_VAR
 VAR    
     IteratorCounter : UINT;
-    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite BY 1 DO
     IF GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter].GetName() = TestName THEN
         GetTestByName := ADR(GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter]);
         RETURN;
