@@ -8,7 +8,10 @@ VAR
     Counter : UINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Grab the currently running test name
+      <ST><![CDATA[IF GVL_TcUnit.CurrentTestBeingCalled^.AssertionIsAwaiting THEN
+    RETURN;
+END_IF
+// Grab the currently running test name
 TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
 
 TEST_FINISHED := FALSE;

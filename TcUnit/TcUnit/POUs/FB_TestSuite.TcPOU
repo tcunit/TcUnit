@@ -3717,6 +3717,26 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetTestByName" Id="{6eef34d3-608c-4676-adf1-5306746ac9a2}">
+      <Declaration><![CDATA[(* This method returns the test pointer by its name *)
+METHOD INTERNAL GetTestByName : POINTER TO FB_Test
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR    
+    IteratorCounter : UINT;
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter].GetName() = TestName THEN
+        GetTestByName := ADR(GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter]);
+        RETURN;
+    END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
       <Declaration><![CDATA[(* This method returns the test at the n'th position, ranging from 1.. NumberOfTests *)
 METHOD INTERNAL GetTestByPosition : FB_Test

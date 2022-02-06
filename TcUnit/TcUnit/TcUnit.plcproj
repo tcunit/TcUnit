@@ -139,6 +139,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_XmlControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\AWAIT_ASSERTIONS.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\F_AnyToUnionValue.TcPOU">
       <SubType>Code</SubType>
     </Compile>

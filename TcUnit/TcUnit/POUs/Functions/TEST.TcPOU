@@ -24,6 +24,7 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
+        GVL_TcUnit.CurrentTestBeingCalled := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.GetTestByName(TestName:=GVL_TcUnit.CurrentTestNameBeingCalled);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
         RETURN;
     END_IF
