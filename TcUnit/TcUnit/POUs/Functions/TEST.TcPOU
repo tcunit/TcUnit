@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function declares a new test (if it has not been already declared in an earlier cycle) *)
 FUNCTION TEST
@@ -23,8 +23,7 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
-        GVL_TcUnit.CurrentTestBeingCalled := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.GetTestByName(TestName:=GVL_TcUnit.CurrentTestNameBeingCalled);
+        GVL_TcUnit.CurrentTestBeingCalled := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
         RETURN;
     END_IF

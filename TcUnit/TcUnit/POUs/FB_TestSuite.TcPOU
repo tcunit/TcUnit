@@ -47,7 +47,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
-      <Declaration><![CDATA[METHOD INTERNAL AddTest
+      <Declaration><![CDATA[METHOD INTERNAL AddTest : REFERENCE TO FB_Test
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
     IsTestOrdered : BOOL;
@@ -127,6 +127,8 @@ IF NOT TestWithThisNameAlreadyExists THEN
         Tests[IteratorCounter].SetTestOrder(OrderNumber := NumberOfOrderedTests);
     END_IF
 END_IF
+
+AddTest REF= Tests[IteratorCounter];
 
 (* Check if this test should be disabled *)
 IF IgnoreCurrentTestCase THEN
@@ -3715,25 +3717,6 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetTestByName" Id="{6eef34d3-608c-4676-adf1-5306746ac9a2}">
-      <Declaration><![CDATA[(* This method returns the test pointer by its name *)
-METHOD INTERNAL GetTestByName : POINTER TO FB_Test
-VAR_INPUT
-    TestName : Tc2_System.T_MaxString;
-END_VAR
-VAR    
-    IteratorCounter : UINT;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite BY 1 DO
-    IF GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter].GetName() = TestName THEN
-        GetTestByName := ADR(GVL_TcUnit.CurrentTestSuiteBeingCalled^.Tests[IteratorCounter]);
-        RETURN;
-    END_IF
-END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
