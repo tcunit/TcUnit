@@ -5,11 +5,6 @@
 VAR_INPUT
     AwaitTime : TIME;
 END_VAR
-VAR
-    IteratorCounter : UINT;
-    CurrentTestPointer : POINTER TO FB_Test;
-    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
-END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[GVL_TcUnit.CurrentTestBeingCalled.AwaitingTimer(IN:=TRUE,PT:=AwaitTime);

@@ -109,6 +109,7 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
             END_IF
         END_IF
         TestCycleCountIndex[IteratorCounter] := CycleCount;
+        EXIT;
     END_IF
 END_FOR
 
@@ -128,7 +129,7 @@ IF NOT TestWithThisNameAlreadyExists THEN
     END_IF
 END_IF
 
-AddTest REF= Tests[IteratorCounter];
+AddTest REF= GetTestByName(TrimmedTestName);
 
 (* Check if this test should be disabled *)
 IF IgnoreCurrentTestCase THEN
@@ -3717,6 +3718,25 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestByName" Id="{33f284fe-d12c-410c-ad92-327a023f47c3}">
+      <Declaration><![CDATA[METHOD INTERNAL GetTestByName : REFERENCE TO FB_Test
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR    
+    IteratorCounter : UINT;
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        GetTestByName REF= Tests[IteratorCounter];
+        RETURN;
+    END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
