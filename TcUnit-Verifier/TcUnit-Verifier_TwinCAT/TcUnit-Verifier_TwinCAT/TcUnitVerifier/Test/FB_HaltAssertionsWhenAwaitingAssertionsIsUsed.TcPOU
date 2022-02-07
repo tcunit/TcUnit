@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_HaltAssertionsWhenAwaitingAssertionsIsUsed" Id="{b3457fc4-0c17-4e46-9834-9ec3368bf1b5}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    Contains tests that require 2 seconds to get the real result :
+    - A normal test that asserts and finishes immediately so the assert statement fails
+    - A short halted test that halts assertion for 1 seconds so the assert statement fails
+    - A long halted test that halts assertion for 3 seconds so the assert statement passes
+*)
+FUNCTION_BLOCK FB_HaltAssertionsWhenAwaitingAssertionsIsUsed EXTENDS FB_TestSuite
+VAR
+    // these timers are used to mock a function block which throws result after 2 second delay
+    ImmediateTestMockTimer : Tc2_Standard.TON := (PT := T#2S);
+    ShortTestMockTimer : Tc2_Standard.TON := (PT := T#2S);
+    LongTestMockTimer : Tc2_Standard.TON := (PT := T#2S);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_AssertImmediatelyAfterTest(ADR(ImmediateTestMockTimer));
+Test_ShortHalt(ADR(ShortTestMockTimer));
+Test_LongHalt(ADR(LongTestMockTimer));]]></ST>
+    </Implementation>
+    <Method Name="Test_AssertImmediatelyAfterTest" Id="{bb58d8b0-288a-4798-8d74-c58d960bafd2}">
+      <Declaration><![CDATA[METHOD Test_AssertImmediatelyAfterTest
+VAR_INPUT
+    testMockTimer : POINTER TO Tc2_Standard.TON;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_AssertImmediatelyAfterTest');
+testMockTimer^(IN:=TRUE);
+AssertTrue(testMockTimer^.Q,'this assertion should fail because test needs 2 second to have the real result');
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_LongHalt" Id="{ceb19f5f-1e0b-479e-9224-6630d1444303}">
+      <Declaration><![CDATA[METHOD Test_LongHalt
+VAR_INPUT
+    testMockTimer : POINTER TO Tc2_Standard.TON;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_LongHalt');
+testMockTimer^(IN:=TRUE);
+AWAIT_ASSERTIONS(AwaitTime:=T#3S);
+AssertTrue(testMockTimer^.Q,'this assertion should pass because test needs 2 second to have the real result and assertion halted for 3 seconds');
+TEST_FINISHED();
+
+(*// this is just to reset timer for next test in this test suite
+IF GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
+    testMockTimer^(IN:=FALSE);
+END_IF*)]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_ShortHalt" Id="{38e97dc0-6a5d-4249-86e6-920ea3c36382}">
+      <Declaration><![CDATA[METHOD Test_ShortHalt
+VAR_INPUT
+    testMockTimer : POINTER TO Tc2_Standard.TON;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_ShortHalt');
+testMockTimer^(IN:=TRUE);
+AWAIT_ASSERTIONS(AwaitTime:=T#1S);
+AssertTrue(testMockTimer^.Q,'this assertion should fail because test needs 2 second to have the real result but assertion halted for 1 second');
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

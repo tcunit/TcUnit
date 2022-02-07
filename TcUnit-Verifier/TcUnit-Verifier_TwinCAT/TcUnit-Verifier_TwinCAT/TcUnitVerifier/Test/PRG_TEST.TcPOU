@@ -29,6 +29,7 @@ VAR
     TestStreamBuffer : FB_TestStreamBuffer;
     TestFinishedNamed : FB_TestFinishedNamed;
     EmptyAssertionMessage : FB_EmptyAssertionMessage;
+    HaltAssertionsWhenAwaitingAssertionsIsUsed : FB_HaltAssertionsWhenAwaitingAssertionsIsUsed;
 
     (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
        to test the function of where a test with a name that doesn't exist is set to finished *)
