@@ -30,7 +30,8 @@ END_VAR
         <ST><![CDATA[TEST('Test_AssertImmediatelyAfterTest');
 testMockTimer^(IN:=TRUE);
 AssertTrue(testMockTimer^.Q,'this assertion should fail because test needs 2 second to have the real result');
-TEST_FINISHED();]]></ST>
+TEST_FINISHED();
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_LongHalt" Id="{ceb19f5f-1e0b-479e-9224-6630d1444303}">
@@ -45,11 +46,7 @@ testMockTimer^(IN:=TRUE);
 AWAIT_ASSERTIONS(AwaitTime:=T#3S);
 AssertTrue(testMockTimer^.Q,'this assertion should pass because test needs 2 second to have the real result and assertion halted for 3 seconds');
 TEST_FINISHED();
-
-(*// this is just to reset timer for next test in this test suite
-IF GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
-    testMockTimer^(IN:=FALSE);
-END_IF*)]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_ShortHalt" Id="{38e97dc0-6a5d-4249-86e6-920ea3c36382}">
@@ -63,7 +60,8 @@ END_VAR
 testMockTimer^(IN:=TRUE);
 AWAIT_ASSERTIONS(AwaitTime:=T#1S);
 AssertTrue(testMockTimer^.Q,'this assertion should fail because test needs 2 second to have the real result but assertion halted for 1 second');
-TEST_FINISHED();]]></ST>
+TEST_FINISHED();
+]]></ST>
       </Implementation>
     </Method>
   </POU>
