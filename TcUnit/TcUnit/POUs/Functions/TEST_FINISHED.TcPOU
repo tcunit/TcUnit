@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets the currently running test as finished *)
 FUNCTION TEST_FINISHED : BOOL
@@ -8,7 +8,7 @@ VAR
     Counter : UINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF GVL_TcUnit.CurrentTestBeingCalled^.AssertionIsAwaiting THEN
+      <ST><![CDATA[IF GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 // Grab the currently running test name
