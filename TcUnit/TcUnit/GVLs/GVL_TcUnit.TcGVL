@@ -11,6 +11,9 @@ VAR_GLOBAL
 
     (* Pointer to current test suite being called *)
     CurrentTestSuiteBeingCalled : POINTER TO FB_TestSuite;
+    
+    (* Reference to current test being called *)
+    CurrentTestBeingCalled : REFERENCE TO FB_Test;
 
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
