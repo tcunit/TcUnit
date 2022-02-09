@@ -20,6 +20,8 @@ VAR
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
     AssertionMessage : Tc2_System.T_MaxString; // Assertion message for the first assertion in this test
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
+    {attribute 'hide'}
+    _timeStampOfStart : ULINT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -144,5 +146,24 @@ END_VAR]]></Declaration>
         <ST><![CDATA[TestOrderNumber := OrderNumber;]]></ST>
       </Implementation>
     </Method>
+    <Property Name="TimeStampOfStart" Id="{98ea485f-23b3-4302-94fb-ef3c3eb87cc8}">
+      <Declaration><![CDATA[PROPERTY INTERNAL TimeStampOfStart : ULINT]]></Declaration>
+      <Get Name="Get" Id="{03131e4c-df2c-42c2-aec0-011820c2afa8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TimeStampOfStart := _timeStampOfStart;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{2c57d63e-1f5c-4ef2-9b2c-cd2f1802432c}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_timeStampOfStart := TimeStampOfStart;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
   </POU>
 </TcPlcObject>

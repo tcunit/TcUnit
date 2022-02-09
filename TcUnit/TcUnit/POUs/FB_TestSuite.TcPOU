@@ -42,6 +42,8 @@ VAR
 
     (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
     NumberOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    
+    Utility : FB_Utility;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -129,6 +131,9 @@ IF NOT TestWithThisNameAlreadyExists THEN
 END_IF
 
 AddTest REF= GetTestByName(TrimmedTestName);
+IF AddTest.TimeStampOfStart=0 THEN
+    AddTest.TimeStampOfStart := Utility.GetCpuCounterAsULINT();
+END_IF
 
 (* Check if this test should be disabled *)
 IF IgnoreCurrentTestCase THEN

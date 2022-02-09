@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TimeoutWatcher" Id="{c00583a8-41fa-4f83-8876-8a6f8a49c4ec}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK INTERNAL FB_TimeoutWatcher
+VAR_INPUT
+    Timeout : TIME := T#0S;
+END_VAR
+VAR
+    IndexOfTaskThatContainsTestSuites : BYTE := 255;
+    AdsPort : UINT := TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
+    StopCmd : BOOL := FALSE;
+    PlcStop : PLC_Stop;
+    TimeoutAsULINT : ULINT;
+    CpuCounterULINT : ULINT;
+    Utility : FB_Utility;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Timeout=T#0S OR NOT __ISVALIDREF(GVL_TcUnit.CurrentTestBeingCalled)OR GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart=0  THEN
+    RETURN;
+END_IF
+
+CpuCounterULINT := Utility.GetCpuCounterAsULINT();
+TimeOutAsULINT := TIME_TO_ULINT(TimeOut) * 10000;
+StopCmd := FALSE;
+
+IF IndexOfTaskThatContainsTestSuites = 255 THEN
+    IndexOfTaskThatContainsTestSuites := GVL_TcUnit.TestSuiteAddresses[1]^.GetCurrentTaskIndex.index;
+END_IF
+IF IndexOfTaskThatContainsTestSuites <> 255 THEN
+    IF NOT GVL_TcUnit.CurrentTestBeingCalled.IsFinished AND CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT THEN
+        StopCmd := TRUE;
+	END_IF
+END_IF
+PlcStop(NETID:='',PORT:=AdsPort,STOP:=stopCmd);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

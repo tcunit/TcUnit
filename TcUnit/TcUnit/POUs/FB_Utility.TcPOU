@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_Utility" Id="{eb7474a6-4c38-44a6-a596-17f52c47b8c1}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK PUBLIC FB_Utility
+VAR
+    CpuCounter : GETCPUCOUNTER;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="GetCpuCounterAsULINT" Id="{422b728e-cf37-4fcb-b889-112b7adf5522}">
+      <Declaration><![CDATA[METHOD PUBLIC GetCpuCounterAsULINT : ULINT
+VAR
+    TempResult : ULINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CpuCounter();
+TempResult := GetCpuCounter.cpuCntHiDW;
+TempResult := SHL(TempResult,32);
+GetCpuCounterAsULINT := TempResult + GetCpuCounter.cpuCntLoDW;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
