@@ -16,23 +16,26 @@ VAR
     Utility : FB_Utility;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF Time_out=T#0S OR NOT __ISVALIDREF(GVL_TcUnit.CurrentTestBeingCalled)OR GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart=0  THEN
+      <ST><![CDATA[IF Time_out=T#0S OR NOT __ISVALIDREF(GVL_TcUnit.CurrentTestBeingCalled) 
+                    OR_ELSE GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart=0 
+                        OR_ELSE GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
     RETURN;
 END_IF
 
 CpuCounterULINT := Utility.GetCpuCounterAsULINT();
 TimeOutAsULINT := TIME_TO_ULINT(Time_out) * 10000;
-StopCmd := FALSE;
 
 IF IndexOfTaskThatContainsTestSuites = 255 THEN
     IndexOfTaskThatContainsTestSuites := GVL_TcUnit.TestSuiteAddresses[1]^.GetCurrentTaskIndex.index;
 END_IF
 IF IndexOfTaskThatContainsTestSuites <> 255 THEN
-    IF  (CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT) AND NOT GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
+    IF CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT THEN
+        // TODO: generate log to inform user what is going on
         StopCmd := TRUE;
     END_IF
 END_IF
-PlcStop(NETID:='',PORT:=AdsPort,STOP:=stopCmd);]]></ST>
+PlcStop(NETID:='',PORT:=AdsPort,STOP:=stopCmd);
+StopCmd := FALSE;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
