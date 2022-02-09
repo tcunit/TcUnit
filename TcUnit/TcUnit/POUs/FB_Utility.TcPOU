@@ -18,9 +18,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[CpuCounter();
-TempResult := GetCpuCounter.cpuCntHiDW;
+TempResult := CpuCounter.cpuCntHiDW;
 TempResult := SHL(TempResult,32);
-GetCpuCounterAsULINT := TempResult + GetCpuCounter.cpuCntLoDW;]]></ST>
+GetCpuCounterAsULINT := TempResult + CpuCounter.cpuCntLoDW;]]></ST>
       </Implementation>
     </Method>
   </POU>

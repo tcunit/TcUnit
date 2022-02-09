@@ -28,9 +28,9 @@ IF IndexOfTaskThatContainsTestSuites = 255 THEN
     IndexOfTaskThatContainsTestSuites := GVL_TcUnit.TestSuiteAddresses[1]^.GetCurrentTaskIndex.index;
 END_IF
 IF IndexOfTaskThatContainsTestSuites <> 255 THEN
-    IF NOT GVL_TcUnit.CurrentTestBeingCalled.IsFinished AND CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT THEN
+    IF  (CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT) AND NOT GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
         StopCmd := TRUE;
-	END_IF
+    END_IF
 END_IF
 PlcStop(NETID:='',PORT:=AdsPort,STOP:=stopCmd);]]></ST>
     </Implementation>
