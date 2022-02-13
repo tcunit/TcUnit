@@ -14,6 +14,10 @@ VAR
     TimeoutAsULINT : ULINT;
     CpuCounterULINT : ULINT;
     Utility : FB_Utility;
+    TestSuiteInstancePath : Tc2_System.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
+    ReportMessage : Tc2_System.T_MaxString;
+    AdsLogStringMessageFifoQueue : FB_AdsLogStringMessageFifoQueue;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[IF Time_out=T#0S OR NOT __ISVALIDREF(GVL_TcUnit.CurrentTestBeingCalled) 
@@ -30,7 +34,17 @@ IF IndexOfTaskThatContainsTestSuites = 255 THEN
 END_IF
 IF IndexOfTaskThatContainsTestSuites <> 255 THEN
     IF CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT THEN
-        // TODO: generate log to inform user what is going on
+        
+        // generate report message
+        TestSuiteInstancePath := GVL_TcUnit.CurrentTestSuiteBeingCalled^.InstancePath;
+        TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
+        ReportMessage := CONCAT('| Timeout Reached. TestSuite Path=',TestSuiteInstancePath);
+        ReportMessage := CONCAT(ReportMessage,', Test Name=%s');
+        // add report to FifoQueue for pipelines
+        AdsLogStringMessageFifoQueue.WriteLog(MsgCtrlMask:=ADSLOG_MSGTYPE_ERROR,MsgFmtStr:=ReportMessage,StrArg:=TestName);
+        // print report in error list for developers
+        ADSLOGSTR(MsgCtrlMask:=ADSLOG_MSGTYPE_ERROR,MsgFmtStr:=ReportMessage,StrArg:=TestName);
+        
         StopCmd := TRUE;
     END_IF
 END_IF
