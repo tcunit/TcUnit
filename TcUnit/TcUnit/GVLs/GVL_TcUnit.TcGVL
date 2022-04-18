@@ -45,6 +45,11 @@ VAR_GLOBAL
 
     (* Buffered ADS message queue for output to the error list *)
     AdsMessageQueue : FB_AdsLogStringMessageFifoQueue;
+END_VAR
+VAR_GLOBAL CONSTANT
+  (* Multiply a value that is given in 100ns units by this value to
+     convert the value to seconds *)
+  HundredNanosecondToSecond : LREAL := 1.0 / 10000000.0;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

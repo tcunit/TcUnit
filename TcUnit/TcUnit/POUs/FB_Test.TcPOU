@@ -150,12 +150,11 @@ METHOD INTERNAL SetSkipped]]></Declaration>
     <Method Name="SetStartedAtIfNotSet" Id="{35bcf245-cc42-44cc-8963-d5986e3acc7f}">
       <Declaration><![CDATA[METHOD SetStartedAtIfNotSet
 VAR_INPUT
-    Timestamp : UDINT;
+    Timestamp : LWORD;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF StartedAt = 0
-THEN
+        <ST><![CDATA[IF StartedAt = 0 THEN
     StartedAt := Timestamp;
 END_IF]]></ST>
       </Implementation>
