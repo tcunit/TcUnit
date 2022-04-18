@@ -140,7 +140,7 @@ IF IgnoreCurrentTestCase THEN
     RETURN;
 END_IF
 
-AddTest REF= Tests[IteratorCounter];]]></ST>
+AddTest REF= GetTestByName(TrimmedTestName);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
@@ -3729,6 +3729,26 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestByName" Id="{916a82c5-2376-4d6f-a61d-edc725255e83}">
+      <Declaration><![CDATA[METHOD GetTestByName : REFERENCE TO FB_Test
+VAR_INPUT
+  TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR
+  IteratorCounter : UINT;
+  NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+  IF Tests[IteratorCounter].GetName() = TestName THEN
+    GetTestByName REF= Tests[IteratorCounter];
+    RETURN;
+	END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
