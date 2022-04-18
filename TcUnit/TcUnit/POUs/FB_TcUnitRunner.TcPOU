@@ -50,9 +50,8 @@ VAR
     NumberOfTestSuitesFinished : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0
-THEN
-    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.StartedAt);
+        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0 THEN
+    GVL_TcUnit.StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
 END_IF
 
 (* Run TcUnit test suites *)
@@ -86,8 +85,7 @@ END_IF
 AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
 IF AllTestSuitesFinishedTrigger.Q
 THEN
-    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
-    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) / 10000000; // seconds
+    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds
 END_IF
 
 (* Store test suite results continuously *)
@@ -124,9 +122,8 @@ VAR_INST
      TimerBetweenExecutionOfTestSuites : Tc2_Standard.TOF;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0
-THEN
-    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.StartedAt);
+        <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0 THEN
+    GVL_TcUnit.StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
 END_IF
 
 TimerBetweenExecutionOfTestSuites(PT := TimeBetweenTestSuitesExecution);
@@ -165,8 +162,7 @@ END_IF
 AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
 IF AllTestSuitesFinishedTrigger.Q
 THEN
-    GVL_TcUnit.GetCpuAccount(cpuAccountDW => GVL_TcUnit.Duration);
-    GVL_TcUnit.Duration := (GVL_TcUnit.Duration - GVL_TcUnit.StartedAt) / 10000000; // seconds
+    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds
 END_IF
 
 (* Store test suite results continuously *)

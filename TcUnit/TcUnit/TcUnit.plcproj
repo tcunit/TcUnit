@@ -148,6 +148,9 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\Functions\F_AssertionTypeToString.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\F_GetCpuCounterAs64bit.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\F_GetTestSuiteNameFromTestInstancePath.TcPOU">
       <SubType>Code</SubType>
     </Compile>

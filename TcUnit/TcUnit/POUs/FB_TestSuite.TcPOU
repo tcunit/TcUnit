@@ -19,7 +19,6 @@ VAR
        defined already. The definition of a test that is defined already is that we call on it
        with the same name twice in the same cycle *)
     GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
-    GetCpuAccount : Tc2_System.GETCPUACCOUNT;
 
     NumberOfTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) := 0;
     Tests : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF FB_Test;
@@ -38,12 +37,12 @@ VAR
     AdsAssertMessageFormatter : FB_AdsAssertMessageFormatter;
     AssertMessageFormatter : I_AssertMessageFormatter := AdsAssertMessageFormatter;
 
-    (* Timestamp when the testsuite was started, this also is an indication whether this 
-       test suite has started running its tests *)
-    StartedAt : UDINT;
+    (* Stores the CPU cycle count with 100ns precision. It also is an indication whether this 
+       test suite has started running its tests*)
+    StartedAt : LWORD;
     
     (* Duration it took to run all tests in this testsuite - including the overhead from TcUnit
-       in microseconds *)
+       in seconds *)
     Duration : LREAL;
 
     (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
@@ -3808,7 +3807,8 @@ END_FOR]]></ST>
     <Method Name="SetHasStartedRunning" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
       <Declaration><![CDATA[METHOD INTERNAL SetHasStartedRunning]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCpuAccount(cpuAccountDW => StartedAt);]]></ST>
+        <ST><![CDATA[StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -3841,7 +3841,7 @@ END_FOR]]></ST>
 METHOD INTERNAL SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
-    FinishedAt : UDINT;
+    FinishedAt : LWORD;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -3861,13 +3861,9 @@ SetTestFinished := FALSE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="UpdateDuration" Id="{46f255fd-7bfb-4ea3-b0bd-c2a60237aa69}">
-      <Declaration><![CDATA[METHOD INTERNAL UpdateDuration
-VAR
-    timestamp : UDINT;
-END_VAR]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL UpdateDuration]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCpuAccount(cpuAccountDW => timestamp);
-Duration := Duration + UDINT_TO_LREAL(timestamp - StartedAt) / 10000000; // seconds]]></ST>
+        <ST><![CDATA[Duration := Duration + LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
       </Implementation>
     </Method>
   </POU>

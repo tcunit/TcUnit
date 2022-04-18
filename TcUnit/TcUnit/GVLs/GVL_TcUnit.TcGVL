@@ -15,12 +15,11 @@ VAR_GLOBAL
     (* Current name of test being called *)
     CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
 	
-    (* Timestamp for the latest start of the current test *)
-    CurrentTestNameStartedAt : UDINT;
-    GetCpuAccount : Tc2_System.GETCPUACCOUNT;
+    (* Used to get the current cpu cycle counter to calculate the duration of tests and test suits, respectively *)
+    GetCpuCounter : Tc2_System.GETCPUCOUNTER;
     
-    (* Timestamp for the first entry into on of the Run methods *)    
-    StartedAt : UDINT;
+    (* Stores the CPU cycle count with 100ns precision since the first entry into one of the Run methods (RUN, RUN_IN_SEQUENCE) *)
+    StartedAt : LWORD;
     
     (* Duration it took for a complete run, in seconds *)
     Duration : LREAL;    

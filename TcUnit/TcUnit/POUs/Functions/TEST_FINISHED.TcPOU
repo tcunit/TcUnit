@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets the currently running test as finished *)
 FUNCTION TEST_FINISHED : BOOL
 VAR
     TestName : Tc2_System.T_MaxString;
     Counter : UINT := 0;
-    FinishedAt : UDINT;
+    FinishedAt : LWORD;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Get the timestamp directly when the test has finished
-GVL_TcUnit.GetCpuAccount(cpuAccountDW => FinishedAt);
+FinishedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
 
 // Grab the currently running test name
 TestName := GVL_TcUnit.CurrentTestNameBeingCalled;

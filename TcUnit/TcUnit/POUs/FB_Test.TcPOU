@@ -21,8 +21,8 @@ VAR
     AssertionMessage : Tc2_System.T_MaxString; // Assertion message for the first assertion in this test
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
 
-    StartedAt : UDINT; // Temporary variable to calculate the actual duration of the test
-    Duration : LREAL; // Duration of the test in microseconds
+    StartedAt : LWORD; // Temporary variable to calculate the actual duration of the test, the value holds the cpu cycle counter when a test is started in 100ns precision
+    Duration : LREAL; // Duration of the test in seconds
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -115,11 +115,11 @@ END_IF]]></ST>
     <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
       <Declaration><![CDATA[METHOD INTERNAL SetFinished : BOOL
 VAR_INPUT
-    FinishedAt : UDINT;
+    FinishedAt : LWORD; // CPU cycle counter with 100ns precision 
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFinished := TRUE;
-Duration := UDINT_TO_LREAL(FinishedAt - StartedAt) / 10000000; // seconds]]></ST>
+Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
@@ -148,9 +148,9 @@ METHOD INTERNAL SetSkipped]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="SetStartedAtIfNotSet" Id="{35bcf245-cc42-44cc-8963-d5986e3acc7f}">
-      <Declaration><![CDATA[METHOD SetStartedAtIfNotSet
+      <Declaration><![CDATA[METHOD INTERNAL SetStartedAtIfNotSet
 VAR_INPUT
-    Timestamp : LWORD;
+    Timestamp : LWORD; // CPU cycle counter with 100ns precision 
 END_VAR
 ]]></Declaration>
       <Implementation>
