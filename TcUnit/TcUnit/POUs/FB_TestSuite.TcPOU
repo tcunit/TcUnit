@@ -3507,7 +3507,7 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    SetTestFailed(AssertionType := E_AssertionType.Type_UINT,
+    SetTestFailed(AssertionType := E_AssertionType.Type_WORD,
                   AssertionMessage := Message);
 
     AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
