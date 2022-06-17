@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="FB_AssertArrayResultStatic" Id="{b20832df-51fb-47f1-8077-6f683834a939}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for keeping track of which array-asserts that have been made.
@@ -37,7 +37,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddAssertArrayResult" Id="{60d61a50-adb0-4323-b700-3d64bcdd7ef0}">
-      <Declaration><![CDATA[METHOD PRIVATE AddAssertArrayResult
+      <Declaration><![CDATA[METHOD PRIVATE AddAssertArrayResult: DINT
 VAR_INPUT
     ExpectedsSize : UDINT;
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
@@ -45,15 +45,32 @@ VAR_INPUT
     ActualsTypeClass : IBaseLibrary.TypeClass;
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
+END_VAR
+VAR_INST
+	AssertResultOverflow: BOOL := FALSE;
+END_VAR
+VAR
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TotalArrayAsserts := TotalArrayAsserts + 1;
-AssertArrayResults[TotalArrayAsserts].ExpectedsSize := ExpectedsSize;
-AssertArrayResults[TotalArrayAsserts].ExpectedsTypeClass := ExpectedsTypeClass;
-AssertArrayResults[TotalArrayAsserts].ActualsSize := ActualsSize;
-AssertArrayResults[TotalArrayAsserts].ActualsTypeClass := ActualsTypeClass;
-AssertArrayResults[TotalArrayAsserts].Message := Message;
-AssertArrayResults[TotalArrayAsserts].TestInstancePath := TestInstancePath;]]></ST>
+        <ST><![CDATA[IF TotalArrayAsserts < GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite THEN
+	TotalArrayAsserts := TotalArrayAsserts + 1;
+	AssertArrayResults[TotalArrayAsserts].ExpectedsSize := ExpectedsSize;
+	AssertArrayResults[TotalArrayAsserts].ExpectedsTypeClass := ExpectedsTypeClass;
+	AssertArrayResults[TotalArrayAsserts].ActualsSize := ActualsSize;
+	AssertArrayResults[TotalArrayAsserts].ActualsTypeClass := ActualsTypeClass;
+	AssertArrayResults[TotalArrayAsserts].Message := Message;
+	AssertArrayResults[TotalArrayAsserts].TestInstancePath := TestInstancePath;
+	AddAssertArrayResult := TotalArrayAsserts;	
+ELSE
+	IF NOT AssertResultOverflow THEN
+		GVL_TcUnit.AdsMessageQueue.WriteLog(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+											msgFmtStr := 'Max number of array assertions exceeded. Check param MaxNumberOfAssertsForEachTestSuite',
+											strArg := '');
+		AssertResultOverflow := TRUE;
+	END_IF
+	AddAssertArrayResult := -1;	
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="CopyDetectionCountAndResetDetectionCountInThisCycle" Id="{909102be-4739-47e1-abb5-2b1a0d9602c4}">
@@ -224,6 +241,7 @@ VAR
     DetectionCountTemp : UINT := 0;
     FoundOne : BOOL;
     AdditionalIdenticalAssert : BOOL;
+	AssertResultIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT FirstCycleExecuted THEN
@@ -259,12 +277,26 @@ END_FOR
 (* If not found anything, create the first *)
 IF NOT FoundOne THEN
     (* No existing match found, create a new entry *)
-    AddAssertArrayResult(ExpectedsSize, ExpectedsTypeClass, ActualsSize, ActualsTypeClass, Message, TestInstancePath);
-    CreateAssertResultInstance(ExpectedsSize, ExpectedsTypeClass, ActualsSize, ActualsTypeClass,
-                               Message, TestInstancePath);
+    AssertResultIndex := AddAssertArrayResult(ExpectedsSize := ExpectedsSize, 
+											  ExpectedsTypeClass := ExpectedsTypeClass, 
+											  ActualsSize:= ActualsSize, 
+											  ActualsTypeClass := ActualsTypeClass, 
+											  Message := Message, 
+											  TestInstancePath := TestInstancePath);
+    CreateAssertResultInstance(ExpectedsSize := ExpectedsSize, 
+							   ExpectedsTypeClass := ExpectedsTypeClass, 
+							   ActualsSize:= ActualsSize, 
+							   ActualsTypeClass := ActualsTypeClass,
+                               Message := Message, 
+							   TestInstancePath := TestInstancePath);
 (* An additional instance of this assert needs to be created *)
 ELSIF AdditionalIdenticalAssert THEN
-    AddAssertArrayResult(ExpectedsSize, ExpectedsTypeClass, ActualsSize, ActualsTypeClass, Message, TestInstancePath);
+    AssertResultIndex := AddAssertArrayResult(ExpectedsSize := ExpectedsSize, 
+											  ExpectedsTypeClass := ExpectedsTypeClass, 
+											  ActualsSize:= ActualsSize, 
+											  ActualsTypeClass := ActualsTypeClass, 
+											  Message := Message, 
+											  TestInstancePath := TestInstancePath);
 (* In all other cases, this assert has already been reported, we don't need to do anything *)
 ELSE
     AlreadyReported := TRUE;
@@ -274,5 +306,47 @@ END_IF
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_AssertArrayResultStatic">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.AddAssertArrayResult">
+      <LineId Id="17" Count="0" />
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="19" Count="9" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.CopyDetectionCountAndResetDetectionCountInThisCycle">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.CreateAssertResultInstance">
+      <LineId Id="3" Count="11" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.GetDetectionCount">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.GetDetectionCountThisCycle">
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.GetNumberOfArrayAssertsForTest">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertArrayResultStatic.ReportResult">
+      <LineId Id="3" Count="33" />
+      <LineId Id="108" Count="4" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="120" Count="2" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="125" Count="5" />
+      <LineId Id="42" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

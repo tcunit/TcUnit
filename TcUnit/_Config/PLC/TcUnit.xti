@@ -1,9 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmItem" TcSmVersion="1.0" TcVersion="3.1.4022.32" ClassName="CNestedPlcProjDef">
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.25" ClassName="CNestedPlcProjDef">
 	<Project GUID="{BC994085-3B01-480D-AB11-95935FC773EE}" Name="TcUnit" PrjFilePath="..\..\TcUnit\TcUnit.plcproj" TmcFilePath="..\..\TcUnit\TcUnit.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
 		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="TcUnit\TcUnit.tmc">
 			<Name>TcUnit Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+			<Contexts>
+				<Context>
+					<Id>1</Id>
+					<Name>Default</Name>
+				</Context>
+			</Contexts>
 		</Instance>
 	</Project>
 </TcSmItem>

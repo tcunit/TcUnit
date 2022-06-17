@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# TcXaeShell Solution File, Format Version 11.00
+VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TcUnit-Verifier_TwinCAT", "TcUnit-Verifier_TwinCAT\TcUnit-Verifier_TwinCAT.tsproj", "{3B151CEE-1DB6-4543-9B44-7AFACBDFB147}"
 EndProject
@@ -52,5 +52,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AB67450-6B7B-49FC-9948-264E65468718}
 	EndGlobalSection
 EndGlobal

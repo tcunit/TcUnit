@@ -40,6 +40,13 @@
     <Compile Include="Test\FB_ArrayPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_AssertArrayCountExceedsMaxNumber.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\FB_AssertCountExceedsMaxNumber.TcPOU">
+      <SubType>Code</SubType>
+      <ExcludeFromBuild>false</ExcludeFromBuild>
+    </Compile>
     <Compile Include="Test\FB_AssertEveryFailedTestTwice.TcPOU">
       <SubType>Code</SubType>
     </Compile>

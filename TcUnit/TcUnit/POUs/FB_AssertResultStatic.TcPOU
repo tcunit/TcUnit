@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="FB_AssertResultStatic" Id="{9683a633-879e-475e-a97f-0742f9ecfd04}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for keeping track of which asserts that have been made. The reason we need to
@@ -35,7 +35,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddAssertResult" Id="{22afb213-95b2-4bfd-ada6-e7cf020d9c1d}">
-      <Declaration><![CDATA[METHOD PRIVATE AddAssertResult
+      <Declaration><![CDATA[METHOD PRIVATE AddAssertResult: DINT
 VAR_INPUT
     ExpectedSize : UDINT;
     ExpectedTypeClass : IBaseLibrary.TypeClass;
@@ -46,13 +46,29 @@ VAR_INPUT
     Message : Tc2_System.T_MaxString;
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR
-]]></Declaration>
+VAR_INST
+	AssertResultOverflow: BOOL := FALSE;
+END_VAR
+VAR
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TotalAsserts := TotalAsserts + 1;
-AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
-AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnySize := ActualSize, AnyTypeClass := ActualTypeClass, AnyValue := ActualValue);
-AssertResults[TotalAsserts].Message := Message;
-AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;]]></ST>
+        <ST><![CDATA[IF TotalAsserts < GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite THEN
+	TotalAsserts := TotalAsserts + 1;
+	AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
+	AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnySize := ActualSize, AnyTypeClass := ActualTypeClass, AnyValue := ActualValue);
+	AssertResults[TotalAsserts].Message := Message;
+	AssertResults[TotalAsserts].TestInstancePath := TestInstancePath;
+	AddAssertResult := TotalAsserts;	
+ELSE
+	IF NOT AssertResultOverflow THEN
+		GVL_TcUnit.AdsMessageQueue.WriteLog(msgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+											msgFmtStr := 'Max number of assertions exceeded. Check param MaxNumberOfAssertsForEachTestSuite',
+											strArg := '');
+		AssertResultOverflow := TRUE;
+	END_IF
+	AddAssertResult := -1;	
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="CopyDetectionCountAndResetDetectionCountInThisCycle" Id="{a8cc95e0-191e-40c8-a6bc-8d58d9231bfa}">
@@ -81,7 +97,8 @@ VAR_INPUT
 END_VAR
 VAR
     IteratorCounter : UINT;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
     IF AssertResultInstances[IteratorCounter].DetectionCount = 0 AND
@@ -93,7 +110,8 @@ END_VAR]]></Declaration>
         AssertResultInstances[IteratorCounter].DetectionCountThisCycle := 1;
         EXIT;
     END_IF
-END_FOR]]></ST>
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetDetectionCount" Id="{75f01348-487a-4441-a0e3-f41feb6c1781}">
@@ -233,6 +251,7 @@ VAR
     DetectionCountTemp : UINT := 0;
     FoundOne : BOOL;
     AdditionalIdenticalAssert : BOOL;
+	AssertResultIndex: DINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF NOT FirstCycleExecuted THEN
@@ -272,30 +291,29 @@ END_FOR
 (* If not found anything, create the first *)
 IF NOT FoundOne THEN
     (* No existing match found, create a new entry *)
-    AddAssertResult(ExpectedSize := ExpectedSize,
-                    ExpectedTypeClass := ExpectedTypeClass,
-                    ExpectedValue := ExpectedValue,
-                    ActualSize := ActualSize,
-                    ActualTypeClass := ActualTypeClass,
-                    ActualValue := ActualValue,
-                    Message := Message, TestInstancePath := TestInstancePath);
-
-    CreateAssertResultInstance(ExpectedSize := ExpectedSize,
-                               ExpectedTypeClass := ExpectedTypeClass,
-                               ExpectedValue := ExpectedValue,
-                               ActualSize := ActualSize,
-                               ActualTypeClass := ActualTypeClass,
-                               ActualValue := ActualValue,
-                               Message := Message, TestInstancePath := TestInstancePath);
+    AssertResultIndex := AddAssertResult(ExpectedSize := ExpectedSize,
+						ExpectedTypeClass := ExpectedTypeClass,
+						ExpectedValue := ExpectedValue,
+						ActualSize := ActualSize,
+						ActualTypeClass := ActualTypeClass,
+						ActualValue := ActualValue,
+						Message := Message, TestInstancePath := TestInstancePath);
+	CreateAssertResultInstance(ExpectedSize := ExpectedSize,
+							   ExpectedTypeClass := ExpectedTypeClass,
+							   ExpectedValue := ExpectedValue,
+							   ActualSize := ActualSize,
+							   ActualTypeClass := ActualTypeClass,
+							   ActualValue := ActualValue,
+							   Message := Message, TestInstancePath := TestInstancePath);
 (* An additional instance of this assert needs to be created *)
 ELSIF AdditionalIdenticalAssert THEN
-    AddAssertResult(ExpectedSize := ExpectedSize,
-                    ExpectedTypeClass := ExpectedTypeClass,
-                    ExpectedValue := ExpectedValue,
-                    ActualSize := ActualSize,
-                    ActualTypeClass := ActualTypeClass,
-                    ActualValue := ActualValue,
-                    Message := Message, TestInstancePath := TestInstancePath);
+    AssertResultIndex := AddAssertResult(ExpectedSize := ExpectedSize,
+										ExpectedTypeClass := ExpectedTypeClass,
+										ExpectedValue := ExpectedValue,
+										ActualSize := ActualSize,
+										ActualTypeClass := ActualTypeClass,
+										ActualValue := ActualValue,
+										Message := Message, TestInstancePath := TestInstancePath);
 (* In all other cases, this assert has already been reported, we don't need to do anything *)
 ELSE
     AlreadyReported := TRUE;
@@ -305,5 +323,46 @@ END_IF
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_AssertResultStatic">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.AddAssertResult">
+      <LineId Id="20" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="38" Count="3" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="42" Count="5" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.CopyDetectionCountAndResetDetectionCountInThisCycle">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.CreateAssertResultInstance">
+      <LineId Id="31" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.GetDetectionCount">
+      <LineId Id="3" Count="12" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.GetDetectionCountThisCycle">
+      <LineId Id="3" Count="12" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.GetNumberOfAssertsForTest">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertResultStatic.ReportResult">
+      <LineId Id="3" Count="10" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="15" Count="32" />
+      <LineId Id="49" Count="20" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

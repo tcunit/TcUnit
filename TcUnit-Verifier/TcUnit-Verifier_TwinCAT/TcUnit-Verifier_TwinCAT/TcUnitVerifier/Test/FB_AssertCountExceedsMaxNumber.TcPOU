@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_AssertCountExceedsMaxNumber" Id="{5ccd4520-25c7-4bc8-a1a7-a6751f509f85}" SpecialFunc="None">
+    <Declaration><![CDATA[(*
+    This test-suite runs several asserts with the same parameters (same expected, actual, message), calling the asserts
+    in different cycles and using the same test.
+    On top of this, we will call new asserts (though with same parameters) in later cycles.
+    The reason we want the framework to support this is that theoretically the user could want to do an assert with the
+    same message, using the same test with the same data values for both expected and actual, and splitting the asserts
+    on different cycles.
+*)
+FUNCTION_BLOCK FB_AssertCountExceedsMaxNumber EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Assert_SameEntryInOneCycle();
+
+]]></ST>
+    </Implementation>
+    <Method Name="Assert_SameEntryInOneCycle" Id="{79d00f1b-a496-49a2-8093-dbe58274f7f4}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SameEntryInOneCycle
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+	
+	i: UINT;
+END_VAR
+VAR CONSTANT
+	MaxIndex : UINT := (TcUnit.GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite + 100); 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SameEntryInOneCycle');
+
+// Only checks if PLC crashes
+FOR i := 1 TO MaxIndex DO
+	AssertEquals_DWORD(Expected := a,
+					   Actual := a,
+					   Message := 'Values differ');
+END_FOR;
+
+AssertEquals_UINT(
+		Expected:= GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite, 
+		Actual:= AssertResults.TotalAsserts , 
+		Message:= 'AssertResults.TotalAsserts invalid');
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AssertCountExceedsMaxNumber">
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertCountExceedsMaxNumber.Assert_SameEntryInOneCycle">
+      <LineId Id="3" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
