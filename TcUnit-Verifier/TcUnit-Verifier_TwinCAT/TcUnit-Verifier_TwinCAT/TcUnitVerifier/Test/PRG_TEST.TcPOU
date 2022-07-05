@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
   <POU Name="PRG_TEST" Id="{48f3a80c-6b31-445f-a938-08b4b352141e}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PRG_TEST
 VAR
@@ -30,7 +30,6 @@ VAR
     TestFinishedNamed : FB_TestFinishedNamed;
     EmptyAssertionMessage : FB_EmptyAssertionMessage;
 	AssertCountExceedsMaxNumber: FB_AssertCountExceedsMaxNumber;
-	AssertArrayCountExceedsMaxNumber: FB_AssertArrayCountExceedsMaxNumber;
 
     (* The testsuite below is not active, as it will make TcUnit to abort. Uncomment if you want
        to test the function of where a test with a name that doesn't exist is set to finished *)

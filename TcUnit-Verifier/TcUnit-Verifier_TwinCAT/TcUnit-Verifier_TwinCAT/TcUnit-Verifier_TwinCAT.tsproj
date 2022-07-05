@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.25">
-	<Project ProjectGUID="{3B151CEE-1DB6-4543-9B44-7AFACBDFB147}" Target64Bit="true" ShowHideConfigurations="#x3c7">
+	<Project ProjectGUID="{3B151CEE-1DB6-4543-9B44-7AFACBDFB147}" TargetNetId="127.0.0.1.1.1" Target64Bit="true" ShowHideConfigurations="#x3c7">
 		<System>
+			<Settings MaxCpus="16" NonWinCpus="1">
+				<Cpu CpuId="15"/>
+			</Settings>
 			<Tasks>
-				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+				<Task Id="3" Priority="20" CycleTime="150000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
 			</Tasks>

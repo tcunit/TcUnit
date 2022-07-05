@@ -28,25 +28,34 @@ namespace TcUnit.Verifier
             _testFunctionBlockInstance = testFunctionBlockInstance ?? DefaultFunctionBlockInstance;
         }
 
+        protected string CreateFailedTestIdent(string method)
+        {
+            string returnString;
+            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" + method + "'";
+            return returnString;
+        }
+
         protected string CreateFailedTestMessage(string method, string expected, string actual, string message)
         {
             string returnString;
-            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" +method +"', " 
-                +"EXP: " +expected + ", " +"ACT: " +actual + ", " + "MSG: " +message;
+            returnString = CreateFailedTestIdent(method) + ", " + "EXP: " + expected + ", " + "ACT: " + actual + ", " + "MSG: " + message;
             return returnString;
         }
 
         protected string CreateFailedTestMessageNoAssertionMessage(string method, string expected, string actual)
         {
             string returnString;
-            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" + method + "', "
-                + "EXP: " + expected + ", " + "ACT: " + actual;
+            returnString = CreateFailedTestIdent(method) + ", " + "EXP: " + expected + ", " + "ACT: " + actual;
             return returnString;
         }
 
         private bool AreErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
         {
             return _errors.Any(e => (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
+        }
+        private bool AreErrorItemsContainingTestMessage(string testIdentText, string testMessage, vsBuildErrorLevel errorLevel)
+        {
+            return _errors.Any(e => (e.Description.Contains(testIdentText.ToUpper())) && (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
         }
 
         private int CountErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
@@ -131,6 +140,14 @@ namespace TcUnit.Verifier
             if (AreErrorItemsContainingTestMessage(message, errorLevel))
             {
                 log.Info("Test suite " + _testFunctionBlockInstance + " reports: " + message);
+            }
+        }
+        protected void AssertDoesNotContainMessage(string testName, string message, vsBuildErrorLevel errorLevel)
+        {
+            string testIdentText = CreateFailedTestIdent(testName);
+            if (AreErrorItemsContainingTestMessage(testIdentText, message, errorLevel))
+            {
+                log.Info("Test " + _testFunctionBlockInstance + "." + testName + " reports: " + message);
             }
         }
     }

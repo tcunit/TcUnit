@@ -12,6 +12,7 @@ namespace TcUnit.Verifier
 {
     class Program
     {
+        private static bool useVisualStudio = false;
         private static string tcUnitVerifierPath = null;
         private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
@@ -29,6 +30,7 @@ namespace TcUnit.Verifier
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
                 .Add("t=|TcUnitTargetNetId=", "[OPTIONAL] Target NetId of TwinCAT runtime to run TcUnit-Verifier", t => tcUnitTargetNetId = t)
+                .Add("u|VisualStudio", "Use Visual Studio", x => useVisualStudio = x != null)
                 .Add("?|h|help", h => showHelp = h != null);
 
             try
@@ -62,7 +64,7 @@ namespace TcUnit.Verifier
             try
             {
                 vsInstance = new VisualStudioInstance(tcUnitVerifierPath);
-                vsInstance.Load();
+                vsInstance.Load(useVisualStudio);
             }
             catch
             {
@@ -78,47 +80,53 @@ namespace TcUnit.Verifier
                 Environment.Exit(Constants.RETURN_ERROR);
             }
 
-            log.Info("Cleaning and building TcUnit-Verifier_TwinCAT solution...");
+            log.Info("-------------------");
+            log.Info("Preparing TwinCAT solution...");
             AutomationInterface automationInterface = new AutomationInterface(vsInstance);
             automationInterface.ITcSysManager.SetTargetNetId(tcUnitTargetNetId);
             ITcSmTreeItem plcProject = automationInterface.PlcTreeItem.Child[1];
             ITcPlcProject iecProject = (ITcPlcProject)plcProject;
 
-            log.Info("Generating TcUnit-Verifier_TwinCAT boot project...");
+            log.Info("Generating boot project...");
             Thread.Sleep(10000);
             iecProject.GenerateBootProject(true);
             iecProject.BootProjectAutostart = true;
 
-            log.Info("Activating TcUnit-Verifier_TwinCAT configuration...");
+            log.Info("Activating TwinCAT configuration...");
             automationInterface.ITcSysManager.ActivateConfiguration();
 
             /* Clean the solution. This is the only way to clean the error list which needs to be
              * clean prior to starting the TwinCAT runtime */
+            log.Info("Cleaning TwinCAT solution (to clean error list)...");
             vsInstance.CleanSolution();
 
             // Wait
             Thread.Sleep(1000);
 
-            log.Info("Restarting TwinCAT...");
+
+            log.Info("Starting TwinCAT runtime...");
             automationInterface.ITcSysManager.StartRestartTwinCAT();
 
             // Wait until tests have been running and are finished
             bool testsFinishedRunningFirstLineFound = false;
             bool numberOfTestSuitesLineFound = false;
             bool numberOfTestsLineFound = false;
-            bool numberOfSuccesfulTestsLineFound = false;
+            bool numberOfSuccessfulTestsLineFound = false;
             bool numberOfFailedTestsLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
+            int numberOfTestSuites = 0;
+            int numberOfTests = 0;
+            int numberOfSuccessufulTests = 0;
             int numberOfFailedTests = 0;
-
-            log.Info("Waiting for TcUnit-Verifier_TwinCAT to finish running tests...");
-
             ErrorList errorList = new ErrorList();
-
             ErrorItems errorItems;
-            while (true)
+
+            log.Info("-------------------");
+            log.Info("Running tests...");
+
+             while (true)
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
 
                 errorItems = vsInstance.GetErrorItems();
                 log.Info("... got " + errorItems.Count + " report lines so far.");
@@ -128,12 +136,21 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains("| ==========TESTS FINISHED RUNNING=========="))
                         testsFinishedRunningFirstLineFound = true;
                     if (error.Description.Contains("| Test suites:"))
+                    {
                         numberOfTestSuitesLineFound = true;
+                        numberOfTestSuites = int.Parse(error.Description.Split().Last());
+                    }
                     if (error.Description.Contains("| Tests:"))
+                    {
                         numberOfTestsLineFound = true;
+                        numberOfTests = int.Parse(error.Description.Split().Last());
+                    }
                     if (error.Description.Contains("| Successful tests:"))
-                        numberOfSuccesfulTestsLineFound = true;
-                    if (error.Description.Contains("| Failed tests:"))
+                    {
+                        numberOfSuccessfulTestsLineFound = true;
+                        numberOfSuccessufulTests = int.Parse(error.Description.Split().Last());
+                    }
+                     if (error.Description.Contains("| Failed tests:"))
                     {
                         numberOfFailedTestsLineFound = true;
                         // Grab the number of failed tests so we can validate it during the assertion phase
@@ -144,26 +161,31 @@ namespace TcUnit.Verifier
                 }
 
                 if (
-                    testsFinishedRunningFirstLineFound 
-                    && numberOfTestSuitesLineFound 
-                    && numberOfTestsLineFound 
-                    && numberOfSuccesfulTestsLineFound
-                    && numberOfFailedTestsLineFound 
+                    testsFinishedRunningFirstLineFound
+                    && numberOfTestSuitesLineFound
+                    && numberOfTestsLineFound
+                    && numberOfSuccessfulTestsLineFound
+                    && numberOfFailedTestsLineFound
                     && testsFinishedRunningLastLineFound
                 )
+                {
+                    log.Info("Received " + errorItems.Count + " report lines.");
                     break;
-
+                }
             }
             var newErrors = errorList.AddNew(errorItems);
 
+            log.Info("-------------------");
+            log.Info("Test statistics");
+            log.Info("Number of test suites: " + numberOfTestSuites);
+            log.Info("Number of tests: " + numberOfTests);
+            log.Info("Number of succesful tests: " + numberOfSuccessufulTests);
+            log.Info("Number of failed tests: " + numberOfFailedTests);
+            log.Info("-------------------");
             log.Info("Asserting results...");
-
             if (numberOfFailedTests != expectedNumberOfFailedTests)
             {
-                log.Error(
-                    "The number of tests that failed (" + numberOfFailedTests + ") " +
-                    "does not match expectations (" + expectedNumberOfFailedTests + ")"
-                );
+                log.Error("The number of failed tests does not match expectations: " + expectedNumberOfFailedTests);
             }
 
             List<ErrorList.Error> errors = new List<ErrorList.Error>(
@@ -197,8 +219,10 @@ namespace TcUnit.Verifier
             new FB_TestFinishedNamed(errors);
             new FB_TestNumberOfAssertionsCalculation(errors);
             new FB_EmptyAssertionMessage(errors);
+            new FB_AssertCountExceedsMaxNumber(errors);
 
             log.Info("Done.");
+            log.Info("-------------------");
 
             CleanUp();
 

@@ -2,6 +2,8 @@ using EnvDTE80;
 using log4net;
 using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TCatSysManagerLib;
@@ -30,6 +32,12 @@ namespace TcUnit.Verifier
             this.vsVersion = visualStudioVersion;
         }
 
+        public VisualStudioInstance(string visualStudioSolutionFilePath, string visualStudioVersion)
+        {
+            this.filePath = visualStudioSolutionFilePath;
+            this.vsVersion = visualStudioVersion;
+        }
+
         public VisualStudioInstance(int vsVersionMajor, int vsVersionMinor)
         {
             string visualStudioVersion = vsVersionMajor.ToString() + "." + vsVersionMinor.ToString();
@@ -39,13 +47,13 @@ namespace TcUnit.Verifier
         /// <summary>
         /// Loads the development tools environment
         /// </summary>
-        public void Load()
+        public void Load(bool useVisualStudio)
         {
             loaded = true;
 
             try
             {
-                LoadDevelopmentToolsEnvironment(vsVersion);
+                LoadDevelopmentToolsEnvironment(useVisualStudio, vsVersion);
             }
             catch (Exception e)
             {
@@ -81,7 +89,7 @@ namespace TcUnit.Verifier
         {
             if (loaded)
             {
-                log.Info("Closing the Visual Studio Development Tools Environment (DTE), please wait...");
+                log.Info("Closing the Development Tools Environment (DTE), please wait...");
                 Thread.Sleep(20000); // Makes sure that there are no visual studio processes left in the system if the user interrupts this program (for example by CTRL+C)
                 dte.Quit();
             }
@@ -119,14 +127,22 @@ namespace TcUnit.Verifier
             }
         }
 
-        private void LoadDevelopmentToolsEnvironment(string visualStudioVersion)
+        private void LoadDevelopmentToolsEnvironment(bool useVisualStudio, string visualStudioVersion)
         {
             /* Make sure the DTE loads with the same version of Visual Studio as the
              * TwinCAT project was created in
              */
-            string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
+            string VisualStudioProgId;
+            if (useVisualStudio)
+            {
+                VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
+            } else
+            {
+                VisualStudioProgId = "TcXaeShell.DTE." + visualStudioVersion;
+            }
+
             type = Type.GetTypeFromProgID(VisualStudioProgId);
-            log.Info("Loading the Visual Studio Development Tools Environment (DTE)...");
+            log.Info("Loading DTE ('" + VisualStudioProgId + "')...");
             dte = (DTE2)Activator.CreateInstance(type);
             dte.UserControl = false; // have devenv.exe automatically close when launched using automation
             dte.SuppressUI = true;

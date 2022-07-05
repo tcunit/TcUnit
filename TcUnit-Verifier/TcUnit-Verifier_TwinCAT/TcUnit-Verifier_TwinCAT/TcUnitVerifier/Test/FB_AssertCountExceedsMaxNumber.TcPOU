@@ -15,9 +15,40 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[Assert_SameEntryInOneCycle();
-
+Assert_SameArrayEntryInOneCycle();
 ]]></ST>
     </Implementation>
+    <Method Name="Assert_SameArrayEntryInOneCycle" Id="{6f972df2-c1ab-4b10-9350-030d31b8135f}">
+      <Declaration><![CDATA[METHOD PRIVATE Assert_SameArrayEntryInOneCycle
+VAR
+    a : ARRAY[1..ArrayLength] OF DWORD := [16#12345678, 16#23456789];
+    b : ARRAY[1..ArrayLength] OF DWORD := [16#90ABCDEF, 16#0ABCDEF1];
+	
+	i: UINT;
+END_VAR
+VAR CONSTANT
+	ArrayLength : UINT := 2;
+	MaxIndex : UINT := (TcUnit.GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite + 100); 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Assert_SameArrayEntryInOneCycle');
+
+// Only checks if PLC crashes
+FOR i := 1 TO MaxIndex DO
+	AssertArrayEquals_DWORD(Expecteds := a,
+						   	Actuals := a,
+						   	Message := 'Values differ');
+END_FOR;
+
+AssertEquals_UINT(
+		Expected:= GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite, 
+		Actual:= AssertArrayResults.TotalArrayAsserts, 
+		Message:= 'AssertArrayResults.TotalArrayAsserts invalid');
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="Assert_SameEntryInOneCycle" Id="{79d00f1b-a496-49a2-8093-dbe58274f7f4}">
       <Declaration><![CDATA[METHOD PRIVATE Assert_SameEntryInOneCycle
 VAR
@@ -41,7 +72,7 @@ END_FOR;
 
 AssertEquals_UINT(
 		Expected:= GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite, 
-		Actual:= AssertResults.TotalAsserts , 
+		Actual:= AssertResults.TotalAsserts, 
 		Message:= 'AssertResults.TotalAsserts invalid');
 
 TEST_FINISHED();
@@ -52,6 +83,18 @@ TEST_FINISHED();
       <LineId Id="17" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AssertCountExceedsMaxNumber.Assert_SameArrayEntryInOneCycle">
+      <LineId Id="3" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="5" Count="2" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="63" Count="4" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_AssertCountExceedsMaxNumber.Assert_SameEntryInOneCycle">
       <LineId Id="3" Count="0" />
