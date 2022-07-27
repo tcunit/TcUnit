@@ -12,7 +12,7 @@ VAR
     StoringTestSuiteTrigger : Tc2_Standard.R_TRIG;
     StoredTestSuiteResults : BOOL;
     StoredGeneralTestResults : BOOL;
-    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR
 VAR_TEMP
     TestSuiteName : Tc2_System.T_MaxString;
