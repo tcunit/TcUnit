@@ -49,6 +49,10 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[TotalAsserts := TotalAsserts + 1;
+IF TotalAssers > GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite THEN
+  ADSLOGSTR( msgCtrlMask := ADSLOG_MSGTYPE_ERROR, msgFmtStr := 'Number of asserts exceeded.', strArg := '');
+  RETURN;
+END_IF
 AssertResults[TotalAsserts].Expected := F_AnyToUnionValue(AnySize := ExpectedSize, AnyTypeClass := ExpectedTypeClass, AnyValue := ExpectedValue);
 AssertResults[TotalAsserts].Actual := F_AnyToUnionValue(AnySize := ActualSize, AnyTypeClass := ActualTypeClass, AnyValue := ActualValue);
 AssertResults[TotalAsserts].Message := Message;
