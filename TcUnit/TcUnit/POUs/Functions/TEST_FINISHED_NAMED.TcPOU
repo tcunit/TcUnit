@@ -10,6 +10,7 @@ END_VAR
 VAR
     Counter : UINT := 0;
     FoundTestName : BOOL := FALSE;
+    FinishedAt : LWORD; // cpu cycle counter in 100ns precision
 END_VAR
 VAR_STAT
     FailedLookupCounter : UINT := 0;
@@ -20,6 +21,7 @@ VAR CONSTANT
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
+FinishedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
 
 (* Find the test suite and:
    1. Set the test in that test suite as finished
@@ -27,7 +29,7 @@ END_VAR]]></Declaration>
 *)
 FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     IF GVL_TcUnit.TestSuiteAddresses[Counter] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName);
+        FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName, FinishedAt := FinishedAt);
         IF NOT FoundTestName THEN
             IF FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
                 GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,

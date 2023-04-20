@@ -8,6 +8,7 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
+    Test : REFERENCE TO FB_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
@@ -23,8 +24,11 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
     (* Look for the test suite by comparing to the one that is currently running *)
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
+        Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
+        IF __ISVALIDREF(Test) THEN
+          Test.SetStartedAtIfNotSet(Timestamp := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
+        END_IF
         RETURN;
     END_IF
 END_FOR]]></ST>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="F_GetCpuCounterAs64bit" Id="{d6ab9606-ef97-4c6c-91e0-367b300d1b7f}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Calls the passed GETCPUCOUNTER function block and
+   converts the output of the GETCPUCOUNTER function block from 2x32bit variables to a 
+   single 64bit variable
+*)
+FUNCTION F_GetCpuCounterAs64bit : LWORD
+VAR_IN_OUT CONSTANT
+    CpuCounter : Tc2_System.GETCPUCOUNTER;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[cpuCounter();
+F_GetCpuCounterAs64bit := SHL(32, DWORD_TO_LWORD(cpuCounter.cpuCntHiDW)) + DWORD_TO_LWORD(cpuCounter.cpuCntLoDW);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -20,6 +20,9 @@ VAR
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
     AssertionMessage : Tc2_System.T_MaxString; // Assertion message for the first assertion in this test
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
+
+    StartedAt : LWORD; // Temporary variable to calculate the actual duration of the test, the value holds the cpu cycle counter when a test is started in 100ns precision
+    Duration : LREAL; // Duration of the test in seconds
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -34,6 +37,12 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[METHOD INTERNAL GetAssertionType : E_AssertionType]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAssertionType := AssertionType;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetDuration" Id="{3e6c864c-e46e-4560-84e2-e90d42108999}">
+      <Declaration><![CDATA[METHOD INTERNAL GetDuration : LREAL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetDuration := Duration;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetName" Id="{94757f0e-9979-49d0-ad9f-e35c823175d4}">
@@ -104,9 +113,13 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
-      <Declaration><![CDATA[METHOD INTERNAL SetFinished : BOOL]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL SetFinished : BOOL
+VAR_INPUT
+    FinishedAt : LWORD; // CPU cycle counter with 100ns precision 
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestIsFinished := TRUE;]]></ST>
+        <ST><![CDATA[TestIsFinished := TRUE;
+Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
@@ -132,6 +145,18 @@ END_VAR]]></Declaration>
 METHOD INTERNAL SetSkipped]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsSkipped := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetStartedAtIfNotSet" Id="{35bcf245-cc42-44cc-8963-d5986e3acc7f}">
+      <Declaration><![CDATA[METHOD INTERNAL SetStartedAtIfNotSet
+VAR_INPUT
+    Timestamp : LWORD; // CPU cycle counter with 100ns precision 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StartedAt = 0 THEN
+    StartedAt := Timestamp;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestOrder" Id="{9154b373-5715-4bb9-b58b-0dd484b21841}">

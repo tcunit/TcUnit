@@ -7,6 +7,7 @@ STRUCT
     Identity : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestSuites); // Should be 0..GVL_Param_TcUnit.MaxNumberOfTestSuites-1 but gives unknown compiler error
     NumberOfTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
     NumberOfFailedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    Duration : LREAL; // in seconds
     TestCaseResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite] OF ST_TestCaseResult;
 END_STRUCT
 END_TYPE]]></Declaration>

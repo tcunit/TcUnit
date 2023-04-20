@@ -74,7 +74,11 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                              STR2 := ', number of failed tests=');
         StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
                                              STR2 := UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfFailedTests));
-
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := ', duration=');
+        StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint,
+                                             STR2 := LREAL_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Duration));
+											 
         GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                             MsgFmtStr := StringToPrint,
                                             StrArg := '');
@@ -96,7 +100,11 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test class name=%s',
                                                 StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
-
+            (* Print test duration *)
+            GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+                                                MsgFmtStr := '| Test duration=%s',
+                                                StrArg := LREAL_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].Duration));
+            
             (* Print test result/status (SUCCESS, FAILED, SKIPPED) + number of assertions made *)
             IF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed THEN
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_FAIL);
@@ -109,6 +117,9 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', number of asserts=');
             StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
                                                  UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts));
+            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 := ', duration=');
+            StringToPrint := Tc2_Standard.CONCAT(STR1 := StringToPrint, STR2 :=
+                                                 LREAL_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].Duration));												 
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := StringToPrint,
                                                 StrArg := '');
@@ -168,6 +179,9 @@ IF (GVL_TcUnit.NumberOfInitializedTestSuites = 0 OR PrintingTestSuiteResultNumbe
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '| Failed tests: %s',
                                         StrArg := UINT_TO_STRING(TcUnitTestResults.NumberOfFailedTestCases));
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := '| Duration: %s',
+                                        StrArg := LREAL_TO_STRING(TcUnitTestResults.Duration));                                        
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
                                         MsgFmtStr := '%s',
                                         StrArg := '| ======================================');
