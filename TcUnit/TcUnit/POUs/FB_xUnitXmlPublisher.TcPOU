@@ -103,6 +103,7 @@ IF PublishTrigger.Q THEN
     Xml.NewParameter('disabled', '');
     Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.NumberOfFailedTestCases));
     Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.NumberOfSuccessfulTestCases));
+    Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.Duration));
 
     FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO 
         (* <testsuite> *)
@@ -111,12 +112,14 @@ IF PublishTrigger.Q THEN
         Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
         Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));        
         Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
-
+        Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Duration));
+        
         FOR CurrentTestCount := 1 TO UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests BY 1 DO
             (* <testcase> *)
             Xml.NewTag('testcase');
             Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
             Xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
+            Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].Duration));
 
             IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsFailed THEN
                 Xml.NewParameter('status', TEST_STATUS_FAIL);

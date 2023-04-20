@@ -37,8 +37,13 @@ VAR
     AdsAssertMessageFormatter : FB_AdsAssertMessageFormatter;
     AssertMessageFormatter : I_AssertMessageFormatter := AdsAssertMessageFormatter;
 
-    (* Indication whether this test suite has started running its tests *)
-    HasStartedRunning : BOOL;
+    (* Stores the CPU cycle count with 100ns precision. It also is an indication whether this 
+       test suite has started running its tests*)
+    StartedAt : LWORD;
+    
+    (* Duration it took to run all tests in this testsuite - including the overhead from TcUnit
+       in seconds *)
+    Duration : LREAL;
 
     (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
     NumberOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
@@ -47,7 +52,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
-      <Declaration><![CDATA[METHOD INTERNAL AddTest
+      <Declaration><![CDATA[METHOD INTERNAL AddTest : REFERENCE TO FB_Test
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
     IsTestOrdered : BOOL;
@@ -132,7 +137,9 @@ END_IF
 IF IgnoreCurrentTestCase THEN
     GVL_TcUnit.IgnoreCurrentTest := TRUE;
     RETURN;
-END_IF]]></ST>
+END_IF
+
+AddTest REF= GetTestByName(TrimmedTestName);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
@@ -3642,10 +3649,16 @@ METHOD PRIVATE FindTestSuiteInstancePath : Tc2_System.T_MaxString]]></Declaratio
         <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetDuration" Id="{c5d72850-806c-4a5f-a535-d97d667b1fa5}">
+      <Declaration><![CDATA[METHOD INTERNAL GetDuration : LREAL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetDuration := Duration;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetHasStartedRunning" Id="{73f869b5-0951-4519-8e1e-dd573837cf2e}">
       <Declaration><![CDATA[METHOD INTERNAL GetHasStartedRunning : BOOL]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetHasStartedRunning := HasStartedRunning;]]></ST>
+        <ST><![CDATA[GetHasStartedRunning := StartedAt > 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
@@ -3717,6 +3730,26 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetTestByName" Id="{916a82c5-2376-4d6f-a61d-edc725255e83}">
+      <Declaration><![CDATA[METHOD GetTestByName : REFERENCE TO FB_Test
+VAR_INPUT
+  TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR
+  IteratorCounter : UINT;
+  NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+  IF Tests[IteratorCounter].GetName() = TestName THEN
+    GetTestByName REF= Tests[IteratorCounter];
+    RETURN;
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
       <Declaration><![CDATA[(* This method returns the test at the n'th position, ranging from 1.. NumberOfTests *)
 METHOD INTERNAL GetTestByPosition : FB_Test
@@ -3774,7 +3807,8 @@ END_FOR]]></ST>
     <Method Name="SetHasStartedRunning" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
       <Declaration><![CDATA[METHOD INTERNAL SetHasStartedRunning]]></Declaration>
       <Implementation>
-        <ST><![CDATA[HasStartedRunning := TRUE;]]></ST>
+        <ST><![CDATA[StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">
@@ -3807,6 +3841,7 @@ END_FOR]]></ST>
 METHOD INTERNAL SetTestFinished : BOOL;
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
+    FinishedAt : LWORD;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -3817,12 +3852,18 @@ END_VAR]]></Declaration>
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
-        Tests[IteratorCounter].SetFinished();
+        Tests[IteratorCounter].SetFinished(FinishedAt := FinishedAt);
         SetTestFinished := TRUE;
         RETURN;
     END_IF
 END_FOR
 SetTestFinished := FALSE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateDuration" Id="{46f255fd-7bfb-4ea3-b0bd-c2a60237aa69}">
+      <Declaration><![CDATA[METHOD INTERNAL UpdateDuration]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Duration := Duration + LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
       </Implementation>
     </Method>
   </POU>
