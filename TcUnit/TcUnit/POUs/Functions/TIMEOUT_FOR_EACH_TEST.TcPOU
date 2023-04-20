@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="TIMEOUT_FOR_EACH_TEST" Id="{f4fb1591-6c45-4819-b7fb-69124cd2e3ab}" SpecialFunc="None">
+    <Declaration><![CDATA[(* this function sets a timeout for each test and if a test doesn't finish during this timeout PLC will STOP
+        - to use this function make another TASK in PLC with lower number of priority
+        - make a PROGRAM and assign it to the newly created TASK
+        - call this FUNCTION in it with desired Timeout
+        - Zero (T#0S) disables this function *)
+FUNCTION TIMEOUT_FOR_EACH_TEST
+VAR_INPUT
+    Timeout : TIME;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_TcUnit.TimeoutWatcher(Time_out:=Timeout);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -42,12 +42,14 @@ VAR
 
     (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
     NumberOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
+    
+    Utility : FB_Utility;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
-      <Declaration><![CDATA[METHOD INTERNAL AddTest
+      <Declaration><![CDATA[METHOD INTERNAL AddTest : REFERENCE TO FB_Test
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
     IsTestOrdered : BOOL;
@@ -126,6 +128,11 @@ IF NOT TestWithThisNameAlreadyExists THEN
         NumberOfOrderedTests := NumberOfOrderedTests + 1;
         Tests[IteratorCounter].SetTestOrder(OrderNumber := NumberOfOrderedTests);
     END_IF
+END_IF
+
+AddTest REF= GetTestByName(TrimmedTestName);
+IF AddTest.TimeStampOfStart=0 THEN
+    AddTest.TimeStampOfStart := Utility.GetCpuCounterAsULINT();
 END_IF
 
 (* Check if this test should be disabled *)
@@ -3715,6 +3722,26 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestByName" Id="{7503ce60-ab36-477f-93a9-d6b044348b26}">
+      <Declaration><![CDATA[METHOD INTERNAL GetTestByName : REFERENCE TO FB_Test
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR    
+    IteratorCounter : UINT;
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        GetTestByName REF= Tests[IteratorCounter];
+        RETURN;
+    END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">

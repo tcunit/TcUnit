@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TimeoutWatcher" Id="{c00583a8-41fa-4f83-8876-8a6f8a49c4ec}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'hide_all_locals'}
+FUNCTION_BLOCK INTERNAL FB_TimeoutWatcher
+VAR_INPUT
+    Time_out : TIME := T#0S;
+END_VAR
+VAR
+    IndexOfTaskThatContainsTestSuites : BYTE := 255;
+    AdsPort : UINT := TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
+    StopCmd : BOOL := FALSE;
+    PlcStop : PLC_Stop;
+    TimeoutAsULINT : ULINT;
+    CpuCounterULINT : ULINT;
+    Utility : FB_Utility;
+    TestSuiteInstancePath : Tc2_System.T_MaxString;
+    TestName : Tc2_System.T_MaxString;
+    ReportMessage : Tc2_System.T_MaxString;
+    AdsLogStringMessageFifoQueue : FB_AdsLogStringMessageFifoQueue;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Time_out=T#0S OR NOT __ISVALIDREF(GVL_TcUnit.CurrentTestBeingCalled) 
+                    OR_ELSE GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart=0 
+                        OR_ELSE GVL_TcUnit.CurrentTestBeingCalled.TestIsFinished THEN
+    RETURN;
+END_IF
+
+CpuCounterULINT := Utility.GetCpuCounterAsULINT();
+TimeOutAsULINT := TIME_TO_ULINT(Time_out) * 10000;
+
+IF IndexOfTaskThatContainsTestSuites = 255 THEN
+    IndexOfTaskThatContainsTestSuites := GVL_TcUnit.TestSuiteAddresses[1]^.GetCurrentTaskIndex.index;
+END_IF
+IF IndexOfTaskThatContainsTestSuites <> 255 THEN
+    IF CpuCounterULINT >= GVL_TcUnit.CurrentTestBeingCalled.TimeStampOfStart + TimeoutAsULINT THEN
+        
+        // generate report message
+        TestSuiteInstancePath := GVL_TcUnit.CurrentTestSuiteBeingCalled^.InstancePath;
+        TestName := GVL_TcUnit.CurrentTestNameBeingCalled;
+        ReportMessage := CONCAT('| Timeout Reached. TestSuite Path=',TestSuiteInstancePath);
+        ReportMessage := CONCAT(ReportMessage,', Test Name=%s');
+        // add report to FifoQueue for pipelines
+        AdsLogStringMessageFifoQueue.WriteLog(MsgCtrlMask:=ADSLOG_MSGTYPE_ERROR,MsgFmtStr:=ReportMessage,StrArg:=TestName);
+        // print report in error list for developers
+        ADSLOGSTR(MsgCtrlMask:=ADSLOG_MSGTYPE_ERROR,MsgFmtStr:=ReportMessage,StrArg:=TestName);
+        
+        StopCmd := TRUE;
+    END_IF
+END_IF
+PlcStop(NETID:='',PORT:=AdsPort,STOP:=stopCmd);
+StopCmd := FALSE;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
