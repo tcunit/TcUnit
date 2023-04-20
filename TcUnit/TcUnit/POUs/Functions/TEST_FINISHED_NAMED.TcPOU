@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="TEST_FINISHED_NAMED" Id="{7a3926c3-51ee-4f1e-953f-089cfa833d72}" SpecialFunc="None">
     <Declaration><![CDATA[(* Sets a test defined by TestName as finished. Note that the TestName-input must match
    a TestName that has been previously defined in this test suite. *)
@@ -19,7 +19,11 @@ VAR CONSTANT
     MaxNumberOfNonExistentTestNamesFailedLookups : UINT := 3;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
+      <ST><![CDATA[IF GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
+    RETURN;
+END_IF
+
+TestName := F_LTrim(in := F_RTrim(in := TestName));
 
 (* Find the test suite and:
    1. Set the test in that test suite as finished

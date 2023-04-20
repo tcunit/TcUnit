@@ -58,6 +58,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="ErrorList.cs" />
     <Compile Include="FB_EmptyAssertionMessage.cs" />
+    <Compile Include="FB_HaltAssertionsWhenAwaitingAssertionsIsUsed.cs" />
     <Compile Include="FB_TestXmlControl.cs" />
     <Compile Include="FB_TestFileControl.cs" />
     <Compile Include="FB_TestStreamBuffer.cs" />

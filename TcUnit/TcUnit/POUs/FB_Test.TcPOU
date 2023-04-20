@@ -9,6 +9,9 @@ VAR
     TestName : Tc2_System.T_MaxString;
     TestIsFinished : BOOL;
     TestIsSkipped : BOOL; // This is set to true, if test is disabled (by putting the string "disabled_" in front of the test name
+    {attribute 'hide'}
+    _assertionIsAwaiting : BOOL; // This is set to true if assertions need some delay before execution (by using AWAIT_ASSERTIONS() method before assertions)
+    AwaitingTimer : TON ;
     NumberOfAssertions : UINT;
 
     (* In which order/sequence relative to the order tests should this test be executed/evaluated.
@@ -24,6 +27,25 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Property Name="AssertionIsAwaiting" Id="{b465ea5b-dea5-4ba3-8c94-16f5090457ff}">
+      <Declaration><![CDATA[PROPERTY INTERNAL AssertionIsAwaiting : bool]]></Declaration>
+      <Get Name="Get" Id="{88dabc4b-9750-4c59-8976-fd367fcfe9ca}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AssertionIsAwaiting := _assertionIsAwaiting;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{b4944f5a-f816-49dc-a6bc-2041187026b6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_assertionIsAwaiting := AssertionIsAwaiting;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="GetAssertionMessage" Id="{273c4e89-faee-43b5-803d-428cdf75ac48}">
       <Declaration><![CDATA[METHOD INTERNAL GetAssertionMessage : Tc2_System.T_MaxString]]></Declaration>
       <Implementation>

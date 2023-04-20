@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="AWAIT_ASSERTIONS" Id="{1f553859-c334-4de8-8600-188644aee40d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION AWAIT_ASSERTIONS
+VAR_INPUT
+    AwaitTime : TIME;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GVL_TcUnit.CurrentTestBeingCalled.AwaitingTimer(IN:=TRUE,PT:=AwaitTime);
+GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting := NOT GVL_TcUnit.CurrentTestBeingCalled.AwaitingTimer.Q;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

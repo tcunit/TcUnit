@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_TestSuite" Id="{f80c23f2-119d-406b-ae11-06d1991bf64d}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function block is responsible for holding the internal state of the test suite.
    Every test suite can have one or more tests, and every test can do one or more asserts.
@@ -47,7 +47,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="AddTest" Id="{d383011f-6bea-4b05-9018-ea4782ad2837}">
-      <Declaration><![CDATA[METHOD INTERNAL AddTest
+      <Declaration><![CDATA[METHOD INTERNAL AddTest : REFERENCE TO FB_Test
 VAR_INPUT
     TestName : Tc2_System.T_MaxString;
     IsTestOrdered : BOOL;
@@ -109,6 +109,7 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
             END_IF
         END_IF
         TestCycleCountIndex[IteratorCounter] := CycleCount;
+        EXIT;
     END_IF
 END_FOR
 
@@ -127,6 +128,8 @@ IF NOT TestWithThisNameAlreadyExists THEN
         Tests[IteratorCounter].SetTestOrder(OrderNumber := NumberOfOrderedTests);
     END_IF
 END_IF
+
+AddTest REF= GetTestByName(TrimmedTestName);
 
 (* Check if this test should be disabled *)
 IF IgnoreCurrentTestCase THEN
@@ -209,7 +212,7 @@ VAR
     Actual : LREAL; // Single actual value
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -363,7 +366,7 @@ VAR
     Actual : REAL; // Single actual value
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -517,7 +520,7 @@ VAR
     Actual : LREAL; // Single actual value
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -701,7 +704,7 @@ VAR
     FormatString : Tc2_Utilities.FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -874,7 +877,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -966,7 +969,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1065,7 +1068,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1157,7 +1160,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1255,7 +1258,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1345,7 +1348,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1436,7 +1439,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1528,7 +1531,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1627,7 +1630,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1717,7 +1720,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1807,7 +1810,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1898,7 +1901,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -1988,7 +1991,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2078,7 +2081,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2170,7 +2173,7 @@ VAR
     ActualsIndex : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2313,7 +2316,7 @@ VAR
     IteratorCounter : DINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2624,7 +2627,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2666,7 +2669,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2716,7 +2719,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2758,7 +2761,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2800,7 +2803,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2842,7 +2845,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2892,7 +2895,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2934,7 +2937,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -2977,7 +2980,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3019,7 +3022,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3061,7 +3064,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3112,7 +3115,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3154,7 +3157,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3196,7 +3199,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3238,7 +3241,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3280,7 +3283,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3322,7 +3325,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3364,7 +3367,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3406,7 +3409,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3448,7 +3451,7 @@ VAR
     TestInstancePath : Tc2_System.T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3490,7 +3493,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3540,7 +3543,7 @@ VAR
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
+        <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished OR GVL_TcUnit.CurrentTestBeingCalled.AssertionIsAwaiting THEN
     RETURN;
 END_IF
 
@@ -3715,6 +3718,25 @@ GetNumberOfSkippedTests := SkippedTestsCount;]]></ST>
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfTestsToAnalyse : UINT]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetNumberOfTestsToAnalyse := MIN(GetNumberOfTests(), GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestByName" Id="{33f284fe-d12c-410c-ad92-327a023f47c3}">
+      <Declaration><![CDATA[METHOD INTERNAL GetTestByName : REFERENCE TO FB_Test
+VAR_INPUT
+    TestName : Tc2_System.T_MaxString;
+END_VAR
+VAR    
+    IteratorCounter : UINT;
+    NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
+    IF Tests[IteratorCounter].GetName() = TestName THEN
+        GetTestByName REF= Tests[IteratorCounter];
+        RETURN;
+    END_IF
+END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">

@@ -67,6 +67,9 @@
     <Compile Include="Test\FB_ExtendedTestInformation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_HaltAssertionsWhenAwaitingAssertionsIsUsed.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -145,11 +148,6 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderResolution Include="TcUnit">
-      <Resolution>TcUnit, * (www.tcunit.org)</Resolution>
-    </PlaceholderResolution>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="TcUnitVerifier.tmc">
       <SubType>Content</SubType>
     </None>
@@ -158,6 +156,11 @@
     <LibraryReference Include="Base Interfaces,newest,System">
       <Namespace>IBaseLibrary</Namespace>
     </LibraryReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderResolution Include="TcUnit">
+      <Resolution>TcUnit, * (www.tcunit.org)</Resolution>
+    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
