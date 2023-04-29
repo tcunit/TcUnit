@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AssertEveryFailedTestTwice" Id="{3bea6e4d-8d08-467b-90da-24a784807eae}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     In this testsuite we are running the same testcase over two cycles, and thus calling every assert method twice.

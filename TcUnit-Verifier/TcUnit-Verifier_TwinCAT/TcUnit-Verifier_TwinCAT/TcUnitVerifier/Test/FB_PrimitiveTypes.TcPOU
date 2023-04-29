@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_PrimitiveTypes" Id="{d6f75dd1-f045-4082-8776-85982b0ae74c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the different assert-functions for all the different data types in TwinCAT.

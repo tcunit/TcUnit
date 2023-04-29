@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_ProtectedVariables" Id="{04c8b30f-8b4f-46fd-9e09-1e516a0a3840}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains different types of "protected" variables that you could not normally write to in

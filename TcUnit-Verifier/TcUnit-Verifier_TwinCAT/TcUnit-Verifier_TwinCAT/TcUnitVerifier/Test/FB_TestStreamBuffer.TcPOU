@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TestStreamBuffer" Id="{93715912-c883-4a03-854d-0419c551b14f}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Contains tests that verify the StreamBuffer function block methods

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_CreateDisabledTest" Id="{3f1093ff-32d2-455a-8cf0-190014c55a4c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite runs two tests. One that is enabled (and that is supposed to fail), and one that is disabled (and

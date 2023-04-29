@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AnyToUnionValue" Id="{0cc46357-158c-41b7-afc0-2c79ec82f0f6}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Tests the free function F_AnyToUnionValue.

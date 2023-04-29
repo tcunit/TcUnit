@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_MultipleAssertWithSameParametersInSameCycleWithSameTest" Id="{9957a11f-d554-4b5d-be35-f56d53aab4f2}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This test-suite runs several asserts with the same parameters (same expected, actual, message) in the same cycle

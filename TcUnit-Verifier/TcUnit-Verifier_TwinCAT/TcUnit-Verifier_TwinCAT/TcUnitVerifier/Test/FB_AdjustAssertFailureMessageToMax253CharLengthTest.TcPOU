@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AdjustAssertFailureMessageToMax253CharLengthTest" Id="{305341a5-f462-4bcb-ba17-ae2773c50e69}" SpecialFunc="None">
     <Declaration><![CDATA[(* This testsuite tests the function block FB_AdjustAssertFailureMessageToMax255CharLength_Test
    The total printed message can not be more than 253 characters long.

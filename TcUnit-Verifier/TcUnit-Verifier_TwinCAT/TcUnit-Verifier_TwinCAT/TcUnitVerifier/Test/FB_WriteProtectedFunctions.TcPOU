@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_WriteProtectedFunctions" Id="{812062d4-e1c0-4591-8720-04dcd5e89c1e}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This testsuite tests the WRITE_PROTECTED_* helper functions.

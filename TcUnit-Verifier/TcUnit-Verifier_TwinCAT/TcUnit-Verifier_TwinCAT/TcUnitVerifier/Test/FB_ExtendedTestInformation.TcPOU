@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_ExtendedTestInformation" Id="{bf5760f3-74cf-43d8-975e-6f266464d8c0}" SpecialFunc="None">
     <Declaration><![CDATA[(* This test suite makes sure to create different variants of tests that will produce various extended logs, i.e. the
    ADS-logs that provide information on how many tests have finished/are successful within the test suites.
