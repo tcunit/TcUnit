@@ -38,7 +38,7 @@ VAR
     AssertMessageFormatter : I_AssertMessageFormatter := AdsAssertMessageFormatter;
 
     (* Stores the CPU cycle count with 100ns precision. It also is an indication whether this 
-       test suite has started running its tests*)
+       test suite has started running its tests (> 0 means it has started) *)
     StartedAt : LWORD;
     
     (* Duration it took to run all tests in this testsuite - including the overhead from TcUnit
@@ -163,23 +163,24 @@ VAR
     NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCurTaskIndex();
-IF TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle THEN
-	(* NumberOfTests is 0 in first cycle *)
-	AreAllTestsFinished := FALSE;
-ELSE
+        <ST><![CDATA[AreAllTestsFinished := FALSE;
+
+IF NumberOfTests > 0 THEN
     AreAllTestsFinished := TRUE;
     (* Limit the test analyse to the max array limit of 'Tests[]' *)
     NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
+    (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
     FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
-        (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
-        IF NOT (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped()) THEN
-            AreAllTestsFinished:= FALSE;
-            RETURN;
-        END_IF
+        AreAllTestsFinished := AreAllTestsFinished AND (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped());
     END_FOR
 END_IF
-]]></ST>
+
+(* If we have been running at least one cycle and no tests are registered, it means that this testsuite is empty
+   and doesn't contain any test cases. In that case, ignore this testsuite. *)
+GetCurTaskIndex();
+IF NumberOfTests = 0 AND NOT TwinCAT_SystemInfoVarList._TaskInfo[GetCurTaskIndex.index].FirstCycle AND StartedAt > 0 THEN
+	AreAllTestsFinished := TRUE;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_LREAL" Id="{964c2fec-9de7-47ae-bee4-23c559ae4a3f}">
@@ -3804,11 +3805,10 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SetHasStartedRunning" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
-      <Declaration><![CDATA[METHOD INTERNAL SetHasStartedRunning]]></Declaration>
+    <Method Name="SetStartedAtTimeBasedOnCpuCounter" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
+      <Declaration><![CDATA[METHOD INTERNAL SetStartedAtTimeBasedOnCpuCounter]]></Declaration>
       <Implementation>
-        <ST><![CDATA[StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
-]]></ST>
+        <ST><![CDATA[StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestFailed" Id="{79b1664f-2570-4cef-bd6e-d7307d9a7818}">

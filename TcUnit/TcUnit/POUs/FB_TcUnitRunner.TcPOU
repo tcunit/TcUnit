@@ -64,7 +64,7 @@ IF NOT AllTestSuitesFinished THEN
                 NumberOfTestSuitesFinished := NumberOfTestSuitesFinished + 1;
             ELSE
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
-                GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetHasStartedRunning();
+                GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtTimeBasedOnCpuCounter();
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
             END_IF
@@ -143,7 +143,7 @@ IF NOT AllTestSuitesFinished THEN
             END_IF
         ELSIF NOT TimerBetweenExecutionOfTestSuites.Q THEN
             GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite];
-            GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetHasStartedRunning();
+            GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtTimeBasedOnCpuCounter();
             GVL_TcUnit.CurrentTestSuiteBeingCalled^();
             GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
         END_IF
