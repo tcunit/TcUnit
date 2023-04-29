@@ -162,7 +162,7 @@ END_IF
 AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
 IF AllTestSuitesFinishedTrigger.Q
 THEN
-    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds
+    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds
 END_IF
 
 (* Store test suite results continuously *)

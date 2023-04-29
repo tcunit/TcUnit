@@ -3852,7 +3852,7 @@ END_VAR]]></Declaration>
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
-        Tests[IteratorCounter].SetFinished(FinishedAt := FinishedAt);
+        Tests[IteratorCounter].SetFinishedAndDuration(FinishedAt := FinishedAt);
         SetTestFinished := TRUE;
         RETURN;
     END_IF
@@ -3863,7 +3863,7 @@ SetTestFinished := FALSE;]]></ST>
     <Method Name="UpdateDuration" Id="{46f255fd-7bfb-4ea3-b0bd-c2a60237aa69}">
       <Declaration><![CDATA[METHOD INTERNAL UpdateDuration]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Duration := Duration + LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
+        <ST><![CDATA[Duration := Duration + LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds]]></ST>
       </Implementation>
     </Method>
   </POU>

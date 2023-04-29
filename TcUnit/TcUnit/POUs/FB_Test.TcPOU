@@ -112,14 +112,14 @@ END_IF]]></ST>
         <ST><![CDATA[TestIsFailed := TRUE;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SetFinished" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
-      <Declaration><![CDATA[METHOD INTERNAL SetFinished : BOOL
+    <Method Name="SetFinishedAndDuration" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
+      <Declaration><![CDATA[METHOD INTERNAL SetFinishedAndDuration : BOOL
 VAR_INPUT
     FinishedAt : LWORD; // CPU cycle counter with 100ns precision 
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFinished := TRUE;
-Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds]]></ST>
+Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">

@@ -8,6 +8,7 @@ using TCatSysManagerLib;
 using System.Threading;
 using EnvDTE80;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace TcUnit.Verifier
 {
@@ -147,7 +148,7 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains(durationStr))
                     {
                         int durationIndex = error.Description.IndexOf(durationStr);
-                        durationLineFound = float.TryParse(error.Description.Substring(durationIndex + durationStr.Length), out duration);
+                        durationLineFound = float.TryParse(error.Description.Substring(durationIndex + durationStr.Length), NumberStyles.Any, CultureInfo.InvariantCulture, out duration);
                     }
                     if (error.Description.Contains("| ======================================"))
                         testsFinishedRunningLastLineFound = true;
