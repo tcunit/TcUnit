@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AdsAssertMessageFormatter" Id="{54911d7d-b4a4-43a8-a981-a2fc14a13f71}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for printing the results of the assertions using the built-in

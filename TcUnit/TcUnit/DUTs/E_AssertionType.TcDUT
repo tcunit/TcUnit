@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <DUT Name="E_AssertionType" Id="{7c2f41c4-7e4b-4ece-8119-0ec021549d2f}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}

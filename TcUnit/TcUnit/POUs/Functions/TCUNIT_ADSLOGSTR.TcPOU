@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="TCUNIT_ADSLOGSTR" Id="{83985386-b582-4673-93b7-d94798f4c9e7}" SpecialFunc="None">
     <Declaration><![CDATA[(* This function allows to put ADS strings into the TcUnit ADS message buffer. If Tc2_System.ADSLOGSTR() is used directly,
    the messages can come out of sequence in relation to the message created by TcUnit as TcUnit buffers the messages to

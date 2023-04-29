@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_AdjustAssertFailureMessageToMax253CharLength" Id="{d7648cea-fb9f-427f-b157-93784e5b7cab}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for making sure that the asserted test instance path and test message are not

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="RUN_IN_SEQUENCE" Id="{a1bb30cd-f92f-4bab-aa26-6bd18db0fbc1}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function runs all test suites that have been initialized.

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="F_GetTestSuiteNameFromTestInstancePath" Id="{a18d80d3-2319-4446-86ef-2bd4388523f3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_GetTestSuiteNameFromTestInstancePath : Tc2_System.T_MaxString
 VAR_INPUT

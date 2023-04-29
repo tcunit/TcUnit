@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_XmlControl" Id="{f48b7de2-5c07-4763-a8be-3d8ab3c1f58c}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     Organizes parsing and composing of XML data. Data can be treated as STRING or char array.

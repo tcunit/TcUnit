@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_FileControl" Id="{c9bec8fc-2de3-45f4-b839-e6c4276a6b5a}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This functionblock can open, close, read, write and delete files on the local filesystem

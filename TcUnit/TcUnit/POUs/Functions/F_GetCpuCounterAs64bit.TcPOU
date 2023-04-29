@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="F_GetCpuCounterAs64bit" Id="{d6ab9606-ef97-4c6c-91e0-367b300d1b7f}" SpecialFunc="None">
     <Declaration><![CDATA[(* Calls the passed GETCPUCOUNTER function block and
    converts the output of the GETCPUCOUNTER function block from 2x32bit variables to a 

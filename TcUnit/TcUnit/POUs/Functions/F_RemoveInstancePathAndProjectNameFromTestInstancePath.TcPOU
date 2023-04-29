@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="F_RemoveInstancePathAndProjectNameFromTestInstancePath" Id="{7816860e-5623-4ff0-b466-902e340371e3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_RemoveInstancePathAndProjectNameFromTestInstancePath : Tc2_System.T_MaxString
 VAR_INPUT

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <Itf Name="I_TestResultLogger" Id="{fa75ee61-43fb-4767-8061-125a3a9e3424}">
     <Declaration><![CDATA[INTERFACE I_TestResultLogger]]></Declaration>
     <Method Name="LogTestSuiteResults" Id="{033e8873-ad7a-489b-8ba9-f0de8a344939}">

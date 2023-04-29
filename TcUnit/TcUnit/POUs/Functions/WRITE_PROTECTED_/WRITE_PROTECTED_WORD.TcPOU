@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="WRITE_PROTECTED_WORD" Id="{00031d54-f0f1-405a-8c1e-ac2fc1af74f9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION WRITE_PROTECTED_WORD
 VAR_INPUT

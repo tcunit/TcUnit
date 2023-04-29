@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <DUT Name="E_XmlError" Id="{05a4fdda-1086-47b5-ad10-7c2bac568355}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}

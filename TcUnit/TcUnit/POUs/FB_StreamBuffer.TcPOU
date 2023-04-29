@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="FB_StreamBuffer" Id="{7f893efb-b056-43d3-9cf8-4965b865d1ab}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This functionblock acts as a stream buffer for use with FB_XmlControl
