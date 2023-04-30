@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Unit testing concepts
-#permalink: /unit-testing-concepts/
 ---
 
 # Unit testing concepts

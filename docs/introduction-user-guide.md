@@ -1,7 +1,6 @@
 ---
 layout: page
 title: Introduction user guide
-#permalink: /introduction-user-guide/
 ---
 
 # Introduction user guide
