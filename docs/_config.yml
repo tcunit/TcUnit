@@ -35,6 +35,8 @@ theme: minima
 header_pages:
   - introduction-user-guide.md
   - unit-testing-concepts.md
+  - programming-example.md
+  - faq.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.

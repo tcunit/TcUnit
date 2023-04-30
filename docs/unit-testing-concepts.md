@@ -3,8 +3,6 @@ layout: page
 title: Unit testing concepts
 ---
 
-# Unit testing concepts
-
 This page briefly describes test driven development in general, and some basic concepts of unit testing with TcUnit in particular.
 
 - [Test driven development](#test-driven-development)

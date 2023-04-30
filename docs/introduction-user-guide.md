@@ -3,13 +3,12 @@ layout: page
 title: Introduction user guide
 ---
 
-# Introduction user guide
 Before reading this guide, it’s highly recommended to read [unit testing concepts](unit-testing-concepts.md), in order to have a basic understanding of the concepts of unit testing and TcUnit.
 
 The TcUnit framework gives you the possibility to easily write unit tests for your TwinCAT 3 software, and having the results reported in a human-readable format for review.
 All unit test code is written in the same program/library as the rest of your code, but because it is only used in a separate test-program, it does not affect the production code/executables.
 With unit test-code provided with the rest of the code, you can see these additions as living documentation of the code.
-For a more thorough/detailed example please see the [programming example](programming-example-part1-introduction.md).
+For a more thorough/detailed example please see the [programming example](programming-example.md).
 
 The purpose of this user guide is to be a short tutorial where we will go through the different steps to that are necessary to use TcUnit, which are:
 
@@ -216,6 +215,6 @@ Press on the **Description column** until there is an arrow pointing up, such as
 
 Obviously this is a very simple example and the purpose of this was to show how to use the framework rather to come up with a real-world example.
 Simple functionality that does not require any state would be better suited to be implemented as a function, or in this case just using the "+" operator.
-For a real-world example see the [programming example](programming-example-part1-introduction.md).
+For a real-world example see the [programming example](programming-example.md).
 
 The source code for this example is [available on GitHub](https://github.com/tcunit/ExampleProjects/tree/master/SimpleExampleProject).
