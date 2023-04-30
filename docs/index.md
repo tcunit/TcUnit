@@ -1,15 +1,25 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+list_title: ' '
+---
+
+![TcUnit logo](img/tcunit-logo.png)
+
 TcUnit is an [xUnit](https://en.wikipedia.org/wiki/XUnit) type of framework specifically done for [Beckhoff’s TwinCAT 3](https://www.beckhoff.com/en-en/products/automation/twincat/) development environment.
 It consists of a single library that is easily integrated into any existing TwinCAT 3 project.
 
 **Want to get started?**
-Start by reading the [unit testing concepts](unit-testing-concepts.md) and then the [introduction user guide](introduction-user-guide.md).
+Start by reading the [unit testing concepts]({% link unit-testing-concepts.md %}) and then the [introduction user guide]({% link introduction-user-guide.md %}).
 
 ![TcUnit introduction](img/tcunit-general.png)
 
 ### Easy to use
 The framework is easy to use.
 All that is needed is to download & install the library, and provide a reference to the TcUnit-library in your project, and you can start to write your test code.
-For a complete set of instructions, start with [the concepts](unit-testing-concepts.md), continue with [the user guide](introduction-user-guide.md) and finish with [the programming example](programming-example.md).
+For a complete set of instructions, start with [the concepts]({% link unit-testing-concepts.md %}), continue with [the user guide]({% link introduction-user-guide.md %}) and finish with [the programming example](programming-example.md).
 
 ### One library
 All functionality is provided by one single library.

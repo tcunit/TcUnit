@@ -1,3 +1,9 @@
+---
+layout: page
+title: Introduction user guide
+#permalink: /introduction-user-guide/
+---
+
 # Introduction user guide
 Before reading this guide, it’s highly recommended to read [unit testing concepts](unit-testing-concepts.md), in order to have a basic understanding of the concepts of unit testing and TcUnit.
 
