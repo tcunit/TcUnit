@@ -22,10 +22,10 @@ title: TcUnit - An unit testing framework for Beckhoff's TwinCAT 3
 description: >- # this means to ignore newlines until "baseurl:"
   TcUnit is an xUnit type of framework specifically done for Beckhoff’s TwinCAT 3 development environment.
   It consists of a single library that is easily integrated into any existing TwinCAT 3 project.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+#baseurl: "" # the subpath of your site, e.g. /blog
+#url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
-github_username:  tcunit
+github_username: tcunit
 
 # Build settings
 theme: minima
