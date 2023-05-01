@@ -9,7 +9,7 @@ STRUCT
     NumberOfSuccessfulTestCases : UINT; // The total number of test cases that had all ASSERTS successful
     NumberOfFailedTestCases : UINT; // The total number of test cases that had at least one ASSERT failed
     Duration : LREAL; // Duration it took for all test suites to finish, in seconds
-    
+
     (* Test results for each individiual test suite *)
     TestSuiteResults : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfTestSuites] OF ST_TestSuiteResult;
 END_STRUCT

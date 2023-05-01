@@ -115,7 +115,7 @@ END_IF]]></ST>
     <Method Name="SetFinishedAndDuration" Id="{e1245d1c-be22-4d60-bc91-fe0262827234}">
       <Declaration><![CDATA[METHOD INTERNAL SetFinishedAndDuration : BOOL
 VAR_INPUT
-    FinishedAt : LWORD; // CPU cycle counter with 100ns precision 
+    FinishedAt : LWORD; // CPU cycle counter with 100ns precision
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsFinished := TRUE;
@@ -150,9 +150,8 @@ METHOD INTERNAL SetSkipped]]></Declaration>
     <Method Name="SetStartedAtIfNotSet" Id="{35bcf245-cc42-44cc-8963-d5986e3acc7f}">
       <Declaration><![CDATA[METHOD INTERNAL SetStartedAtIfNotSet
 VAR_INPUT
-    Timestamp : LWORD; // CPU cycle counter with 100ns precision 
-END_VAR
-]]></Declaration>
+    Timestamp : LWORD; // CPU cycle counter with 100ns precision
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF StartedAt = 0 THEN
     StartedAt := Timestamp;

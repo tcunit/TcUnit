@@ -26,7 +26,10 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* The body of the function block stores the test results *)
 IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT StoredTestSuiteResults THEN
-    StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished());
+    (*StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND
+								   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetDuration() > 0);*)
+	StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished());
+
     IF StoringTestSuiteTrigger.Q THEN
         (* Remove everything except the program name + "." + test suite name *)
         TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
@@ -102,6 +105,7 @@ IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 AND (NOT StoredGeneralTestResult
 ELSIF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AND_THEN
     GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND StoredTestSuiteResults AND (NOT StoredGeneralTestResults) THEN
     TestSuiteResults.NumberOfTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites;
+	GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds
     TestSuiteResults.Duration := GVL_TcUnit.Duration;
     FOR GeneralTestResultsTestSuitesCounter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         TestSuiteResults.NumberOfTestCases := TestSuiteResults.NumberOfTestCases + TestSuiteResults.TestSuiteResults[GeneralTestResultsTestSuitesCounter].NumberOfTests;

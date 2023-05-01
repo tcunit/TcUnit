@@ -40,7 +40,7 @@ VAR
     (* Stores the CPU cycle count with 100ns precision. It also is an indication whether this 
        test suite has started running its tests (> 0 means it has started) *)
     StartedAt : LWORD;
-    
+
     (* Duration it took to run all tests in this testsuite - including the overhead from TcUnit
        in seconds *)
     Duration : LREAL;
@@ -3632,6 +3632,17 @@ IF TotalNumberOfAsserts > 0 THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="CalculateDuration" Id="{363a79e4-5ebb-4269-942e-50e5f5b2a530}">
+      <Declaration><![CDATA[METHOD INTERNAL CalculateDuration
+VAR_INPUT
+    FinishedAt : LWORD; // CPU cycle counter with 100ns precision
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Duration = 0.0 THEN
+	Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="FB_init" Id="{9273f5af-0583-448b-bab6-3359f03f9b91}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
@@ -3805,6 +3816,17 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
 END_FOR]]></ST>
       </Implementation>
     </Method>
+    <Method Name="SetStartedAtIfNotSet" Id="{2218188e-cc7d-4a9c-a109-2a6febe170e1}">
+      <Declaration><![CDATA[METHOD INTERNAL SetStartedAtIfNotSet
+VAR_INPUT
+    Timestamp : LWORD; // CPU cycle counter with 100ns precision
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF StartedAt = 0 THEN
+    StartedAt := Timestamp;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="SetStartedAtTimeBasedOnCpuCounter" Id="{ec167018-f922-4541-86e8-8b70c1684943}">
       <Declaration><![CDATA[METHOD INTERNAL SetStartedAtTimeBasedOnCpuCounter]]></Declaration>
       <Implementation>
@@ -3852,18 +3874,14 @@ END_VAR]]></Declaration>
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
-        Tests[IteratorCounter].SetFinishedAndDuration(FinishedAt := FinishedAt);
-        SetTestFinished := TRUE;
-        RETURN;
+		IF NOT Tests[IteratorCounter].IsFinished() THEN
+        	Tests[IteratorCounter].SetFinishedAndDuration(FinishedAt := FinishedAt);
+        	SetTestFinished := TRUE;
+        	RETURN;
+		END_IF
     END_IF
 END_FOR
 SetTestFinished := FALSE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="UpdateDuration" Id="{46f255fd-7bfb-4ea3-b0bd-c2a60237aa69}">
-      <Declaration><![CDATA[METHOD INTERNAL UpdateDuration]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Duration := Duration + LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds]]></ST>
       </Implementation>
     </Method>
   </POU>

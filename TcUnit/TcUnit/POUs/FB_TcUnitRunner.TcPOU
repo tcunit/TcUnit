@@ -64,9 +64,12 @@ IF NOT AllTestSuitesFinished THEN
                 NumberOfTestSuitesFinished := NumberOfTestSuitesFinished + 1;
             ELSE
                 GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[Counter];
-                GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtTimeBasedOnCpuCounter();
+				GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtIfNotSet(Timestamp := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
                 GVL_TcUnit.CurrentTestSuiteBeingCalled^();
-                GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
+				// This is not an efficient way to set the duration
+				IF GVL_TcUnit.TestSuiteAddresses[Counter]^.AreAllTestsFinished() THEN
+					GVL_TcUnit.CurrentTestSuiteBeingCalled^.CalculateDuration(FinishedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
+				END_IF
             END_IF
         END_FOR
         (* Check if some event triggered an abortion of running the tests, in that case abort it now.
@@ -74,18 +77,11 @@ IF NOT AllTestSuitesFinished THEN
         IF AbortRunningTestSuites THEN
             NumberOfTestSuitesFinished := GVL_TcUnit.NumberOfInitializedTestSuites;
         END_IF
-        
+
         IF NumberOfTestSuitesFinished = GVL_TcUnit.NumberOfInitializedTestSuites THEN
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
-END_IF
-
-(* Measure the duration it took to run all testsuites *)
-AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
-IF AllTestSuitesFinishedTrigger.Q
-THEN
-    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // seconds
 END_IF
 
 (* Store test suite results continuously *)
@@ -109,7 +105,7 @@ VAR_INPUT
 END_VAR
 VAR
     BusyPrinting : BOOL;
-    (* We need to hold a temporary state of the statistics 
+    (* We need to hold a temporary state of the statistics
        as we don't consider the tests to be completely finished until all test suites have executed completely.
        The reason we want to do it this way is because a test suite can run over several cycles. Only once all tests
        are finished (which might take many cycles), do we gather correct statistics *)
@@ -140,12 +136,16 @@ IF NOT AllTestSuitesFinished THEN
                 NumberOfTestSuitesFinished := NumberOfTestSuitesFinished + 1;
                 CurrentlyRunningTestSuite := CurrentlyRunningTestSuite + 1;
                 TimerBetweenExecutionOfTestSuites.IN := TRUE;
+				GVL_TcUnit.CurrentTestSuiteBeingCalled^.CalculateDuration(FinishedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
             END_IF
         ELSIF NOT TimerBetweenExecutionOfTestSuites.Q THEN
             GVL_TcUnit.CurrentTestSuiteBeingCalled := GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite];
-            GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtTimeBasedOnCpuCounter();
+			GVL_TcUnit.CurrentTestSuiteBeingCalled^.SetStartedAtIfNotSet(Timestamp := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
             GVL_TcUnit.CurrentTestSuiteBeingCalled^();
-            GVL_TcUnit.CurrentTestSuiteBeingCalled^.UpdateDuration();
+			// This is not an efficient way to set the duration
+			IF GVL_TcUnit.TestSuiteAddresses[CurrentlyRunningTestSuite]^.AreAllTestsFinished() THEN
+				GVL_TcUnit.CurrentTestSuiteBeingCalled^.CalculateDuration(FinishedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
+			END_IF
         END_IF
         (* Check if some event triggered an abortion of running the tests, in that case abort it now.
            This can be accomplished by setting the result of the test suites run to finished. *)
@@ -156,13 +156,6 @@ IF NOT AllTestSuitesFinished THEN
             AllTestSuitesFinished := TRUE;
         END_IF
     END_IF
-END_IF
-
-(* Measure the duration it took to run all testsuites *)
-AllTestSuitesFinishedTrigger(CLK := AllTestSuitesFinished);
-IF AllTestSuitesFinishedTrigger.Q
-THEN
-    GVL_TcUnit.Duration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - GVL_TcUnit.StartedAt) * GVL_TcUnit.HundredNanosecondToSecond; // Seconds
 END_IF
 
 (* Store test suite results continuously *)
