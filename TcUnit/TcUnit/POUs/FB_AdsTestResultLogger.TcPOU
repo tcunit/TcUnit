@@ -100,11 +100,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test class name=%s',
                                                 StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
-            (* Print test duration *)
-            GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
-                                                MsgFmtStr := '| Test duration=%s',
-                                                StrArg := LREAL_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].Duration));
-            
+
             (* Print test result/status (SUCCESS, FAILED, SKIPPED) + number of assertions made *)
             IF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed THEN
                 StringToPrint := Tc2_Standard.CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_FAIL);
