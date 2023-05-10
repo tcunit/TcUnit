@@ -49,3 +49,117 @@ Before we start to dwell too deep into the code, it’s good to know that all th
 
 ### Diagnosis code
 The diagnosis code looks like this:
+
+| Bit 0-15 | Bit 16-31 |
+|----------|-----------|
+|0x0000-0xDFFF|not used|
+|0xE000-0xE7FF|can be used manufacturer specific|
+|0xE800|Emergency Error Code as defined in DS301 or DS4xxx|
+|0xE801-0xEDFF|reserved for future standardization|
+|0xEE00-0xEFFF|Profile specific|
+|0xF000-0xFFFF|not used|
+
+We'll create a struct for it:
+
+```
+TYPE ST_DIAGNOSTICCODE :
+STRUCT
+    eDiagnosticCodeType : E_DIAGNOSTICCODETYPE;
+    nCode : UINT;
+END_STRUCT
+END_TYPE
+```
+
+where the `E_DIAGNOSTICCODETYPE` is
+
+```
+TYPE E_DIAGNOSTICCODETYPE :
+(
+    ManufacturerSpecific := 0,
+    EmergencyErrorCodeDS301 := 1,
+    ProfileSpecific := 2,
+    Unspecified := 3
+) USINT;
+END_TYPE
+```
+
+What we're basically doing here is to first look at the first 16 bits, and categorizing them into any of the four possibilities of the enumeration `E_DIAGNOSTICCODETYPE`.
+All unknowns (reserved, not used) are set as `E_DIAGNOSTICCODETYPE.Unspecified`.
+Then we convert bit 16-31 into nCode. These two together will create the struct `ST_DIAGNOSTICCODE`.
+
+### Flags
+
+The flags have three parameters: "Diagnosis type", "Time stamp type", "Number of parameters in the diagnosis message".
+|Bit|Description|
+|-|-|
+|Bit 0-3|0: Info message<br/> 1: Warning message<br/> 2: Error message<br/> 3-15: Reserved for future use|
+|Bit 4|Time stamp is a local time stamp|
+|Bit 5-7|Reserved for future use|
+|Bit 8-15|Number of parameters in this diagnosis message|
+
+We'll create a struct for it:
+
+```
+TYPE ST_FLAGS :
+STRUCT
+    eDiagnostisType : E_DIAGNOSISTYPE;
+    eTimeStampType : E_TIMESTAMPTYPE;
+    nNumberOfParametersInDiagnosisMessage : USINT;
+END_STRUCT
+END_TYPE
+```
+
+Where `E_DiagnosisType` and `E_TimeStampType` are respectively:
+
+```
+TYPE E_DIAGNOSISTYPE :
+(
+    InfoMessage := 0,
+    WarningMessage := 1,
+    ErrorMessage := 2,
+    Unspecified := 3
+) BYTE;
+END_TYPE
+```
+
+Where the `Unspecified` value is there in case we would receive one of the values that are reserved for future standardization.
+
+```
+TYPE E_TIMESTAMPTYPE :
+(
+    Local := 0,
+    Global := 1
+) USINT;
+END_TYPE
+```
+
+The timestamp is obtained from the local clock of the terminal at the time of the event.
+The difference between the global and local timestamp is that the global is based on the DC-clock of the reference clock (and is thus global on the whole DC network), whilst a local clock is only used internally in the EtherCAT slave.
+It's interesting to store this information as you probably want to handle the reading of the timestamp differently depending on if it's a local or a global timestamp.
+
+### Text identity
+The text identity is just a simple unsigned integer (0-65535) value which is a reference to the diagnosis text file located in the ESI-xml file for the IO-Link master.
+This information is valuable if you want to do further analysis on the event, as it will give you more details on the event in a textual format.
+
+### Time stamp
+The 64 bit timestamp is either the EtherCAT DC-clock timestamp or the local time stamp of the EtherCAT slave/IO-Link master, depending on whether DC is enabled and/or the IO-Link master supports DC.
+The 64-bit value holds data with 1ns resolution.
+
+### The complete diagnostic message
+Now that we have all four diagnosis message parameters, we'll finish off by creating a structure for them that our parser will deliver as output once a new diagnosis event has occurred.
+Based on the information provided above it will have the following layout:
+
+```
+TYPE ST_DIAGNOSTICMESSAGE :
+STRUCT
+    stDiagnosticCode : ST_DIAGNOSTICCODE;
+    stFlags : ST_FLAGS;
+    nTextIdentityReferenceToESIFile : UINT;
+    sTimeStamp : STRING(29);
+END_STRUCT
+END_TYPE
+```
+
+Here you can obviously have the timestamp as a `DC_Time64`-type instead of the `STRING`-type, as it's normally more interesting to store time/data as strings the closer you come to the operator.
+But for the sake of showing the concept of writing unit test cases, we'll stick to strings.
+The reason we went for a 29 byte is because this is the size of the string that is returned when doing a `DCTIME64_TO_STRING()` function call.
