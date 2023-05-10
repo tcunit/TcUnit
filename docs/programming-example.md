@@ -7,9 +7,9 @@ title: Programming example
 For this example we are going to develop a TwinCAT library with some well defined functionality using test driven development with the TcUnit framework.
 The scope of the library will be developing functions to handle certain aspects of the IO-Link communication.
 IO-Link is a digital point-to-point (master and slave) serial communication protocol.
-It’s used to extend or replace the standard analog (0..10V, 4..20mA, +/- 10V etc) sensors with a digital interface.
+It's used to extend or replace the standard analog (0..10V, 4..20mA, +/- 10V etc) sensors with a digital interface.
 With IO-Link you get a significantly improved and extended integration with the lowest level sensors in your system.
-We won’t go too much into details specifically about IO-Link, instead it’s highly recommended to read more about it on the [IO-Link website](https://io-link.com/en/index.php).
+We won't go too much into details specifically about IO-Link, instead it's highly recommended to read more about it on the [IO-Link website](https://io-link.com/en/index.php).
 
 For this topic however, what is important to know is that IO-Link provides certain services.
 One of the functionalities of IO-Link devices is that they can fire off events to the IO-Link master to notify that something has happened, for instance an alarm that something is wrong.
@@ -22,7 +22,7 @@ When using an EtherCAT-capable IO-Link master such as:
 - [Omron GX-ILM08C](https://www.ia.omron.com/products/family/3541/)
 
 which all support the CoE diagnosis history object (0x10F3), all IO-Link events are stored in the memory of the device.
-It’s important to note that the diagnosis history object (0x10F3) can be implemented by any EtherCAT slave to store diagnostic type of data, not only IO-Link events.
+It's important to note that the diagnosis history object (0x10F3) can be implemented by any EtherCAT slave to store diagnostic type of data, not only IO-Link events.
 Note that the implementation of the diagnosis history object is optional by the manufacturer.
 Whether the diagnosis history object is implemented or not is reported by a flag in the ESI-file of the EtherCAT slave.
 According to EtherCAT Technology Group document "[ETG1020 – EtherCAT Protocol Enhancements](https://www.ethercat.org/en/downloads/downloads_00600A7B120E41D385DC0AF19C034434.htm)", each message logged in the diagnostic history object has the following data:
@@ -33,7 +33,7 @@ According to EtherCAT Technology Group document "[ETG1020 – EtherCAT Protocol 
 - Timestamp (8 bytes) – mandatory
 - Optional parameters – optional
 
-This is only a description of the data on a high level, for all the details on what’s exactly included on a bit-level all information can be found in ETG1020.
+This is only a description of the data on a high level, for all the details on what's exactly included on a bit-level all information can be found in ETG1020.
 The number of optional parameters can be varying (zero parameters as well) depending on the diagnosis message itself.
 
 ## Data to be parsed
@@ -42,22 +42,22 @@ Each field will be parsed by its own function block that will provide the data a
 Looking at the diagnosis history object, the diagnosis messages themselves are an array of bytes that are read by SDO read. For this particular example, we assume we have the stream of bytes already prepared by the SDO read.
 We will not focus on creating test cases for the SDO read, but rather focus on the parsing.
 In one of the tested IO-Link masters, the diagnosis history message object is up to 28 bytes, which means that the IO-Link master on top of the above data also supports a certain number of parameters.
-As said above however, we’ll focus on the parsing of the first 4+2+2+8 = 16 bytes, as the first four parameters in the diagnosis message are mandatory whilst the parameters are optional.
+As said above however, we'll focus on the parsing of the first 4+2+2+8 = 16 bytes, as the first four parameters in the diagnosis message are mandatory whilst the parameters are optional.
 What we need to do now is to create a data structure for each of the data fields above.
 
-Before we start to dwell too deep into the code, it’s good to know that all the source code for the complete example is available [on GitHub](https://github.com/tcunit/ExampleProjects/tree/master/AdvancedExampleProject), as it might be preferred to look at the code in the Visual Studio IDE rather than on a webpage.
+Before we start to dwell too deep into the code, it's good to know that all the source code for the complete example is available [on GitHub](https://github.com/tcunit/ExampleProjects/tree/master/AdvancedExampleProject), as it might be preferred to look at the code in the Visual Studio IDE rather than on a webpage.
 
 ### Diagnosis code
 The diagnosis code looks like this:
 
 | Bit 0-15 | Bit 16-31 |
-|----------|-----------|
-|0x0000-0xDFFF|not used|
-|0xE000-0xE7FF|can be used manufacturer specific|
+|-|-|
+|0x0000-0xDFFF|Not used|
+|0xE000-0xE7FF|Can be used manufacturer specific|
 |0xE800|Emergency Error Code as defined in DS301 or DS4xxx|
-|0xE801-0xEDFF|reserved for future standardization|
+|0xE801-0xEDFF|Reserved for future standardization|
 |0xEE00-0xEFFF|Profile specific|
-|0xF000-0xFFFF|not used|
+|0xF000-0xFFFF|Not used|
 
 We'll create a struct for it:
 
@@ -163,3 +163,95 @@ END_TYPE
 Here you can obviously have the timestamp as a `DC_Time64`-type instead of the `STRING`-type, as it's normally more interesting to store time/data as strings the closer you come to the operator.
 But for the sake of showing the concept of writing unit test cases, we'll stick to strings.
 The reason we went for a 29 byte is because this is the size of the string that is returned when doing a `DCTIME64_TO_STRING()` function call.
+
+## The function blocks
+
+Let's create the headers for all the function blocks that we will write unit tests for.
+What we'll do is to create a function block for parsing each and one of the parameters (a total number of four), and an additional function block that uses all these four separate function blocks to deliver the result in the struct `ST_DIAGNOSTICMESSAGE`.
+A rudimentary scheme for this looks like follows:
+![Function block layout](img/function-block-layout.png)
+
+Note that we at this stage are not implementing the function blocks, we're only stating what functionality they must provide, by declaring their interfaces.
+As this example is quite simple, we'll solve that for every function block by making them provide a function block output.
+The function blocks and their headers will have the following layout:
+
+### Main diagnosis message event parser
+```
+FUNCTION_BLOCK FB_DiagnosticMessageParser
+VAR_INPUT
+    anDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+END_VAR
+```
+
+This takes the 28 bytes that we receive from the IO-Link master, and outputs the complete diagnostic message according to the layout of our struct `ST_DIAGNOSTICMESSAGE` described earlier.
+Note that in this example we'll only make use of the first 16 (mandatory) bytes, and ignore the 12 (optional) bytes.
+
+### Diagnostic code parser
+```
+FUNCTION_BLOCK FB_DiagnosticMessageDiagnosticCodeParser
+VAR_INPUT
+    anDiagnosticCodeBuffer : ARRAY[1..4] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    stDiagnosticCode : ST_DIAGNOSTICCODE;
+END_VAR
+```
+This function block takes four of the 28 bytes as input and outputs the diagnostic code according to the layout of our struct `ST_DIAGNOSTICCODE` described earlier.
+
+### Flags parser
+```
+FUNCTION_BLOCK FB_DiagnosticMessageFlagsParser
+VAR_INPUT
+    anFlagsBuffer : ARRAY[1..2] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    stFlags : ST_FLAGS;
+END_VAR
+```
+
+
+This function block takes two of the 28 bytes as input and outputs the flags according to the layout of our struct `ST_FLAGS` described earlier.
+
+### Text identity parser
+```
+FUNCTION_BLOCK FB_DiagnosticMessageTextIdentityParser
+VAR_INPUT
+    anTextIdentityBuffer : ARRAY[1..2] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    nTextIdentity : UINT;
+END_VAR
+```
+This function block takes two of the 28 bytes as input and outputs the text identity as an unsigned integer according to the description earlier.
+
+### Timestamp parser
+```
+FUNCTION_BLOCK FB_DiagnosticMessageTimeStampParser
+VAR_INPUT
+    anTimeStampBuffer : ARRAY[1..8] OF BYTE;
+    bIsLocalTime : BOOL;
+END_VAR
+VAR_OUTPUT
+    sTimeStamp : STRING(29);
+END_VAR
+```
+This function block takes eight of the 28 bytes as input and outputs the timestamp as a human-readable string.
+Note that we also have a bIsLocalTime input, as we want to have different handling on the parsing of the timestamp depending on whether the timestamp is a local or global time stamp.
+This could be handled in many ways, but for the sake of this example we'll handle the timestamp as:
+
+- If it's global, the timestamp is based on the EtherCAT distributed clock of the system and we'll make use of/parse the eight bytes
+- If it's local, we ignore the eight bytes and instead return the current task distributed clock time
+
+Although this text is about unit testing, it's worth pointing out that we could handle this differently in such a way that if the timestamp is local, we could read-out the local time of the EtherCAT slave/IO-Link master (if available, located in CoE object 0x10F8), and then calculate what the global time stamp is by calculating the age of the message, and subtracting this from the current DC-time.
+
+And that's it!
+Now we have prepared all the data types and function blocks that together form the functionality specification of our parser.
+What's nice about this is that we now have formed the acceptance criteria for the expected functionality, which are all the outputs of the function blocks.
+If we run our function blocks now with real input, they will of course not return the correct values.
+Everything returned will just be with the default values of the different structures.
+Our next step will be to write the unit tests that will make our tests fail, and once that is done (and not before!), we'll write the actual body (implementation) code for the function blocks.
+
+## TBC
