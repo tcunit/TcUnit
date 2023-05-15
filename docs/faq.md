@@ -10,12 +10,13 @@ If you don’t find what you are looking for here, you can look through the:
 - [Open](https://github.com/tcunit/TcUnit/issues?q=is%3Aopen+is%3Aissue) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues on GitHub
 - [Discussions](https://github.com/tcunit/TcUnit/discussions) on GitHub
 
+---
 
-**Frequently asked questions** (click on link to get to question and answer)  
 [How can I run a test across multiple PLC cycles?](#how-can-i-run-a-test-across-multiple-plc-cycles)  
 [How can I disable/ignore a test?](#how-can-i-disableignore-a-test)  
 [Is there a way to test %I* or %Q* variables?](#is-there-a-way-to-test-i-or-q-variables)  
 [Is there a way to hide TcUnit in my libraries?](#is-there-a-way-to-hide-tcunit-in-my-libraries)  
+[How do I do assertions on the BIT datatype?](#how-do-i-do-assertions-on-the-bit-datatype)  
 
 ---
 
@@ -47,6 +48,7 @@ In a number of scenarios, TwinCAT won't let you write directly to certain variab
 
 - Due to access restrictions (e.g. a variable in a FB's VAR)
 - The variable being set as I/O (i.e. `AT %I*` or `AT %Q*`)
+
 Writing to these variables wouldn’t make sense and should be prevented in the normal PLC code, so having special privileges during testing is a must.
 To support these cases, TcUnit provides helper functions like `WRITE_PROTECTED_BOOL()`, `WRITE_PROTECTED_INT()` (and so forth) for setting these type of variables.
 For an example of how to use these, let's assume you have a test:
@@ -85,3 +87,20 @@ You can find it in the Properties tab:
 
 
 **Required TcUnit version:** 1.0 or later
+
+### How do I do assertions on the BIT datatype?
+I want to do an assertion on two variables both declared with the `BIT`-datatype, but I have noticed that a `AssertEquals_BIT()` does not exist.
+What do I do?
+
+The reason a `AssertEquals_BIT()` does not exist is that TwinCAT does not allow a BIT-datatype as a variable input.
+If you have data declared with the BIT-type, the easiest way to do an assertion on these is to do a `BIT_TO_BOOL()` conversion and use the `AssertEquals_BOOL()`.
+
+```
+TEST('Testing_of_BIT_Type');
+ 
+AssertEquals_BOOL(Expected := BIT_TO_BOO(VariableDeclaredAsBit_A),
+                  Actual := BIT_TO_BOOL(VariableDeclaredAsBit_B),
+                  Message := 'The variables differ');
+ 
+TEST_FINISHED();
+```
