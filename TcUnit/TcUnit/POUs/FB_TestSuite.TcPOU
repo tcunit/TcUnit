@@ -3876,9 +3876,9 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN
 		IF NOT Tests[IteratorCounter].IsFinished() THEN
         	Tests[IteratorCounter].SetFinishedAndDuration(FinishedAt := FinishedAt);
-        	SetTestFinished := TRUE;
-        	RETURN;
 		END_IF
+		SetTestFinished := TRUE;
+        RETURN;
     END_IF
 END_FOR
 SetTestFinished := FALSE;]]></ST>
