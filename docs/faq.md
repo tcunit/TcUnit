@@ -11,17 +11,16 @@ If you don’t find what you are looking for here, you can look through the:
 - [Discussions](https://github.com/tcunit/TcUnit/discussions) on GitHub
 
 ---
-
-[How can I run a test across multiple PLC cycles?](#how-can-i-run-a-test-across-multiple-plc-cycles)  
-[How can I disable/ignore a test?](#how-can-i-disableignore-a-test)  
-[Is there a way to test %I* or %Q* variables?](#is-there-a-way-to-test-i-or-q-variables)  
-[Is there a way to hide TcUnit in my libraries?](#is-there-a-way-to-hide-tcunit-in-my-libraries)  
-[How do I do assertions on the BIT datatype?](#how-do-i-do-assertions-on-the-bit-datatype)  
-
+1. [How can I run a test across multiple PLC cycles?](#1-how-can-i-run-a-test-across-multiple-plc-cycles)  
+2. [How can I disable/ignore a test?](#2-how-can-i-disableignore-a-test)  
+3. [Is there a way to test %I* or %Q* variables?](#3-is-there-a-way-to-test-i-or-q-variables)  
+4. [Is there a way to hide TcUnit in my libraries?](#4-is-there-a-way-to-hide-tcunit-in-my-libraries)  
+5. [How do I do assertions on the BIT datatype?](#5-how-do-i-do-assertions-on-the-bit-datatype)  
+6. [When I run more than 100 tests in a single test-suite I get the wrong results, why?](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why)  
 ---
 
 
-### How can I run a test across multiple PLC cycles?
+### 1. How can I run a test across multiple PLC cycles?
 This can be accomplished by keeping the function block under test as an instance variable of the test suite rather than the test method.
 You can download an [example here](https://tcunit.org/temp/TimedTest_1x.zip).
 In this example, the `FB_ToBeTested` is instantiated under the test suite (`FB_ToBeTested_Test`), and can thus be controlled over multiple cycles.
@@ -29,7 +28,7 @@ Then all that’s necessary to do is to set the condition for when the assertion
 
 **Required TcUnit version:** 1.0 or later
 
-### How can I disable/ignore a test?
+### 2. How can I disable/ignore a test?
 Add `DISABLED_` in front of the test name, for example:
 
 ```
@@ -43,7 +42,7 @@ TEST_FINISHED();
 ```
 **Required TcUnit version:** 1.0 or later
 
-### Is there a way to test %I* or %Q* variables?
+### 3. Is there a way to test %I* or %Q* variables?
 In a number of scenarios, TwinCAT won't let you write directly to certain variables:
 
 - Due to access restrictions (e.g. a variable in a FB's VAR)
@@ -74,7 +73,7 @@ AssertFalse(Condition := EL1008.ChannelInput[1],
 ```
 **Required TcUnit version:** 1.0 or later
 
-### Is there a way to hide TcUnit in my libraries?
+### 4. Is there a way to hide TcUnit in my libraries?
 You can accomplish this by the [Hide reference](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014402725266443.html&id=) option for referenced libraries.
 This option lets you hide TcUnit from your other projects.
 Let’s assume you’ve developed a library `MyLibrary`, which has tests written in TcUnit.
@@ -88,7 +87,7 @@ You can find it in the Properties tab:
 
 **Required TcUnit version:** 1.0 or later
 
-### How do I do assertions on the BIT datatype?
+### 5. How do I do assertions on the BIT datatype?
 I want to do an assertion on two variables both declared with the `BIT`-datatype, but I have noticed that a `AssertEquals_BIT()` does not exist.
 What do I do?
 
@@ -104,3 +103,17 @@ AssertEquals_BOOL(Expected := BIT_TO_BOO(VariableDeclaredAsBit_A),
  
 TEST_FINISHED();
 ```
+
+**Required TcUnit version:** 1.0 or later
+
+### 6. When I run more than 100 tests in a single test-suite I get the wrong results, why?
+When TcUnit is running it allocates memory in the PLC to store the test results.
+The maximum number of tests for every test suite has been set to 100, which however is a configuration parameter for TcUnit and can be changed.
+Parameters for TcUnit (and in fact any library references) are stored in your project, which means that this change will be persistent for your project/library.
+To change this max amount, to say for instance 200 tests per test suite, go to the library references and select TcUnit, then go to `GVLs` → `GVL_Param_TcUnit` → `MaxNumberOfTestsForEachTestSuite`.
+
+![TcUnit increase max number of tests for each test suite](img/tcunit-increaseMaxNumberOfTestsForEachTestSuite.png)
+
+**Required TcUnit version:** 1.0 or later
+
+
