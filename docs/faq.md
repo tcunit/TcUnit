@@ -11,12 +11,15 @@ If you don’t find what you are looking for here, you can look through the:
 - [Discussions](https://github.com/tcunit/TcUnit/discussions) on GitHub
 
 ---
+
 1. [How can I run a test across multiple PLC cycles?](#1-how-can-i-run-a-test-across-multiple-plc-cycles)  
 2. [How can I disable/ignore a test?](#2-how-can-i-disableignore-a-test)  
 3. [Is there a way to test %I* or %Q* variables?](#3-is-there-a-way-to-test-i-or-q-variables)  
 4. [Is there a way to hide TcUnit in my libraries?](#4-is-there-a-way-to-hide-tcunit-in-my-libraries)  
 5. [How do I do assertions on the BIT datatype?](#5-how-do-i-do-assertions-on-the-bit-datatype)  
 6. [When I run more than 100 tests in a single test-suite I get the wrong results, why?](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why)  
+7. [Is it possible to run test suites and/or tests in a sequence?](#7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
+
 ---
 
 
@@ -117,3 +120,73 @@ To change this max amount, to say for instance 200 tests per test suite, go to t
 **Required TcUnit version:** 1.0 or later
 
 
+### 7. Is it possible to run test suites and/or tests in a sequence?
+Yes.
+By default TcUnit runs all the test suites and tests in parallel, in other words all test suites and tests are run at the same time.
+Sometimes it is however desirable to run either the test suites or tests (or both) in a sequence, for example if you get exceed overruns while running tests.
+Since TcUnit 1.2 it's possible to run test suites in sequence (one after another) and/or individual tests in order (one after another).
+
+To execute test suites in a sequence, simply replace `TcUnit.RUN()` with `TcUnit.RUN_IN_SEQUENCE()` in your main body of the test program.
+This will execute the test suites in the order that they were declared.
+So for example if we have defined the following test suites and test program:
+```
+PROGRAM PRG_TEST
+VAR 
+    fbDiagnosticMessageDiagnosticCodeParser_Test : FB_DiagnosticMessageDiagnosticCodeParser_Test;
+    fbDiagnosticMessageFlagsParser_Test : FB_DiagnosticMessageFlagsParser_Test;
+    fbDiagnosticMessageParser_Test : FB_DiagnosticMessageParser_Test;
+END_VAR
+-------------------------
+TcUnit.RUN_IN_SEQUENCE();
+```
+This will first execute all tests defined in `fbDiagnosticMessageDiagnosticCodeParser_Test`, once all tests are finished in that function block, TcUnit will execute all tests in `fbDiagnosticMessageFlagsParser_Test`, and when that is done it will execute all tests in `fbDiagnosticMessageParser_Test`.
+
+It's also possible to execute individual tests in order by simply replacing `TEST('TestName')` with `TEST_ORDERED('TestName')`.
+This will execute the tests in the order that the `TEST_ORDERED()` is called for the various tests.
+`TEST_ORDERED()` returns a boolean to indicate whether the TcUnit framework will run the test, so in order to only execute the code when it's time for that particular test, it makes sense to check if `TEST_ORDERED()` returns true, and only then do the execution of the function blocks and assertions, for example like this:
+
+```
+METHOD PRIVATE TestWithTimestampZeroTimeExpectCurrentTime
+VAR
+   ... (variable declaration used for the test)
+END_VAR
+------------------------------------------------------------------
+IF TEST_ORDERED('TestWithTimestampZeroTimeExpectCurrentTime') THEN
+    fbFunctionBlockUnderTest(Parameters);
+ 
+    AssertEquals(Expected := 'SomeValue',
+                 Actual := fbFunctionBlockUnderTest.OutVariable,
+                 Message := 'Test failed');
+ 
+    TEST_FINISHED();
+END_IF
+```
+As usual, the `TEST_FINISHED()` will indicate that this test is finished, and the framework will go to the next test.
+Note that you don't need to create any state machine for calling the different `TEST_ORDERED()` tests.
+You can (and must!) call all `TEST_ORDERED()` at the same time.
+The framework will make sure to only care about the assertions of the test that is currently running.
+
+This means the following combinations can be used:
+
+
+- `RUN()` with all tests as `TEST()` – means all tests suites and tests will run in parallel, this is the default behaviour.  
+![TcUnit run option 1](img/tcunit_run_option1.png)
+- `RUN_IN_SEQUENCE()` with all tests as `TEST()` – means all test suites will run in sequence, but the tests in every test suite will run in parallel.  
+![TcUnit run option 2](img/tcunit_run_option2.png)
+- `RUN()` with all tests as `TEST_ORDERED()` – means all test suites will run in parallel, but the tests in every test suite will run in sequence.  
+![TcUnit run option 3](img/tcunit_run_option3.png)
+- `RUN_IN_SEQUENCE()` with all tests as `TEST_ORDERED()` – means all test suites will run in sequence, as will every test.  
+![TcUnit run option 4](img/tcunit_run_option4.png)
+
+For maximum flexibility, these combinations are allowed as well for special occasions:
+
+- `TcUnit.RUN()` with mixed tests of `TEST()` and `TEST_ORDERED()`– means all tests suites will run in parallel, with tests marked as `TEST()` run in parallel with tests that are marked with `TEST_ORDERED()` that run in sequence (relative to each other)
+- `TcUnit.RUN_IN_SEQUENCE()` with mixed tests of `TEST()` and `TEST_ORDERED()` – means all test suites will run in sequence, with tests marked as `TEST()` run in parallel with tests that are marked with `TEST_ORDERED()` that run in sequence (relative to each other)
+
+If you run tests with both `TEST()` and `TEST_ORDERED()`, all tests defined with `TEST()` will run in parallel with the tests that are `TEST_ORDERED()`.
+
+Note that you can't execute test-suites with both `TcUnit.RUN()` and `TcUnit.RUN_IN_SEQUENCE()` at the same time (which wouldn't make any sense).
+
+For a couple of TwinCAT projects that shows how to run both test suites in a sequence and individual tests in order, click [here](https://github.com/tcunit/ExampleProjects/tree/master/RunTestsInSequenceExampleProjects).
+
+**Required TcUnit version:** 1.2 or later
