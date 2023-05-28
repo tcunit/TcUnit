@@ -19,6 +19,8 @@ If you don’t find what you are looking for here, you can look through the:
 5. [How do I do assertions on the BIT datatype?](#5-how-do-i-do-assertions-on-the-bit-datatype)  
 6. [When I run more than 100 tests in a single test-suite I get the wrong results, why?](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why)  
 7. [Is it possible to run test suites and/or tests in a sequence?](#7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
+8. [Why is it taking so long to get the results from TcUnit?](#8-why-is-it-taking-so-long-to-get-the-results-from-tcunit)  
+9. [Is it possible to have a time delay between the execution of the test suites?](#9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
 
 ---
 
@@ -188,5 +190,26 @@ If you run tests with both `TEST()` and `TEST_ORDERED()`, all tests defined with
 Note that you can't execute test-suites with both `TcUnit.RUN()` and `TcUnit.RUN_IN_SEQUENCE()` at the same time (which wouldn't make any sense).
 
 For a couple of TwinCAT projects that shows how to run both test suites in a sequence and individual tests in order, click [here](https://github.com/tcunit/ExampleProjects/tree/master/RunTestsInSequenceExampleProjects).
+
+**Required TcUnit version:** 1.2 or later
+
+### 8. Why is it taking so long to get the results from TcUnit?
+If you have many test suites and/or tests, it can take some time for TcUnit to print all those results.
+Since version 1.1 of TcUnit, much more data is printed to the ADS-logger as this data is used for the communication with TcUnit-Runner.
+If you know that you will only run your tests locally and without integration to a CI/CD tool using TcUnit-Runner, you can set the parameter `LogExtendedResults` to `FALSE` (it is default `TRUE`).
+To change this parameter, go to the library references and select TcUnit, then go to `GVLs` → `GVL_Param_TcUnit` → `LogExtendedResults`.  
+
+![TcUnit log extended test results](img/tcunit_logextendedtestresults.png)
+
+**Required TcUnit version:** 1.1 or later
+
+### 9. Is it possible to have a time delay between the execution of the test suites?
+Yes.
+You can set the parameter `TimeBetweenTestSuitesExecution` to whatever delay you want to have.
+To change this parameter, go to the library references and select TcUnit, then go to `GVLs` → `GVL_Param_TcUnit` → `TimeBetweenTestSuitesExecution`.
+Default this parameter is set to `T#0S` (zero seconds, i.e. no delay).
+For example, in the below screenshot this is changed to 5 seconds.  
+
+![TcUnit time between test suites execution](img/tcunit-timebetweentestsuitesexecution.png)
 
 **Required TcUnit version:** 1.2 or later
