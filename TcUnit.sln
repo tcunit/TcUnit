@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33529.622
+# TcXaeShell Solution File, Format Version 11.00
+VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TcUnit", "TcUnit\TcUnit.tsproj", "{6FA21008-E02E-4675-BDB9-D161F2357484}"
 EndProject
@@ -52,5 +52,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D6FE6E2-6485-4068-A809-46511C3C7709}
 	EndGlobalSection
 EndGlobal

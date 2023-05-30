@@ -21,6 +21,7 @@ If you don’t find what you are looking for here, you can look through the:
 7. [Is it possible to run test suites and/or tests in a sequence?](#7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
 8. [Why is it taking so long to get the results from TcUnit?](#8-why-is-it-taking-so-long-to-get-the-results-from-tcunit)  
 9. [Is it possible to have a time delay between the execution of the test suites?](#9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
+10. [10. If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
 
 ---
 
@@ -211,5 +212,42 @@ Default this parameter is set to `T#0S` (zero seconds, i.e. no delay).
 For example, in the below screenshot this is changed to 5 seconds.  
 
 ![TcUnit time between test suites execution](img/tcunit-timebetweentestsuitesexecution.png)
+
+**Required TcUnit version:** 1.2 or later
+
+### 10. If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?
+If I call `Tc2_System.ADSLOGSTR()` during execution of a test, my messages don't arrive in the expected order.
+Let's for example assume this very simple (always failing) test:
+```
+TEST('Test1');
+FOR nCounter := 1 TO 5 BY 1 DO
+    Tc2_System.ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_HINT, 
+                         msgFmtStr := 'Test Number is %s', 
+                         strArg := INT_TO_STRING(nCounter));
+ 
+    sAssertionMessage := Tc2_Standard.CONCAT(STR1 := 'Assertion failed no. ', STR2 := INT_TO_STRING(nCounter));
+ 
+    AssertEquals_BOOL(Expected := TRUE,
+                      Actual := FALSE,
+                      Message := sAssertionMessage);
+END_FOR
+TEST_FINISHED();
+```
+
+This will result in this order of messages:
+
+![TcUnit ADSLOGSTR not correct order](img/tcunit-adslogstr-not-correct-order.png)
+
+I want the messages to arrive in the correct order, how is this achieved?
+
+The reason for this behavior is because all ADS messages that TcUnit creates/outputs are buffered (for deeper technical description [read this](https://github.com/tcunit/TcUnit/issues/35)).
+If `Tc2_System.ADSLOGSTR()` is used directly, the messages can come out of sequence in relation to the message created by TcUnit as TcUnit buffers the messages to not overflow the ADS message router.
+
+The solution is to use `TCUNIT_ADSLOGSTR()`, which accepts the exact same inputs as `ADSLOGSTR()`.
+By using this function, the `ADSLOGSTR()` messages are put in the same buffer as TcUnit is using for its output.
+
+So if we replaced the call to `Tc2_System.ADSLOGSTR()` to `TCUNIT_ADSLOGSTR()` instead, we get this:
+
+![TcUnit ADSLOGSTR correct order](img/tcunit-adslogstr-correct-order.png)
 
 **Required TcUnit version:** 1.2 or later
