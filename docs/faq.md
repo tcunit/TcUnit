@@ -21,7 +21,8 @@ If you don’t find what you are looking for here, you can look through the:
 7. [Is it possible to run test suites and/or tests in a sequence?](#7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
 8. [Why is it taking so long to get the results from TcUnit?](#8-why-is-it-taking-so-long-to-get-the-results-from-tcunit)  
 9. [Is it possible to have a time delay between the execution of the test suites?](#9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
-10. [10. If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
+10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
+11. [How do I test functions?](#11-how-do-i-test-functions)  
 
 ---
 
@@ -251,3 +252,35 @@ So if we replaced the call to `Tc2_System.ADSLOGSTR()` to `TCUNIT_ADSLOGSTR()` i
 ![TcUnit ADSLOGSTR correct order](img/tcunit-adslogstr-correct-order.png)
 
 **Required TcUnit version:** 1.2 or later
+
+### 11. How do I test functions?
+It's done almost identical as in the introduction user guide, but simply replace the instance of the function block that you want to test with the call to the function instead.
+Assume we have a function:
+```
+FUNCTION F_Sum
+VAR_INPUT
+    one : UINT;
+    two : UINT;
+END_VAR
+ 
+F_Sum := one + two;
+```
+Then the test would look like following:
+```
+METHOD TwoPlusTwoEqualsFour
+VAR
+    Result : UINT;
+    ExpectedSum : UINT := 4;
+END_VAR
+ 
+TEST('TwoPlusTwoEqualsFour');
+ 
+Result := F_Sum(one := 2, two := 2);
+ 
+AssertEquals(Expected := ExpectedSum,
+             Actual := Result,
+             Message := 'The calculation is not correct');
+ 
+TEST_FINISHED();
+```
+**Required TcUnit version:** 1.0 or later

@@ -1,5 +1,4 @@
 ![TcUnit logo](https://github.com/tcunit/TcUnit/blob/master/img/tcunit-logo.png)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/TcUnit/TcUnit/graphs/commit-activity)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/tcunit/TcUnit/blob/master/LICENSE)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/TcUnit/TcUnit)
 
