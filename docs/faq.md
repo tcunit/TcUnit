@@ -23,6 +23,7 @@ If you don’t find what you are looking for here, you can look through the:
 9. [Is it possible to have a time delay between the execution of the test suites?](#9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
 10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
 11. [How do I test functions?](#11-how-do-i-test-functions)  
+12. [I have problems running TcUnit on a ARMv7 controller, why?](#12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
 
 ---
 
@@ -284,3 +285,9 @@ AssertEquals(Expected := ExpectedSum,
 TEST_FINISHED();
 ```
 **Required TcUnit version:** 1.0 or later
+
+### 12. I have problems running TcUnit on a ARMv7 controller, why?
+When running TcUnit with a controller using ARMv7 you can run into issues, such as breakpoints not working.
+This seems to be an issue with the limited memory of the controllers using an ARMv7 such as the CX8190 and CX9020. Please adjust the [parameters related to memory allocation](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why).
+
+For more information on a set of working parameters, see [this issue on GitHub](https://github.com/tcunit/TcUnit/issues/148).
