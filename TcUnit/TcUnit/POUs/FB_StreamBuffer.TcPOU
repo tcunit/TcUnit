@@ -17,7 +17,7 @@ END_VAR]]></Declaration>
       <Declaration><![CDATA[(*
     Appends a string to the buffer
 *)
-PROPERTY Append : Tc2_System.T_MaxString]]></Declaration>
+PROPERTY Append : T_MaxString]]></Declaration>
       <Set Name="Set" Id="{773bf1db-6b9a-4581-be33-e4745bbc41df}">
         <Declaration><![CDATA[VAR
     ByteIn : POINTER TO BYTE;
@@ -75,7 +75,7 @@ _Length := 0;]]></ST>
       <Declaration><![CDATA[(*
     Copies a string from the character buffer
 *)
-METHOD PUBLIC Copy : Tc2_System.T_MaxString
+METHOD PUBLIC Copy : T_MaxString
 VAR_INPUT
     StartPos : UDINT;
     EndPos : UDINT;
@@ -115,7 +115,7 @@ CopyLen :=  Loop;]]></ST>
       </Implementation>
     </Method>
     <Method Name="CutOff" Id="{341d1e3e-5391-492c-b254-9eeda8f77da4}">
-      <Declaration><![CDATA[METHOD PUBLIC CutOff : Tc2_System.T_MaxString
+      <Declaration><![CDATA[METHOD PUBLIC CutOff : T_MaxString
 VAR_INPUT
     StartPos : UDINT;
 END_VAR
@@ -198,7 +198,7 @@ Find := Loop + 1 + StartPos;]]></ST>
     <Method Name="FindBack" Id="{a337c425-1f09-4c1d-bd2b-84a002e37811}">
       <Declaration><![CDATA[METHOD PUBLIC FindBack : UDINT
 VAR_INPUT
-    SearchString : Tc2_System.T_MaxString;
+    SearchString : T_MaxString;
 END_VAR
 VAR
     Loop : UDINT;

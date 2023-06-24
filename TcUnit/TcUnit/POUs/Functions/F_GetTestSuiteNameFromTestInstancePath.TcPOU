@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="F_GetTestSuiteNameFromTestInstancePath" Id="{a18d80d3-2319-4446-86ef-2bd4388523f3}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION F_GetTestSuiteNameFromTestInstancePath : Tc2_System.T_MaxString
+    <Declaration><![CDATA[FUNCTION F_GetTestSuiteNameFromTestInstancePath : T_MaxString
 VAR_INPUT
-    TestInstancePath : Tc2_System.T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
-    TestSuiteName : Tc2_System.T_MaxString;
+    TestSuiteName : T_MaxString;
     FindPosition : INT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := TestInstancePath);
 (* Remove everything except the test suite name *)
-FindPosition := Tc2_Standard.FIND(STR1 := TestSuiteName, '.');
-TestSuiteName := Tc2_Standard.RIGHT(STR := TestSuiteName, SIZE := Tc2_Standard.LEN(STR := TestSuiteName) - FindPosition);
+FindPosition := FIND(STR1 := TestSuiteName, '.');
+TestSuiteName := RIGHT(STR := TestSuiteName, SIZE := LEN(STR := TestSuiteName) - FindPosition);
 F_GetTestSuiteNameFromTestInstancePath := TestSuiteName;]]></ST>
     </Implementation>
   </POU>

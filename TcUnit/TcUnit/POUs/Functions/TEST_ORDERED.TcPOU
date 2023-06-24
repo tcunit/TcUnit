@@ -24,7 +24,7 @@
 *)
 FUNCTION TEST_ORDERED : BOOL
 VAR_INPUT
-    TestName : Tc2_System.T_MaxString;
+    TestName : T_MaxString;
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;

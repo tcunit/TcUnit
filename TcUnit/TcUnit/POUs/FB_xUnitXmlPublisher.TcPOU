@@ -17,7 +17,7 @@ VAR
     BufferInitialised : BOOL := FALSE;
     Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize - 1)] OF BYTE;
     WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
-    PublishTrigger : Tc2_Standard.R_TRIG;
+    PublishTrigger : R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -162,15 +162,15 @@ IF PublishTrigger.Q THEN
     Xml.ClearBuffer();
 
     (* Inform user *)
-    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                         msgFmtStr := '%s',
                                         strArg := '| ==========TEST RESULTS EXPORTED===========');
                                                                                          
-    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,   
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,   
                                         msgFmtStr :=  '| Location: %s ',                 
                                         strArg := GVL_Param_TcUnit.xUnitFilePath);            
 
-    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_HINT,
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                         MsgFmtStr := '%s',                               
                                         StrArg := '| ======================================');
 END_IF]]></ST>

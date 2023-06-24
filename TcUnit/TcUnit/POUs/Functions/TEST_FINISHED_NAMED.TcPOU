@@ -5,7 +5,7 @@
    a TestName that has been previously defined in this test suite. *)
 FUNCTION TEST_FINISHED_NAMED
 VAR_INPUT
-    TestName : Tc2_System.T_MaxString;
+    TestName : T_MaxString;
 END_VAR
 VAR
     Counter : UINT := 0;
@@ -32,14 +32,14 @@ FOR Counter := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
         FoundTestName := GVL_TcUnit.TestSuiteAddresses[Counter]^.SetTestFinished(TestName := TestName, FinishedAt := FinishedAt);
         IF NOT FoundTestName THEN
             IF FailedLookupCounter < MaxNumberOfNonExistentTestNamesFailedLookups THEN
-                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
                                                     MsgFmtStr := 'Failed to find test $'%s$'',
                                                     StrArg := TestName);
                 FailedLookupCounter := FailedLookupCounter + 1;
                 (* Abort TcUnit *)
                 GVL_TcUnit.TcUnitRunner.AbortRunningTestSuiteTests();
             ELSIF NOT AlreadyPrintedFinalWarning THEN
-                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+                GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
                                                     MsgFmtStr := 'Excess failed attempts to mark test finished, failed. Further warnings will be suppressed',
                                                     StrArg := TestName);
                 AlreadyPrintedFinalWarning := TRUE;

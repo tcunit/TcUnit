@@ -32,7 +32,7 @@ END_IF]]></ST>
 METHOD PUBLIC Delete : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     (* File name can contain an absolute or relative path to the file. Path entries must be separated with a forward slash (/) *)
-    FileName : Tc2_System.T_MaxString;
+    FileName : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Delete := SysFile.SysFileDelete(szFileName := FileName);]]></ST>
@@ -44,7 +44,7 @@ END_VAR]]></Declaration>
 *)
 METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    FileName : Tc2_System.T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
+    FileName : T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
     FileAccessMode : SysFile.ACCESS_MODE := SysFile.ACCESS_MODE.AM_APPEND_PLUS;
 END_VAR]]></Declaration>
       <Implementation>

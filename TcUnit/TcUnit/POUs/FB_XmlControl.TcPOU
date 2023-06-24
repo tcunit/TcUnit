@@ -9,11 +9,11 @@ FUNCTION_BLOCK FB_XmlControl
 VAR
     XmlBuffer : FB_StreamBuffer;
     TagListBuffer : FB_StreamBuffer;
-    Tags : Tc2_System.T_MaxString;
+    Tags : T_MaxString;
     TagListSeekBuffer : FB_StreamBuffer;
     TagsSeek : STRING;
     TagBuffer : FB_StreamBuffer;
-    Tag : Tc2_System.T_MaxString;
+    Tag : T_MaxString;
     TagOpen: BOOL;
     Select : UDINT;
     SearchPosition : UDINT; 
@@ -63,9 +63,9 @@ Tag := '';]]></ST>
 
     Method: XML.CloseTag();
 *)
-METHOD PUBLIC CloseTag : Tc2_System.T_MaxString
+METHOD PUBLIC CloseTag : T_MaxString
 VAR
-    ClosedTag : Tc2_System.T_MaxString;
+    ClosedTag : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
@@ -102,7 +102,7 @@ CloseTag := ClosedTag;]]></ST>
 *)
 METHOD PUBLIC NewComment
 VAR_INPUT
-    Comment : Tc2_System.T_MaxString;
+    Comment : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
@@ -122,8 +122,8 @@ XmlBuffer.Append := CLOSE_COMMENT;]]></ST>
 *)
 METHOD PUBLIC NewParameter
 VAR_INPUT
-    Name : Tc2_System.T_MaxString;
-    Value : Tc2_System.T_MaxString;
+    Name : T_MaxString;
+    Value : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := SPACE;
@@ -143,7 +143,7 @@ XmlBuffer.Append := QUOTE;]]></ST>
 *)
 METHOD PUBLIC NewTag
 VAR_INPUT
-    Name : Tc2_System.T_MaxString;
+    Name : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
@@ -159,7 +159,7 @@ TagListBuffer.Append := Name;]]></ST>
     <Method Name="NewTagData" Id="{e4679d3f-10eb-47fd-936c-97e3aaaa3768}">
       <Declaration><![CDATA[METHOD PUBLIC NewTagData
 VAR_INPUT
-    Data : Tc2_System.T_MaxString;
+    Data : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := TAG_CLOSE;
@@ -204,7 +204,7 @@ Tag := '';]]></ST>
 *)
 METHOD PUBLIC WriteDocumentHeader
 VAR_INPUT
-    Header : Tc2_System.T_MaxString;
+    Header : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[XmlBuffer.Append := Header;]]></ST>

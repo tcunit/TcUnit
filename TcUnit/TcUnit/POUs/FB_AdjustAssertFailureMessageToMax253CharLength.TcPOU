@@ -7,15 +7,15 @@
 *)
 FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax253CharLength
 VAR_INPUT
-    MsgFmtString : Tc2_System.T_MaxString; // Test instance path
-    StringArg : Tc2_System.T_MaxString; // Test message
+    MsgFmtString : T_MaxString; // Test instance path
+    StringArg : T_MaxString; // Test message
 END_VAR
 VAR_OUTPUT
-    MsgFmtStringProcessed : Tc2_System.T_MaxString;
-    StringArgProcessed : Tc2_System.T_MaxString;
+    MsgFmtStringProcessed : T_MaxString;
+    StringArgProcessed : T_MaxString;
 END_VAR
 VAR
-    MsgFmtStringTemp : Tc2_System.T_MaxString;
+    MsgFmtStringTemp : T_MaxString;
     TestNameTooLong : STRING := '...TestName too long';
     TestMsgTooLong : STRING := '...TestMsg too long';
 END_VAR
@@ -26,24 +26,24 @@ END_VAR]]></Declaration>
       <ST><![CDATA[// Check if any of the two strings are too long (or the combination of them)
 
 // All OK
-IF (Tc2_Standard.LEN(STR := MsgFmtString) + LEN(STR := StringArg)) <= MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+IF (LEN(STR := MsgFmtString) + LEN(STR := StringArg)) <= MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
     MsgFmtStringProcessed := MsgFmtString;
     StringArgProcessed := StringArg;
 // If test instance path is longer than 253 chars, shorten it down to 253 characters and additionally with the length of the '...TestName too long'. Add the text '...TestName too long' to the test instance path. Leave no characters for the message.
-ELSIF Tc2_Standard.LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
-    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
-    MsgFmtStringProcessed := Tc2_Standard.CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
+ELSIF LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+    MsgFmtStringTemp := LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestNameTooLong)));
+    MsgFmtStringProcessed := CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
     StringArgProcessed := '';
 // If test message is too long (so we cant fit the text "...TestMsg too long" to the end of it) , shorten it (so that we can fit the text)
-ELSIF (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong)) >= Tc2_Standard.LEN(STR := MsgFmtString) THEN
+ELSIF (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestMsgTooLong)) >= LEN(STR := MsgFmtString) THEN
     MsgFmtStringProcessed := MsgFmtString;
-    StringArgProcessed := Tc2_Standard.LEFT(STR := StringArg,
-                                            SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestMsgTooLong) - Tc2_Standard.LEN(STR := MsgFmtStringProcessed)));
-    StringArgProcessed := Tc2_Standard.CONCAT(STR1 := StringArgProcessed, STR2 := TestMsgTooLong);
+    StringArgProcessed := LEFT(STR := StringArg,
+                                            SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestMsgTooLong) - LEN(STR := MsgFmtStringProcessed)));
+    StringArgProcessed := CONCAT(STR1 := StringArgProcessed, STR2 := TestMsgTooLong);
 // If test instance path is too long (length is between 233 and 253 characters long), shorten it and add the text '...TestName too long'. Leave no characters for the message
 ELSE
-    MsgFmtStringTemp := Tc2_Standard.LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := TestNameTooLong)));
-    MsgFmtStringProcessed := Tc2_Standard.CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
+    MsgFmtStringTemp := LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestNameTooLong)));
+    MsgFmtStringProcessed := CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
     StringArgProcessed := '';
 END_IF]]></ST>
     </Implementation>

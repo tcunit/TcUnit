@@ -6,10 +6,10 @@
     <Method Name="LogAssertFailure" Id="{35efab01-6ac8-46a5-a5e1-adb4f1f5f9b2}">
       <Declaration><![CDATA[METHOD LogAssertFailure
 VAR_INPUT
-    Expected : Tc2_System.T_MaxString;
-    Actual : Tc2_System.T_MaxString;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Expected : T_MaxString;
+    Actual : T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR]]></Declaration>
     </Method>
   </Itf>

@@ -13,10 +13,10 @@ VAR_GLOBAL
     CurrentTestSuiteBeingCalled : POINTER TO FB_TestSuite;
 
     (* Current name of test being called *)
-    CurrentTestNameBeingCalled : Tc2_System.T_MaxString;
+    CurrentTestNameBeingCalled : T_MaxString;
 
     (* Used to get the current cpu cycle counter to calculate the duration of tests and test suits, respectively *)
-    GetCpuCounter : Tc2_System.GETCPUCOUNTER;
+    GetCpuCounter : GETCPUCOUNTER;
 
     (* Stores the CPU cycle count with 100ns precision since the first entry into one of the Run methods (RUN, RUN_IN_SEQUENCE) *)
     StartedAt : LWORD;

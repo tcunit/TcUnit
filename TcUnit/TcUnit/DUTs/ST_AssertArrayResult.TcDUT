@@ -7,8 +7,8 @@ STRUCT
     ExpectedsTypeClass : IBaseLibrary.TypeClass; // The data type of the expecteds-array
     ActualsSize : UDINT; // Size in bytes of the actuals-array
     ActualsTypeClass : IBaseLibrary.TypeClass; // The data type of the actuals-array
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

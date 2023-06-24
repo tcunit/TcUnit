@@ -8,7 +8,7 @@ UNION
     byteExpectedOrActual : BYTE;
     dwordExpectedOrActual : DWORD;
     lwordExpectedOrActual : LWORD;
-    stringExpectedOrActual : Tc2_System.T_MaxString;
+    stringExpectedOrActual : T_MaxString;
     udintExpectedOrActual : UDINT;
     uintExpectedOrActual : UINT;
     usintExpectedOrActual : USINT;

@@ -6,7 +6,7 @@
 *)
 FUNCTION_BLOCK FB_Test
 VAR
-    TestName : Tc2_System.T_MaxString;
+    TestName : T_MaxString;
     TestIsFinished : BOOL;
     TestIsSkipped : BOOL; // This is set to true, if test is disabled (by putting the string "disabled_" in front of the test name
     NumberOfAssertions : UINT;
@@ -18,7 +18,7 @@ VAR
 
     (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
-    AssertionMessage : Tc2_System.T_MaxString; // Assertion message for the first assertion in this test
+    AssertionMessage : T_MaxString; // Assertion message for the first assertion in this test
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
 
     StartedAt : LWORD; // Temporary variable to calculate the actual duration of the test, the value holds the cpu cycle counter when a test is started in 100ns precision
@@ -28,7 +28,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="GetAssertionMessage" Id="{273c4e89-faee-43b5-803d-428cdf75ac48}">
-      <Declaration><![CDATA[METHOD INTERNAL GetAssertionMessage : Tc2_System.T_MaxString]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL GetAssertionMessage : T_MaxString]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAssertionMessage := AssertionMessage;]]></ST>
       </Implementation>
@@ -46,7 +46,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="GetName" Id="{94757f0e-9979-49d0-ad9f-e35c823175d4}">
-      <Declaration><![CDATA[METHOD INTERNAL GetName : Tc2_System.T_MaxString;]]></Declaration>
+      <Declaration><![CDATA[METHOD INTERNAL GetName : T_MaxString;]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetName := TestName;]]></ST>
       </Implementation>
@@ -86,10 +86,10 @@ METHOD INTERNAL GetTestOrder : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachT
       <Declaration><![CDATA[(* Sets the assertion message. If one already exists, it's not overwritten as we keep the first assertion in the test *)
 METHOD INTERNAL SetAssertionMessage
 VAR_INPUT
-    AssertMessage : Tc2_System.T_MaxString;
+    AssertMessage : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF Tc2_Standard.LEN(STR := AssertionMessage) = 0 THEN
+        <ST><![CDATA[IF LEN(STR := AssertionMessage) = 0 THEN
     AssertionMessage := AssertMessage;
 END_IF]]></ST>
       </Implementation>
@@ -125,7 +125,7 @@ Duration := LWORD_TO_LREAL(FinishedAt - StartedAt) * GVL_TcUnit.HundredNanosecon
     <Method Name="SetName" Id="{4c12f6eb-bbe4-4872-ac89-4411e2e81414}">
       <Declaration><![CDATA[METHOD INTERNAL SetName
 VAR_INPUT
-    Name : Tc2_System.T_MaxString;
+    Name : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestName := Name;]]></ST>

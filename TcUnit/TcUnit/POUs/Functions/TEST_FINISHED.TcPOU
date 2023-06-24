@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(* Sets the currently running test as finished *)
 FUNCTION TEST_FINISHED : BOOL
 VAR
-    TestName : Tc2_System.T_MaxString;
+    TestName : T_MaxString;
     Counter : UINT := 0;
     FinishedAt : LWORD;
 END_VAR]]></Declaration>

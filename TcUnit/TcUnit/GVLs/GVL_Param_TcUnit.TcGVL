@@ -29,7 +29,7 @@ VAR_GLOBAL CONSTANT
     xUnitBufferSize : UDINT := 65535;
 
     (* Default path and filename for the xunit testresults e.g.: for use with jenkins *)
-    xUnitFilePath : Tc2_System.T_MaxString := 'C:\tcunit_xunit_testresults.xml';
+    xUnitFilePath : T_MaxString := 'C:\tcunit_xunit_testresults.xml';
 
     (* This is the maximum number of ADS-messages that can be stored for reporting at the same time.
        Having a size of 2000 means that it's possible to report up to ~400 test cases in one single

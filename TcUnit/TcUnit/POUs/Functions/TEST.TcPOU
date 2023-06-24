@@ -4,7 +4,7 @@
     <Declaration><![CDATA[(* This function declares a new test (if it has not been already declared in an earlier cycle) *)
 FUNCTION TEST
 VAR_INPUT
-    TestName : Tc2_System.T_MaxString;
+    TestName : T_MaxString;
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;

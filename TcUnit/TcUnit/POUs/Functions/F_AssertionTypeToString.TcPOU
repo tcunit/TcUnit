@@ -3,7 +3,7 @@
   <POU Name="F_AssertionTypeToString" Id="{c8e255c3-8600-4263-8b93-3e1de89d493a}" SpecialFunc="None">
     <Declaration><![CDATA[(* Since TwinCAT 3.1.4024.x it's possible to do TO_STRING on enumerations,
    but for backward compability we need to do it manually *)
-FUNCTION F_AssertionTypeToString : Tc2_System.T_MaxString
+FUNCTION F_AssertionTypeToString : T_MaxString
 VAR_INPUT
     AssertionType : E_AssertionType;
 END_VAR]]></Declaration>

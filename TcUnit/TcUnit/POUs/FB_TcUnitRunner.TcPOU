@@ -115,7 +115,7 @@ VAR_INST
     (* This variable holds which current test suite is being called, as we are running
        each one in a sequence (one by one) *)
      CurrentlyRunningTestSuite : UINT := 1;
-     TimerBetweenExecutionOfTestSuites : Tc2_Standard.TOF;
+     TimerBetweenExecutionOfTestSuites : TOF;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.StartedAt = 0 THEN

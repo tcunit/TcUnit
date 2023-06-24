@@ -8,8 +8,8 @@
 FUNCTION_BLOCK FB_AdsLogStringMessageFifoQueue
 VAR
     ArrayBuffer : ARRAY[0..((GVL_Param_TcUnit.AdsLogMessageFifoRingBufferSize * (SIZEOF(ST_ADSLogStringMessage) + MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD)) - 1)] OF BYTE;
-    MemRingBuffer : Tc2_Utilities.FB_MemRingBuffer;
-    TimerBetweenMessages : Tc2_Standard.TON := (IN := TRUE, PT := TIME_BETWEEN_MESSAGES);
+    MemRingBuffer : FB_MemRingBuffer;
+    TimerBetweenMessages : TON := (IN := TRUE, PT := TIME_BETWEEN_MESSAGES);
 END_VAR
 VAR CONSTANT
     MEM_RING_BUFFER_INTERNAL_USE_PER_DATA_RECORD : USINT := 4;
@@ -28,7 +28,7 @@ IF GetLogCount() > 0 THEN
         GetAndRemoveLogFromQueue(AdsLogStringMessage => MessageToBeSent,
                                  Error => ErrorGet);
         IF NOT ErrorGet THEN
-            ReturnValue := Tc2_System.ADSLOGSTR(msgCtrlMask := MessageToBeSent.MsgCtrlMask,
+            ReturnValue := ADSLOGSTR(msgCtrlMask := MessageToBeSent.MsgCtrlMask,
                                                 msgFmtStr := MessageToBeSent.MsgFmtStr,
                                                 strArg := MessageToBeSent.StrArg);
         END_IF
@@ -63,8 +63,8 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
 METHOD INTERNAL WriteLog
 VAR_INPUT
     MsgCtrlMask : DWORD;
-    MsgFmtStr : Tc2_System.T_MaxString;
-    StrArg : Tc2_System.T_MaxString;
+    MsgFmtStr : T_MaxString;
+    StrArg : T_MaxString;
 END_VAR
 VAR_OUTPUT
     Error : BOOL; // Buffer overflow
@@ -74,7 +74,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[(* Only log message types of ERROR if log extended results is not enabled *)
-IF MsgCtrlMask = Tc2_System.ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN
+IF MsgCtrlMask = ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN
     AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
     AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
     AdsLogStringMessage.StrArg := StrArg;

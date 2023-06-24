@@ -20,7 +20,7 @@ VAR
     TotalAsserts : UINT := 0;
 
     (* Function block to get the current task cycle *)
-    GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
+    GetCurrentTaskIndex : GETCURTASKINDEX;
 
     (* The total number of instances of each of the "AssertResults" *)
     AssertResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite] OF ST_AssertResultInstances;
@@ -43,8 +43,8 @@ VAR_INPUT
     ActualSize : UDINT;
     ActualTypeClass : IBaseLibrary.TypeClass;
     ActualValue : POINTER TO BYTE;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -76,8 +76,8 @@ VAR_INPUT
     ActualSize : UDINT;
     ActualTypeClass : IBaseLibrary.TypeClass;
     ActualValue : POINTER TO BYTE;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -105,8 +105,8 @@ VAR_INPUT
     ActualSize : UDINT;
     ActualTypeClass : IBaseLibrary.TypeClass;
     ActualValue : POINTER TO BYTE;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -137,8 +137,8 @@ VAR_INPUT
     ActualSize : UDINT;
     ActualTypeClass : IBaseLibrary.TypeClass;
     ActualValue : POINTER TO BYTE;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -163,7 +163,7 @@ END_FOR]]></ST>
     <Method Name="GetNumberOfAssertsForTest" Id="{a073fba3-9c9c-44bc-b792-f90e25f50f64}">
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfAssertsForTest : UINT
 VAR_INPUT
-    CompleteTestInstancePath : Tc2_System.T_MaxString;
+    CompleteTestInstancePath : T_MaxString;
 END_VAR
 VAR
     Counter : UINT;
@@ -217,8 +217,8 @@ VAR_INPUT
     ActualSize : UDINT;
     ActualTypeClass : IBaseLibrary.TypeClass;
     ActualValue : POINTER TO BYTE;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR_OUTPUT
     AlreadyReported : BOOL := FALSE;

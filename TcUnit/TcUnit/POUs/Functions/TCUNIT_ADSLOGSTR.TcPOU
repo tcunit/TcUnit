@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TCUNIT_ADSLOGSTR" Id="{83985386-b582-4673-93b7-d94798f4c9e7}" SpecialFunc="None">
-    <Declaration><![CDATA[(* This function allows to put ADS strings into the TcUnit ADS message buffer. If Tc2_System.ADSLOGSTR() is used directly,
+    <Declaration><![CDATA[(* This function allows to put ADS strings into the TcUnit ADS message buffer. If ADSLOGSTR() is used directly,
    the messages can come out of sequence in relation to the message created by TcUnit as TcUnit buffers the messages to
    not overflow the ADS message router. By using this function, the ADS-messages are put in the same buffer as
    TcUnit is using for its output and thus the sequence will be correct *)
 FUNCTION TCUNIT_ADSLOGSTR
 VAR_INPUT
     msgCtrlMask : DWORD; // Message control mask
-    msgFmtStr : Tc2_System.T_MaxString; // Message format string
-    strArg : Tc2_System.T_MaxString; // STRING argument
+    msgFmtStr : T_MaxString; // Message format string
+    strArg : T_MaxString; // STRING argument
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := msgCtrlMask,

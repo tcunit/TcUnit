@@ -22,7 +22,7 @@ VAR
     TotalArrayAsserts : UINT := 0;
 
     (* Function block to get the current task cycle *)
-    GetCurrentTaskIndex : Tc2_System.GETCURTASKINDEX;
+    GetCurrentTaskIndex : GETCURTASKINDEX;
 
     (* The total number of instances of each of the "AssertArrayResults" *)
     AssertArrayResultInstances : ARRAY[1..GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite] OF ST_AssertArrayResultInstances;
@@ -43,8 +43,8 @@ VAR_INPUT
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
     ActualsSize : UDINT;
     ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TotalArrayAsserts := TotalArrayAsserts + 1;
@@ -75,8 +75,8 @@ VAR_INPUT
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
     ActualsSize : UDINT;
     ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -104,8 +104,8 @@ VAR_INPUT
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
     ActualsSize : UDINT;
     ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -130,8 +130,8 @@ VAR_INPUT
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
     ActualsSize : UDINT;
     ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -153,7 +153,7 @@ END_FOR]]></ST>
     <Method Name="GetNumberOfArrayAssertsForTest" Id="{73e503e0-e1d1-4f6d-bdbf-ae50167481e7}">
       <Declaration><![CDATA[METHOD INTERNAL GetNumberOfArrayAssertsForTest : UINT
 VAR_INPUT
-    CompleteTestInstancePath : Tc2_System.T_MaxString;
+    CompleteTestInstancePath : T_MaxString;
 END_VAR
 VAR
     Counter : UINT;
@@ -208,8 +208,8 @@ VAR_INPUT
     ExpectedsTypeClass : IBaseLibrary.TypeClass;
     ActualsSize : UDINT;
     ActualsTypeClass : IBaseLibrary.TypeClass;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR_OUTPUT
     AlreadyReported : BOOL := FALSE;

@@ -5,8 +5,8 @@
 TYPE ST_AdsLogStringMessage :
 STRUCT
 	MsgCtrlMask : DWORD;
-    MsgFmtStr : Tc2_System.T_MaxString;
-    StrArg : Tc2_System.T_MaxString;
+    MsgFmtStr : T_MaxString;
+    StrArg : T_MaxString;
 END_STRUCT
 END_TYPE]]></Declaration>
   </DUT>

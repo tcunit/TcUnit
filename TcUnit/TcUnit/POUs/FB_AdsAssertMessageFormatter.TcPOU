@@ -13,34 +13,34 @@ FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]
     <Method Name="LogAssertFailure" Id="{48cbc6b0-5380-44b8-a045-57b6ad9f189d}">
       <Declaration><![CDATA[METHOD PUBLIC LogAssertFailure
 VAR_INPUT
-    Expected : Tc2_System.T_MaxString;
-    Actual : Tc2_System.T_MaxString;
-    Message : Tc2_System.T_MaxString;
-    TestInstancePath : Tc2_System.T_MaxString;
+    Expected : T_MaxString;
+    Actual : T_MaxString;
+    Message : T_MaxString;
+    TestInstancePath : T_MaxString;
 END_VAR
 VAR
     AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
-    TestInstancePathCleaned : Tc2_System.T_MaxString;
-    TestInstancePathFinal : Tc2_System.T_MaxString;
+    TestInstancePathCleaned : T_MaxString;
+    TestInstancePathFinal : T_MaxString;
     ReturnValue : DINT;
-    TestInstancePathProcessed : Tc2_System.T_MaxString;
-    MessageProcessed : Tc2_System.T_MaxString;
+    TestInstancePathProcessed : T_MaxString;
+    MessageProcessed : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
-TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
-TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := '$'');
+TestInstancePathFinal := CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
+TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := '$'');
 
-IF Tc2_Standard.LEN(STR := Expected) > 0 THEN
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', EXP: ');
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := Expected);
+IF LEN(STR := Expected) > 0 THEN
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', EXP: ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Expected);
 END_IF
-IF Tc2_Standard.LEN(STR := Actual) > 0 THEN
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', ACT: ');
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
+IF LEN(STR := Actual) > 0 THEN
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', ACT: ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
 END_IF
-IF Tc2_Standard.LEN(STR := Message) > 0 THEN
-    TestInstancePathFinal := Tc2_Standard.CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s');
+IF LEN(STR := Message) > 0 THEN
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s');
 END_IF
 
 AdjustAssertFailureMessageToMax253CharLength(MsgFmtString := TestInstancePathFinal,
@@ -48,7 +48,7 @@ AdjustAssertFailureMessageToMax253CharLength(MsgFmtString := TestInstancePathFin
                                              MsgFmtStringProcessed => TestInstancePathProcessed,
                                              StringArgProcessed => MessageProcessed);
 
-GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := Tc2_System.ADSLOG_MSGTYPE_ERROR,
+GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
                                     MsgFmtStr := TestInstancePathProcessed,
                                     StrArg := MessageProcessed);]]></ST>
       </Implementation>
