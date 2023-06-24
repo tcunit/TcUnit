@@ -525,3 +525,401 @@ WhenManufacturerSpecificExpectManufacturerSpecific();
 WhenProfileSpecificExpectProfileSpecific();
 WhenReservedForFutureUseExpectReservedForFutureUse();
 ```
+
+### FB_DiagnosticMessageFlagsParser_Test
+The next function block that we want to write tests for is the one that parses the different flags in the event message.
+The tests will follow the same layout as for the previous function block, where we:
+- Instantiate the function block under test
+- Declare test-fixtures for our tests
+- Declare the test-results for the test-fixtures
+- Run the tests  
+
+The layout of the two bytes for the flags looks like this:
+|Bit|Description|
+|-|-|
+|0-3|0: Info message, 1: Warning message, 2: Error message, 3-15: Reserved for future use|
+|4|Time stamp is a local time stamp|
+|5-7|Reserved for future use|
+|8-15|Number of parameters in this diagnosis message|
+
+A couple of good tests would be to try every code type (info, warning, error) and with some different combinations of timestamp and amount of parameters.
+
+`TODO: INSERT IMAGE HERE`
+
+Let's write four tests and call them:
+- `WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`
+- `WhenInfoMessageExpectInfoMessageGlobalTimestampAndZeroParameters`
+- `WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters`
+- `WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters`  
+
+It's a good idea to have descriptive names about what the test is testing and what the expected result is.
+In this way any developer reading the tests can clearly understand the goal of the tests.
+With all this information other developers get a lot of documentation for free!
+
+**Test "`WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`"**
+
+```
+METHOD PRIVATE WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters
+VAR
+    fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
+    stFlags : ST_FLAGS;
+ 
+    // @TEST-FIXTURE ErrorMessage
+    cnFlagsBufferByte1_ErrorMessage : BYTE := 2#0001_0010; // Error message and local time stamp
+    cnFlagsBufferByte2_ErrorMessage : BYTE := 2#0000_0100; // Four parameters in the diagnosis message
+    canFlagsBuffer_ErrorMessage : ARRAY[1..2] OF BYTE := [cnFlagsBufferByte1_ErrorMessage, 
+                                                          cnFlagsBufferByte2_ErrorMessage];
+    // @TEST-RESULT ErrorMessage
+    ceFlags_DiagnosisTypeErrorMessage : E_DIAGNOSISTYPE := E_DIAGNOSISTYPE.ErrorMessage;
+    ceFlags_TimeStampTypeLocal : E_TIMESTAMPTYPE := E_TIMESTAMPTYPE.Local;
+    cnFlags_NumberOfParametersInDiagnosisMessageFour : USINT := 4;
+END_VAR
+--------------------------------------------------------------------------
+TEST('WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters');
+ 
+// @TEST-RUN ErrorMessage
+fbDiagnosticMessageFlagsParser(anFlagsBuffer := canFlagsBuffer_ErrorMessage,
+                               stFlags => stFlags);
+ 
+// @TEST-ASSERT ErrorMessage
+AssertEquals(Expected := ceFlags_DiagnosisTypeErrorMessage,
+             Actual := stFlags.eDiagnosisType,
+             Message :='Test $'Error message$' failed at $'diagnosis type$'');
+AssertEquals(Expected := ceFlags_TimeStampTypeLocal,
+             Actual := stFlags.eTimeStampType,
+             Message := 'Test $'Error message$' failed at $'timestamp type$'');
+AssertEquals(Expected := cnFlags_NumberOfParametersInDiagnosisMessageFour,
+             Actual := stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'Error message$' failed at $'number of parameters$'');
+ 
+TEST_FINISHED();
+```
+
+**Test "`WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`"**
+```
+METHOD PRIVATE WhenInfoMessageExpectInfoMessageGlobalTimestampAndZeroParameters
+VAR
+    fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
+    stFlags : ST_FLAGS;
+ 
+    // @TEST-FIXTURE InfoMessage
+    cnFlagsBufferByte1_InfoMessage : BYTE := 2#0000_0000; // Info message and global time stamp
+    cnFlagsBufferByte2_InfoMessage : BYTE := 2#0000_0000; // Zero parameters in the diagnosis message
+    canFlagsBuffer_InfoMessage : ARRAY[1..2] OF BYTE := [cnFlagsBufferByte1_InfoMessage, 
+                                                         cnFlagsBufferByte2_InfoMessage];
+    // @TEST-RESULT InfoMessage
+    ceFlags_DiagnosisTypeInfoMessage : E_DIAGNOSISTYPE := E_DIAGNOSISTYPE.InfoMessage;
+    ceFlags_TimeStampTypeGlobal : E_TIMESTAMPTYPE := E_TIMESTAMPTYPE.Global;
+    cnFlags_NumberOfParametersInDiagnosisMessageZero : USINT := 0;
+END_VAR
+-------------------------------------------------------------------------
+TEST('WhenInfoMessageExpectInfoMessageGlobalTimestampAndZeroParameters');
+ 
+// @TEST-RUN
+fbDiagnosticMessageFlagsParser(anFlagsBuffer := canFlagsBuffer_InfoMessage,
+                               stFlags => stFlags);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := ceFlags_DiagnosisTypeInfoMessage,
+             Actual := stFlags.eDiagnosisType,
+             Message := 'Test $'Info message$' failed at $'diagnosis type$'');
+AssertEquals(Expected := ceFlags_TimeStampTypeGlobal,
+             Actual := stFlags.eTimeStampType,
+             Message := 'Test $'Info message$' failed at $'timestamp type$'');
+AssertEquals(Expected := cnFlags_NumberOfParametersInDiagnosisMessageZero,
+             Actual := stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message :='Test $'Info message$' failed at $'number of parameters$'');
+ 
+TEST_FINISHED();
+```
+**Test "`WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters`"**
+
+```
+METHOD PRIVATE WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters
+VAR
+    fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
+    stFlags : ST_FLAGS;
+ 
+    // @TEST-FIXTURE ReservedForFutureUseMessage
+    cnFlagsBufferByte1_ReservedForFutureUseMessage : BYTE := 2#0001_0011; // ReservedForFutureUse message and local time stamp
+    cnFlagsBufferByte2_ReservedForFutureUseMessage : BYTE := 2#0010_0001; // 33 parameters in the diagnosis message
+    canFlagsBuffer_ReservedForFutureUseMessage : ARRAY[1..2] OF BYTE := [cnFlagsBufferByte1_ReservedForFutureUseMessage, 
+                                                                         cnFlagsBufferByte2_ReservedForFutureUseMessage];
+    // @TEST-RESULT ReservedForFutureUseMessage
+    ceFlags_DiagnosisTypeReservedForFutureUseMessage : E_DIAGNOSISTYPE := E_DIAGNOSISTYPE.Unspecified;
+    cnFlags_NumberOfParametersInDiagnosisMessage33 : USINT := 33;
+    ceFlags_TimeStampTypeLocal : E_TIMESTAMPTYPE := E_TIMESTAMPTYPE.Local;
+END_VAR
+------------------------------------------------------------------------------------------------------
+TEST('WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters');
+ 
+// @TEST-RUN ReservedForFutureUseMessage
+fbDiagnosticMessageFlagsParser(anFlagsBuffer := canFlagsBuffer_ReservedForFutureUseMessage,
+                               stFlags => stFlags);
+ 
+// @TEST-ASSERT ReservedForFutureUseMessage
+AssertEquals(Expected := ceFlags_DiagnosisTypeReservedForFutureUseMessage,
+             Actual := stFlags.eDiagnosisType,
+             Message := 'Test $'Reserved for future use message$' failed at $'diagnosis type$'');
+AssertEquals(Expected := ceFlags_TimeStampTypeLocal,
+             Actual := stFlags.eTimeStampType,
+             Message := 'Test $'Reserved for future use message$' failed at $'timestamp type$'');
+AssertEquals(Expected := cnFlags_NumberOfParametersInDiagnosisMessage33,
+             Actual := stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'Reserved for future use message$' failed at $'number of parameters$'');
+ 
+TEST_FINISHED();
+```
+
+**Test "`WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters`"**
+```
+METHOD PRIVATE WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters
+VAR
+    fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
+    stFlags : ST_FLAGS;
+ 
+    // @TEST-FIXTURE WarningMessage
+    cnFlagsBufferByte1_WarningMessage : BYTE := 2#0001_0001; // Warning message and local time stamp
+    cnFlagsBufferByte2_WarningMessage : BYTE := 2#0000_0010; // Two parameters in the diagnosis message
+    canFlagsBuffer_WarningMessage : ARRAY[1..2] OF BYTE := [cnFlagsBufferByte1_WarningMessage, 
+                                                            cnFlagsBufferByte2_WarningMessage];
+    // @TEST-RESULT WarningMessage
+    ceFlags_DiagnosisTypeWarningMessage : E_DIAGNOSISTYPE := E_DIAGNOSISTYPE.WarningMessage;
+    ceFlags_TimeStampTypeLocal : E_TIMESTAMPTYPE := E_TIMESTAMPTYPE.Local;
+    cnFlags_NumberOfParametersInDiagnosisMessageTwo : USINT := 2;
+END_VAR
+-----------------------------------------------------------------------------
+TEST('WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters');
+ 
+// @TEST-RUN WarningMessage
+fbDiagnosticMessageFlagsParser(anFlagsBuffer := canFlagsBuffer_WarningMessage,
+                               stFlags => stFlags);
+ 
+// @TEST-ASSERT WarningMessage
+AssertEquals(Expected := ceFlags_DiagnosisTypeWarningMessage,
+             Actual := stFlags.eDiagnosisType,
+             Message := 'Test $'Warning message$' failed at $'diagnosis type$'');
+AssertEquals(Expected := ceFlags_TimeStampTypeLocal,
+             Actual := stFlags.eTimeStampType,
+             Message := 'Test $'Warning message$' failed at $'timestamp type$'');
+AssertEquals(Expected := cnFlags_NumberOfParametersInDiagnosisMessageTwo,
+             Actual := stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'Warning message$' failed at $'number of parameters$'');
+ 
+TEST_FINISHED();
+```
+
+We differentiate between the different tests by changing the contents of the two bytes defining the flags-parameter.
+By changing the first four bits of the first byte, we change the diagnosis type (info, warning, error, unspecified).
+To verify that our code outputs a diagnosis type of unspecified, we need to make sure that the first four bits of the first byte have a value of 4-15 (decimal), which is reserved for future use.
+This is what is done in the fourth text fixture.
+Finally we need to call the function block under test with all the test fixtures and assert the result for each and one of them, just like we did for the diagnosis code function block previously.
+
+```
+FUNCTION_BLOCK FB_DiagnosticMessageFlagsParser_Test EXTENDS TcUnit.FB_TestSuite
+```
+
+And as usual, we need to add a call to all the test-methods in the body of the test suite.
+
+```
+TestWithEmergencyMessage();
+TestWithManufacturerSpecificMessage();
+TestWithUnspecifiedMessageMessage();
+TestWithUnspecifiedMessageMessage_ParameterVariant();
+```
+
+What we've got left is to create test cases for the parsing of the text identity and the timestamp of the diagnostic event.
+Then we also want to have a few tests that closes the loop and verifies the parsing of a complete diagnosis history message.
+
+### FB_DiagnosticMessageTextIdentityParser_Test
+The only input for the text identity are two bytes that together make up an unsigned integer (0-65535), which is the result (output) of this parser.
+It's enough to make three test cases; one for low/medium/max.
+We accomplish to test the three values by changing the two bytes that make up the unsigned integer.
+The header of the test suite:
+
+```
+FUNCTION_BLOCK FB_DiagnosticMessageTextIdentityParser_Test EXTENDS TcUnit.FB_TestSuite
+```
+
+We'll write the tests Low/Med/High, testing for the different inputs 0, 34500 and 65535.
+
+**Test "`WhenTextIdentityLowExpectTextIdentity0`"**
+```
+METHOD PRIVATE WhenTextIdentityLowExpectTextIdentity0
+VAR
+    fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
+    nTextIdentity : UINT;
+ 
+    // @TEST-FIXTURE TextIdentity#Low
+    cnTextIdentityBufferByte1_IdentityLow : BYTE := 16#00; // 0 = no text identity
+    cnTextIdentityBufferByte2_IdentityLow : BYTE := 16#00;
+    canTextIdentityBuffer_IdentityLow : ARRAY[1..2] OF BYTE := [cnTextIdentityBufferByte1_IdentityLow,
+                                                                cnTextIdentityBufferByte2_IdentityLow];
+    // @TEST-RESULT TextIdentity#Low
+    cnTextIdentity_IdentityLow : UINT := 0;
+END_VAR
+----------------------------------------------- 
+TEST('WhenTextIdentityLowExpectTextIdentity0');
+ 
+// @TEST-RUN
+fbDiagnosticMessageTextIdentityParser(anTextIdentityBuffer := canTextIdentityBuffer_IdentityLow,
+                                      nTextIdentity => nTextIdentity);
+// @TEST-ASSERT
+Assert.AssertEquals(Expected := cnTextIdentity_IdentityLow,
+                    Actual := nTextIdentity,
+                    Message := 'Test $'TextIdentity#Low$' failed');
+ 
+TEST_FINISHED();
+```
+
+**Test "`WhenTextIdentityMedExpectTextIdentity34500`"**
+```
+METHOD PRIVATE WhenTextIdentityMedExpectTextIdentity34500
+VAR
+    fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
+    nTextIdentity : UINT;
+ 
+    // @TEST-FIXTURE TextIdentity#Med
+    cnTextIdentityBufferByte1_IdentityMed : BYTE := 16#C4; // 0x86C4 = 34500
+    cnTextIdentityBufferByte2_IdentityMed : BYTE := 16#86;
+    canTextIdentityBuffer_IdentityMed : ARRAY[1..2] OF BYTE := [cnTextIdentityBufferByte1_IdentityMed,
+                                                                cnTextIdentityBufferByte2_IdentityMed];
+    // @TEST-RESULT TextIdentity#Med
+    cnTextIdentity_IdentityMed : UINT := 34500;
+END_VAR
+---------------------------------------------------
+TEST('WhenTextIdentityMedExpectTextIdentity34500');
+ 
+// @TEST-RUN
+fbDiagnosticMessageTextIdentityParser(anTextIdentityBuffer := canTextIdentityBuffer_IdentityMed,
+                                      nTextIdentity => nTextIdentity);
+// @TEST-ASSERT
+AssertEquals(Expected := cnTextIdentity_IdentityMed,
+             Actual := nTextIdentity,
+             Message := 'Test $'TextIdentity#Med$' failed');
+ 
+TEST_FINISHED();
+```
+
+**Test "`WhenTextIdentityHighExpectTextIdentity65535`"**
+```
+METHOD PRIVATE WhenTextIdentityHighExpectTextIdentity65535
+VAR
+    fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
+    nTextIdentity : UINT;
+ 
+    // @TEST-FIXTURE TextIdentity#High
+    cnTextIdentityBufferByte1_IdentityHigh : BYTE := 16#FF; // 0xFFFF = 65535
+    cnTextIdentityBufferByte2_IdentityHigh : BYTE := 16#FF;
+    canTextIdentityBuffer_IdentityHigh : ARRAY[1..2] OF BYTE := [cnTextIdentityBufferByte1_IdentityHigh,
+                                                                 cnTextIdentityBufferByte2_IdentityHigh];
+    // @TEST-RESULT TextIdentity#High
+    cnTextIdentity_IdentityHigh : UINT := 65535;
+END_VAR
+----------------------------------------------------
+TEST('WhenTextIdentityHighExpectTextIdentity65535');
+ 
+// @TEST-RUN
+fbDiagnosticMessageTextIdentityParser(anTextIdentityBuffer := canTextIdentityBuffer_IdentityHigh,
+                                      nTextIdentity => nTextIdentity);
+// @TEST-ASSERT
+AssertEquals(Expected := cnTextIdentity_IdentityHigh,
+             Actual := nTextIdentity,
+             Message := 'Test $'TextIdentity#High$' failed');
+ 
+TEST_FINISHED();
+```
+As can be seen the only thing that varies between the tests (other than name) is the different inputs and expected output.
+
+### FB_DiagnosticMessageTimeStampParser_Test
+The eight bytes that make up the timestamp can be either the distributed clock (DC) from EtherCAT, or a local clock in the device itself.
+In the global case we want to parse the DC-time, while in the local case we just want to take the DC from the current task time (the local clock could be extracted from the EtherCAT-slave, but for the sake of simplicity we'll use the task DC).
+Because the local/global-flag is read from the "Flags"-FB, this information needs to be provided into the timestamp-FB, and is therefore an input to the FB.
+What this means is that if the timestamp is local, the eight bytes don't matter as we'll get the time from the task.
+For the timestamp-FB it's enough with two test cases, one testing it with a local timestamp and the other with a global timestamp.
+The local timestamp unit test result has to be created in runtime.
+
+```
+FUNCTION_BLOCK FB_DiagnosticMessageTimeStampParser_Test EXTENDS TcUnit.FB_TestSuite
+```
+Let's create our tests, and start with the test * **"`TestWithTimestampZeroTimeExpectCurrentTime`"**.
+
+```
+METHOD PRIVATE TestWithTimestampZeroTimeExpectCurrentTime
+VAR
+    fbDiagnosticMessageTimeStampParser : FB_DiagnosticMessageTimeStampParser;
+    sTimeStamp : STRING(29);
+ 
+    nCurrentDcTaskTime : Tc2_EtherCAT.T_DCTIME64;
+    sCurrentDcTaskTimeString : STRING(29);
+ 
+    // @TEST-FIXTURE time stamp zero time
+    canTimeStampBuffer_TimeStampZeroTime : ARRAY[1..8] OF BYTE := [8(16#00)];
+END_VAR
+---------------------------------------------------
+TEST('TestWithTimestampZeroTimeExpectCurrentTime');
+ 
+// @TEST-RUN
+fbDiagnosticMessageTimeStampParser(anTimeStampBuffer := canTimeStampBuffer_TimeStampZeroTime,
+                                   sTimeStamp => sTimeStamp);
+nCurrentDcTaskTime := Tc2_EtherCAT.F_GetCurDcTaskTime64();
+sCurrentDcTaskTimeString := DCTIME64_TO_STRING(in := nCurrentDcTaskTime);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := sCurrentDcTaskTimeString,
+             Actual := sTimeStamp,
+             Message := 'Test $'TimeStamp zero time$' failed');
+ 
+TEST_FINISHED();
+```
+
+**Test "`TestWithValidTimestampExpectSameTimestamp`"**
+
+```
+METHOD PRIVATE TestWithValidTimestampExpectSameTimestamp
+VAR
+    fbDiagnosticMessageTimeStampParser : FB_DiagnosticMessageTimeStampParser;
+    sTimeStamp : STRING(29);
+ 
+    // @TEST-FIXTURE TimeStamp valid time
+    cnTimeStampBufferByte1_TimeStampValidTime : BYTE := 16#C0; // 0x07C76560A71025C0 = '2017-10-05-14:15:44.425035200'
+    cnTimeStampBufferByte2_TimeStampValidTime : BYTE := 16#25;
+    cnTimeStampBufferByte3_TimeStampValidTime : BYTE := 16#10;
+    cnTimeStampBufferByte4_TimeStampValidTime : BYTE := 16#A7;
+    cnTimeStampBufferByte5_TimeStampValidTime : BYTE := 16#60;
+    cnTimeStampBufferByte6_TimeStampValidTime : BYTE := 16#65;
+    cnTimeStampBufferByte7_TimeStampValidTime : BYTE := 16#C7;
+    cnTimeStampBufferByte8_TimeStampValidTime : BYTE := 16#07;
+    canTimeStampBuffer_TimeStampValidTime : ARRAY[1..8] OF BYTE := [cnTimeStampBufferByte1_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte2_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte3_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte4_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte5_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte6_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte7_TimeStampValidTime,
+                                                                    cnTimeStampBufferByte8_TimeStampValidTime];
+    // @TEST-RESULT TimeStamp valid time
+    csTimeStamp_TimeStampValidTime : STRING(29) := '2017-10-05-14:15:44.425035200'; // T_DCTime64 = 16#07C76560A71025C0
+END_VAR
+--------------------------------------------------
+TEST('TestWithValidTimestampExpectSameTimestamp');
+ 
+// @TEST-RUN
+fbDiagnosticMessageTimeStampParser(anTimeStampBuffer := canTimeStampBuffer_TimeStampValidTime,
+                                   sTimeStamp => sTimeStamp);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := csTimeStamp_TimeStampValidTime,
+             Actual := sTimeStamp,
+             Message := 'Test $'TimeStamp zero time$' failed');
+ 
+TEST_FINISHED();
+```
+
+For the local timestamp case, we can see that we setup the test-fixture for the eight bytes to zeros, as this data is not necessary for the local timestamp case.
+For the global timestamp test-fixture, we created eight bytes of data representing the date/time “2017-10-05-14:15:44.425035200”.
+As our timestamp-FB returns a string, this is exactly the string that we expect to get as a test-result.
+You might be asking yourself "how on earth is it possible to know that 0x07C76560A71025C0 equals 2017-10-05-14:15:44.425035200"?
+This can be accomplished by creating a little program that just prints the current actual DC-time by using [`F_GetActualDCTime64()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2268416395.html&id=) in combination with [`DCTIME64_TO_STRING()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2267406347.html&id=6169424304031718909).
+Because the `T_DCTIME64`-type that is returned from `F_GetActualDcTime64()` is an alias for a primitive type, it's easy to convert it into a byte-array.
+Note that the assertion of the local time stamp is based on getting the current DC-task time by utilizing the [`F_GetCurDcTaskTime64()`](https://infosys.beckhoff.com/index.php?content=../content/1031/tcplclib_tc2_ethercat/2268414091.html&id=), thus we're making sure that if the diagnosis message tells us that the timestamp is a local clock, we check that our FB returns this.
