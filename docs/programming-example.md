@@ -923,3 +923,507 @@ You might be asking yourself "how on earth is it possible to know that 0x07C7656
 This can be accomplished by creating a little program that just prints the current actual DC-time by using [`F_GetActualDCTime64()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2268416395.html&id=) in combination with [`DCTIME64_TO_STRING()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2267406347.html&id=6169424304031718909).
 Because the `T_DCTIME64`-type that is returned from `F_GetActualDcTime64()` is an alias for a primitive type, it's easy to convert it into a byte-array.
 Note that the assertion of the local time stamp is based on getting the current DC-task time by utilizing the [`F_GetCurDcTaskTime64()`](https://infosys.beckhoff.com/index.php?content=../content/1031/tcplclib_tc2_ethercat/2268414091.html&id=), thus we're making sure that if the diagnosis message tells us that the timestamp is a local clock, we check that our FB returns this.
+
+### FB_DiagnosticMessageParser_Test
+The final test-FB that we need is the one that ties the bag together and uses all the other four.
+The `FB_DiagnosticMessageParser` function block will be the one where we send in all the bytes that we receive from the IO-Link master, and that will output the struct that we can present to the operator or send further up in the chain.
+One could argue that because we already have unit tests for the other four function blocks, we don’t need to have unit tests for this one.
+By having unit tests for this "umbrella" function block, we add an additional level of confidence that our code is working properly.
+Additionally, we can also make sure that combinations of different diagnosis messages are parsed correctly.
+
+To have maximum variation we want to try to vary all parameters as much as possible.
+Because it's quite a lot of code, it's highly recommended to look at the code in your development environment in parallell.
+The code is available on [GitHub](https://github.com/tcunit/ExampleProjects/tree/master/AdvancedExampleProject).
+We'll go through all the details, thus it should thus be easy for you to add any test cases that you find necessary.
+As usual, header first:
+
+```
+FUNCTION_BLOCK FB_DiagnosticMessageParser_Test EXTENDS TcUnit.FB_TestSuite
+```
+
+The function block ´FB_DiagnosticMessageParser is a very simple FB that compares every data element of the struct ´ST_DIAGNOSTICMESSAGE´, which we'll later use when we're doing the assertion.
+We want to make sure to test various types of diagnostic messages, with their complete content. We'll write four tests:
+
+- One test with an emergency message
+- One test with a manufacturer specific message
+- Two tests with unspecified messages (two variants)
+
+Because this function uses the other four function blocks, we need to create a complete structure for every test with the complete content of a diagnosis message, making the tests prerequisites for every test quite large.
+We'll start with the test **`TestWithEmergencyMessage`**.
+
+```
+METHOD PRIVATE TestWithEmergencyMessage
+VAR  
+    fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
+    aDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+ 
+    // @TEST-RESULT EmergencyMessage
+    stDiagnosticMessage_EmergencyMessage : ST_DIAGNOSTICMESSAGE :=
+        (stDiagnosticCode := (eDiagnosticCodeType := E_DIAGNOSTICCODETYPE.EmergencyErrorCodeDS301, nCode := 0),
+        stFlags := (eDiagnosisType := E_DIAGNOSISTYPE.ErrorMessage, eTimeStampType := E_TIMESTAMPTYPE.Local,
+                    nNumberOfParametersInDiagnosisMessage := 0),
+        nTextIdentityReferenceToESIFile := 0,
+        sTimeStamp := '');  // Local time stamp, will be updated in program call to current task time;
+ 
+    // @TEST-FIXTURE EmergencyMessage
+    cnDiagnosticBufferByte1_EmergencyMessage : BYTE := 16#00; // 0xE800 = Emergency code
+    cnDiagnosticBufferByte2_EmergencyMessage : BYTE := 16#E8;
+    cnDiagnosticBufferByte3_EmergencyMessage : BYTE := 16#00; // 0x0000 = Code 0
+    cnDiagnosticBufferByte4_EmergencyMessage : BYTE := 16#00;
+    cnDiagnosticBufferByte5_EmergencyMessage : BYTE := 2#0001_0010; // Local time stamp &amp;amp;amp; error message 
+    cnDiagnosticBufferByte6_EmergencyMessage : BYTE := 16#00; // Number of parameters = 0
+    cnDiagnosticBufferByte7_EmergencyMessage : BYTE := 16#00; // 0x0000, Text id as reference to ESI file = 0
+    cnDiagnosticBufferByte8_EmergencyMessage : BYTE := 16#00;
+    cnDiagnosticBufferByte9_16_EmergencyMessage : BYTE := 16#00; // Timestamp (none attached)
+    cnDiagnosticBufferByte17_EmergencyMessage : BYTE := 2#0000_0010; // Param1 = Signed8
+    cnDiagnosticBufferByte18_EmergencyMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte19_EmergencyMessage : BYTE := 2#0000_0011; // Port 3
+    cnDiagnosticBufferByte20_EmergencyMessage : BYTE := 2#0000_0011; // Param2 = Signed16
+    cnDiagnosticBufferByte21_EmergencyMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte22_EmergencyMessage : BYTE := 2#1110_1000; // EventCode = 10#1000
+    cnDiagnosticBufferByte23_EmergencyMessage : BYTE := 2#0000_0011;
+    cnDiagnosticBufferByte24_EmergencyMessage : BYTE := 2#0000_0010; // Param3 = Signed8
+    cnDiagnosticBufferByte25_EmergencyMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte26_EmergencyMessage : BYTE := 2#0001_0111; // Qualifier: Instance=Reserved_7, Source=Device, Type=Notification, Mode=Reserved
+    cnDiagnosticBufferByte27_EmergencyMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte28_EmergencyMessage : BYTE := 2#0000_0000;
+ 
+    canDiagnosticBuffer_EmergencyMessage : ARRAY[1..28] OF BYTE := [cnDiagnosticBufferByte1_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte2_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte3_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte4_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte5_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte6_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte7_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte8_EmergencyMessage,
+                                                                    8(cnDiagnosticBufferByte9_16_EmergencyMessage),
+                                                                    cnDiagnosticBufferByte17_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte18_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte19_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte20_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte21_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte22_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte23_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte24_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte25_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte26_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte27_EmergencyMessage,
+                                                                    cnDiagnosticBufferByte28_EmergencyMessage];
+END_VAR
+---------------------------------
+TEST('TestWithEmergencyMessage');
+ 
+// @TEST-RUN
+stDiagnosticMessage_EmergencyMessage.sTimeStamp := DCTIME64_TO_STRING(in := F_GetCurDcTaskTime64());
+ 
+fbDiagnosticMessageParser(anDiagnosticMessageBuffer := canDiagnosticBuffer_EmergencyMessage,
+                          stDiagnosticMessage => stDiagnosticMessage);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Actual := stDiagnosticMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Message := 'Test $'EmergencyMessage$' failed at $'Diagnostic code type$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.stDiagnosticCode.nCode,
+             Actual := stDiagnosticMessage.stDiagnosticCode.nCode,
+             Message := 'Test $'EmergencyMessage$' failed at $'Diagnostic code$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.stFlags.eDiagnosisType,
+             Actual := stDiagnosticMessage.stFlags.eDiagnosisType,
+             Message := 'Test $'EmergencyMessage$' failed at $'Diagnosis type$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.stFlags.eTimeStampType,
+             Actual := stDiagnosticMessage.stFlags.eTimeStampType,
+             Message := 'Test $'EmergencyMessage$' failed at $'Timestamp type$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Actual := stDiagnosticMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'EmergencyMessage$' failed at $'Numbers of parameters in diagnosis message$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.nTextIdentityReferenceToESIFile,
+             Actual := stDiagnosticMessage.nTextIdentityReferenceToESIFile,
+             Message := 'Test $'EmergencyMessage$' failed at $'Text identity reference to ESI file$'');
+AssertEquals(Expected := stDiagnosticMessage_EmergencyMessage.sTimeStamp,
+             Actual := stDiagnosticMessage.sTimeStamp,
+             Message := 'Test $'EmergencyMessage$' failed at $'Timestamp$'');
+ 
+TEST_FINISHED();
+```
+
+Next up is testcase **`TestWithManufacturerSpecificMessage`**
+
+```
+METHOD PRIVATE TestWithManufacturerSpecificMessage
+VAR
+    fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
+    aDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+ 
+    // @TEST-FIXTURE ManufacturerSpecificMessage
+    cnDiagnosticBufferByte1_ManufacturerSpecificMessage : BYTE := 16#90; // 0xE290 = Manufacturer Specific
+    cnDiagnosticBufferByte2_ManufacturerSpecificMessage : BYTE := 16#E2;
+    cnDiagnosticBufferByte3_ManufacturerSpecificMessage : BYTE := 16#30; // 0x0000 = Code 0
+    cnDiagnosticBufferByte4_ManufacturerSpecificMessage : BYTE := 16#75;
+    cnDiagnosticBufferByte5_ManufacturerSpecificMessage : BYTE := 2#0000_0000; // Global time stamp &amp;amp;amp; info message 
+    cnDiagnosticBufferByte6_ManufacturerSpecificMessage : BYTE := 16#02; // Number of parameters = 2
+    cnDiagnosticBufferByte7_ManufacturerSpecificMessage : BYTE := 16#A8; // 0x61A8, Text id as reference to ESI file = 10#25000
+    cnDiagnosticBufferByte8_ManufacturerSpecificMessage : BYTE := 16#61;
+    cnDiagnosticBufferByte9_ManufacturerSpecificMessage : BYTE := 16#C8; // Timestamp from DC clock, 16#07C8D11492616FC8 = '2017-10-10-05:20:39.893037000'
+    cnDiagnosticBufferByte10_ManufacturerSpecificMessage : BYTE := 16#6F;
+    cnDiagnosticBufferByte11_ManufacturerSpecificMessage : BYTE := 16#61;
+    cnDiagnosticBufferByte12_ManufacturerSpecificMessage : BYTE := 16#92;
+    cnDiagnosticBufferByte13_ManufacturerSpecificMessage : BYTE := 16#14;
+    cnDiagnosticBufferByte14_ManufacturerSpecificMessage : BYTE := 16#D1;
+    cnDiagnosticBufferByte15_ManufacturerSpecificMessage : BYTE := 16#C8;
+    cnDiagnosticBufferByte16_ManufacturerSpecificMessage : BYTE := 16#07;
+    cnDiagnosticBufferByte17_ManufacturerSpecificMessage : BYTE := 2#0000_0010; // Param1 = Signed8
+    cnDiagnosticBufferByte18_ManufacturerSpecificMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte19_ManufacturerSpecificMessage : BYTE := 2#0000_0110; // Port 6
+    cnDiagnosticBufferByte20_ManufacturerSpecificMessage : BYTE := 2#0000_0011; // Param2 = Signed16
+    cnDiagnosticBufferByte21_ManufacturerSpecificMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte22_ManufacturerSpecificMessage : BYTE := 2#1101_0010; // EventCode = 10#1234
+    cnDiagnosticBufferByte23_ManufacturerSpecificMessage : BYTE := 2#0000_0100;
+    cnDiagnosticBufferByte24_ManufacturerSpecificMessage : BYTE := 2#0000_0010; // Param3 = Signed8
+    cnDiagnosticBufferByte25_ManufacturerSpecificMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte26_ManufacturerSpecificMessage : BYTE := 2#0100_0110; // Qualifier: Instance=Reserved_6, Source=Device, Type=Reserved, Mode=EventSingleShot
+    cnDiagnosticBufferByte27_ManufacturerSpecificMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte28_ManufacturerSpecificMessage : BYTE := 2#0000_0000;
+ 
+    canDiagnosticBuffer_ManufacturerSpecificMessage : ARRAY[1..28] OF BYTE := [
+                                                               cnDiagnosticBufferByte1_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte2_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte3_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte4_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte5_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte6_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte7_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte8_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte9_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte10_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte11_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte12_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte13_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte14_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte15_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte16_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte17_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte18_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte19_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte20_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte21_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte22_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte23_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte24_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte25_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte26_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte27_ManufacturerSpecificMessage,
+                                                               cnDiagnosticBufferByte28_ManufacturerSpecificMessage];
+ 
+    // @TEST-RESULT ManufacturerSpecificMessage
+    cstDiagnosticMessage_ManufacturerSpecificMessage : ST_DIAGNOSTICMESSAGE :=
+        (stDiagnosticCode := (eDiagnosticCodeType := E_DIAGNOSTICCODETYPE.ManufacturerSpecific, nCode := 30000),
+        stFlags := (eDiagnosisType := E_DIAGNOSISTYPE.InfoMessage, eTimeStampType := E_TIMESTAMPTYPE.Global,
+                    nNumberOfParametersInDiagnosisMessage := 2),
+        nTextIdentityReferenceToESIFile := 25000,
+        sTimeStamp := '2017-10-10-05:20:39.893037000');
+END_VAR
+--------------------------------------------
+TEST('TestWithManufacturerSpecificMessage');
+ 
+// @TEST-RUN
+fbDiagnosticMessageParser(anDiagnosticMessageBuffer := canDiagnosticBuffer_ManufacturerSpecificMessage,
+                          stDiagnosticMessage => stDiagnosticMessage);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Actual := stDiagnosticMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Diagnostic code type$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.stDiagnosticCode.nCode,
+             Actual := stDiagnosticMessage.stDiagnosticCode.nCode,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Diagnostic code$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.stFlags.eDiagnosisType,
+             Actual := stDiagnosticMessage.stFlags.eDiagnosisType,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Diagnosis type$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.stFlags.eTimeStampType,
+             Actual := stDiagnosticMessage.stFlags.eTimeStampType,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Timestamp type$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Actual := stDiagnosticMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Numbers of parameters in diagnosis message$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.nTextIdentityReferenceToESIFile,
+             Actual := stDiagnosticMessage.nTextIdentityReferenceToESIFile,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Text identity reference to ESI file$'');
+AssertEquals(Expected := cstDiagnosticMessage_ManufacturerSpecificMessage.sTimeStamp,
+             Actual := stDiagnosticMessage.sTimeStamp,
+             Message := 'Test $'ManufacturerSpecificMessage$' failed at $'Timestamp$'');
+ 
+TEST_FINISHED();
+```
+
+And finally two test cases where the diagnosis type is unspecified.
+
+```
+METHOD PRIVATE TestWithUnspecifiedMessageMessage
+VAR
+    fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
+    aDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+ 
+    // @TEST-FIXTURE UnspecifiedMessage
+    cnDiagnosticBufferByte1_UnspecifiedMessage : BYTE := 16#01; // 0xE801 = Reserved for future use
+    cnDiagnosticBufferByte2_UnspecifiedMessage : BYTE := 16#E8;
+    cnDiagnosticBufferByte3_UnspecifiedMessage : BYTE := 16#FF; // 0xFFFF = Code 65535
+    cnDiagnosticBufferByte4_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte5_UnspecifiedMessage : BYTE := 2#0000_0001; // Global time stamp &amp;amp;amp; warning message 
+    cnDiagnosticBufferByte6_UnspecifiedMessage : BYTE := 16#FF; // Number of parameters = 255
+    cnDiagnosticBufferByte7_UnspecifiedMessage : BYTE := 16#FF; // 0x61A8, Text id as reference to ESI file = 10#65535
+    cnDiagnosticBufferByte8_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte9_UnspecifiedMessage : BYTE := 16#FF; // Timestamp from DC clock, 16#FFFFFFFFFFFFFFFF = '2584-07-20-23:34:33.709551615'
+    cnDiagnosticBufferByte10_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte11_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte12_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte13_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte14_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte15_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte16_UnspecifiedMessage : BYTE := 16#FF;
+    cnDiagnosticBufferByte17_UnspecifiedMessage : BYTE := 2#0000_0010; // Param1 = Signed8
+    cnDiagnosticBufferByte18_UnspecifiedMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte19_UnspecifiedMessage : BYTE := 2#0000_0101; // Port 5
+    cnDiagnosticBufferByte20_UnspecifiedMessage : BYTE := 2#0000_0011; // Param2 = Signed16
+    cnDiagnosticBufferByte21_UnspecifiedMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte22_UnspecifiedMessage : BYTE := 2#0100_0100; // EventCode = 10#65092
+    cnDiagnosticBufferByte23_UnspecifiedMessage : BYTE := 2#1111_1110;
+    cnDiagnosticBufferByte24_UnspecifiedMessage : BYTE := 2#0000_0010; // Param3 = Signed8
+    cnDiagnosticBufferByte25_UnspecifiedMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte26_UnspecifiedMessage : BYTE := 2#1101_1111; // Qualifier: Instance=Reserved_7, Source=Master, Type=Notification, Mode=EventAppears
+    cnDiagnosticBufferByte27_UnspecifiedMessage : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte28_UnspecifiedMessage : BYTE := 2#0000_0000;
+ 
+    canDiagnosticBuffer_UnspecifiedMessage : ARRAY[1..28] OF BYTE := [
+                                                               cnDiagnosticBufferByte1_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte2_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte3_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte4_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte5_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte6_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte7_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte8_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte9_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte10_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte11_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte12_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte13_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte14_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte15_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte16_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte17_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte18_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte19_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte20_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte21_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte22_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte23_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte24_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte25_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte26_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte27_UnspecifiedMessage,
+                                                               cnDiagnosticBufferByte28_UnspecifiedMessage];
+ 
+    // @TEST-RESULT UnspecifiedMessage
+    cstDiagnosticMessage_UnspecifiedMessage : ST_DIAGNOSTICMESSAGE :=
+        (stDiagnosticCode := (eDiagnosticCodeType := E_DIAGNOSTICCODETYPE.Unspecified, nCode := 65535),
+        stFlags := (eDiagnosisType := E_DIAGNOSISTYPE.WarningMessage, eTimeStampType := E_TIMESTAMPTYPE.Global,
+                    nNumberOfParametersInDiagnosisMessage := 255),
+        nTextIdentityReferenceToESIFile := 65535,
+        sTimeStamp := '2584-07-20-23:34:33.709551615');
+END_VAR
+------------------------------------------
+TEST('TestWithUnspecifiedMessageMessage');
+ 
+// @TEST-RUN
+fbDiagnosticMessageParser(anDiagnosticMessageBuffer := canDiagnosticBuffer_UnspecifiedMessage,
+                          stDiagnosticMessage => stDiagnosticMessage);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Actual := stDiagnosticMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Diagnostic code type$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.stDiagnosticCode.nCode,
+             Actual := stDiagnosticMessage.stDiagnosticCode.nCode,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Diagnostic code$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.stFlags.eDiagnosisType,
+             Actual := stDiagnosticMessage.stFlags.eDiagnosisType,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Diagnosis type$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.stFlags.eTimeStampType,
+             Actual := stDiagnosticMessage.stFlags.eTimeStampType,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Timestamp type$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Actual := stDiagnosticMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Numbers of parameters in diagnosis message$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.nTextIdentityReferenceToESIFile,
+             Actual := stDiagnosticMessage.nTextIdentityReferenceToESIFile,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Text identity reference to ESI file$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage.sTimeStamp,
+             Actual := stDiagnosticMessage.sTimeStamp,
+             Message := 'Test $'UnspecifiedMessageMessage$' failed at $'Timestamp$'');
+ 
+TEST_FINISHED();
+```
+
+And a second variant with some different input parameters.
+
+```
+METHOD PRIVATE TestWithUnspecifiedMessageMessage_ParameterVariant
+VAR
+    fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
+    aDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+ 
+    // @TEST-FIXTURE UnspecifiedMessage_ParameterVariant
+    cnDiagnosticBufferByte1_UnspecifiedMessage_ParameterVariant : BYTE := 16#01; // 0xE801 = Reserved for future use
+    cnDiagnosticBufferByte2_UnspecifiedMessage_ParameterVariant : BYTE := 16#E8;
+    cnDiagnosticBufferByte3_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF; // 0xFFFF = Code 65535
+    cnDiagnosticBufferByte4_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte5_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0001; // Global time stamp &amp;amp;amp; warning message 
+    cnDiagnosticBufferByte6_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF; // Number of parameters = 255
+    cnDiagnosticBufferByte7_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF; // 0x61A8, Text id as reference to ESI file = 10#65535
+    cnDiagnosticBufferByte8_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte9_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF; // Timestamp from DC clock, 16#FFFFFFFFFFFFFFFF = '2584-07-20-23:34:33.709551615'
+    cnDiagnosticBufferByte10_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte11_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte12_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte13_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte14_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte15_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte16_UnspecifiedMessage_ParameterVariant : BYTE := 16#FF;
+    cnDiagnosticBufferByte17_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0010; // Param1 = Signed8
+    cnDiagnosticBufferByte18_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte19_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0101; // Port 5
+    cnDiagnosticBufferByte20_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0100; // Param2 = Signed32
+    cnDiagnosticBufferByte21_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte22_UnspecifiedMessage_ParameterVariant : BYTE := 2#1111_1111; // EventCode = 10#‭4294967295‬ (though will be interpreted as maximum 16 bits = 65535)
+    cnDiagnosticBufferByte23_UnspecifiedMessage_ParameterVariant : BYTE := 2#1111_1111;
+    cnDiagnosticBufferByte24_UnspecifiedMessage_ParameterVariant : BYTE := 2#1111_1111;
+    cnDiagnosticBufferByte25_UnspecifiedMessage_ParameterVariant : BYTE := 2#1111_1111;
+    cnDiagnosticBufferByte26_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0010; // Param3 = Signed8
+    cnDiagnosticBufferByte27_UnspecifiedMessage_ParameterVariant : BYTE := 2#0000_0000;
+    cnDiagnosticBufferByte28_UnspecifiedMessage_ParameterVariant : BYTE := 2#1101_1111; // Qualifier: Instance=Reserved_7, Source=Master, Type=Notification, Mode=EventAppears
+ 
+    canDiagnosticBuffer_UnspecifiedMessage_ParameterVariant : ARRAY[1..28] OF BYTE := [
+                                                        cnDiagnosticBufferByte1_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte2_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte3_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte4_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte5_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte6_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte7_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte8_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte9_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte10_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte11_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte12_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte13_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte14_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte15_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte16_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte17_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte18_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte19_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte20_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte21_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte22_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte23_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte24_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte25_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte26_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte27_UnspecifiedMessage_ParameterVariant,
+                                                        cnDiagnosticBufferByte28_UnspecifiedMessage_ParameterVariant];
+ 
+    // @TEST-RESULT UnspecifiedMessageParameterVariant
+    cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant : ST_DIAGNOSTICMESSAGE :=
+        (stDiagnosticCode := (eDiagnosticCodeType := E_DIAGNOSTICCODETYPE.Unspecified, nCode := 65535),
+        stFlags := (eDiagnosisType := E_DIAGNOSISTYPE.WarningMessage, eTimeStampType := E_TIMESTAMPTYPE.Global,
+                    nNumberOfParametersInDiagnosisMessage := 255),
+        nTextIdentityReferenceToESIFile := 65535,
+        sTimeStamp := '2584-07-20-23:34:33.709551615');
+END_VAR
+-----------------------------------------------------------
+TEST('TestWithUnspecifiedMessageMessage_ParameterVariant');
+ 
+// @TEST-RUN
+fbDiagnosticMessageParser(anDiagnosticMessageBuffer := canDiagnosticBuffer_UnspecifiedMessage_ParameterVariant,
+                          stDiagnosticMessage => stDiagnosticMessage);
+ 
+// @TEST-ASSERT
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.stDiagnosticCode.eDiagnosticCodeType,
+             Actual := stDiagnosticMessage.stDiagnosticCode.eDiagnosticCodeType,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Diagnostic code type$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.stDiagnosticCode.nCode,
+             Actual := stDiagnosticMessage.stDiagnosticCode.nCode,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Diagnostic code$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.stFlags.eDiagnosisType,
+             Actual := stDiagnosticMessage.stFlags.eDiagnosisType,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Diagnosis type$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.stFlags.eTimeStampType,
+             Actual := stDiagnosticMessage.stFlags.eTimeStampType,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Timestamp type$'');
+fAssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.stFlags.nNumberOfParametersInDiagnosisMessage,
+              Actual := stDiagnosticMessage.stFlags.nNumberOfParametersInDiagnosisMessage,
+              Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Numbers of parameters in diagnosis message$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.nTextIdentityReferenceToESIFile,
+             Actual := stDiagnosticMessage.nTextIdentityReferenceToESIFile,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Text identity reference to ESI file$'');
+AssertEquals(Expected := cstDiagnosticMessage_UnspecifiedMessage_ParameterVariant.sTimeStamp,
+             Actual := stDiagnosticMessage.sTimeStamp,
+             Message := 'Test $'UnspecifiedMessageMessage_ParameterVariant$' failed at $'Timestamp$'');
+ 
+TEST_FINISHED();
+```
+
+Every byte has an accompanying comment so that it'’'s obvious what information is being stored in every byte.
+Note that the test-result is a structured representation of all the diagnostic history message bytes.
+These 16 bytes are the sum of all the other bytes used for the other four function block parsers.
+
+**That's our tests!**  
+We’re finished with the unit tests. Notice that we still have not written a single line of code for the implementing part.
+We’ve defined the inputs/outputs and the accompanying data structures for our function blocks.
+We’ve also created all the test cases.
+All of the code you’ve written so far is **excellent documentation** for any other developer that would try to understand the implementing code in the future.
+Not only that, all your test cases also form the **acceptance criteria** for the implementation code.
+You’ve basically said "I require my code to pass these tests, and these tests must pass for my code to do what I want it to do".
+Note that all the tests above can be executed at anytime.
+Done any change to your code?
+Just re-run the tests and make sure you haven’t broken anything.
+Fantastic, isn’t it?
+
+We’ve written a total of 17 tests, so now let’s build the project and run the tests.
+
+**TODO: Image here**
+This is just a selection of all the failed asserts.
+For every failed assert, we can see the expected value we should have got in case the implementing code did what it is supposed to do and also the actual value as well as the message that we provided to the assert.
+The statistics are printed a little bit further down:
+
+**TODO: Image here**
+
+First we can see that we have had five test suites running, in where each had a certain amount of tests defined.
+Every test suite is responsible to test a specific function block.
+We can see that all tests except one has failed.
+But how come that we’ve had a successful test even though we haven’t yet written a single line of code?
+This is usually related to tests that test some zero-values, where the default return value of the function block under test is zero.
+In this case it is this test:
+
+```
+METHOD PRIVATE WhenTextIdentityLowExpectTextIdentity0
+VAR
+    fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
+    nTextIdentity : UINT;
+ 
+    // @TEST-FIXTURE TextIdentity#Low
+    cnTextIdentityBufferByte1_IdentityLow : BYTE := 16#00; // 0 = no text identity
+    cnTextIdentityBufferByte2_IdentityLow : BYTE := 16#00;
+    canTextIdentityBuffer_IdentityLow : ARRAY[1..2] OF BYTE := [cnTextIdentityBufferByte1_IdentityLow,
+                                                                cnTextIdentityBufferByte2_IdentityLow];
+    // @TEST-RESULT TextIdentity#Low
+    cnTextIdentity_IdentityLow : UINT := 0;
+END_VAR
+```
+
+We’re testing the function block `FB_DiagnosticMessageTextIdentityParser` by providing it with a zero-value as input (two bytes, each holding `0x00`) and expecting the number 0 as result.
+The default initialization of a number value in TwinCAT is always zero, and thus this is returned which makes our test succeed.
+Tests that pass without implementing code generally don't provide much value.
