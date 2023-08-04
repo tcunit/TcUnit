@@ -15,7 +15,6 @@ VAR
     NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR
 VAR_TEMP
-    TestSuiteName : T_MaxString;
     TestName : T_MaxString;
 
     TestsInTestSuiteCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
@@ -31,11 +30,10 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
 	StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished());
 
     IF StoringTestSuiteTrigger.Q THEN
-        (* Remove everything except the program name + "." + test suite name *)
-        TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
 
         (* Store test suite name and ID *)
-        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Name := TestSuiteName;
+        TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Name := 
+			GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestSuiteName();
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Identity := StoringTestSuiteResultNumber - 1;
 
         (* Store number of tests in test suite *)
@@ -61,7 +59,7 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
 
             (* Store test class name *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName :=
-                F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
+                F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestSuiteName());
 
             (* Store whether the test has failed *)
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed :=

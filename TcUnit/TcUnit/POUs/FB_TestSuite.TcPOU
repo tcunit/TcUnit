@@ -12,7 +12,7 @@ FUNCTION_BLOCK FB_TestSuite
 VAR
     {attribute 'instance-path'}
     {attribute 'noinit'}
-    InstancePath : T_MaxString;
+    TestSuiteName : T_MaxString;
 
     (* We need to have access to specific information of the current task that this test suite
        is executed in. This is for instance necessary when we need to know whether a test is
@@ -104,7 +104,7 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
             TestDuplicateNameTrigger[IteratorCounter](CLK := TRUE);
             IF TestDuplicateNameTrigger[IteratorCounter].Q THEN // Rising edge detected. We have not reported this before
                 TestInstancePath := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath :=
-                                                                                           GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetInstancePath());
+                                                                                           GVL_TcUnit.CurrentTestSuiteBeingCalled^.GetTestSuiteName());
                 ErrorMessage := 'Test with name $'%s$' already exists in test suite $'';
                 ErrorMessage := CONCAT(STR1 := ErrorMessage, STR2 := TestInstancePath);
                 ErrorMessage := CONCAT(STR1 := ErrorMessage, STR2 := '$'');
@@ -140,19 +140,6 @@ IF IgnoreCurrentTestCase THEN
 END_IF
 
 AddTest REF= GetTestByName(TrimmedTestName);]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="AddTestNameToInstancePath" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
-      <Declaration><![CDATA[METHOD INTERNAL AddTestNameToInstancePath : T_MaxString
-VAR_INPUT
-    TestInstancePath : T_MaxString;
-END_VAR
-VAR
-    CompleteTestInstancePath : T_MaxString;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[CompleteTestInstancePath := CONCAT(STR1 := TestInstancePath, STR2 := '@');
-AddTestNameToInstancePath := CONCAT(STR1 := CompleteTestInstancePath, STR2 := GVL_TcUnit.CurrentTestNameBeingCalled);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AreAllTestsFinished" Id="{2b211901-49a8-4e51-90e1-4b1e298f9e0c}">
@@ -221,7 +208,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 (* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
    so they can't be called in a dimension-based loop.
@@ -375,7 +362,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 (* UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
    so they can't be called in a dimension-based loop.
@@ -529,7 +516,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 (* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
    so they can't be called in a dimension-based loop.
@@ -713,7 +700,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 (* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
    so they can't be called in a dimension-based loop.
@@ -886,7 +873,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -978,7 +965,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1077,7 +1064,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1169,7 +1156,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1267,7 +1254,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1357,7 +1344,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1448,7 +1435,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1540,7 +1527,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1639,7 +1626,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1729,7 +1716,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1819,7 +1806,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -1910,7 +1897,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -2000,7 +1987,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -2090,7 +2077,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -2182,7 +2169,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 
 SizeOfExpecteds := ABS(UPPER_BOUND(Expecteds, 1) - LOWER_BOUND(Expecteds, 1)) + 1;
 SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
@@ -2552,7 +2539,7 @@ END_IF
 
 (* If we've come to this row, it means that the data input is not any of the standard primitive data types, and thus
    we need to do special handling *)
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 IF DataTypesNotEquals THEN
     ExpectedDataString := CONCAT(STR1 := '(Type class = ', STR2 := F_AnyTypeClassToString((Expected.TypeClass)));
@@ -2636,7 +2623,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_BOOL,
@@ -2678,7 +2665,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_BYTE,
@@ -2728,7 +2715,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_DATE,
@@ -2770,7 +2757,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_DATEANDTIME,
@@ -2812,7 +2799,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_DINT,
@@ -2854,7 +2841,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_DWORD,
@@ -2904,7 +2891,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_INT,
@@ -2946,7 +2933,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_LINT,
@@ -2989,7 +2976,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_LREAL,
@@ -3031,7 +3018,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_LTIME,
@@ -3073,7 +3060,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_LWORD,
@@ -3124,7 +3111,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_REAL,
@@ -3166,7 +3153,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_SINT,
@@ -3208,7 +3195,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_STRING,
@@ -3250,7 +3237,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_TIME,
@@ -3292,7 +3279,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_TIMEOFDAY,
@@ -3334,7 +3321,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_UDINT,
@@ -3376,7 +3363,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_UINT,
@@ -3418,7 +3405,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_ULINT,
@@ -3460,7 +3447,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_USINT,
@@ -3502,7 +3489,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_WORD,
@@ -3552,7 +3539,7 @@ END_VAR]]></Declaration>
     RETURN;
 END_IF
 
-TestInstancePath := AddTestNameToInstancePath(TestInstancePath := FindTestSuiteInstancePath());
+TestInstancePath := GetFullyQualifiedTestName(TestName := FindTestSuiteName());
 
 AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            ExpectedTypeClass := IBaseLibrary.TypeClass.TYPE_WSTRING,
@@ -3615,7 +3602,7 @@ VAR
     IteratorCounter : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
+        <ST><![CDATA[TestInstancePath := GetFullyQualifiedTestName(FindTestSuiteName());
 NumberOfAsserts := AssertResults.GetNumberOfAssertsForTest(CompleteTestInstancePath := TestInstancePath);
 NumberOfArrayAsserts := AssertArrayResults.GetNumberOfArrayAssertsForTest(CompleteTestInstancePath := TestInstancePath);
 TotalNumberOfAsserts := NumberOfAsserts + NumberOfArrayAsserts;
@@ -3647,18 +3634,32 @@ END_IF]]></ST>
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
     bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-    bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+    bInCopyCode : BOOL; // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+
+VAR
+    DataType : T_MaxString;
+    Reflection : Tc3_JsonXml.FB_JsonReadWriteDatatype;
+    HasNamespace : BOOL;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
-GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;]]></ST>
+GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;
+
+IF GVL_Param_TcUnit.UseDataTypesAsTestNames THEN
+	TestSuiteName := Reflection.GetDatatypeNameByAddress(SIZEOF(THIS^), THIS);
+ELSE
+	(* Remove everything except the program name + "." + test suite name *)	
+	TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := TestSuiteName);
+END_IF
+]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
+    <Method Name="FindTestSuiteName" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
       <Declaration><![CDATA[(* Searches for the instance path of the calling function block *)
-METHOD PRIVATE FindTestSuiteInstancePath : T_MaxString]]></Declaration>
+METHOD PRIVATE FindTestSuiteName : T_MaxString]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
+        <ST><![CDATA[FindTestSuiteName := GetTestSuiteName();]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetDuration" Id="{c5d72850-806c-4a5f-a535-d97d667b1fa5}">
@@ -3667,17 +3668,23 @@ METHOD PRIVATE FindTestSuiteInstancePath : T_MaxString]]></Declaration>
         <ST><![CDATA[GetDuration := Duration;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="GetFullyQualifiedTestName" Id="{abecfe2f-b0e2-4118-a1c6-bb248556b776}">
+      <Declaration><![CDATA[METHOD INTERNAL GetFullyQualifiedTestName : T_MaxString
+VAR_INPUT
+    TestName : T_MaxString;
+END_VAR
+VAR
+    FullyQualifiedTestName : T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FullyQualifiedTestName := CONCAT(STR1 := TestName, STR2 := '@');
+CONCAT2(ADR(FullyQualifiedTestName), ADR(GVL_TcUnit.CurrentTestNameBeingCalled), ADR(GetFullyQualifiedTestName), SIZEOF(GetFullyQualifiedTestName));]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetHasStartedRunning" Id="{73f869b5-0951-4519-8e1e-dd573837cf2e}">
       <Declaration><![CDATA[METHOD INTERNAL GetHasStartedRunning : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetHasStartedRunning := StartedAt > 0;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="GetInstancePath" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
-      <Declaration><![CDATA[METHOD INTERNAL GetInstancePath : T_MaxString
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[GetInstancePath := InstancePath;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetNumberOfFailedTests" Id="{12e4522b-e67f-439a-af1d-8713231888aa}">
@@ -3792,6 +3799,13 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     END_IF
 END_FOR
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTestSuiteName" Id="{178fa338-5ed3-417b-8f4d-e9f120ace4b9}">
+      <Declaration><![CDATA[METHOD INTERNAL GetTestSuiteName : T_MaxString
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTestSuiteName := TestSuiteName;]]></ST>
       </Implementation>
     </Method>
     <Method Name="IsTestFinished" Id="{1ef139e2-1210-4139-ba5c-329f8493b09c}">
