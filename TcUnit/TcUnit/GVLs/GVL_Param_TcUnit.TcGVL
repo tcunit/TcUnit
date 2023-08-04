@@ -40,6 +40,9 @@ VAR_GLOBAL CONSTANT
     (* Time delay between a test suite is finished and the execution of the next test suite starts
        if using RUN_IN_SEQUENCE() *)
     TimeBetweenTestSuitesExecution : TIME := T#0MS;
+	
+	(* Enable (TRUE) or disable (FALSE) for using the datatype of the test suite as name instead of instance path *)
+	UseDataTypesAsTestNames : BOOL := FALSE;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
