@@ -4,6 +4,7 @@ title: F.A.Q.
 ---
 
 ## Frequently asked questions
+
 Here you’ll find the most commonly asked questions and their answers.
 If you don’t find what you are looking for here, you can look through the:
 
@@ -27,8 +28,8 @@ If you don’t find what you are looking for here, you can look through the:
 
 ---
 
-
 ### 1. How can I run a test across multiple PLC cycles?
+
 This can be accomplished by keeping the function block under test as an instance variable of the test suite rather than the test method.
 You can download an [example here](https://tcunit.org/temp/TimedTest_1x.zip).
 In this example, the `FB_ToBeTested` is instantiated under the test suite (`FB_ToBeTested_Test`), and can thus be controlled over multiple cycles.
@@ -37,9 +38,10 @@ Then all that’s necessary to do is to set the condition for when the assertion
 **Required TcUnit version:** 1.0 or later
 
 ### 2. How can I disable/ignore a test?
+
 Add `DISABLED_` in front of the test name, for example:
 
-```
+```StructuredText
 TEST('DISABLED_ThisTestWillBeIgnored');
  
 AssertEquals(Expected := a,
@@ -48,9 +50,11 @@ AssertEquals(Expected := a,
  
 TEST_FINISHED();
 ```
+
 **Required TcUnit version:** 1.0 or later
 
-### 3. Is there a way to test %I* or %Q* variables?
+### 3. Is there a way to test `%I*` or `%Q*` variables?
+
 In a number of scenarios, TwinCAT won't let you write directly to certain variables:
 
 - Due to access restrictions (e.g. a variable in a FB's VAR)
@@ -59,29 +63,38 @@ In a number of scenarios, TwinCAT won't let you write directly to certain variab
 Writing to these variables wouldn’t make sense and should be prevented in the normal PLC code, so having special privileges during testing is a must.
 To support these cases, TcUnit provides helper functions like `WRITE_PROTECTED_BOOL()`, `WRITE_PROTECTED_INT()` (and so forth) for setting these type of variables.
 For an example of how to use these, let's assume you have a test:
-```
+
+```StructuredText
 METHOD PRIVATE TestCommsOkChannelsLow
 VAR
     EL1008 : FB_Beckhoff_EL1008;
 END_VAR
 ```
+
 Where the `FB_Beckhoff_EL1008` holds a variable:
-```
+
+```StructuredText
 iChannelInput AT %I* : ARRAY[1..8] OF BOOL;
 ```
+
 Now you might want to write a value to the first channel of the iChannelInput like:
-```
+
+```StructuredText
 TcUnit.WRITE_PROTECTED_BOOL(Ptr := ADR(EL1008.iChannelInput[1]),
                             Value := FALSE);
 ```
+
 Whereas afterwards you can make an assertion as usual:
-```
+
+```StructuredText
 AssertFalse(Condition := EL1008.ChannelInput[1],
             Message := 'Channel is not false');
 ```
+
 **Required TcUnit version:** 1.0 or later
 
 ### 4. Is there a way to hide TcUnit in my libraries?
+
 You can accomplish this by the [Hide reference](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014402725266443.html&id=) option for referenced libraries.
 This option lets you hide TcUnit from your other projects.
 Let’s assume you’ve developed a library `MyLibrary`, which has tests written in TcUnit.
@@ -92,17 +105,17 @@ You can find it in the Properties tab:
 
 ![Hide reference](img/hide-reference.png)
 
-
 **Required TcUnit version:** 1.0 or later
 
 ### 5. How do I do assertions on the BIT datatype?
+
 I want to do an assertion on two variables both declared with the `BIT`-datatype, but I have noticed that a `AssertEquals_BIT()` does not exist.
 What do I do?
 
 The reason a `AssertEquals_BIT()` does not exist is that TwinCAT does not allow a BIT-datatype as a variable input.
 If you have data declared with the BIT-type, the easiest way to do an assertion on these is to do a `BIT_TO_BOOL()` conversion and use the `AssertEquals_BOOL()`.
 
-```
+```StructuredText
 TEST('Testing_of_BIT_Type');
  
 AssertEquals_BOOL(Expected := BIT_TO_BOO(VariableDeclaredAsBit_A),
@@ -115,6 +128,7 @@ TEST_FINISHED();
 **Required TcUnit version:** 1.0 or later
 
 ### 6. When I run more than 100 tests in a single test-suite I get the wrong results, why?
+
 When TcUnit is running it allocates memory in the PLC to store the test results.
 The maximum number of tests for every test suite has been set to 100, which however is a configuration parameter for TcUnit and can be changed.
 Parameters for TcUnit (and in fact any library references) are stored in your project, which means that this change will be persistent for your project/library.
@@ -124,8 +138,8 @@ To change this max amount, to say for instance 200 tests per test suite, go to t
 
 **Required TcUnit version:** 1.0 or later
 
-
 ### 7. Is it possible to run test suites and/or tests in a sequence?
+
 Yes.
 By default TcUnit runs all the test suites and tests in parallel, in other words all test suites and tests are run at the same time.
 Sometimes it is however desirable to run either the test suites or tests (or both) in a sequence, for example if you get exceed overruns while running tests.
@@ -134,7 +148,8 @@ Since TcUnit 1.2 it's possible to run test suites in sequence (one after another
 To execute test suites in a sequence, simply replace `TcUnit.RUN()` with `TcUnit.RUN_IN_SEQUENCE()` in your main body of the test program.
 This will execute the test suites in the order that they were declared.
 So for example if we have defined the following test suites and test program:
-```
+
+```StructuredText
 PROGRAM PRG_TEST
 VAR 
     fbDiagnosticMessageDiagnosticCodeParser_Test : FB_DiagnosticMessageDiagnosticCodeParser_Test;
@@ -143,14 +158,16 @@ VAR
 END_VAR
 -------------------------
 TcUnit.RUN_IN_SEQUENCE();
+
 ```
+
 This will first execute all tests defined in `fbDiagnosticMessageDiagnosticCodeParser_Test`, once all tests are finished in that function block, TcUnit will execute all tests in `fbDiagnosticMessageFlagsParser_Test`, and when that is done it will execute all tests in `fbDiagnosticMessageParser_Test`.
 
 It's also possible to execute individual tests in order by simply replacing `TEST('TestName')` with `TEST_ORDERED('TestName')`.
 This will execute the tests in the order that the `TEST_ORDERED()` is called for the various tests.
 `TEST_ORDERED()` returns a boolean to indicate whether the TcUnit framework will run the test, so in order to only execute the code when it's time for that particular test, it makes sense to check if `TEST_ORDERED()` returns true, and only then do the execution of the function blocks and assertions, for example like this:
 
-```
+```StructuredText
 METHOD PRIVATE TestWithTimestampZeroTimeExpectCurrentTime
 VAR
    ... (variable declaration used for the test)
@@ -166,13 +183,13 @@ IF TEST_ORDERED('TestWithTimestampZeroTimeExpectCurrentTime') THEN
     TEST_FINISHED();
 END_IF
 ```
+
 As usual, the `TEST_FINISHED()` will indicate that this test is finished, and the framework will go to the next test.
 Note that you don't need to create any state machine for calling the different `TEST_ORDERED()` tests.
 You can (and must!) call all `TEST_ORDERED()` at the same time.
 The framework will make sure to only care about the assertions of the test that is currently running.
 
 This means the following combinations can be used:
-
 
 - `RUN()` with all tests as `TEST()` – means all tests suites and tests will run in parallel, this is the default behaviour.  
 ![TcUnit run option 1](img/tcunit_run_option1.png)
@@ -197,6 +214,7 @@ For a couple of TwinCAT projects that shows how to run both test suites in a seq
 **Required TcUnit version:** 1.2 or later
 
 ### 8. Why is it taking so long to get the results from TcUnit?
+
 If you have many test suites and/or tests, it can take some time for TcUnit to print all those results.
 Since version 1.1 of TcUnit, much more data is printed to the ADS-logger as this data is used for the communication with TcUnit-Runner.
 If you know that you will only run your tests locally and without integration to a CI/CD tool using TcUnit-Runner, you can set the parameter `LogExtendedResults` to `FALSE` (it is default `TRUE`).
@@ -207,6 +225,7 @@ To change this parameter, go to the library references and select TcUnit, then g
 **Required TcUnit version:** 1.1 or later
 
 ### 9. Is it possible to have a time delay between the execution of the test suites?
+
 Yes.
 You can set the parameter `TimeBetweenTestSuitesExecution` to whatever delay you want to have.
 To change this parameter, go to the library references and select TcUnit, then go to `GVLs` → `GVL_Param_TcUnit` → `TimeBetweenTestSuitesExecution`.
@@ -218,9 +237,11 @@ For example, in the below screenshot this is changed to 5 seconds.
 **Required TcUnit version:** 1.2 or later
 
 ### 10. If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?
+
 If I call `Tc2_System.ADSLOGSTR()` during execution of a test, my messages don't arrive in the expected order.
 Let's for example assume this very simple (always failing) test:
-```
+
+```StructuredText
 TEST('Test1');
 FOR nCounter := 1 TO 5 BY 1 DO
     Tc2_System.ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_HINT, 
@@ -255,9 +276,11 @@ So if we replaced the call to `Tc2_System.ADSLOGSTR()` to `TCUNIT_ADSLOGSTR()` i
 **Required TcUnit version:** 1.2 or later
 
 ### 11. How do I test functions?
+
 It's done almost identical as in the introduction user guide, but simply replace the instance of the function block that you want to test with the call to the function instead.
 Assume we have a function:
-```
+
+```StructuredText
 FUNCTION F_Sum
 VAR_INPUT
     one : UINT;
@@ -266,8 +289,10 @@ END_VAR
  
 F_Sum := one + two;
 ```
+
 Then the test would look like following:
-```
+
+```StructuredText
 METHOD TwoPlusTwoEqualsFour
 VAR
     Result : UINT;
@@ -283,10 +308,13 @@ AssertEquals(Expected := ExpectedSum,
              Message := 'The calculation is not correct');
  
 TEST_FINISHED();
+
 ```
+
 **Required TcUnit version:** 1.0 or later
 
 ### 12. I have problems running TcUnit on a ARMv7 controller, why?
+
 When running TcUnit with a controller using ARMv7 you can run into issues, such as breakpoints not working.
 This seems to be an issue with the limited memory of the controllers using an ARMv7 such as the CX8190 and CX9020. Please adjust the [parameters related to memory allocation](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why).
 

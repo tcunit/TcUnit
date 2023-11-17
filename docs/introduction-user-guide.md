@@ -17,9 +17,11 @@ The purpose of this user guide is to be a short tutorial where we will go throug
 3. Create test suites and run the tests
 
 ## Download & install
+
 The framework can either be downloaded as a [precompiled library](https://github.com/tcunit/TcUnit/releases), or you can download the [source code](https://www.github.com/TcUnit/TcUnit) and compile the library yourself.
 
 ### Install from library file
+
 If you’ve downloaded the library, you should have a file called **TcUnit.library** in your computer.
 Start your TwinCAT XAE (Visual Studio).
 In the menu of Visual Studio select **PLC** and then **Library Repository...**
@@ -30,6 +32,7 @@ Click on **Install...**, locate the **TcUnit.library** file and double-click on 
 Now it will install to your TwinCAT-folder, more specifically C:\TwinCAT\3.1\Components\Plc\Managed Libraries\www.tcunit.org\TcUnit\.
 
 ### Install from source
+
 If you want to install it from source, make sure that you have a TwinCAT XAE installed.
 Next do a GIT-clone on the repository.
 Open the folder where you cloned the repo, and open the solution by double-clicking on the TcUnit.sln file in the root of the folder, which will open the project in your TwinCAT XAE environment.
@@ -43,6 +46,7 @@ This will install the library on your computer.
 Once the library is installed, the file that you saved on the desktop can be removed.
 
 ### Reference the library in project
+
 In order to use TcUnit you need to add a reference to the library in your project.
 Open your TwinCAT project, and right-click on the **References** under the PLC-project and click on **Add library...**
 
@@ -51,6 +55,7 @@ Open your TwinCAT project, and right-click on the **References** under the PLC-p
 Next go to the TcUnit-group, select TcUnit and click **OK**.
 
 ### Create test suites and run them
+
 For every function block (or free function) that you have defined we want to create a test function block (test suite), which has the responsibility to:
 
 - Instantiate the FB under test
@@ -78,7 +83,7 @@ Each test suite is responsible of testing one FB or function, and can have one o
 Let’s assume we want to create the simplest possible FB that takes two unsigned integers and sums them.
 We can create the header for the FB, but the actual implementation can (and should) wait after we’ve done the unit tests.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_Sum
 VAR_INPUT
     one : UINT;
@@ -92,7 +97,7 @@ END_VAR
 Now let’s create the test suite for this.
 This FB needs to extend `TcUnit.FB_TestSuite`.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_Sum_Test EXTENDS TcUnit.FB_TestSuite
 VAR
 END_VAR
@@ -108,7 +113,7 @@ For them well-named tests are invaluable.
 We’ll be creating two tests called `TwoPlusTwoEqualsFour` and `ZeroPlusZeroEqualsZero`.
 The `TwoPlusTwoEqualsFour` will look like this:
 
-```
+```StructuredText
 METHOD TwoPlusTwoEqualsFour
 VAR
     Sum : FB_Sum;
@@ -136,7 +141,7 @@ This gives the flexibility to have tests that span over more than one PLC-cycle.
 
 For `ZeroPlusZeroEqualsZero` it’s more or less the same code.
 
-```
+```StructuredText
 METHOD ZeroPlusZeroEqualsZero
 VAR
     Sum : FB_Sum;
@@ -156,7 +161,8 @@ TEST_FINISHED();
 ```
 
 Next we need to update the body of the test suite (`FB_Sum_Test`) to make sure these two tests are being run.
-```
+
+```StructuredText
 TwoPlusTwoEqualsFour();
 ZeroPlusZeroEqualsZero();
 ```
@@ -168,7 +174,7 @@ Being part of the library project we only want a convenient way to test all the 
 `PRG_TEST` needs to instantiate all the test suites, and only execute one line of code.
 In this case we only have one test suite.
 
-```
+```StructuredText
 PROGRAM PRG_TEST
 VAR
     fbSum_Test : FB_Sum_Test; // This is our test suite
@@ -191,7 +197,7 @@ As we can see, the test `TwoPlusTwoEqualsFour` failed, which means that the one 
 The reason this succeeds is that the default return value for an output-parameter is zero, and thus it means that even if we haven’t written the body of `FB_Sum` the test will succeed.
 Let’s finish by implementing the body of `FB_Sum`.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_Sum
 VAR_INPUT
     one : UINT;

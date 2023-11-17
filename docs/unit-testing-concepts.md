@@ -9,6 +9,7 @@ This page briefly describes test driven development in general, and some basic c
 - [Unit testing with TcUnit](#unit-testing-with-tcunit)
 
 ## Test driven development
+
 Test driven development (TDD) is the practice of writing a test for some required functionality, before writing any implementation code.
 The idea is that when you run your tests the first time, they will fail.
 After you’ve written your (failing) tests, you do the actual implementation, until the tests succeed.
@@ -46,6 +47,7 @@ It’s the starting ramp-up time to get into the “TDD thinking” that takes t
 Writing tests costs time, but overall development takes less time.
 
 ## Unit testing with TcUnit
+
 As TcUnit is a xUnit type of framework, and as such has certain components with their respective responsibility.
 
 ![TcUnit blocks](img/tcunit-block-explanations.png)
@@ -53,35 +55,42 @@ As TcUnit is a xUnit type of framework, and as such has certain components with 
 Let’s go through each and one of them.
 
 ### PRG_Test
+
 **PRG_Test** is not part of the framework or the xUnit-concept at all, but is just here to point out that the test cases need an environment to run in.
 They need to be initialized.
 The program that will execute the tests will never be executed in a production environment, and is only here for the sole purpose of running the unit tests.
 It can either be included directly in your library projects or as a completely separate solution.
 
 ### Test case
+
 A test case is the most rudimentary building block.
 It is defined by a name that describes the intention of the test and the expected result.
 
 ### Test fixture
+
 A test fixture is the set of preconditions or state needed to run a test.
 In TcUnit these can typically be some constant variables that are used as input for a function block under test.
 In TcUnit these can be declared in the test suite or in the test case, depending on whether you want them to be shared across several tests or not.
 
 ### Test suite
+
 A test suite is a collection of tests related to each other.
 In TcUnit they can share the same test fixture, but there is also a possibility to have a separate test fixture for each test in a test suite.
 In TcUnit a test suite is defined as a function block.
 
 ### Assertions
+
 An assertion is a method that verifies some state of the unit under test.
 If you for instance want to verify that a boolean output of a function block is according to a certain state, you can assert that the output is true.
 There are many various assert-methods in TcUnit, depending on the data type that holds the state.
 Some examples are `AssertEquals_INT`, `AssertEquals_STRING` and `AssertEquals_BOOL`.
 
 ### Test result formatter
+
 This is a part that produces the end result of the test, that for instance can be used for a human to read.
 
 ![Test results](img/test-results.png)
 
 ### Test runner
+
 The test runner of TcUnit makes sure to run all the tests defined and collect the results from them.

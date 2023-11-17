@@ -4,6 +4,7 @@ title: Programming example
 ---
 
 ## Introduction
+
 For this example we are going to develop a TwinCAT library with some well defined functionality using test driven development with the TcUnit framework.
 The scope of the library will be developing functions to handle certain aspects of the IO-Link communication.
 IO-Link is a digital point-to-point (master and slave) serial communication protocol.
@@ -37,6 +38,7 @@ This is only a description of the data on a high level, for all the details on w
 The number of optional parameters can be varying (zero parameters as well) depending on the diagnosis message itself.
 
 ## Data to be parsed
+
 What we will do here is to create test cases to parse each and one of the mandatory fields.
 Each field will be parsed by its own function block that will provide the data above in a structured manner.
 Looking at the diagnosis history object, the diagnosis messages themselves are an array of bytes that are read by SDO read. For this particular example, we assume we have the stream of bytes already prepared by the SDO read.
@@ -48,6 +50,7 @@ What we need to do now is to create a data structure for each of the data fields
 Before we start to dwell too deep into the code, it's good to know that all the source code for the complete example is available [on GitHub](https://github.com/tcunit/ExampleProjects/tree/master/AdvancedExampleProject), as it might be preferred to look at the code in the Visual Studio IDE rather than on a webpage.
 
 ### Diagnosis code
+
 The diagnosis code looks like this:
 
 | Bit 0-15 | Bit 16-31 |
@@ -61,7 +64,7 @@ The diagnosis code looks like this:
 
 We'll create a struct for it:
 
-```
+```StructuredText
 TYPE ST_DIAGNOSTICCODE :
 STRUCT
     eDiagnosticCodeType : E_DIAGNOSTICCODETYPE;
@@ -72,7 +75,7 @@ END_TYPE
 
 where the `E_DIAGNOSTICCODETYPE` is
 
-```
+```StructuredText
 TYPE E_DIAGNOSTICCODETYPE :
 (
     ManufacturerSpecific := 0,
@@ -99,7 +102,7 @@ The flags have three parameters: "Diagnosis type", "Time stamp type", "Number of
 
 We'll create a struct for it:
 
-```
+```StructuredText
 TYPE ST_FLAGS :
 STRUCT
     eDiagnostisType : E_DIAGNOSISTYPE;
@@ -111,7 +114,7 @@ END_TYPE
 
 Where `E_DiagnosisType` and `E_TimeStampType` are respectively:
 
-```
+```StructuredText
 TYPE E_DIAGNOSISTYPE :
 (
     InfoMessage := 0,
@@ -124,7 +127,7 @@ END_TYPE
 
 Where the `Unspecified` value is there in case we would receive one of the values that are reserved for future standardization.
 
-```
+```StructuredText
 TYPE E_TIMESTAMPTYPE :
 (
     Local := 0,
@@ -138,18 +141,21 @@ The difference between the global and local timestamp is that the global is base
 It's interesting to store this information as you probably want to handle the reading of the timestamp differently depending on if it's a local or a global timestamp.
 
 ### Text identity
+
 The text identity is just a simple unsigned integer (0-65535) value which is a reference to the diagnosis text file located in the ESI-xml file for the IO-Link master.
 This information is valuable if you want to do further analysis on the event, as it will give you more details on the event in a textual format.
 
 ### Time stamp
+
 The 64 bit timestamp is either the EtherCAT DC-clock timestamp or the local time stamp of the EtherCAT slave/IO-Link master, depending on whether DC is enabled and/or the IO-Link master supports DC.
 The 64-bit value holds data with 1ns resolution.
 
 ### The complete diagnostic message
+
 Now that we have all four diagnosis message parameters, we'll finish off by creating a structure for them that our parser will deliver as output once a new diagnosis event has occurred.
 Based on the information provided above it will have the following layout:
 
-```
+```StructuredText
 TYPE ST_DIAGNOSTICMESSAGE :
 STRUCT
     stDiagnosticCode : ST_DIAGNOSTICCODE;
@@ -176,7 +182,8 @@ As this example is quite simple, we'll solve that for every function block by ma
 The function blocks and their headers will have the following layout:
 
 ### Main diagnosis message event parser
-```
+
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageParser
 VAR_INPUT
     anDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
@@ -190,7 +197,8 @@ This takes the 28 bytes that we receive from the IO-Link master, and outputs the
 Note that in this example we'll only make use of the first 16 (mandatory) bytes, and ignore the 12 (optional) bytes.
 
 ### Diagnostic code parser
-```
+
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageDiagnosticCodeParser
 VAR_INPUT
     anDiagnosticCodeBuffer : ARRAY[1..4] OF BYTE;
@@ -199,10 +207,12 @@ VAR_OUTPUT
     stDiagnosticCode : ST_DIAGNOSTICCODE;
 END_VAR
 ```
+
 This function block takes four of the 28 bytes as input and outputs the diagnostic code according to the layout of our struct `ST_DIAGNOSTICCODE` described earlier.
 
 ### Flags parser
-```
+
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageFlagsParser
 VAR_INPUT
     anFlagsBuffer : ARRAY[1..2] OF BYTE;
@@ -212,11 +222,11 @@ VAR_OUTPUT
 END_VAR
 ```
 
-
 This function block takes two of the 28 bytes as input and outputs the flags according to the layout of our struct `ST_FLAGS` described earlier.
 
 ### Text identity parser
-```
+
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageTextIdentityParser
 VAR_INPUT
     anTextIdentityBuffer : ARRAY[1..2] OF BYTE;
@@ -225,10 +235,12 @@ VAR_OUTPUT
     nTextIdentity : UINT;
 END_VAR
 ```
+
 This function block takes two of the 28 bytes as input and outputs the text identity as an unsigned integer according to the description earlier.
 
 ### Timestamp parser
-```
+
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageTimeStampParser
 VAR_INPUT
     anTimeStampBuffer : ARRAY[1..8] OF BYTE;
@@ -238,6 +250,7 @@ VAR_OUTPUT
     sTimeStamp : STRING(29);
 END_VAR
 ```
+
 This function block takes eight of the 28 bytes as input and outputs the timestamp as a human-readable string.
 Note that we also have a bIsLocalTime input, as we want to have different handling on the parsing of the timestamp depending on whether the timestamp is a local or global time stamp.
 This could be handled in many ways, but for the sake of this example we'll handle the timestamp as:
@@ -255,6 +268,7 @@ Everything returned will just be with the default values of the different struct
 Our next step will be to write the unit tests that will make our tests fail, and once that is done (and not before!), we'll write the actual body (implementation) code for the function blocks.
 
 ## Test cases
+
 As our IO-Link project is a library project and thus won’t have any runnable tasks to be running in any PLC, we still need to have a task and a program to run our unit tests.
 This task will be running on our local development machine.
 We need to create a task/program inside the library project which initiates all the unit tests, so we can run the unit tests which in turn initializes the library code that we want to test.
@@ -288,7 +302,7 @@ For every test that we will run we will have to do an assertion, checking whethe
 
 Let's start by creating the five test suites (orange above), and instantiating them in `PRG_TEST` and running them.
 
-```
+```StructuredText
 PROGRAM PRG_TEST
 VAR
     fbDiagnosticMessageDiagnosticCodeParser_Test : FB_DiagnosticMessageDiagnosticCodeParser_Test;
@@ -304,9 +318,10 @@ TcUnit.RUN();
 What we need to do now is to implement each unit test-FB with some tests that we think should be included for each parser.
 
 ### FB_DiagnosticMessageDiagnosticCodeParser_Test
+
 The function block `FB_DiagnosticMessageDiagnosticCodeParser` is responsible for parsing a diagnostic code type (ManufacturerSpecific, EmergencyErrorCode or ProfileSpecific) together with the code itself.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageDiagnosticCodeParser_Test EXTENDS TcUnit.FB_TestSuite
 ```
 
@@ -318,7 +333,7 @@ We want to make sure our function block correctly parses the three different dia
 
 The first test will represent an emergency code, and the header of the method defining the test will look like follows:
 
-```
+```StructuredText
 METHOD PRIVATE WhenEmergencyErrorCodeExpectEmergencyErrorCode
 VAR
     fbDiagnosticMessageDiagnosticCodeParser : FB_DiagnosticMessageDiagnosticCodeParser;
@@ -364,7 +379,7 @@ The test result for the struct that the function block outputs should be `Emerge
 
 Next we move to the body of the test suite:
 
-```
+```StructuredText
 TEST('WhenEmergencyErrorCodeExpectEmergencyErrorCode');
  
 // @TEST-RUN
@@ -391,7 +406,8 @@ Before doing any implementation code, we need to finish our different test cases
 What follows are three additional test fixtures and expected test results.
 
 **Test "`WhenManufacturerSpecificExpectManufacturerSpecific`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenManufacturerSpecificExpectManufacturerSpecific
 VAR
     fbDiagnosticMessageDiagnosticCodeParser : FB_DiagnosticMessageDiagnosticCodeParser;
@@ -433,7 +449,7 @@ TEST_FINISHED();
 
 **Test "`WhenProfileSpecificExpectProfileSpecific`"**
 
-```
+```StructuredText
 METHOD PRIVATE WhenProfileSpecificExpectProfileSpecific
 VAR
     fbDiagnosticMessageDiagnosticCodeParser : FB_DiagnosticMessageDiagnosticCodeParser;
@@ -473,7 +489,8 @@ TEST_FINISHED();
 ```
 
 **Test "`WhenReservedForFutureUseExpectReservedForFutureUse`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenReservedForFutureUseExpectReservedForFutureUse
 VAR
     fbDiagnosticMessageDiagnosticCodeParser : FB_DiagnosticMessageDiagnosticCodeParser;
@@ -519,7 +536,7 @@ Every time we run the function block under test, we assert that the output (`stD
 
 Next we need to make sure to call all the tests in the body of the test suite.
 
-```
+```StructuredText
 WhenEmergencyErrorCodeExpectEmergencyErrorCode();
 WhenManufacturerSpecificExpectManufacturerSpecific();
 WhenProfileSpecificExpectProfileSpecific();
@@ -527,8 +544,10 @@ WhenReservedForFutureUseExpectReservedForFutureUse();
 ```
 
 ### FB_DiagnosticMessageFlagsParser_Test
+
 The next function block that we want to write tests for is the one that parses the different flags in the event message.
 The tests will follow the same layout as for the previous function block, where we:
+
 - Instantiate the function block under test
 - Declare test-fixtures for our tests
 - Declare the test-results for the test-fixtures
@@ -547,6 +566,7 @@ A couple of good tests would be to try every code type (info, warning, error) an
 `TODO: INSERT IMAGE HERE`
 
 Let's write four tests and call them:
+
 - `WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`
 - `WhenInfoMessageExpectInfoMessageGlobalTimestampAndZeroParameters`
 - `WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters`
@@ -558,7 +578,7 @@ With all this information other developers get a lot of documentation for free!
 
 **Test "`WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`"**
 
-```
+```StructuredText
 METHOD PRIVATE WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters
 VAR
     fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
@@ -596,7 +616,8 @@ TEST_FINISHED();
 ```
 
 **Test "`WhenErrorMessageExpectErrorMessageLocalTimestampAndFourParameters`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenInfoMessageExpectInfoMessageGlobalTimestampAndZeroParameters
 VAR
     fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
@@ -632,9 +653,10 @@ AssertEquals(Expected := cnFlags_NumberOfParametersInDiagnosisMessageZero,
  
 TEST_FINISHED();
 ```
+
 **Test "`WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters`"**
 
-```
+```StructuredText
 METHOD PRIVATE WhenReservedForFutureUseMessageExpectReservedForFutureUseMessageLocalTimestampAnd33Parameters
 VAR
     fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
@@ -672,7 +694,8 @@ TEST_FINISHED();
 ```
 
 **Test "`WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenWarningMessageExpectWarningMessageLocalTimestampAndTwoParameters
 VAR
     fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
@@ -715,13 +738,13 @@ To verify that our code outputs a diagnosis type of unspecified, we need to make
 This is what is done in the fourth text fixture.
 Finally we need to call the function block under test with all the test fixtures and assert the result for each and one of them, just like we did for the diagnosis code function block previously.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageFlagsParser_Test EXTENDS TcUnit.FB_TestSuite
 ```
 
 And as usual, we need to add a call to all the test-methods in the body of the test suite.
 
-```
+```StructuredText
 TestWithEmergencyMessage();
 TestWithManufacturerSpecificMessage();
 TestWithUnspecifiedMessageMessage();
@@ -732,19 +755,21 @@ What we've got left is to create test cases for the parsing of the text identity
 Then we also want to have a few tests that closes the loop and verifies the parsing of a complete diagnosis history message.
 
 ### FB_DiagnosticMessageTextIdentityParser_Test
+
 The only input for the text identity are two bytes that together make up an unsigned integer (0-65535), which is the result (output) of this parser.
 It's enough to make three test cases; one for low/medium/max.
 We accomplish to test the three values by changing the two bytes that make up the unsigned integer.
 The header of the test suite:
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageTextIdentityParser_Test EXTENDS TcUnit.FB_TestSuite
 ```
 
 We'll write the tests Low/Med/High, testing for the different inputs 0, 34500 and 65535.
 
 **Test "`WhenTextIdentityLowExpectTextIdentity0`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenTextIdentityLowExpectTextIdentity0
 VAR
     fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
@@ -773,7 +798,8 @@ TEST_FINISHED();
 ```
 
 **Test "`WhenTextIdentityMedExpectTextIdentity34500`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenTextIdentityMedExpectTextIdentity34500
 VAR
     fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
@@ -802,7 +828,8 @@ TEST_FINISHED();
 ```
 
 **Test "`WhenTextIdentityHighExpectTextIdentity65535`"**
-```
+
+```StructuredText
 METHOD PRIVATE WhenTextIdentityHighExpectTextIdentity65535
 VAR
     fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
@@ -828,10 +855,12 @@ AssertEquals(Expected := cnTextIdentity_IdentityHigh,
              Message := 'Test $'TextIdentity#High$' failed');
  
 TEST_FINISHED();
-```
+
+```StructuredText
 As can be seen the only thing that varies between the tests (other than name) is the different inputs and expected output.
 
 ### FB_DiagnosticMessageTimeStampParser_Test
+
 The eight bytes that make up the timestamp can be either the distributed clock (DC) from EtherCAT, or a local clock in the device itself.
 In the global case we want to parse the DC-time, while in the local case we just want to take the DC from the current task time (the local clock could be extracted from the EtherCAT-slave, but for the sake of simplicity we'll use the task DC).
 Because the local/global-flag is read from the "Flags"-FB, this information needs to be provided into the timestamp-FB, and is therefore an input to the FB.
@@ -839,12 +868,13 @@ What this means is that if the timestamp is local, the eight bytes don't matter 
 For the timestamp-FB it's enough with two test cases, one testing it with a local timestamp and the other with a global timestamp.
 The local timestamp unit test result has to be created in runtime.
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageTimeStampParser_Test EXTENDS TcUnit.FB_TestSuite
 ```
+
 Let's create our tests, and start with the test * **"`TestWithTimestampZeroTimeExpectCurrentTime`"**.
 
-```
+```StructuredText
 METHOD PRIVATE TestWithTimestampZeroTimeExpectCurrentTime
 VAR
     fbDiagnosticMessageTimeStampParser : FB_DiagnosticMessageTimeStampParser;
@@ -875,7 +905,7 @@ TEST_FINISHED();
 
 **Test "`TestWithValidTimestampExpectSameTimestamp`"**
 
-```
+```StructuredText
 METHOD PRIVATE TestWithValidTimestampExpectSameTimestamp
 VAR
     fbDiagnosticMessageTimeStampParser : FB_DiagnosticMessageTimeStampParser;
@@ -925,6 +955,7 @@ Because the `T_DCTIME64`-type that is returned from `F_GetActualDcTime64()` is a
 Note that the assertion of the local time stamp is based on getting the current DC-task time by utilizing the [`F_GetCurDcTaskTime64()`](https://infosys.beckhoff.com/index.php?content=../content/1031/tcplclib_tc2_ethercat/2268414091.html&id=), thus we're making sure that if the diagnosis message tells us that the timestamp is a local clock, we check that our FB returns this.
 
 ### FB_DiagnosticMessageParser_Test
+
 The final test-FB that we need is the one that ties the bag together and uses all the other four.
 The `FB_DiagnosticMessageParser` function block will be the one where we send in all the bytes that we receive from the IO-Link master, and that will output the struct that we can present to the operator or send further up in the chain.
 One could argue that because we already have unit tests for the other four function blocks, we don’t need to have unit tests for this one.
@@ -937,7 +968,7 @@ The code is available on [GitHub](https://github.com/tcunit/ExampleProjects/tree
 We'll go through all the details, thus it should thus be easy for you to add any test cases that you find necessary.
 As usual, header first:
 
-```
+```StructuredText
 FUNCTION_BLOCK FB_DiagnosticMessageParser_Test EXTENDS TcUnit.FB_TestSuite
 ```
 
@@ -951,7 +982,7 @@ We want to make sure to test various types of diagnostic messages, with their co
 Because this function uses the other four function blocks, we need to create a complete structure for every test with the complete content of a diagnosis message, making the tests prerequisites for every test quite large.
 We'll start with the test **`TestWithEmergencyMessage`**.
 
-```
+```StructuredText
 METHOD PRIVATE TestWithEmergencyMessage
 VAR  
     fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
@@ -1048,7 +1079,7 @@ TEST_FINISHED();
 
 Next up is testcase **`TestWithManufacturerSpecificMessage`**
 
-```
+```StructuredText
 METHOD PRIVATE TestWithManufacturerSpecificMessage
 VAR
     fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
@@ -1158,7 +1189,7 @@ TEST_FINISHED();
 
 And finally two test cases where the diagnosis type is unspecified.
 
-```
+```StructuredText
 METHOD PRIVATE TestWithUnspecifiedMessageMessage
 VAR
     fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
@@ -1268,7 +1299,7 @@ TEST_FINISHED();
 
 And a second variant with some different input parameters.
 
-```
+```StructuredText
 METHOD PRIVATE TestWithUnspecifiedMessageMessage_ParameterVariant
 VAR
     fbDiagnosticMessageParser : FB_DiagnosticMessageParser;
@@ -1392,14 +1423,15 @@ Done any change to your code?
 Just re-run the tests and make sure you haven’t broken anything.
 Fantastic, isn’t it?
 
-We’ve written a total of 17 tests, so now let’s build the project and run the tests.
+We've written a total of 17 tests, so now let’s build the project and run the tests.
 
-**TODO: Image here**
+![TcUnit many fails](img/TcUnitManyFails.png)
+
 This is just a selection of all the failed asserts.
 For every failed assert, we can see the expected value we should have got in case the implementing code did what it is supposed to do and also the actual value as well as the message that we provided to the assert.
 The statistics are printed a little bit further down:
 
-**TODO: Image here**
+![TcUnit 16 of 17 failed](img/TcUnit16Of17Failed_2.png)
 
 First we can see that we have had five test suites running, in where each had a certain amount of tests defined.
 Every test suite is responsible to test a specific function block.
@@ -1408,7 +1440,7 @@ But how come that we’ve had a successful test even though we haven’t yet wri
 This is usually related to tests that test some zero-values, where the default return value of the function block under test is zero.
 In this case it is this test:
 
-```
+```StructuredText
 METHOD PRIVATE WhenTextIdentityLowExpectTextIdentity0
 VAR
     fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
@@ -1424,6 +1456,6 @@ VAR
 END_VAR
 ```
 
-We’re testing the function block `FB_DiagnosticMessageTextIdentityParser` by providing it with a zero-value as input (two bytes, each holding `0x00`) and expecting the number 0 as result.
+We're testing the function block `FB_DiagnosticMessageTextIdentityParser` by providing it with a zero-value as input (two bytes, each holding `0x00`) and expecting the number 0 as result.
 The default initialization of a number value in TwinCAT is always zero, and thus this is returned which makes our test succeed.
 Tests that pass without implementing code generally don't provide much value.
