@@ -37,6 +37,7 @@ header_pages:
   - unit-testing-concepts.md
   - programming-example.md
   - faq.md
+  - download.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.

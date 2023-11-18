@@ -2,7 +2,6 @@
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/tcunit/TcUnit/blob/master/LICENSE)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/TcUnit/TcUnit)
 
-
 # TcUnit - TwinCAT unit testing framework
 
 Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's TwinCAT3](https://www.beckhoff.com/twincat3/).
@@ -11,7 +10,7 @@ Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's
 **[www.tcunit.org](https://www.tcunit.org)**
 
 **What is test driven development and unit testing?**  
-Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/unit-testing-concepts/). 
+Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/unit-testing-concepts/).
 
 **Want to know how to get started?**  
 Read the [user guide](https://tcunit.org/introduction-user-guide/).

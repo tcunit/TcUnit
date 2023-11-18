@@ -1,4 +1,5 @@
 # Contributing to TcUnit
+
 We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
 - Reporting a bug
@@ -8,9 +9,11 @@ We love your input! We want to make contributing to this project as easy and tra
 - Becoming a maintainer
 
 ## We Develop with Github
+
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
 ## We Use [Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow), So All Code Changes Happen Through Pull Requests
+
 Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://docs.github.com/en/get-started/quickstart/github-flow)). We actively welcome your pull requests:
 
 1. Fork the repo and create your branch from `master`.
@@ -20,9 +23,11 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 5. Issue that pull request!
 
 ## Any contributions you make will be under the MIT Software License
+
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/tcunit/TcUnit/issues)
+
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/tcunit/TcUnit/issues/new); it's that easy!
 
 ## Write bug reports with detail, background, and sample code
@@ -38,13 +43,16 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
 ## Use a Consistent Coding Style
-* Make sure to edit the project with the same version of Visual Studio as the master branch. All software (TcUnit and TcUnit-Verifier) has been developed using Visual Studio 2019. Note that the TwinCAT XAE Shell (provided with TwinCAT XAE installer) can't open the TcUnit-Verifier_DotNet (as it's a .NET/C# project). Instead it's recommended to use [VS2019 community edition](https://visualstudio.microsoft.com/vs/older-downloads/) which can be used both for TwinCAT and .NET/C# projects
-* Make sure to use TwinCAT XAE version 3.1.4024.44 or later
-* The prefixes of naming of function blocks/variables/etc from the [Beckhoff TwinCAT3 identifier/name conventions](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014401873267083.html&id=) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
-* Make sure to set your TwinCAT development environment to use Separate LineIDs. This is available in the TwinCAT XAE under **Tools→Options→TwinCAT→PLC Environment→Write options→Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=))
+
+- Make sure to edit the project with the same version of Visual Studio as the master branch. All software (TcUnit and TcUnit-Verifier) has been developed using Visual Studio 2019. Note that the TwinCAT XAE Shell (provided with TwinCAT XAE installer) can't open the TcUnit-Verifier_DotNet (as it's a .NET/C# project). Instead it's recommended to use [VS2019 community edition](https://visualstudio.microsoft.com/vs/older-downloads/) which can be used both for TwinCAT and .NET/C# projects
+- Make sure to use TwinCAT XAE version 3.1.4024.44 or later
+- The prefixes of naming of function blocks/variables/etc from the [Beckhoff TwinCAT3 identifier/name conventions](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014401873267083.html&id=) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
+- Make sure to set your TwinCAT development environment to use Separate LineIDs. This is available in the TwinCAT XAE under **Tools→Options→TwinCAT→PLC Environment→Write options→Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=))
 
 ## License
+
 By contributing, you agree that your contributions will be licensed under the MIT License.
 
 ## References
+
 This document was adapted from briandk's excellent [contribution guidelines template](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62).

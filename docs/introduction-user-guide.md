@@ -3,7 +3,7 @@ layout: page
 title: Introduction user guide
 ---
 
-Before reading this guide, it’s highly recommended to read [unit testing concepts](unit-testing-concepts.md), in order to have a basic understanding of the concepts of unit testing and TcUnit.
+Before reading this guide, it's highly recommended to read [unit testing concepts](unit-testing-concepts.md), in order to have a basic understanding of the concepts of unit testing and TcUnit.
 
 The TcUnit framework gives you the possibility to easily write unit tests for your TwinCAT 3 software, and having the results reported in a human-readable format for review.
 All unit test code is written in the same program/library as the rest of your code, but because it is only used in a separate test-program, it does not affect the production code/executables.
@@ -22,7 +22,7 @@ The framework can either be downloaded as a [precompiled library](https://github
 
 ### Install from library file
 
-If you’ve downloaded the library, you should have a file called **TcUnit.library** in your computer.
+If you've downloaded the library, you should have a file called **TcUnit.library** in your computer.
 Start your TwinCAT XAE (Visual Studio).
 In the menu of Visual Studio select **PLC** and then **Library Repository...**
 This will display the following window:
@@ -62,26 +62,26 @@ For every function block (or free function) that you have defined we want to cre
 - Define the inputs
 - Define the expected outputs (result)
 - Call the TcUnit-assert methods to compare the expected output to the actual output for every test
-It’s entirely up to the user how to to organize the different tests, so what follows is a best practice/suggestion.
+It's entirely up to the user how to to organize the different tests, so what follows is a best practice/suggestion.
 On the same level as the `POUs` folder, create a folder called `Test`.
-It’s in this folder that we will create all our test FBs as well as the program that will run the TcUnit framework.
+It's in this folder that we will create all our test FBs as well as the program that will run the TcUnit framework.
 
 ![Test FBs](img/test-fbs.png)
 
 In this example we have a total of five FBs.
 For every FB we have created a test-FB, i.e. for `FB_DiagnosticMessageDiagnosticCodeParser` we have `FB_DiagnosticMessageDiagnosticCodeParser_Test`.
 Note that the framework in no way enforces to use any standard for the naming, this is entirely up to the user.
-For various reasons you might find it’s not even possible to add the test-FBs in the same solution (for instance, if this is your main executable), and in this case just put the tests in a separate solution and include the main solution in the test solution as a library.
-Generally it’s better to structure the code in various library projects each responsible for a certain set of requirements/functionality.
-It’s important to see the tests as an important part of your code.
+For various reasons you might find it's not even possible to add the test-FBs in the same solution (for instance, if this is your main executable), and in this case just put the tests in a separate solution and include the main solution in the test solution as a library.
+Generally it's better to structure the code in various library projects each responsible for a certain set of requirements/functionality.
+It's important to see the tests as an important part of your code.
 
 ![TcUnit architecture](img/tcunit-arch.png)
 
 The general structure here is that `PRG_TEST` is the program in where the test-FBs (test suites) are instantiated.
 Each test suite is responsible of testing one FB or function, and can have one or more tests to do so.
 
-Let’s assume we want to create the simplest possible FB that takes two unsigned integers and sums them.
-We can create the header for the FB, but the actual implementation can (and should) wait after we’ve done the unit tests.
+Let's assume we want to create the simplest possible FB that takes two unsigned integers and sums them.
+We can create the header for the FB, but the actual implementation can (and should) wait after we've done the unit tests.
 
 ```StructuredText
 FUNCTION_BLOCK FB_Sum
@@ -94,7 +94,7 @@ VAR_OUTPUT
 END_VAR
 ```
 
-Now let’s create the test suite for this.
+Now let's create the test suite for this.
 This FB needs to extend `TcUnit.FB_TestSuite`.
 
 ```StructuredText
@@ -105,12 +105,12 @@ END_VAR
 
 By always adding this code, your test suite gets access to TcUnit and TcUnit will have a handle to your test suites.
 
-Now it’s time to create our tests.
+Now it's time to create our tests.
 There are many ways to structure your tests, and there are several guidelines for this as well.
-What we’ll be doing is to create a method for every test, and name it in such a way that it’s clear what the test does.
+What we'll be doing is to create a method for every test, and name it in such a way that it's clear what the test does.
 Remember that the unit tests are part of the documentation of your code, and although you might find the code trivial at this moment, there might be other developers reading your code now (or many years in the future).
 For them well-named tests are invaluable.
-We’ll be creating two tests called `TwoPlusTwoEqualsFour` and `ZeroPlusZeroEqualsZero`.
+We'll be creating two tests called `TwoPlusTwoEqualsFour` and `ZeroPlusZeroEqualsZero`.
 The `TwoPlusTwoEqualsFour` will look like this:
 
 ```StructuredText
@@ -139,7 +139,7 @@ The Message parameter is optional and is used in case the assertion fails, the t
 We finish the method by calling `TEST_FINISHED()`.
 This gives the flexibility to have tests that span over more than one PLC-cycle.
 
-For `ZeroPlusZeroEqualsZero` it’s more or less the same code.
+For `ZeroPlusZeroEqualsZero` it's more or less the same code.
 
 ```StructuredText
 METHOD ZeroPlusZeroEqualsZero
@@ -194,8 +194,8 @@ Activating this solution and running it results in the following result in the v
 There is one test that has failed, and the reason for this is that we have not written the implementation code yet, only the header of the function block FB_Sum.
 But how come that we have one test succeeding?
 As we can see, the test `TwoPlusTwoEqualsFour` failed, which means that the one that succeeded was the other test `ZeroPlusZeroEqualsZero`.
-The reason this succeeds is that the default return value for an output-parameter is zero, and thus it means that even if we haven’t written the body of `FB_Sum` the test will succeed.
-Let’s finish by implementing the body of `FB_Sum`.
+The reason this succeeds is that the default return value for an output-parameter is zero, and thus it means that even if we haven't written the body of `FB_Sum` the test will succeed.
+Let's finish by implementing the body of `FB_Sum`.
 
 ```StructuredText
 FUNCTION_BLOCK FB_Sum
