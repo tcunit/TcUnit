@@ -19,6 +19,7 @@ VAR
     (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
     AssertionMessage : T_MaxString; // Assertion message for the first assertion in this test
+    AssertionFailure : Tc2_System.T_MaxString; // Assertion failure for the first assertion in this test	
     AssertionType : E_AssertionType; // Assertion type for the first assertion in this test
 
     StartedAt : LWORD; // Temporary variable to calculate the actual duration of the test, the value holds the cpu cycle counter when a test is started in 100ns precision
@@ -27,6 +28,12 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="GetAssertionFailure" Id="{fca1dda8-8d75-01ba-01c5-90dc1cec56b1}">
+      <Declaration><![CDATA[METHOD INTERNAL GetAssertionFailure : Tc2_System.T_MaxString]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetAssertionFailure := AssertionFailure;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="GetAssertionMessage" Id="{273c4e89-faee-43b5-803d-428cdf75ac48}">
       <Declaration><![CDATA[METHOD INTERNAL GetAssertionMessage : T_MaxString]]></Declaration>
       <Implementation>
@@ -80,6 +87,18 @@ METHOD INTERNAL GetTestOrder : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachT
       <Declaration><![CDATA[METHOD INTERNAL IsSkipped : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[IsSkipped := TestIsSkipped;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetAssertionFailure" Id="{0c7899f5-2be3-0920-30bd-e2b4051f82f8}">
+      <Declaration><![CDATA[(* Sets the assertion failure. If one already exists, it's not overwritten as we keep the first assertion in the test *)
+METHOD INTERNAL SetAssertionFailure
+VAR_INPUT
+    AssertFailure : Tc2_System.T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Tc2_Standard.LEN(STR := AssertionFailure) = 0 THEN
+    AssertionFailure := AssertFailure;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetAssertionMessage" Id="{05091715-93d7-47f7-9b6c-cb2511f88eb7}">
