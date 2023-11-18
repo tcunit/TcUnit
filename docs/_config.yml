@@ -33,11 +33,12 @@ theme: minima
 #  - jekyll-feed
 
 header_pages:
-  - introduction-user-guide.md
   - unit-testing-concepts.md
+  - introduction-user-guide.md
   - programming-example.md
   - faq.md
   - download.md
+  - api.md
 
 # Exclude from processing.
 # The following items will not be processed, by default.

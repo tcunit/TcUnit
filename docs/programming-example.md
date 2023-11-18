@@ -563,7 +563,7 @@ The layout of the two bytes for the flags looks like this:
 
 A couple of good tests would be to try every code type (info, warning, error) and with some different combinations of timestamp and amount of parameters.
 
-`TODO: INSERT IMAGE HERE`
+![Flags layout](img/flagslayout.png)
 
 Let's write four tests and call them:
 
@@ -1667,3 +1667,231 @@ With a finished implementation we can run our tests, and the result is:
 An additional four tests succeeded, which is the amount of tests that we had written for this particular function block.
 Now the amount of failed asserts is just getting lower and lower.
 It's worth pointing out that it's a good idea to do a quick implementation of parts of the expected functionality so that only parts of the tests succeed before moving on, eventually resulting in all tests succeeding.
+
+The remaining function blocks to implement are:
+
+- `FB_DiagnosticMessageTextIdentityParser`
+- `FB_DiagnosticMessageTimeStampParser`
+- `FB_DiagnosticMessageParser`
+
+### FB_DiagnosticMessageTextIdentityParser
+
+This one is easy.
+We get two bytes in, and we convert those to an 16-bit unsigned integer.
+
+![Diagnostic message text identity parser](img/diagnosticmessagetextidentityparser.png)
+
+A reminder of what the function block header looks like:
+
+```StructuredText
+FUNCTION_BLOCK FB_DiagnosticMessageTextIdentityParser
+VAR_INPUT
+    anTextIdentityBuffer : ARRAY[1..2] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    nTextIdentity : UINT;
+END_VAR
+```
+
+What we can do is to first convert the two bytes into a `WORD` using the function `WORD_FROM_BYTES()`.
+This function takes two bytes in, and delivers a `WORD` as a result.
+The next step is to convert the `WORD` to an `UINT` by simple 61131-3 type-conversion. For the body, only one line of code is necessary.
+
+```StructuredText
+nTextIdentity := WORD_TO_UINT(F_WORDFromBytes(B1 := anTextIdentityBuffer[2], B0 := anTextIdentityBuffer[1]));
+```
+
+Running our three unit tests that we defined earlier we get the result:
+
+![TcUnit eleven successful tests](img/TcUnitElevenSuccessful_2.png)
+
+Two additional tests that succeed.
+
+### FB_DiagnosticMessageTimeStampParser
+
+The timestamp parser takes an EtherCAT distributed clock (DC) timestamp (8 bytes), information of whether the timestamp is a local or global timestamp and delivers a human-readable string as output.
+
+![Diagnostic message timestamp parser](img/diagnosticmessagetimestampparser.png)
+
+A reminder of what the function block header looks like:
+
+```StructuredText
+FUNCTION_BLOCK FB_DiagnosticMessageTimeStampParser
+VAR_INPUT
+    anTimeStampBuffer : ARRAY[1..8] OF BYTE;
+    bIsLocalTime : BOOL;
+END_VAR
+VAR_OUTPUT
+    sTimeStamp : STRING(29);
+END_VAR
+VAR
+    nDCTime64 : LWORD;
+    nDCTime64HighPart : DWORD;
+    nDCTime64LowPart : DWORD;
+END_VAR
+```
+
+As we decided in part 2, if the diagnosis event timestamp is based on a local clock, we'll just use the current task DC-time (available by using the Beckhoff function [`F_GetCurDcTaskTime64()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2268414091.html&id=) located inside the `Tc2_EtherCAT` library).
+If the diagnosis event timestamp is global, we'll use the timestamp that is stored in these 8 bytes.
+We need to have a local variable where we can store our intermediate result.
+We'll call this variable `nDCTime64` and the type will be `LWORD`.
+Once we have the timestamp stored in this variable we can convert it into a 29-character string again using a standard Beckhoff function, [`DCTIME64_TO_STRING()`](https://infosys.beckhoff.com/english.php?content=../content/1033/tcplclib_tc2_ethercat/2267406347.html&id=).
+The end result:
+
+```StructuredText
+nDCTime64HighPart := F_DWORDFromBytes(B3 := anTimeStampBuffer[8], B2 := anTimeStampBuffer[7],
+                                      B1 := anTimeStampBuffer[6], B0 := anTimeStampBuffer[5]);
+nDCTime64LowPart := F_DWORDFromBytes(B3 := anTimeStampBuffer[4], B2 := anTimeStampBuffer[3],
+                                     B1 := anTimeStampBuffer[2], B0 := anTimeStampBuffer[1]);
+nDCTime64 := SHL(DWORD_TO_LWORD(nDCTime64HighPart), 32) OR nDCTime64LowPart;
+ 
+IF nDCTime64 = 0 THEN
+    nDCTime64 := F_GetCurDcTaskTime64();
+END_IF
+ 
+sTimeStamp := DCTIME64_TO_STRING(in := nDCTime64);
+```
+
+The `F_DWORDFromBytes()` function converts four bytes into a `DWORD`.
+Running our two unit tests that we defined we get the result:
+
+![TcUnit 13 successful tests.png](img/TcUnit13Successful_2.png)
+
+Two additional tests now succeed. Now we only have one function block left to implement!
+
+### FB_DiagnosticMessageParser
+
+This function block uses the other four function blocks to deliver the final result, so running the tests for this one wraps it up.
+A reminder from an earlier chapter of what the function block header looks like:
+
+```StructuredText
+FUNCTION_BLOCK FB_DiagnosticMessageParser
+VAR_INPUT
+    anDiagnosticMessageBuffer : ARRAY[1..28] OF BYTE;
+END_VAR
+VAR_OUTPUT
+    stDiagnosticMessage : ST_DIAGNOSTICMESSAGE;
+END_VAR
+```
+
+![Diagnostics message parser](img/diagnosticmessageparser.png)
+
+This FB needs to instantiate an instance of each and one of the four function blocks that we've created.
+Looking at an overview picture:
+
+![Function block layout](img/functionblocklayout.png)
+
+The function block `FB_DiagnosticMessageParser` (dark green in the middle) needs to take the 28 bytes in the correct order and send them to every other function block to get the final result, which is a structure of the type `ST_DIAGNOSTICMESSAGE`.
+Again, for this example we only care about the first 4+2+2+8=16 bytes and ignore the last 12 bytes (which are all optional).
+
+We'll add some more variables to the header above now that we know what we want.
+
+```StructuredText
+VAR
+    anDiagnosticCodeBuffer : ARRAY[1..4] OF BYTE;
+    anFlagsBuffer : ARRAY[1..2] OF BYTE;
+    anTextIdentityBuffer : ARRAY[1..2] OF BYTE;
+    anTimeStampBuffer : ARRAY[1..8] OF BYTE;
+    anIOLinkParametersBuffer : ARRAY[1..12] OF BYTE;
+ 
+    fbDiagnosticMessageDiagnosticCodeParser : FB_DiagnosticMessageDiagnosticCodeParser;
+    fbDiagnosticMessageFlagsParser : FB_DiagnosticMessageFlagsParser;
+    fbDiagnosticMessageTextIdentityParser : FB_DiagnosticMessageTextIdentityParser;
+    fbDiagnosticMessageTimeStampParser : FB_DiagnosticMessageTimeStampParser;
+END_VAR
+```
+
+The four arrays of BYTEs are used as input to the call for all four function blocks.
+For the function block body we can do:
+
+```StructuredText
+// Parse diagnostic code
+anDiagnosticCodeBuffer[1] := anDiagnosticMessageBuffer[1];
+anDiagnosticCodeBuffer[2] := anDiagnosticMessageBuffer[2];
+anDiagnosticCodeBuffer[3] := anDiagnosticMessageBuffer[3];
+anDiagnosticCodeBuffer[4] := anDiagnosticMessageBuffer[4];
+fbDiagnosticMessageDiagnosticCodeParser(anDiagnosticCodeBuffer := anDiagnosticCodeBuffer,
+                                        stDiagnosticCode => stDiagnosticMessage.stDiagnosticCode);
+ 
+// Parse flags
+anFlagsBuffer[1] := anDiagnosticMessageBuffer[5];
+anFlagsBuffer[2] := anDiagnosticMessageBuffer[6];
+fbDiagnosticMessageFlagsParser(anFlagsBuffer := anFlagsBuffer,
+                               stFlags => stDiagnosticMessage.stFlags);
+ 
+// Parse text identity
+anTextIdentityBuffer[1] := anDiagnosticMessageBuffer[7];
+anTextIdentityBuffer[2] := anDiagnosticMessageBuffer[8];
+fbDiagnosticMessageTextIdentityParser(anTextIdentityBuffer := anTextIdentityBuffer,
+                                      nTextIdentity => stDiagnosticMessage.nTextIdentityReferenceToESIFile);
+ 
+// Parse time stamp
+anTimeStampBuffer[1] := anDiagnosticMessageBuffer[9];
+anTimeStampBuffer[2] := anDiagnosticMessageBuffer[10];
+anTimeStampBuffer[3] := anDiagnosticMessageBuffer[11];
+anTimeStampBuffer[4] := anDiagnosticMessageBuffer[12];
+anTimeStampBuffer[5] := anDiagnosticMessageBuffer[13];
+anTimeStampBuffer[6] := anDiagnosticMessageBuffer[14];
+anTimeStampBuffer[7] := anDiagnosticMessageBuffer[15];
+anTimeStampBuffer[8] := anDiagnosticMessageBuffer[16];
+fbDiagnosticMessageTimeStampParser(anTimeStampBuffer := anTimeStampBuffer,
+                                   bIsLocalTime := (stDiagnosticMessage.stFlags.eTimeStampType = E_TIMESTAMPTYPE.Local),
+                                   sTimeStamp => stDiagnosticMessage.sTimeStamp);
+```
+
+Here we are preparing the input for every function block by copying the correct bytes from the total 28 bytes.
+Then we are calling each and one of the four function blocks and store the result in the total output variable (`stDiagnosticMessage`).
+Each test prepares various combinations of a diagnosis event message, so that we can test as a big diversity as possible.
+Running our test-program `PRG_TEST` and looking at the result of the unit tests for this function block we get:
+
+![TcUnit all successful](img/TcUnitAllSuccessful2.png)
+
+Success!
+Again it's important for to point out that at first, these tests failed.
+Normally one has to continuously rewrite the code and re-run the tests until all the tests pass.
+This is completely normal, and the whole reason you've written the unit tests to start with.
+As you have all your unit tests, just run them and you will immediately know whether your code is doing what it's supposed to.
+
+## Final words
+
+There are some final words that should be mentioned in relation to this example.
+What's important to note here is that we managed to develop a lot of working software just by reading specifications.
+We haven't yet had any need for any hardware, but even so we can still with high confidence say things are going to work.
+By making sure that we want to test only very small pieces of functionality at a time, we have designed a highly modularized pieces of software where each function block only does a small thing, but where they together implement an important part of the functionality of IO-Link.
+The large amount of test code that we have produced now also acts as excellent documentation for any other developer reading your code.
+If it's hard to understand what a specific function block is supposed to do, just take a look at the test code for some excellent documentation.
+
+The final test of that the software is actually working is of course to run in on real hardware.
+In [this blog post](https://sagatowski.com/posts/test_driven_development_in_twincat_part_7/) this is described, running the software on various IO-Link masters supporting the diagnosis history object.
+
+We are at the end of this programming example, and this is a good opportunity to go through some of the gains that we achieve by writing our software using test driven development together with an unit testing framework.
+
+**Documentation**  
+Writing all this test code has resulted in some really good documentation for the software.
+Simply by looking at the tests it is easy to understand what the actual software is supposed to do.
+The test cases that we wrote dictate what outputs every function block should provide given a set of inputs.
+With this information, any developer that looks at the test cases gets a better understanding of what the function block is supposed to do, so the test cases become examples of what the code should do.
+
+**Fewer bugs**  
+Because we can write as many test cases as we want for our code, we achieve better test coverage.
+We're not only limited on what tests we can do with any hardware, but can throw any test scenario at our code.
+We can test all those extreme edge cases having higher code coverage.
+Because we have better code coverage, we will have fewer bugs.
+
+**Regression test-suite**  
+We can at any point run our tests and see that all tests still succeed.
+At some point or another we will need to do changes in the software, for instance if we want add new functionality.
+Doing changes in software can make anyone nervous, but because we have our tests we can with significantly higher confidence do any changes.
+Simply run the tests again and see that nothing has broken.
+
+**Acceptance criteria**  
+When developing a certain set of functionalities, it's necessary to define what that functionality is supposed to provide.
+With unit test cases, this is exactly what is done and thus these test cases become the acceptance criteria of the software.
+
+**Clear defined interfaces**  
+When defining the tests, you'll automatically define what the function blocks under test should provide, and thus you'll end up with clear defined interfaces for the function blocks.
+The unit tests won't just be software for validating the application, but will also be an engine for the design of the software.
+
+**Modularized code**  
+Once you've written tests for a time, it gets natural to test small sets of functionalities at a time, and thus your function blocks usually end up quite small.
+Adhering to test driven development thus leads to more modularized, extensible, and flexible code.
