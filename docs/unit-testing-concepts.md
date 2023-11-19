@@ -1,7 +1,8 @@
----
-layout: page
-title: Unit testing concepts
----
+# Unit testing concepts
+
+<p align="center">
+  <img width="1024" src="./img/tc3_banner4.jpg">
+</p>
 
 This page briefly describes test driven development in general, and some basic concepts of unit testing with TcUnit in particular.
 

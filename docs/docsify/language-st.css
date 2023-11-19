@@ -1,0 +1,31 @@
+.token.class-name {
+    color:blue;
+}
+
+.token.keyword {
+    color:blue;
+}
+
+.token.variable {
+    color:blue;
+}
+
+.token.comment {
+    color:green;
+}
+
+
+[data-lang="declaration"] {
+    margin-bottom: 0px !important;
+}
+
+[data-lang="body"] {
+    border-top: 1px solid lightgrey;
+    margin-top: 0px !important;
+}
+
+
+[data-lang="body"] + [data-lang="declaration"] {
+    border-top: 1px solid lightgrey;
+    margin-top: 0px !important;
+}

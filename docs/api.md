@@ -1,7 +1,8 @@
----
-layout: page
-title: API
----
+# API
+
+<p align="center">
+  <img width="1024" src="./img/tc3_banner5.jpg">
+</p>
 
 This is the application programming interface for TcUnit.
 
@@ -95,7 +96,7 @@ Only failed assertions are recorded.
 
 ### AssertArrayEquals_BOOL
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_BOOL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF BOOL;
@@ -117,7 +118,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
     b : ARRAY[1..5] OF BOOL := [TRUE, FALSE, TRUE, FALSE, TRUE];
@@ -132,7 +133,7 @@ TEST_FINISHED();
 
 **Failing example #1:**  
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..6] OF BOOL := [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE];
     b : ARRAY[1..4] OF BOOL := [TRUE, TRUE, TRUE, TRUE];
@@ -147,7 +148,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..5] OF BOOL := [TRUE, TRUE, FALSE, TRUE, FALSE, TRUE];
     b : ARRAY[0..5] OF BOOL := [TRUE, TRUE, TRUE, TRUE, FALSE, FALSE];
@@ -162,7 +163,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_BYTE
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_BYTE
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF BYTE;
@@ -184,7 +185,7 @@ Parameters:
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
     b : ARRAY[1..3] OF BYTE := [16#FD, 16#34, 16#9E];
@@ -199,7 +200,7 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..2] OF BYTE := [16#AB, 16#CD];
     b : ARRAY[1..5] OF BYTE := [16#AB, 16#CD, 16#EF, 16#01, 16#23];
@@ -214,7 +215,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..3] OF BYTE := [16#AB, 16#AA, 16#BB, 16#89];
     b : ARRAY[0..3] OF BYTE := [16#AB, 16#CD, 16#BB, 16#89];
@@ -229,14 +230,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_DINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_DINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF DINT;
     Actuals : ARRAY[*] OF DINT;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -251,7 +252,7 @@ Parameters:
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
     b : ARRAY[2..7] OF DINT := [64, 98, 2147483647, -2147483648, 0, -63987538];
@@ -266,7 +267,7 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[3..4] OF DINT := [-11, 2147483647];
     b : ARRAY[4..6] OF DINT := [-11, 2147483647, 0];
@@ -281,7 +282,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[3..5] OF DINT := [-4746, -2147483645, 0];
     b : ARRAY[3..5] OF DINT := [-4746, -2147483641, 0];
@@ -296,14 +297,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_DWORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_DWORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF DWORD;
     Actuals : ARRAY[*] OF DWORD;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -318,12 +319,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[2..3] OF DWORD := [16#6789ABCD, 16#EF012345];
     b : ARRAY[1..2] OF DWORD := [16#6789ABCD, 16#EF012345];
 END_VAR
- 
+-------
 TEST('Test_DWORD_Array_Equals');
 AssertArrayEquals_DWORD(Expecteds := a,
                         Actuals := b,
@@ -333,12 +334,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#67890ABC, 16#DDDDDDDD];
     b : ARRAY[-3..-2] OF DWORD := [16#6789ABCD, 16#EF012345];
 END_VAR
- 
+-------
 TEST('Test_DWORD_Array_DifferInSize');
 AssertArrayEquals_DWORD(Expecteds := a,
                         Actuals := b,
@@ -348,12 +349,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EFAA2346, 16#ABABABAB, 16#EEEEEEEE];
     b : ARRAY[-2..1] OF DWORD := [16#6789ABCD, 16#EF012345, 16#ABABABAB, 16#EEEEEEEE];
 END_VAR
- 
+-------
 TEST('Test_DWORD_Array_DifferInContent');
 AssertArrayEquals_DWORD(Expecteds := a,
                         Actuals := b,
@@ -363,14 +364,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_INT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_INT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF INT;
     Actuals : ARRAY[*] OF INT;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -385,7 +386,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-5..1] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
     b : ARRAY[1..7] OF INT := [64, 98, -32768, 32767, 5478, -378, 42];
@@ -400,7 +401,7 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-4..3] OF INT := [64, 98, -32768, 32767, 5478, -378, 42, 6234];
     b : ARRAY[1..5] OF INT := [64, 98, -32768, 32767, 5478];
@@ -415,7 +416,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-8..-6] OF INT := [42, -23, -32768];
     b : ARRAY[1..3] OF INT := [42, 24, -32768];
@@ -430,7 +431,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_LINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_LINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LINT;
@@ -452,12 +453,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-1..0] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
     b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
 END_VAR
- 
+-------
 TEST('Test_LINT_Array_Equals');
 AssertArrayEquals_LINT(Expecteds := a,
                        Actuals := b,
@@ -467,12 +468,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
     b : ARRAY[4..5] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808];
 END_VAR
- 
+-------
 TEST('Test_LINT_Array_DifferInSize');
 AssertArrayEquals_LINT(Expecteds := a,
                        Actuals := b,
@@ -482,12 +483,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-1..1] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_853_775_808, 55];
     b : ARRAY[4..6] OF LINT := [9_223_372_036_854_775_807, -9_223_372_036_854_775_808, 55];
 END_VAR
- 
+-------
 TEST('Test_LINT_Array_DifferInContent');
 AssertArrayEquals_LINT(Expecteds := a,
                        Actuals := b,
@@ -497,7 +498,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_LWORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_LWORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LWORD;
@@ -519,7 +520,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
     b : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
@@ -534,7 +535,7 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     b : ARRAY[1..2] OF LWORD := [16#01234567890ABCDE, 16#EDCBA09876543210];
@@ -549,7 +550,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..1] OF LWORD := [16#EDCBA09876543210];
     b : ARRAY[1..1] OF LWORD := [16#01234567890ABCDE];
@@ -564,14 +565,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_SINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_SINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF SINT;
     Actuals : ARRAY[*] OF SINT;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -586,12 +587,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
     b : ARRAY[0..3] OF SINT := [-128, 127, -34, 62];
 END_VAR
- 
+-------
 TEST('Test_SINT_Array_Equals');
 AssertArrayEquals_SINT(Expecteds := a,
                        Actuals := b,
@@ -601,12 +602,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..0] OF SINT := [-128];
     b : ARRAY[0..1] OF SINT := [-128, 127];
 END_VAR
- 
+-------
 TEST('Test_SINT_Array_DifferInSize');
 AssertArrayEquals_SINT(Expecteds := a,
                        Actuals := b,
@@ -616,12 +617,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..0] OF SINT := [-128];
     b : ARRAY[0..0] OF SINT := [127];
 END_VAR
- 
+-------
 TEST('Test_SINT_Array_DifferInContent');
 AssertArrayEquals_SINT(Expecteds := a,
                        Actuals := b,
@@ -631,14 +632,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_UDINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_UDINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF UDINT;
     Actuals : ARRAY[*] OF UDINT;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -653,12 +654,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
     b : ARRAY[1..3] OF UDINT := [0, 4294967295, 5000];
 END_VAR
- 
+-------
 TEST('Test_UDINT_Array_Equals');
 AssertArrayEquals_UDINT(Expecteds := a,
                         Actuals := b,
@@ -668,12 +669,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-5..-4] OF UDINT := [4294967295, 0];
     b : ARRAY[0..2] OF UDINT := [4294967295, 0, 5000];
 END_VAR
- 
+-------
 TEST('Test_UDINT_Array_DifferInSize');
 AssertArrayEquals_UDINT(Expecteds := a,
                         Actuals := b,
@@ -683,12 +684,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[-5..-4] OF UDINT := [4294967295, 5];
     b : ARRAY[0..1] OF UDINT := [4294967295, 4];
 END_VAR
- 
+-------
 TEST('Test_UDINT_Array_DifferInContent');
 AssertArrayEquals_UDINT(Expecteds := a,
                         Actuals := b,
@@ -698,14 +699,14 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_UINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_UINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF UINT;
     Actuals : ARRAY[*] OF UINT;
 END_VAR
 VAR_INPUT
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -720,12 +721,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
     b : ARRAY[0..4] OF UINT := [0, 65535, 2000, 34123, 59];
 END_VAR
- 
+-------
 TEST('Test_UINT_Array_Equals');
 AssertArrayEquals_UINT(Expecteds := a,
                        Actuals := b,
@@ -735,12 +736,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..2] OF UINT := [0, 4, 8];
     b : ARRAY[0..3] OF UINT := [0, 4, 8, 12];
 END_VAR
- 
+-------
 TEST('Test_UINT_Array_DifferInSize');
 AssertArrayEquals_UINT(Expecteds := a,
                        Actuals := b,
@@ -750,12 +751,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..3] OF UINT := [0, 4, 8, 99];
     b : ARRAY[0..3] OF UINT := [0, 4, 8, 12];
 END_VAR
- 
+-------
 TEST('Test_UINT_Array_DifferInContent');
 AssertArrayEquals_UINT(Expecteds := a,
                        Actuals := b,
@@ -765,7 +766,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_ULINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_ULINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF ULINT;
@@ -787,7 +788,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
     b : ARRAY[0..3] OF ULINT := [0, 18_446_744_073_709_551_615, 9_400_000_000_000, 3_213_000_444_000];
@@ -802,7 +803,7 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..1] OF ULINT := [0, 9_400_000_000_000];
     b : ARRAY[0..0] OF ULINT := [0];
@@ -817,7 +818,7 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 9_400_000_000_000];
     b : ARRAY[0..1] OF ULINT := [3_213_000_444_000, 18_446_744_073_709_551_615];
@@ -832,7 +833,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_USINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_USINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF USINT;
@@ -854,12 +855,12 @@ Parameters:
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..100] OF USINT := [42, 100(33)];
     b : ARRAY[0..100] OF USINT := [42, 100(33)];
 END_VAR
- 
+-------
 TEST('Test_USINT_Array_Equals');
 AssertArrayEquals_USINT(Expecteds := a,
                         Actuals := b,
@@ -869,12 +870,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..100] OF USINT := [101(42)];
     b : ARRAY[0..70] OF USINT := [71(42)];
 END_VAR
- 
+-------
 TEST('Test_USINT_Array_DifferInSize');
 AssertArrayEquals_USINT(Expecteds := a,
                         Actuals := b,
@@ -884,12 +885,12 @@ TEST_FINISHED();
 
 **Failing example #2:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[0..10] OF USINT := [0,1,2,3,6(4),5];
     b : ARRAY[0..10] OF USINT := [0,1,2,3,6(5),6];
 END_VAR
- 
+-------
 TEST('Test_USINT_Array_DifferInContent');
 AssertArrayEquals_USINT(Expecteds := a,
                         Actuals := b,
@@ -899,7 +900,7 @@ TEST_FINISHED();
 
 ### AssertArrayEquals_WORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertArrayEquals_WORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF WORD;
@@ -921,12 +922,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
     b : ARRAY[1..5] OF WORD := [16#AAAA, 16#BBBB, 16#CCCC, 16#DDDD, 16#EEEE];
 END_VAR
- 
+-------
 TEST('Test_WORD_Array_Equals');
 AssertArrayEquals_WORD(Expecteds := a,
                        Actuals := b,
@@ -936,12 +937,12 @@ TEST_FINISHED();
 
 **Failing example #1:**
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..5] OF WORD := [16#0000, 16#3333, 16#5555, 16#7777, 16#BBBB];
     b : ARRAY[1..7] OF WORD := [16#0000, 16#3333, 16#5555, 16#7777, 16#BBBB, 16#FFFF, 16#1122];
 END_VAR
- 
+-------
 TEST('Test_WORD_Array_DifferInSize');
 AssertArrayEquals_WORD(Expecteds := a,
                        Actuals := b,
@@ -949,12 +950,12 @@ AssertArrayEquals_WORD(Expecteds := a,
 TEST_FINISHED();
 ```
 
-```StructuredText
+```example
 VAR
     a : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1133];
     b : ARRAY[1..7] OF WORD := [16#2323, 16#876A, 16#4CD4, 16#F3DC, 16#BBBB, 16#FFFF, 16#1122];
 END_VAR
- 
+-------
 TEST('Test_WORD_Array_DifferInContent');
 AssertArrayEquals_WORD(Expecteds := a,
                        Actuals := b,
@@ -964,7 +965,7 @@ TEST_FINISHED();
 
 ### AssertEquals
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals
 VAR_INPUT
     Expected : ANY;
@@ -985,12 +986,12 @@ For `REAL` and `LREAL` it's recommended to use the [AssertEquals_REAL](#asserteq
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : INT := 5;
     b : INT := 5;
 END_VAR
- 
+-------
 TEST('Test_ANY_Equals');
 AssertEquals(Expected := a,
              Actual := b,
@@ -1000,12 +1001,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : INT := 5;
     b : UINT := 5;
 END_VAR
- 
+-------
 TEST('Test_ANY_Differ_DataType');
 AssertEquals(Expected := a,
              Actual := b,
@@ -1015,12 +1016,12 @@ TEST_FINISHED();
 
 ### AssertEquals_BOOL
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_BOOL
 VAR_INPUT
     Expected : BOOL;
     Actual : BOOL;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1035,7 +1036,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : BOOL := TRUE;
     b : BOOL := TRUE;
@@ -1050,7 +1051,7 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : BOOL := TRUE;
     b : BOOL := FALSE;
@@ -1065,12 +1066,12 @@ TEST_FINISHED();
 
 ### AssertEquals_BYTE
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_BYTE
 VAR_INPUT
     Expected : BYTE;
     Actual : BYTE;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1085,12 +1086,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : BYTE := 16#CD;
     b : BYTE := 16#CD;
 END_VAR
-
+-------
 TEST('Test_BYTE_Equals');
 AssertEquals_BYTE(Expected := a,
                   Actual := b,
@@ -1100,7 +1101,7 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : BYTE := 16#AB;
     b : BYTE := 16#CD;
@@ -1115,7 +1116,7 @@ TEST_FINISHED();
 
 ### AssertEquals_DATE
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_DATE
 VAR_INPUT
     Expected : DATE;
@@ -1135,7 +1136,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : DATE := DATE#1996-05-06;
     b : DATE := DATE#1996-05-06;
@@ -1150,7 +1151,7 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : DATE := DATE#1996-05-06;
     b : DATE := DATE#2019-01-20;
@@ -1165,12 +1166,12 @@ TEST_FINISHED();
 
 ### AssertEquals_DATE_AND_TIME
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_DATE_AND_TIME
 VAR_INPUT
     Expected : DATE_AND_TIME;
     Actual : DATE_AND_TIME;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1185,7 +1186,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
     b : DATE_AND_TIME := DATE_AND_TIME#2019-01-20-13:54:30;
@@ -1200,12 +1201,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : DATE_AND_TIME := DATE_AND_TIME#1996-05-06-15:36:30;
     b : DATE_AND_TIME := DATE_AND_TIME#1972-03-29-00:00:00;
 END_VAR
- 
+-------
 TEST('Test_DATE_AND_TIME_Differ');
 AssertEquals_DATE_AND_TIME(Expected := a,
                            Actual := b,
@@ -1215,12 +1216,12 @@ TEST_FINISHED();
 
 ### AssertEquals_DINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_DINT
 VAR_INPUT
     Expected : DINT;
     Actual : DINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1235,7 +1236,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : DINT := -80000;
     b : DINT := -80000;
@@ -1250,12 +1251,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : DINT := -55555;
     b : DINT := 70000;
 END_VAR
- 
+-------
 TEST('Test_DINT_Differ');
 AssertEquals_DINT(Expected := a,
                   Actual := b,
@@ -1265,12 +1266,12 @@ TEST_FINISHED();
 
 ### AssertEquals_DWORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_DWORD
 VAR_INPUT
     Expected : DWORD;
     Actual : DWORD;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1285,12 +1286,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : DWORD := 16#7890ABCD;
     b : DWORD := 16#7890ABCD;
 END_VAR
-
+-------
 TEST('Test_DWORD_Equals');
 AssertEquals_DWORD(Expected := a,
                    Actual := b,
@@ -1300,12 +1301,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : DWORD := 16#12345678;
     b : DWORD := 16#90ABCDEF;
 END_VAR
- 
+-------
 TEST('Test_DWORD_Differ');
 AssertEquals_DWORD(Expected := a,
                    Actual := b,
@@ -1315,12 +1316,12 @@ TEST_FINISHED();
 
 ### AssertEquals_INT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_INT
 VAR_INPUT
     Expected : INT;
     Actual : INT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1335,12 +1336,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : INT := -12345;
     b : INT := -12345;
 END_VAR
- 
+-------
 TEST('Test_INT_Equals');
 AssertEquals_INT(Expected := a,
                  Actual := b,
@@ -1350,12 +1351,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : INT := -32000;
     b : INT := 15423;
 END_VAR
- 
+-------
 TEST('Test_INT_Differ');
 AssertEquals_INT(Expected := a,
                  Actual := b,
@@ -1365,12 +1366,12 @@ TEST_FINISHED();
 
 ### AssertEquals_LINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_LINT
 VAR_INPUT
     Expected : LINT;
     Actual : LINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1385,12 +1386,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : LINT := -123456789;
     b : LINT := -123456789;
 END_VAR
- 
+-------
 TEST('Test_LINT_Equals');
 AssertEquals_LINT(Expected := a,
                   Actual := b,
@@ -1400,12 +1401,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : LINT := -451416345;
     b : LINT := 589532453;
 END_VAR
- 
+-------
 TEST('Test_LINT_Differ');
 AssertEquals_LINT(Expected := a,
                   Actual := b,
@@ -1415,13 +1416,13 @@ TEST_FINISHED();
 
 ### AssertEquals_LREAL
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_LREAL
 VAR_INPUT
     Expected : LREAL;
     Actual : LREAL;
     Delta : LREAL;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1437,12 +1438,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.76;
 END_VAR
- 
+-------
 TEST('Test_LREAL_Equals');
 AssertEquals_LREAL(Expected := a,
                    Actual := b,
@@ -1453,12 +1454,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.76;
 END_VAR
- 
+-------
 TEST('Test_LREAL_Differ');
 AssertEquals_LREAL(Expected := a,
                    Actual := b,
@@ -1469,12 +1470,12 @@ TEST_FINISHED();
 
 ### AssertEquals_LTIME
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_LTIME
 VAR_INPUT
     Expected : LTIME;
     Actual : LTIME;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1489,12 +1490,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
     b : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
 END_VAR
- 
+-------
 TEST('Test_LTIME_Equals');
 AssertEquals_LTIME(Expected := a,
                    Actual := b,
@@ -1504,12 +1505,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
     b : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
 END_VAR
- 
+-------
 TEST('Test_LTIME_Differ');
 AssertEquals_LTIME(Expected := a,
                    Actual := b,
@@ -1519,12 +1520,12 @@ TEST_FINISHED();
 
 ### AssertEquals_LWORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_LWORD
 VAR_INPUT
     Expected : LWORD;
     Actual : LWORD;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1539,12 +1540,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : LWORD := 16#0123456789ABCDEF;
     b : LWORD := 16#0123456789ABCDEF;
 END_VAR
- 
+-------
 TEST('Test_LWORD_Equals');
 AssertEquals_LWORD(Expected := a,
                    Actual := b,
@@ -1554,12 +1555,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : LWORD := 16#0123656789ABCBEC;
     b : LWORD := 16#0123256789ABCAEE;
 END_VAR
- 
+-------
 TEST('Test_LWORD_Differ');
 AssertEquals_LWORD(Expected := a,
                    Actual := b,
@@ -1569,13 +1570,13 @@ TEST_FINISHED();
 
 ### AssertEquals_REAL
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_REAL
 VAR_INPUT
     Expected : REAL;
     Actual : REAL;
     Delta : REAL;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1591,12 +1592,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.4;
 END_VAR
- 
+-------
 TEST('Test_REAL_Equals');
 AssertEquals_REAL(Expected := a,
                   Actual := b,
@@ -1607,12 +1608,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.4;
 END_VAR
- 
+-------
 TEST('Test_REAL_Differ');
 AssertEquals_REAL(Expected := a,
                   Actual := b,
@@ -1623,12 +1624,12 @@ TEST_FINISHED();
 
 ### AssertEquals_SINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_SINT
 VAR_INPUT
     Expected : SINT;
     Actual : SINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1643,12 +1644,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : SINT := -128;
     b : SINT := -128;
 END_VAR
- 
+-------
 TEST('Test_SINT_Equals');
 AssertEquals_SINT(Expected := a,
                   Actual := b,
@@ -1658,12 +1659,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : SINT := 127;
     b : SINT := -30;
 END_VAR
- 
+-------
 TEST('Test_SINT_Differ');
 AssertEquals_SINT(Expected := a,
                   Actual := b,
@@ -1673,12 +1674,12 @@ TEST_FINISHED();
 
 ### AssertEquals_STRING
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_STRING
 VAR_INPUT
-    Expected : Tc2_System.T_MaxString;
-    Actual : Tc2_System.T_MaxString;
-    Message : Tc2_System.T_MaxString;
+    Expected : T_MaxString;
+    Actual : T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1693,7 +1694,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : STRING := 'Hello there';
     b : STRING := 'Hello there';
@@ -1708,7 +1709,7 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : STRING := 'This is a string';
     b : STRING := 'This is another string';
@@ -1723,12 +1724,12 @@ TEST_FINISHED();
 
 ### AssertEquals_TIME
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_TIME
 VAR_INPUT
     Expected : TIME;
     Actual : TIME;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1743,7 +1744,7 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : TIME := T#11H34M13S244MS;
     b : TIME := T#11H34M13S244MS;
@@ -1758,7 +1759,7 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : TIME := T#12H34M15S10MS;
     b : TIME := T#11H34M13S244MS;
@@ -1773,12 +1774,12 @@ TEST_FINISHED();
 
 ### AssertEquals_TIME_OF_DAY
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_TIME_OF_DAY
 VAR_INPUT
     Expected : TIME_OF_DAY;
     Actual : TIME_OF_DAY;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1793,12 +1794,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
     b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
 END_VAR
- 
+-------
 TEST('Test_TIME_OF_DAY_Equals');
 AssertEquals_TIME_OF_DAY(Expected := a,
                          Actual := b,
@@ -1808,12 +1809,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
     b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
 END_VAR
- 
+-------
 TEST('Test_TIME_OF_DAY_Differ');
 AssertEquals_TIME_OF_DAY(Expected := a,
                          Actual := b,
@@ -1823,12 +1824,12 @@ TEST_FINISHED();
 
 ### AssertEquals_UDINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_UDINT
 VAR_INPUT
     Expected : UDINT;
     Actual : UDINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1837,18 +1838,18 @@ If they are not, an assertion error is created.
 
 **Parameters:**
 
-- Expected - UDINT expected value
-- Actual - UDINT actual value
-- Message - The identifying message for the assertion error
+- `Expected - UDINT expected value
+- `Actual` - UDINT actual value
+- `Message` - The identifying message for the assertion error
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : UDINT := 21845123;
     b : UDINT := 21845123;
 END_VAR
- 
+-------
 TEST('Test_UDINT_Equals');
 AssertEquals_UDINT(Expected := a,
                    Actual := b,
@@ -1858,12 +1859,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : UDINT := 34124214;
     b : UDINT := 52343244;
 END_VAR
- 
+-------
 TEST('Test_UDINT_Differ');
 AssertEquals_UDINT(Expected := a,
                    Actual := b,
@@ -1873,12 +1874,12 @@ TEST_FINISHED();
 
 ### AssertEquals_UINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_UINT
 VAR_INPUT
     Expected : UINT;
     Actual : UINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1887,18 +1888,18 @@ If they are not, an assertion error is created.
 
 **Parameters:**
 
-- Expected - UINT expected value
-- Actual - UINT actual value
-- Message - The identifying message for the assertion error
+- `Expected` - UINT expected value
+- `Actual` - UINT actual value
+- `Message` - The identifying message for the assertion error
 
 **Positive example:**
 
-```StructuredText
+```declaration
 VAR
     a : UINT := 65535;
     b : UINT := 65535;
 END_VAR
- 
+-------
 TEST('Test_UINT_Equals');
 AssertEquals_UINT(Expected := a,
                   Actual := b,
@@ -1908,12 +1909,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : UINT := 64322;
     b : UINT := 32312;
 END_VAR
- 
+-------
 TEST('Test_UINT_Differ');
 AssertEquals_UINT(Expected := a,
                   Actual := b,
@@ -1923,12 +1924,12 @@ TEST_FINISHED();
 
 ### AssertEquals_ULINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_ULINT
 VAR_INPUT
     Expected : ULINT;
     Actual : ULINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1943,12 +1944,12 @@ If they are not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : ULINT := 45683838383;
     b : ULINT := 45683838383;
 END_VAR
- 
+-------
 TEST('Test_ULINT_Equals');
 AssertEquals_ULINT(Expected := a,
                    Actual := b,
@@ -1958,12 +1959,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : ULINT := 10000;
     b : ULINT := 53685437234;
 END_VAR
- 
+-------
 TEST('Test_ULINT_Differ');
 AssertEquals_ULINT(Expected := a,
                    Actual := b,
@@ -1973,12 +1974,12 @@ TEST_FINISHED();
 
 ### AssertEquals_USINT
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_USINT
 VAR_INPUT
     Expected : USINT;
     Actual : USINT;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -1987,18 +1988,18 @@ If they are not, an assertion error is created.
 
 **Parameters:**
 
-- Expected - USINT expected value
-- Actual - USINT actual value
-- Message - The identifying message for the assertion error
+- `Expected` - USINT expected value
+- `Actual` - USINT actual value
+- `Message` - The identifying message for the assertion error
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : USINT := 5;
     b : USINT := 5;
 END_VAR
- 
+-------
 TEST('Test_USINT_Equals');
 AssertEquals_USINT(Expected := a,
                    Actual := b,
@@ -2008,12 +2009,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : USINT := 3;
     b : USINT := 7;
 END_VAR
- 
+-------
 TEST('Test_USINT_Differ');
 AssertEquals_USINT(Expected := a,
                    Actual := b,
@@ -2023,12 +2024,12 @@ TEST_FINISHED();
 
 ### AssertEquals_WORD
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_WORD
 VAR_INPUT
     Expected : WORD;
     Actual : WORD;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -2043,12 +2044,12 @@ If they are not, an assertion error is created.
 
 Positive example:
 
-```StructuredText
+```example
 VAR
     a : WORD := 16#ABCD;
     b : WORD := 16#ABCD;
 END_VAR
- 
+-------
 TEST('Test_WORD_Equals');
 AssertEquals_WORD(Expected := a,
                   Actual := b,
@@ -2058,12 +2059,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : WORD := 16#EF01;
     b : WORD := 16#2345;
 END_VAR
- 
+-------
 TEST('Test_WORD_Differ');
 AssertEquals_WORD(Expected := a,
                   Actual := b,
@@ -2073,12 +2074,12 @@ TEST_FINISHED();
 
 ### AssertEquals_WSTRING
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertEquals_WSTRING
 VAR_INPUT
     Expected : WSTRING(255);
     Actual : WSTRING(255);
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -2087,18 +2088,18 @@ If they are not, an assertion error is created.
 
 **Parameters:**
 
-- Expected - WSTRING expected value
-- Actual - WSTRING actual value
-- Message - The identifying message for the assertion error
+- `Expected` - WSTRING expected value
+- `Actual` - WSTRING actual value
+- `Message` - The identifying message for the assertion error
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : WSTRING := "ĠĦ";
     b : WSTRING := "ĠĦ";
 END_VAR
- 
+-------
 TEST('Test_WSTRING_Equals');
 AssertEquals_WSTRING(Expected := a,
                      Actual := b,
@@ -2108,12 +2109,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : WSTRING := "äö";
     b : WSTRING := "æå";
 END_VAR
- 
+-------
 TEST('Test_WSTRING_Differ');
 AssertEquals_WSTRING(Expected := a,
                      Actual := b,
@@ -2123,11 +2124,11 @@ TEST_FINISHED();
 
 ### AssertFalse
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertFalse
 VAR_INPUT
     Condition: BOOL;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -2141,12 +2142,12 @@ If it is not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : INT := -33;
     b : INT := -44;
 END_VAR
- 
+-------
 TEST('AssertThatINTsAreNotEqual');
 AssertFalse(Condition := (a = b),
             Message := 'INTs are equal');
@@ -2155,12 +2156,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : INT := -33;
     b : INT := -44;
 END_VAR
- 
+-------
 TEST('AssertThatINTsAreEqual');
 AssertFalse(Condition := (a &lt;&gt; b),
             Message := 'INTs are equal');
@@ -2169,11 +2170,11 @@ TEST_FINISHED();
 
 ### AssertTrue
 
-```StructuredText
+```declaration
 METHOD PUBLIC AssertTrue
 VAR_INPUT
     Condition: BOOL;
-    Message : Tc2_System.T_MaxString;
+    Message : T_MaxString;
 END_VAR
 ```
 
@@ -2187,12 +2188,12 @@ If it is not, an assertion error is created.
 
 **Positive example:**
 
-```StructuredText
+```example
 VAR
     a : WORD := 16#ABCD;
     b : WORD := 16#0123;
 END_VAR
-
+-------
 TEST('AssertThatWORDsAreNotEqual');
 AssertTrue(Condition := (a &lt;&gt; b),
            Message := 'WORDs are equal');
@@ -2201,12 +2202,12 @@ TEST_FINISHED();
 
 **Failing example:**
 
-```StructuredText
+```example
 VAR
     a : WORD := 16#ABCD;
     b : WORD := 16#0123;
 END_VAR
-
+-------
 TEST('AssertThatWORDsAreEqual');
 AssertTrue(Condition := (a = b),
            Message := 'WORDs are not equal');

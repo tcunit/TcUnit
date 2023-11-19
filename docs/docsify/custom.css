@@ -1,0 +1,44 @@
+
+.markdown-section output:after, .markdown-section pre:after {
+    content: '';
+}
+
+pre {
+    margin : 0px;
+}
+
+.markdown-section pre {
+    padding: 0;
+}
+
+.markdown-section pre>code {
+    padding: 2.2em 2.2em;
+}
+
+.markdown-section code {
+    background-color: #f8f8f8;
+    padding : 0.5em;
+}
+
+.markdown-section pre {
+    margin: 0em 0;
+    position: relative;
+    background-color:white;
+}
+
+.markdown-section blockquote {
+    border-left: 4px solid #929292;
+    background-color: #f4f4f4;
+}
+
+.sidebar ul li.active>a {
+    color: #29292b;;
+}
+
+.github-corner svg {
+    fill: #383d41;
+}
+
+a {
+    text-decoration: none;
+}

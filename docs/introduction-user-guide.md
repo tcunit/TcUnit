@@ -1,7 +1,8 @@
----
-layout: page
-title: Introduction user guide
----
+# Introduction user guide
+
+<p align="center">
+  <img width="1024" src="./img/tc3_banner2.jpg">
+</p>
 
 Before reading this guide, it's highly recommended to read [unit testing concepts](unit-testing-concepts.md), in order to have a basic understanding of the concepts of unit testing and TcUnit.
 
@@ -83,7 +84,7 @@ Each test suite is responsible of testing one FB or function, and can have one o
 Let's assume we want to create the simplest possible FB that takes two unsigned integers and sums them.
 We can create the header for the FB, but the actual implementation can (and should) wait after we've done the unit tests.
 
-```StructuredText
+```declaration
 FUNCTION_BLOCK FB_Sum
 VAR_INPUT
     one : UINT;
@@ -97,7 +98,7 @@ END_VAR
 Now let's create the test suite for this.
 This FB needs to extend `TcUnit.FB_TestSuite`.
 
-```StructuredText
+```declaration
 FUNCTION_BLOCK FB_Sum_Test EXTENDS TcUnit.FB_TestSuite
 VAR
 END_VAR
@@ -113,7 +114,7 @@ For them well-named tests are invaluable.
 We'll be creating two tests called `TwoPlusTwoEqualsFour` and `ZeroPlusZeroEqualsZero`.
 The `TwoPlusTwoEqualsFour` will look like this:
 
-```StructuredText
+```example
 METHOD TwoPlusTwoEqualsFour
 VAR
     Sum : FB_Sum;
@@ -141,7 +142,7 @@ This gives the flexibility to have tests that span over more than one PLC-cycle.
 
 For `ZeroPlusZeroEqualsZero` it's more or less the same code.
 
-```StructuredText
+```example
 METHOD ZeroPlusZeroEqualsZero
 VAR
     Sum : FB_Sum;
@@ -162,7 +163,7 @@ TEST_FINISHED();
 
 Next we need to update the body of the test suite (`FB_Sum_Test`) to make sure these two tests are being run.
 
-```StructuredText
+```body
 TwoPlusTwoEqualsFour();
 ZeroPlusZeroEqualsZero();
 ```
@@ -174,7 +175,7 @@ Being part of the library project we only want a convenient way to test all the 
 `PRG_TEST` needs to instantiate all the test suites, and only execute one line of code.
 In this case we only have one test suite.
 
-```StructuredText
+```example
 PROGRAM PRG_TEST
 VAR
     fbSum_Test : FB_Sum_Test; // This is our test suite
@@ -197,7 +198,7 @@ As we can see, the test `TwoPlusTwoEqualsFour` failed, which means that the one 
 The reason this succeeds is that the default return value for an output-parameter is zero, and thus it means that even if we haven't written the body of `FB_Sum` the test will succeed.
 Let's finish by implementing the body of `FB_Sum`.
 
-```StructuredText
+```example
 FUNCTION_BLOCK FB_Sum
 VAR_INPUT
     one : UINT;
