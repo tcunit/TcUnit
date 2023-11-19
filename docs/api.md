@@ -1212,3 +1212,1003 @@ AssertEquals_DATE_AND_TIME(Expected := a,
                            Message := 'Values differ');
 TEST_FINISHED();
 ```
+
+### AssertEquals_DINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_DINT
+VAR_INPUT
+    Expected : DINT;
+    Actual : DINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two DINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - BYTE expected value
+- `Actual` - BYTE actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : DINT := -80000;
+    b : DINT := -80000;
+END_VAR
+-------
+TEST('Test_DINT_Equals');
+AssertEquals_DINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : DINT := -55555;
+    b : DINT := 70000;
+END_VAR
+ 
+TEST('Test_DINT_Differ');
+AssertEquals_DINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_DWORD
+
+```StructuredText
+METHOD PUBLIC AssertEquals_DWORD
+VAR_INPUT
+    Expected : DWORD;
+    Actual : DWORD;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two DWORDs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - DWORD expected value
+- `Actual` - DWORD actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : DWORD := 16#7890ABCD;
+    b : DWORD := 16#7890ABCD;
+END_VAR
+
+TEST('Test_DWORD_Equals');
+AssertEquals_DWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : DWORD := 16#12345678;
+    b : DWORD := 16#90ABCDEF;
+END_VAR
+ 
+TEST('Test_DWORD_Differ');
+AssertEquals_DWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_INT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_INT
+VAR_INPUT
+    Expected : INT;
+    Actual : INT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two INTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - INT expected value
+- `Actual` - INT actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : INT := -12345;
+    b : INT := -12345;
+END_VAR
+ 
+TEST('Test_INT_Equals');
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : INT := -32000;
+    b : INT := 15423;
+END_VAR
+ 
+TEST('Test_INT_Differ');
+AssertEquals_INT(Expected := a,
+                 Actual := b,
+                 Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_LINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_LINT
+VAR_INPUT
+    Expected : LINT;
+    Actual : LINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two LINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - LINT expected value
+- Actual - LINT actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : LINT := -123456789;
+    b : LINT := -123456789;
+END_VAR
+ 
+TEST('Test_LINT_Equals');
+AssertEquals_LINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : LINT := -451416345;
+    b : LINT := 589532453;
+END_VAR
+ 
+TEST('Test_LINT_Differ');
+AssertEquals_LINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_LREAL
+
+```StructuredText
+METHOD PUBLIC AssertEquals_LREAL
+VAR_INPUT
+    Expected : LREAL;
+    Actual : LREAL;
+    Delta : LREAL;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two LREALs are equal to within a positive delta.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - LREAL expected value
+- `Actual` - LREAL actual value
+- `Delta` - The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : LREAL := 1234567.89;
+    b : LREAL := 1234567.76;
+END_VAR
+ 
+TEST('Test_LREAL_Equals');
+AssertEquals_LREAL(Expected := a,
+                   Actual := b,
+                   Delta := 0.2,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : LREAL := 1234567.89;
+    b : LREAL := 1234567.76;
+END_VAR
+ 
+TEST('Test_LREAL_Differ');
+AssertEquals_LREAL(Expected := a,
+                   Actual := b,
+                   Delta := 0.1,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_LTIME
+
+```StructuredText
+METHOD PUBLIC AssertEquals_LTIME
+VAR_INPUT
+    Expected : LTIME;
+    Actual : LTIME;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two LTIMEs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - LTIME expected value
+- `Actual` - LTIME actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    b : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+END_VAR
+ 
+TEST('Test_LTIME_Equals');
+AssertEquals_LTIME(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : LTIME := LTIME#213503D23H34M33S709MS551US615NS;
+    b : LTIME := LTIME#1000D15H23M12S34MS2US44NS;
+END_VAR
+ 
+TEST('Test_LTIME_Differ');
+AssertEquals_LTIME(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_LWORD
+
+```StructuredText
+METHOD PUBLIC AssertEquals_LWORD
+VAR_INPUT
+    Expected : LWORD;
+    Actual : LWORD;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two LWORDs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - LWORD expected value
+- Actual - LWORD actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : LWORD := 16#0123456789ABCDEF;
+    b : LWORD := 16#0123456789ABCDEF;
+END_VAR
+ 
+TEST('Test_LWORD_Equals');
+AssertEquals_LWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : LWORD := 16#0123656789ABCBEC;
+    b : LWORD := 16#0123256789ABCAEE;
+END_VAR
+ 
+TEST('Test_LWORD_Differ');
+AssertEquals_LWORD(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_REAL
+
+```StructuredText
+METHOD PUBLIC AssertEquals_REAL
+VAR_INPUT
+    Expected : REAL;
+    Actual : REAL;
+    Delta : REAL;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two REALs are equal to within a positive delta.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - REAL expected value
+- `Actual` - REAL actual value
+- `Delta` - The maximum delta between the absolute value of expected and actual for which both numbers are still considered equal
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : REAL := 1234.5;
+    b : REAL := 1234.4;
+END_VAR
+ 
+TEST('Test_REAL_Equals');
+AssertEquals_REAL(Expected := a,
+                  Actual := b,
+                  Delta := 0.1,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : REAL := 1234.5;
+    b : REAL := 1234.4;
+END_VAR
+ 
+TEST('Test_REAL_Differ');
+AssertEquals_REAL(Expected := a,
+                  Actual := b,
+                  Delta := 0.05,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_SINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_SINT
+VAR_INPUT
+    Expected : SINT;
+    Actual : SINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two SINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - SINT expected value
+- `Actual` - SINT actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : SINT := -128;
+    b : SINT := -128;
+END_VAR
+ 
+TEST('Test_SINT_Equals');
+AssertEquals_SINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : SINT := 127;
+    b : SINT := -30;
+END_VAR
+ 
+TEST('Test_SINT_Differ');
+AssertEquals_SINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_STRING
+
+```StructuredText
+METHOD PUBLIC AssertEquals_STRING
+VAR_INPUT
+    Expected : Tc2_System.T_MaxString;
+    Actual : Tc2_System.T_MaxString;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two STRINGs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - STRING expected value
+- `Actual` - STRING actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : STRING := 'Hello there';
+    b : STRING := 'Hello there';
+END_VAR
+ 
+TEST('Test_STRING_Equals');
+AssertEquals_STRING(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : STRING := 'This is a string';
+    b : STRING := 'This is another string';
+END_VAR
+ 
+TEST('Test_STRING_Differ');
+AssertEquals_STRING(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_TIME
+
+```StructuredText
+METHOD PUBLIC AssertEquals_TIME
+VAR_INPUT
+    Expected : TIME;
+    Actual : TIME;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two TIMEs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - TIME expected value
+- `Actual` - TIME actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : TIME := T#11H34M13S244MS;
+    b : TIME := T#11H34M13S244MS;
+END_VAR
+ 
+TEST('Test_TIME_Equals');
+AssertEquals_TIME(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : TIME := T#12H34M15S10MS;
+    b : TIME := T#11H34M13S244MS;
+END_VAR
+ 
+TEST('Test_TIME_Differ');
+AssertEquals_TIME(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_TIME_OF_DAY
+
+```StructuredText
+METHOD PUBLIC AssertEquals_TIME_OF_DAY
+VAR_INPUT
+    Expected : TIME_OF_DAY;
+    Actual : TIME_OF_DAY;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two TIME_OF_DAYs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - TIME_OF_DAY expected value
+- `Actual` - TIME_OF_DAY actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+    b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+END_VAR
+ 
+TEST('Test_TIME_OF_DAY_Equals');
+AssertEquals_TIME_OF_DAY(Expected := a,
+                         Actual := b,
+                         Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : TIME_OF_DAY := TIME_OF_DAY#15:36:30.123;
+    b : TIME_OF_DAY := TIME_OF_DAY#06:21:11.492;
+END_VAR
+ 
+TEST('Test_TIME_OF_DAY_Differ');
+AssertEquals_TIME_OF_DAY(Expected := a,
+                         Actual := b,
+                         Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_UDINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_UDINT
+VAR_INPUT
+    Expected : UDINT;
+    Actual : UDINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two UDINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - UDINT expected value
+- Actual - UDINT actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : UDINT := 21845123;
+    b : UDINT := 21845123;
+END_VAR
+ 
+TEST('Test_UDINT_Equals');
+AssertEquals_UDINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : UDINT := 34124214;
+    b : UDINT := 52343244;
+END_VAR
+ 
+TEST('Test_UDINT_Differ');
+AssertEquals_UDINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_UINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_UINT
+VAR_INPUT
+    Expected : UINT;
+    Actual : UINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two UINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - UINT expected value
+- Actual - UINT actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : UINT := 65535;
+    b : UINT := 65535;
+END_VAR
+ 
+TEST('Test_UINT_Equals');
+AssertEquals_UINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : UINT := 64322;
+    b : UINT := 32312;
+END_VAR
+ 
+TEST('Test_UINT_Differ');
+AssertEquals_UINT(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_ULINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_ULINT
+VAR_INPUT
+    Expected : ULINT;
+    Actual : ULINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two ULINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - ULINT expected value
+- `Actual` - ULINT actual value
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : ULINT := 45683838383;
+    b : ULINT := 45683838383;
+END_VAR
+ 
+TEST('Test_ULINT_Equals');
+AssertEquals_ULINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : ULINT := 10000;
+    b : ULINT := 53685437234;
+END_VAR
+ 
+TEST('Test_ULINT_Differ');
+AssertEquals_ULINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_USINT
+
+```StructuredText
+METHOD PUBLIC AssertEquals_USINT
+VAR_INPUT
+    Expected : USINT;
+    Actual : USINT;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two USINTs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - USINT expected value
+- Actual - USINT actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : USINT := 5;
+    b : USINT := 5;
+END_VAR
+ 
+TEST('Test_USINT_Equals');
+AssertEquals_USINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : USINT := 3;
+    b : USINT := 7;
+END_VAR
+ 
+TEST('Test_USINT_Differ');
+AssertEquals_USINT(Expected := a,
+                   Actual := b,
+                   Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_WORD
+
+```StructuredText
+METHOD PUBLIC AssertEquals_WORD
+VAR_INPUT
+    Expected : WORD;
+    Actual : WORD;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two WORDs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- `Expected` - WORD expected value
+- `Actual` - WORD actual value
+- `Message` - The identifying message for the assertion error
+
+Positive example:
+
+```StructuredText
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#ABCD;
+END_VAR
+ 
+TEST('Test_WORD_Equals');
+AssertEquals_WORD(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : WORD := 16#EF01;
+    b : WORD := 16#2345;
+END_VAR
+ 
+TEST('Test_WORD_Differ');
+AssertEquals_WORD(Expected := a,
+                  Actual := b,
+                  Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertEquals_WSTRING
+
+```StructuredText
+METHOD PUBLIC AssertEquals_WSTRING
+VAR_INPUT
+    Expected : WSTRING(255);
+    Actual : WSTRING(255);
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that two WSTRINGs are equal.
+If they are not, an assertion error is created.
+
+**Parameters:**
+
+- Expected - WSTRING expected value
+- Actual - WSTRING actual value
+- Message - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : WSTRING := "ĠĦ";
+    b : WSTRING := "ĠĦ";
+END_VAR
+ 
+TEST('Test_WSTRING_Equals');
+AssertEquals_WSTRING(Expected := a,
+                     Actual := b,
+                     Message := 'Values differ');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : WSTRING := "äö";
+    b : WSTRING := "æå";
+END_VAR
+ 
+TEST('Test_WSTRING_Differ');
+AssertEquals_WSTRING(Expected := a,
+                     Actual := b,
+                     Message := 'Values differ');
+TEST_FINISHED();
+```
+
+### AssertFalse
+
+```StructuredText
+METHOD PUBLIC AssertFalse
+VAR_INPUT
+    Condition: BOOL;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that a condition is false.
+If it is not, an assertion error is created.
+
+**Parameters:**
+
+- `Condition` - Condition to be checked
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : INT := -33;
+    b : INT := -44;
+END_VAR
+ 
+TEST('AssertThatINTsAreNotEqual');
+AssertFalse(Condition := (a = b),
+            Message := 'INTs are equal');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : INT := -33;
+    b : INT := -44;
+END_VAR
+ 
+TEST('AssertThatINTsAreEqual');
+AssertFalse(Condition := (a &lt;&gt; b),
+            Message := 'INTs are equal');
+TEST_FINISHED();
+```
+
+### AssertTrue
+
+```StructuredText
+METHOD PUBLIC AssertTrue
+VAR_INPUT
+    Condition: BOOL;
+    Message : Tc2_System.T_MaxString;
+END_VAR
+```
+
+Asserts that a condition is true.
+If it is not, an assertion error is created.
+
+**Parameters:**
+
+- `Condition` - Condition to be checked
+- `Message` - The identifying message for the assertion error
+
+**Positive example:**
+
+```StructuredText
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#0123;
+END_VAR
+
+TEST('AssertThatWORDsAreNotEqual');
+AssertTrue(Condition := (a &lt;&gt; b),
+           Message := 'WORDs are equal');
+TEST_FINISHED();
+```
+
+**Failing example:**
+
+```StructuredText
+VAR
+    a : WORD := 16#ABCD;
+    b : WORD := 16#0123;
+END_VAR
+
+TEST('AssertThatWORDsAreEqual');
+AssertTrue(Condition := (a = b),
+           Message := 'WORDs are not equal');
+TEST_FINISHED();
+```
