@@ -2163,7 +2163,7 @@ VAR
 END_VAR
 -------
 TEST('AssertThatINTsAreEqual');
-AssertFalse(Condition := (a &lt;&gt; b),
+AssertFalse(Condition := (a <> b),
             Message := 'INTs are equal');
 TEST_FINISHED();
 ```
@@ -2195,7 +2195,7 @@ VAR
 END_VAR
 -------
 TEST('AssertThatWORDsAreNotEqual');
-AssertTrue(Condition := (a &lt;&gt; b),
+AssertTrue(Condition := (a <> b),
            Message := 'WORDs are equal');
 TEST_FINISHED();
 ```
