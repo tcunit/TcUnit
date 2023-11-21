@@ -13,7 +13,7 @@ Start by reading the [unit testing concepts](unit-testing-concepts.md) and then 
 **Easy to use**  
 The framework is easy to use.
 All that is needed is to download & install the library, and provide a reference to the TcUnit-library in your project, and you can start to write your test code.
-For a complete set of instructions, start with [the concepts](unit-testing-concepts.md), continue with [the user guide](introduction-user-guide.md) and finish with [the programming example](programming-example.md).
+For a complete set of instructions, start with [the concepts](unit-testing-concepts.md), continue with [the user guide](introduction-user-guide.md) and finish with [the programming example](programming-example-introduction.md).
 
 **One library**  
 All functionality is provided by one single library.

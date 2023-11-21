@@ -18,8 +18,8 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 
 1. Fork the repo and create your branch from `master`.
 2. If you've added new functionality, it's necessary to add tests. For this there is a separate test project called [TcUnit-Verifier](https://github.com/tcunit/TcUnit/tree/master/TcUnit-Verifier). In that project there are several test suites defined to test the different functionality of TcUnit. Please read the [README.MD](https://github.com/tcunit/TcUnit/blob/master/TcUnit-Verifier/README.md) in that project for further instructions. **No new functionality will be accepted without any proper tests**.
-3. If you've changed APIs, include the API change in the Pull Request so that the official homepage can be updated.
-4. Ensure the test suite passes.
+3. Ensure the test suite passes.
+4. If changes that affect the documentation have been made (such as API-changes), make sure to update the [documentation](https://github.com/tcunit/TcUnit/tree/master/docs).
 5. Issue that pull request!
 
 ## Any contributions you make will be under the MIT Software License
@@ -46,7 +46,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 - Make sure to edit the project with the same version of Visual Studio as the master branch. All software (TcUnit and TcUnit-Verifier) has been developed using Visual Studio 2019. Note that the TwinCAT XAE Shell (provided with TwinCAT XAE installer) can't open the TcUnit-Verifier_DotNet (as it's a .NET/C# project). Instead it's recommended to use [VS2019 community edition](https://visualstudio.microsoft.com/vs/older-downloads/) which can be used both for TwinCAT and .NET/C# projects
 - Make sure to use TwinCAT XAE version 3.1.4024.44 or later
-- The prefixes of naming of function blocks/variables/etc from the [Beckhoff TwinCAT3 identifier/name conventions](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/18014401873267083.html&id=) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
+- The prefixes of naming of function blocks/variables/etc such as the [Beckhoff TwinCAT 3 and PLCopen identifier/name conventions](https://sagatowski.com/posts/plc_naming_conventions/) are ignored as a modern integrated development environment (as Visual Studio) gives all the hints/information of data types etc
 - Make sure to set your TwinCAT development environment to use Separate LineIDs. This is available in the TwinCAT XAE under **Tools→Options→TwinCAT→PLC Environment→Write options→Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=))
 
 ## License
