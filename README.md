@@ -4,7 +4,7 @@
 
 # TcUnit - TwinCAT unit testing framework
 
-Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's TwinCAT3](https://www.beckhoff.com/twincat3/).
+Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's TwinCAT 3](https://www.beckhoff.com/twincat3/).
 
 **Main documentation site is available on:**  
 **[www.tcunit.org](https://www.tcunit.org)**
@@ -28,7 +28,7 @@ Check out the [TcUnit-Runner project](https://github.com/tcunit/TcUnit-Runner).
 That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
 
 **Have any questions? Found a bug or want to discuss an idea?**  
-Check the [F.A.Q](https://tcunit.org/frequently-asked-questions/).
+Check the [F.A.Q](https://tcunit.org/#/faq).
 Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
 If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new).
 For general ideas/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
