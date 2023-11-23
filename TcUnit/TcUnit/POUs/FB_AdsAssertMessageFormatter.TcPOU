@@ -31,14 +31,10 @@ END_VAR]]></Declaration>
 TestInstancePathFinal := CONCAT(STR1 := 'FAILED TEST $'', STR2 := TestInstancePathCleaned);
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := '$'');
 
-IF LEN(STR := Expected) > 0 THEN
-    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', EXP: ');
-    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Expected);
-END_IF
-IF LEN(STR := Actual) > 0 THEN
-    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', ACT: ');
-    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
-END_IF
+TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', EXP: ');
+TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Expected);
+TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', ACT: ');
+TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := Actual);
 IF LEN(STR := Message) > 0 THEN
     TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal, STR2 := ', MSG: %s');
 END_IF

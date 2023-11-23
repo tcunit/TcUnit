@@ -11,25 +11,25 @@ END_VAR]]></Declaration>
       <ST><![CDATA[CASE AnyTypeClass OF
     IBaseLibrary.TypeClass.TYPE_BOOL :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.boolExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_BIT :
         {warning disable C0355}
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.bitExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
         {warning enable C0355}
 
     IBaseLibrary.TypeClass.TYPE_BYTE :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.byteExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_WORD :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.wordExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DWORD :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.dwordExpectedOrActual),
@@ -38,88 +38,88 @@ END_VAR]]></Declaration>
 
     IBaseLibrary.TypeClass.TYPE_LWORD :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.lwordExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_SINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.sintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_INT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.intExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.dintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.lintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_USINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.usintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_UINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.uintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_UDINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.udintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_ULINT :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.ulintExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_REAL :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.realExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.lrealExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_STRING :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.stringExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_WSTRING :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.wstringExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_TIME :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DATE :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.dateandtimeExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.timeofdayExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
         (* None *)
@@ -168,8 +168,8 @@ END_VAR]]></Declaration>
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.ltimeExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         (* None *)
