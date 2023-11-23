@@ -4,7 +4,7 @@
     <Declaration><![CDATA[INTERFACE I_AssertMessageFormatter
 ]]></Declaration>
     <Method Name="LogAssertFailure" Id="{35efab01-6ac8-46a5-a5e1-adb4f1f5f9b2}">
-      <Declaration><![CDATA[METHOD LogAssertFailure
+      <Declaration><![CDATA[METHOD LogAssertFailure : Tc2_System.T_MaxString
 VAR_INPUT
     Expected : T_MaxString;
     Actual : T_MaxString;
