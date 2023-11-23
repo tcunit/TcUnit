@@ -12,18 +12,18 @@ If you don’t find what you are looking for here, you can look through the:
 
 ---
 
-1. [How can I run a test across multiple PLC cycles?](#1-how-can-i-run-a-test-across-multiple-plc-cycles)  
-2. [How can I disable/ignore a test?](#2-how-can-i-disableignore-a-test)  
-3. [Is there a way to test %I* or %Q* variables?](#3-is-there-a-way-to-test-i-or-q-variables)  
-4. [Is there a way to hide TcUnit in my libraries?](#4-is-there-a-way-to-hide-tcunit-in-my-libraries)  
-5. [How do I do assertions on the BIT datatype?](#5-how-do-i-do-assertions-on-the-bit-datatype)  
-6. [When I run more than 100 tests in a single test-suite I get the wrong results, why?](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why)  
-7. [Is it possible to run test suites and/or tests in a sequence?](#7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
-8. [Why is it taking so long to get the results from TcUnit?](#8-why-is-it-taking-so-long-to-get-the-results-from-tcunit)  
-9. [Is it possible to have a time delay between the execution of the test suites?](#9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
-10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
-11. [How do I test functions?](#11-how-do-i-test-functions)  
-12. [I have problems running TcUnit on a ARMv7 controller, why?](#12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
+1. [How can I run a test across multiple PLC cycles?](#_1-how-can-i-run-a-test-across-multiple-plc-cycles)  
+2. [How can I disable/ignore a test?](#_2-how-can-i-disableignore-a-test)  
+3. [Is there a way to test %I* or %Q* variables?](#_3-is-there-a-way-to-test-i-or-q-variables)  
+4. [Is there a way to hide TcUnit in my libraries?](#_4-is-there-a-way-to-hide-tcunit-in-my-libraries)  
+5. [How do I do assertions on the BIT datatype?](#_5-how-do-i-do-assertions-on-the-bit-datatype)  
+6. [When I run more than 100 tests in a single test-suite I get the wrong results, why?](#_6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why)  
+7. [Is it possible to run test suites and/or tests in a sequence?](#_7-is-it-possible-to-run-test-suites-andor-tests-in-a-sequence)  
+8. [Why is it taking so long to get the results from TcUnit?](#_8-why-is-it-taking-so-long-to-get-the-results-from-tcunit)  
+9. [Is it possible to have a time delay between the execution of the test suites?](#_9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
+10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#_10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
+11. [How do I test functions?](#_11-how-do-i-test-functions)  
+12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
 
 ---
 
