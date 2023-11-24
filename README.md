@@ -25,7 +25,9 @@ Go to the [releases](https://github.com/tcunit/TcUnit/releases).
 Check out the [TcUnit-Runner project](https://github.com/tcunit/TcUnit-Runner).
 
 **Want to contribute to the project?**  
-That's fantastic! But please read the [CONTRIBUTING](CONTRIBUTING.md) first.
+That's fantastic! There are two ways to do this.
+1. Contribute with your time and knowledge by fixing issues or adding new features. Please read the [CONTRIBUTING](CONTRIBUTING.md) first.
+2. By [becoming  a sponsor](https://github.com/sponsors/tcunit).
 
 **Have any questions? Found a bug or want to discuss an idea?**  
 Check the [F.A.Q](https://tcunit.org/#/faq).

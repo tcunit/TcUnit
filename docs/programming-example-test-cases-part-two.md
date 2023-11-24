@@ -320,7 +320,7 @@ TEST_FINISHED();
 
 As can be seen the only thing that varies between the tests (other than name) is the different inputs and expected output.
 
-### FB_DiagnosticMessageTimeStampParser_Test
+## FB_DiagnosticMessageTimeStampParser_Test
 
 The eight bytes that make up the timestamp can be either the distributed clock (DC) from EtherCAT, or a local clock in the device itself.
 In the global case we want to parse the DC-time, while in the local case we just want to take the DC from the current task time (the local clock could be extracted from the EtherCAT-slave, but for the sake of simplicity we'll use the task DC).

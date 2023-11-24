@@ -24,6 +24,7 @@ If you don’t find what you are looking for here, you can look through the:
 10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#_10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
 11. [How do I test functions?](#_11-how-do-i-test-functions)  
 12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
+13. [AssertEquals(ANY) on properties makes my development environment crash, why?](#_13-assertequalsany-on-properties-makes-my-development-environment-crash-why)
 
 ---
 
@@ -317,3 +318,15 @@ When running TcUnit with a controller using ARMv7 you can run into issues, such 
 This seems to be an issue with the limited memory of the controllers using an ARMv7 such as the CX8190 and CX9020. Please adjust the [parameters related to memory allocation](#6-when-i-run-more-than-100-tests-in-a-single-test-suite-i-get-the-wrong-results-why).
 
 For more information on a set of working parameters, see [this issue on GitHub](https://github.com/tcunit/TcUnit/issues/148).
+
+## 13. AssertEquals(ANY) on properties makes my development environment crash, why?
+
+Asserting the expected value of a property makes TcXaeShell crash and triggers a Windows Blue-Screen-Of-Death causing a full PLC reboot.
+What should I do?
+
+Using [`AssertEquals(ANY)`](api.md#assertequals) on a property is not allowed.
+In TwinCAT 4024 (and earlier) the compiler doesn't warn about this but simply crashes. In TwinCAT 4026 (and later) a compile error is raised, see the following screenshot:
+
+![AssertANY with parameter](img/AssertAnyWithParameter.png)
+
+Simply use the primitive variant of Assert instead. For example, if you have a parameter that is a boolean, use [`AssertEquals_BOOL`](api.md#assertequals_bool) instead.

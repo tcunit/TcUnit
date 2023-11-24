@@ -43,7 +43,7 @@ Running our three unit tests that we defined earlier we get the result:
 
 Two additional tests that succeed.
 
-### FB_DiagnosticMessageTimeStampParser
+## FB_DiagnosticMessageTimeStampParser
 
 The timestamp parser takes an EtherCAT distributed clock (DC) timestamp (8 bytes), information of whether the timestamp is a local or global timestamp and delivers a human-readable string as output.
 
