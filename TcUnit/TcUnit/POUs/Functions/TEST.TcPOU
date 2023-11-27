@@ -13,7 +13,7 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
 
-(* Mark this test as the current one being executed *)
+// Mark this test as the current one being executed
 GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 
 (* Check if combination of address for the test suite and test name already exists.
@@ -22,7 +22,7 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
    Otherwise, add it to the available tests *)
 
 FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
-    (* Look for the test suite by comparing to the one that is currently running *)
+    // Look for the test suite by comparing to the one that is currently running
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
         Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := FALSE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);

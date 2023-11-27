@@ -29,7 +29,7 @@ END_VAR]]></Declaration>
 *)
 METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
-        <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;   
+        <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;
 IF Initialised() THEN
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.xUnitFilePath));
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := AccessMode));
@@ -61,7 +61,7 @@ Xml.SetBuffer(PointerToBuffer := ADR(Buffer), SizeOfBuffer := SIZEOF(Buffer));
 BufferInitialised := TRUE;
 
 // Set testresult interface
-TestResults := iTestResults;]]></ST>
+THIS^.TestResults := iTestResults;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialised" Id="{dac11801-83e2-4726-b3a7-dcd7f73621e3}">
@@ -89,7 +89,7 @@ VAR CONSTANT
     TEST_STATUS_FAIL : STRING := 'FAIL';
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[UnitTestResults REF=TestResults.GetTestSuiteResults();
+        <ST><![CDATA[UnitTestResults REF= TestResults.GetTestSuiteResults();
 
 // Only publish once if "GVL_Param_TcUnit.xUnitEnablePublish" is enabled and all test results are stored.
 PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish));
@@ -105,12 +105,12 @@ IF PublishTrigger.Q THEN
     Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.NumberOfSuccessfulTestCases));
     Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.Duration));
 
-    FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO 
+    FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO
         (* <testsuite> *)
         Xml.NewTag('testsuite');
         Xml.NewParameter('id', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Identity));
         Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
-        Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));        
+        Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));
         Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
         Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Duration));
         
@@ -123,14 +123,14 @@ IF PublishTrigger.Q THEN
 
             IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsFailed THEN
                 Xml.NewParameter('status', TEST_STATUS_FAIL);
-            ELSIF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsSkipped THEN   
+            ELSIF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsSkipped THEN
                 Xml.NewParameter('status', TEST_STATUS_SKIP);
             ELSE
                 Xml.NewParameter('status', TEST_STATUS_PASS);
             END_IF
 
             (* Determine testcase fail or success *)
-            IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType <> E_AssertionType.Type_UNDEFINED THEN 
+            IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType <> E_AssertionType.Type_UNDEFINED THEN
                 (* In case of fail 
                     <failure message="Values differ" type="BYTE" />
                 *)
@@ -144,11 +144,11 @@ IF PublishTrigger.Q THEN
             Xml.NewTagData('');
 
             END_IF
-            (* Close testcase tag*)         
+            // Close testcase tag
             Xml.CloseTag();
 
         END_FOR
-        (* Close testsuite tag *)
+        // Close testsuite tag
         Xml.CloseTag();
 
     END_FOR
@@ -161,17 +161,17 @@ IF PublishTrigger.Q THEN
     (* Clear the internal buffer *)
     Xml.ClearBuffer();
 
-    (* Inform user *)
+    // Inform user
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                         msgFmtStr := '%s',
                                         strArg := '| ==========TEST RESULTS EXPORTED===========');
-                                                                                         
-    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,   
-                                        msgFmtStr :=  '| Location: %s ',                 
-                                        strArg := GVL_Param_TcUnit.xUnitFilePath);            
 
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
-                                        MsgFmtStr := '%s',                               
+                                        msgFmtStr :=  '| Location: %s ',
+                                        strArg := GVL_Param_TcUnit.xUnitFilePath);
+
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
+                                        MsgFmtStr := '%s',
                                         StrArg := '| ======================================');
 END_IF]]></ST>
       </Implementation>

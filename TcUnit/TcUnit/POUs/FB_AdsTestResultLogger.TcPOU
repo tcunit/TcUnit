@@ -54,16 +54,16 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
     PrintingTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.AreAllTestsFinished());
     IF PrintingTestSuiteTrigger.Q THEN
         StringToPrint := CONCAT(STR1 := '| Test suite ID=',
-                                             STR2 := UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Identity));
+                                STR2 := UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Identity));
         StringToPrint := CONCAT(STR1 := StringToPrint,
-                                             STR2 :=  ' $'%s$'');
+                                STR2 :=  ' $'%s$'');
 
-        (* Print test suite name and ID *)
+        // Print test suite name and ID
         GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                             MsgFmtStr := StringToPrint,
                                             StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Name);
 
-        (* Print number of tests/number of failed tests in test suite *)
+        // Print number of tests/number of failed tests in test suite
         StringToPrint := CONCAT(STR1 := '| ID=',
                                              STR2 := UINT_TO_STRING(TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].Identity));
         StringToPrint := CONCAT(STR1 := StringToPrint,
@@ -83,25 +83,25 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                             MsgFmtStr := StringToPrint,
                                             StrArg := '');
 
-        (* Print error if there are too many tests in the test suite *)
+        // Print error if there are too many tests in the test suite
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
             MaxNumberOfTestsToPrint := GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite;
         ELSE
             MaxNumberOfTestsToPrint := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests;
         END_IF
 
-        (* Iterate and print all tests in test suite *)
+        // Iterate and print all tests in test suite
         FOR TestsInTestSuiteCounter := 1 TO MaxNumberOfTestsToPrint BY 1 DO
-            (* Print test name *)
+            // Print test name
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test name=%s',
                                                 StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName);
-            (* Print test class name *)
+            // Print test class name
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                                 MsgFmtStr := '| Test class name=%s',
                                                 StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName);
 
-            (* Print test result/status (SUCCESS, FAILED, SKIPPED) + number of assertions made *)
+            // Print test result/status (SUCCESS, FAILED, SKIPPED) + number of assertions made
             IF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed THEN
                 StringToPrint := CONCAT(STR1 := '| Test status=', STR2 := TEST_STATUS_FAIL);
             ELSIF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsSkipped THEN
@@ -120,14 +120,14 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
                                                 MsgFmtStr := StringToPrint,
                                                 StrArg := '');
 
-            (* Print assertion/failure message (if existing) *)
+            // Print assertion/failure message (if existing)
             IF (LEN(STR := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage) > 0) THEN
                 GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                                     MsgFmtStr := '| Test assert message=%s',
                                                     StrArg := TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage);
             END_IF
 
-            (* Print assertion/failure type (if existing) *)
+            // Print assertion/failure type (if existing)
             IF TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType <> E_AssertionType.Type_UNDEFINED THEN
                 GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                                     MsgFmtStr := '| Test assert type=%s',
@@ -136,7 +136,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
             END_IF
         END_FOR
 
-        (* Print error message if there are too many tests in the test suite *)
+        // Print error message if there are too many tests in the test suite
         IF (TcUnitTestResults.TestSuiteResults[PrintingTestSuiteResultNumber].NumberOfTests > GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite) THEN
             GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
                                                 MsgFmtStr := 'Tests failed because the number of tests (%s',
@@ -157,7 +157,7 @@ IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND
     END_IF
 END_IF
 
-(* Log end results once all test suites have finished running *)
+// Log end results once all test suites have finished running
 IF (GVL_TcUnit.NumberOfInitializedTestSuites = 0 OR PrintingTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites)
     AND NOT PrintedFinalTestResults AND TestResults.GetAreTestResultsAvailable() THEN
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,

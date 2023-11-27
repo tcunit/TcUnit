@@ -108,7 +108,7 @@ namespace TcUnit.Verifier
             bool testsFinishedRunningFirstLineFound = false;
             bool numberOfTestSuitesLineFound = false;
             bool numberOfTestsLineFound = false;
-            bool numberOfSuccesfulTestsLineFound = false;
+            bool numberOfSuccessfulTestsLineFound = false;
             bool numberOfFailedTestsLineFound = false;
             bool durationLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
@@ -138,7 +138,7 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains("| Tests:"))
                         numberOfTestsLineFound = true;
                     if (error.Description.Contains("| Successful tests:"))
-                        numberOfSuccesfulTestsLineFound = true;
+                        numberOfSuccessfulTestsLineFound = true;
                     if (error.Description.Contains("| Failed tests:"))
                     {
                         numberOfFailedTestsLineFound = true;
@@ -158,7 +158,7 @@ namespace TcUnit.Verifier
                     testsFinishedRunningFirstLineFound 
                     && numberOfTestSuitesLineFound 
                     && numberOfTestsLineFound 
-                    && numberOfSuccesfulTestsLineFound
+                    && numberOfSuccessfulTestsLineFound
                     && numberOfFailedTestsLineFound
                     && durationLineFound
                     && testsFinishedRunningLastLineFound
@@ -185,7 +185,7 @@ namespace TcUnit.Verifier
                 )
             );
 
-            /* Insert the test classes here */
+            // Insert the test classes here
             new FB_PrimitiveTypes(errors);
             new FB_ExtendedTestInformation(errors);
             new FB_AssertTrueFalse(errors);
@@ -209,6 +209,7 @@ namespace TcUnit.Verifier
             new FB_TestFinishedNamed(errors);
             new FB_TestNumberOfAssertionsCalculation(errors);
             new FB_EmptyAssertionMessage(errors);
+            new FB_AssertCountExceedsMaxNumber(errors);
 
             log.Info("Done.");
 

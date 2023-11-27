@@ -45,7 +45,7 @@ VAR
        in seconds *)
     Duration : LREAL;
 
-    (* Number of ordered tests (created by TEST_ORDERED()) that this test suite contains *)
+    // Number of ordered tests (created by TEST_ORDERED()) that this test suite contains
     NumberOfOrderedTests : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
     <Implementation>
@@ -1673,7 +1673,7 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_REAL,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
@@ -3650,7 +3650,7 @@ VAR_INPUT
     bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
+        <ST><![CDATA[GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;
 GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;]]></ST>
       </Implementation>
     </Method>

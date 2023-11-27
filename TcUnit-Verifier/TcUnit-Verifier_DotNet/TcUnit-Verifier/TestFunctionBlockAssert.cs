@@ -32,16 +32,14 @@ namespace TcUnit.Verifier
         protected string CreateFailedTestMessage(string method, string expected, string actual, string message)
         {
             string returnString;
-            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" +method +"', " 
-                +"EXP: " +expected + ", " +"ACT: " +actual + ", " + "MSG: " +message;
+            returnString = CreateFailedTestCommonString(method) + ", " + "EXP: " + expected + ", " + "ACT: " + actual + ", " + "MSG: " + message;
             return returnString;
         }
 
         protected string CreateFailedTestMessageNoAssertionMessage(string method, string expected, string actual)
         {
             string returnString;
-            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" + method + "', "
-                + "EXP: " + expected + ", " + "ACT: " + actual;
+            returnString = CreateFailedTestCommonString(method) + ", " + "EXP: " + expected + ", " + "ACT: " + actual;
             return returnString;
         }
 
@@ -54,6 +52,11 @@ namespace TcUnit.Verifier
             // convert number placeholders (%f) to a regex that matches floating point values
             testMessage = @".*?" + Regex.Escape(testMessage).Replace("%f", @"[+-]?(\d+([.]\d*)?([eE][+-]?\d+)?|[.]\d+([eE][+-]?\d+)?)") + @".*?";
             return _errors.Any(e => Regex.Match(e.Description, testMessage, RegexOptions.IgnoreCase).Success && e.ErrorLevel.Equals(errorLevel));
+        }
+
+        private bool AreErrorItemsContainingTestMessage(string testIdentText, string testMessage, vsBuildErrorLevel errorLevel)
+        {
+            return _errors.Any(e => (e.Description.Contains(testIdentText.ToUpper())) && (e.Description.Contains(testMessage.ToUpper())) && e.ErrorLevel.Equals(errorLevel));
         }
 
         private int CountErrorItemsContainingTestMessage(string testMessage, vsBuildErrorLevel errorLevel)
@@ -145,6 +148,23 @@ namespace TcUnit.Verifier
             {
                 log.Info("Test suite " + _testFunctionBlockInstance + " reports: " + message);
             }
+        }
+
+        protected void AssertDoesNotContainMessage(string testName, string message, vsBuildErrorLevel errorLevel)
+        {
+
+            string testIdentText = CreateFailedTestCommonString(testName);
+            if (AreErrorItemsContainingTestMessage(testIdentText, message, errorLevel))
+            {
+                log.Info("Test " + _testFunctionBlockInstance + "." + testName + " reports: " + message);
+            }
+        }
+
+        protected string CreateFailedTestCommonString(string method)
+        {
+            string returnString;
+            returnString = "FAILED TEST 'PRG_TEST." + _testFunctionBlockInstance + "@" + method + "'";
+            return returnString;
         }
     }
 }

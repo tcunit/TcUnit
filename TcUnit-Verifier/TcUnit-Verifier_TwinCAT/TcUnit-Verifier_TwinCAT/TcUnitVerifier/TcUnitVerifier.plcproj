@@ -41,6 +41,9 @@
     <Compile Include="Test\FB_ArrayPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_AssertCountExceedsMaxNumber.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_AssertEveryFailedTestTwice.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -141,11 +144,6 @@
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
     </PlaceholderReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="TcUnit">
-      <Resolution>TcUnit, * (www.tcunit.org)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>
     <None Include="TcUnitVerifier.tmc">
