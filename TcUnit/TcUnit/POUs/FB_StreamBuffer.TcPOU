@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_StreamBuffer" Id="{7f893efb-b056-43d3-9cf8-4965b865d1ab}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This functionblock acts as a stream buffer for use with FB_XmlControl
-*)
+    <Declaration><![CDATA[// This functionblock acts as a stream buffer for use with FB_XmlControl
 FUNCTION_BLOCK FB_StreamBuffer 
 VAR
     _PointerToStringBuffer : POINTER TO BYTE;
@@ -14,9 +12,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Property Name="Append" Id="{d4d616f0-7dc0-4c82-9980-a86820a4e603}">
-      <Declaration><![CDATA[(*
-    Appends a string to the buffer
-*)
+      <Declaration><![CDATA[// Appends a string to the buffer
 PROPERTY Append : T_MaxString]]></Declaration>
       <Set Name="Set" Id="{773bf1db-6b9a-4581-be33-e4745bbc41df}">
         <Declaration><![CDATA[VAR
@@ -40,9 +36,7 @@ ByteBuffer^ := 0; // null terminated string]]></ST>
       </Set>
     </Property>
     <Property Name="BufferSize" Id="{d2500465-6b5c-4fb0-9294-23ec2bd05ebc}">
-      <Declaration><![CDATA[(*
-    Read current Buffersize
-*)
+      <Declaration><![CDATA[// Read current Buffersize
 PROPERTY BufferSize : UDINT]]></Declaration>
       <Get Name="Get" Id="{41dc436d-8e79-4934-92fd-8311aee18e1d}">
         <Declaration><![CDATA[]]></Declaration>
@@ -52,9 +46,7 @@ PROPERTY BufferSize : UDINT]]></Declaration>
       </Get>
     </Property>
     <Method Name="Clear" Id="{7b62bdfe-ea69-48e5-9767-e008c0e45b4f}">
-      <Declaration><![CDATA[(*  
-    Clears the buffer and sets the length to 0
-*)
+      <Declaration><![CDATA[// Clears the buffer and sets the length to 0
 METHOD PUBLIC Clear
 VAR
 	Count : UDINT;
@@ -72,9 +64,7 @@ _Length := 0;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Copy" Id="{fd1ed528-0ae6-4cdf-afa3-b493b38da967}">
-      <Declaration><![CDATA[(*
-    Copies a string from the character buffer
-*)
+      <Declaration><![CDATA[// Copies a string from the character buffer
 METHOD PUBLIC Copy : T_MaxString
 VAR_INPUT
     StartPos : UDINT;
@@ -229,9 +219,7 @@ FindBack := _Length - Loop + 1;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Length" Id="{15fcf071-8b31-4039-8bff-7191e342bda2}">
-      <Declaration><![CDATA[(*
-    Gets/Sets the current length (in bytes) of the streambuffer
-*)
+      <Declaration><![CDATA[// Gets/Sets the current length (in bytes) of the streambuffer
 PROPERTY Length : UDINT]]></Declaration>
       <Get Name="Get" Id="{d9ee832e-be82-4ebc-bf0b-bb382927ac05}">
         <Declaration><![CDATA[]]></Declaration>

@@ -3,7 +3,7 @@
   <POU Name="F_IsAnyEqualToUnionValue" Id="{1ab30776-5b8c-4eb4-8ece-b0c087a9b905}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_IsAnyEqualToUnionValue : BOOL
 VAR_INPUT
-    uExpectedOrActual : U_ExpectedOrActual;
+    ExpectedOrActual : U_ExpectedOrActual;
     ExpectedOrActualSize : UDINT;
     ExpectedOrActualTypeClass : IBaseLibrary.TypeClass;
     ExpectedOrActualValue : POINTER TO BYTE;
@@ -19,70 +19,70 @@ END_VAR]]></Declaration>
 CASE ExpectedOrActualTypeClass OF
 
     IBaseLibrary.TypeClass.TYPE_BOOL :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.boolExpectedOrActual = AnyExpectedOrActual.boolExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.boolExpectedOrActual = AnyExpectedOrActual.boolExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_BIT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.bitExpectedOrActual = AnyExpectedOrActual.bitExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.bitExpectedOrActual = AnyExpectedOrActual.bitExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_BYTE :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.byteExpectedOrActual = AnyExpectedOrActual.byteExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.byteExpectedOrActual = AnyExpectedOrActual.byteExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_WORD :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.wordExpectedOrActual = AnyExpectedOrActual.wordExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.wordExpectedOrActual = AnyExpectedOrActual.wordExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_DWORD :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.dwordExpectedOrActual = AnyExpectedOrActual.dwordExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.dwordExpectedOrActual = AnyExpectedOrActual.dwordExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_LWORD :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.lwordExpectedOrActual = AnyExpectedOrActual.lwordExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.lwordExpectedOrActual = AnyExpectedOrActual.lwordExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_SINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.sintExpectedOrActual = AnyExpectedOrActual.sintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.sintExpectedOrActual = AnyExpectedOrActual.sintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_INT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.intExpectedOrActual = AnyExpectedOrActual.intExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.intExpectedOrActual = AnyExpectedOrActual.intExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_DINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.dintExpectedOrActual = AnyExpectedOrActual.dintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.dintExpectedOrActual = AnyExpectedOrActual.dintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_LINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.lintExpectedOrActual = AnyExpectedOrActual.lintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.lintExpectedOrActual = AnyExpectedOrActual.lintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_USINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.usintExpectedOrActual = AnyExpectedOrActual.usintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.usintExpectedOrActual = AnyExpectedOrActual.usintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_UINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.uintExpectedOrActual = AnyExpectedOrActual.uintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.uintExpectedOrActual = AnyExpectedOrActual.uintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_UDINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.udintExpectedOrActual = AnyExpectedOrActual.udintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.udintExpectedOrActual = AnyExpectedOrActual.udintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_ULINT :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.ulintExpectedOrActual = AnyExpectedOrActual.ulintExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.ulintExpectedOrActual = AnyExpectedOrActual.ulintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_REAL :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.realExpectedOrActual = AnyExpectedOrActual.realExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.realExpectedOrActual = AnyExpectedOrActual.realExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.lrealExpectedOrActual = AnyExpectedOrActual.lrealExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.lrealExpectedOrActual = AnyExpectedOrActual.lrealExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_STRING :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.stringExpectedOrActual = AnyExpectedOrActual.stringExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.stringExpectedOrActual = AnyExpectedOrActual.stringExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_WSTRING :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.wstringExpectedOrActual = AnyExpectedOrActual.wstringExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.wstringExpectedOrActual = AnyExpectedOrActual.wstringExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_TIME :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.timeExpectedOrActual = AnyExpectedOrActual.timeExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.timeExpectedOrActual = AnyExpectedOrActual.timeExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_DATE :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.dateExpectedOrActual = AnyExpectedOrActual.dateExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.dateExpectedOrActual = AnyExpectedOrActual.dateExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.dateandtimeExpectedOrActual = AnyExpectedOrActual.dateandtimeExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.dateandtimeExpectedOrActual = AnyExpectedOrActual.dateandtimeExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.timeofdayExpectedOrActual = AnyExpectedOrActual.timeofdayExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.timeofdayExpectedOrActual = AnyExpectedOrActual.timeofdayExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
         F_IsAnyEqualToUnionValue := FALSE;
@@ -134,7 +134,7 @@ CASE ExpectedOrActualTypeClass OF
         F_IsAnyEqualToUnionValue := FALSE;
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
-        F_IsAnyEqualToUnionValue := uExpectedOrActual.ltimeExpectedOrActual = AnyExpectedOrActual.ltimeExpectedOrActual;
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.ltimeExpectedOrActual = AnyExpectedOrActual.ltimeExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         F_IsAnyEqualToUnionValue := FALSE;

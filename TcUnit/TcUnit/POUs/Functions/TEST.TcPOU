@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TEST" Id="{8dd61791-c583-4b5e-b392-3e0ecf487849}" SpecialFunc="None">
-    <Declaration><![CDATA[(* This function declares a new test (if it has not been already declared in an earlier cycle) *)
+    <Declaration><![CDATA[// This function declares a new test (if it has not been already declared in an earlier cycle)
 FUNCTION TEST
 VAR_INPUT
     TestName : T_MaxString;

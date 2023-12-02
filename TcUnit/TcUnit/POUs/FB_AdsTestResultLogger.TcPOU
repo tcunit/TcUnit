@@ -13,10 +13,10 @@ VAR
     PrintingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     PrintingTestSuiteTrigger : R_TRIG;
 
-    (* This flag is set once the final end result has printed *)
+    // This flag is set once the final end result has printed
     PrintedFinalTestResults : BOOL;
 
-    (* This flag is set once the test suites result have been printed *)
+    // This flag is set once the test suites result have been printed
     PrintedTestSuitesResults : BOOL;
 END_VAR]]></Declaration>
     <Implementation>

@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_CheckIfSpecificTestIsFinished" Id="{2acea95d-ab41-4d72-9612-66cd6d5b13cc}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    Verifies that the function IS_TEST_FINISHED('Name') works as intended.
-*)
+    <Declaration><![CDATA[// Verifies that the function IS_TEST_FINISHED('Name') works as intended.
 FUNCTION_BLOCK FB_CheckIfSpecificTestIsFinished EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[CheckBeforeAndAfterFinishing();]]></ST>

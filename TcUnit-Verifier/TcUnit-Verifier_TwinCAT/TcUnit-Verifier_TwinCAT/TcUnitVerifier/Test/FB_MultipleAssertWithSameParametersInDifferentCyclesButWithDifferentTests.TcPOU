@@ -11,8 +11,8 @@
 *)
 FUNCTION_BLOCK FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests EXTENDS TcUnit.FB_TestSuite
 VAR
-    TimerAgain : Tc2_Standard.TON := (PT := T#1S); // Timer to call "AssertSeveralTimesAgain"
-    TimerAgainAgain : Tc2_Standard.TON := (PT := T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
+    TimerAgain : TON := (PT := T#1S); // Timer to call "AssertSeveralTimesAgain"
+    TimerAgainAgain : TON := (PT := T#5S); // Timer to call "AssertSeveralTimesAgainAgain"
     CalledAll : BOOL; // Indication of whether we've called all tests
 END_VAR]]></Declaration>
     <Implementation>

@@ -11,52 +11,74 @@ END_VAR]]></Declaration>
       <ST><![CDATA[CASE AssertionType OF
     E_AssertionType.Type_UNDEFINED :
         F_AssertionTypeToString := 'UNDEFINED';
+
     E_AssertionType.Type_ANY :
         F_AssertionTypeToString := 'ANY';
 
     (* Primitive types *)
     E_AssertionType.Type_BOOL :
         F_AssertionTypeToString := 'BOOL';
+
     E_AssertionType.Type_BYTE :
         F_AssertionTypeToString := 'BYTE';
+
     E_AssertionType.Type_DATE :
         F_AssertionTypeToString := 'DATE';
+
     E_AssertionType.Type_DATE_AND_TIME :
         F_AssertionTypeToString := 'DATE_AND_TIME';
+
     E_AssertionType.Type_DINT :
         F_AssertionTypeToString := 'DINT';
+
     E_AssertionType.Type_DWORD :
         F_AssertionTypeToString := 'DWORD';
+
     E_AssertionType.Type_INT :
         F_AssertionTypeToString := 'INT';
+
     E_AssertionType.Type_LINT :
         F_AssertionTypeToString := 'LINT';
+
     E_AssertionType.Type_LREAL :
         F_AssertionTypeToString := 'LREAL';
+
     E_AssertionType.Type_LTIME :
         F_AssertionTypeToString := 'LTIME';
+
     E_AssertionType.Type_LWORD :
         F_AssertionTypeToString := 'LWORD';
+
     E_AssertionType.Type_REAL :
         F_AssertionTypeToString := 'REAL';
+
     E_AssertionType.Type_SINT :
         F_AssertionTypeToString := 'SINT';
+
     E_AssertionType.Type_STRING :
         F_AssertionTypeToString := 'STRING';
+
     E_AssertionType.Type_TIME :
         F_AssertionTypeToString := 'TIME';
+
     E_AssertionType.Type_TIME_OF_DAY :
         F_AssertionTypeToString := 'TIME_OF_DAY';
+
     E_AssertionType.Type_UDINT :
         F_AssertionTypeToString := 'UDINT';
+
     E_AssertionType.Type_UINT :
         F_AssertionTypeToString := 'UINT';
+
     E_AssertionType.Type_ULINT :
         F_AssertionTypeToString := 'ULINT';
+
     E_AssertionType.Type_USINT :
         F_AssertionTypeToString := 'USINT';
+
     E_AssertionType.Type_WORD :
         F_AssertionTypeToString := 'WORD';
+
     E_AssertionType.Type_WSTRING :
         F_AssertionTypeToString := 'WSTRING';
 
@@ -64,40 +86,58 @@ END_VAR]]></Declaration>
     (* Array types *)
     E_AssertionType.Type_Array2D_LREAL :
         F_AssertionTypeToString := 'Array2D_LREAL';
+
     E_AssertionType.Type_Array2D_REAL :
         F_AssertionTypeToString := 'Array2D_REAL';
+
     E_AssertionType.Type_Array3D_LREAL :
         F_AssertionTypeToString := 'Array3D_LREAL';
+
     E_AssertionType.Type_Array3D_REAL :
         F_AssertionTypeToString := 'Array3D_REAL';
+
     E_AssertionType.Type_Array_BOOL :
         F_AssertionTypeToString := 'Array_BOOL';
+
     E_AssertionType.Type_Array_BYTE :
         F_AssertionTypeToString := 'Array_BYTE';
+
     E_AssertionType.Type_Array_DINT :
         F_AssertionTypeToString := 'Array_DINT';
+
     E_AssertionType.Type_Array_DWORD :
         F_AssertionTypeToString := 'Array_DWORD';
+
     E_AssertionType.Type_Array_INT :
         F_AssertionTypeToString := 'Array_INT';
+
     E_AssertionType.Type_Array_LINT :
         F_AssertionTypeToString := 'Array_LINT';
+
     E_AssertionType.Type_Array_LREAL :
         F_AssertionTypeToString := 'Array_LREAL';
+
     E_AssertionType.Type_Array_LWORD :
         F_AssertionTypeToString := 'Array_LWORD';
+
     E_AssertionType.Type_Array_REAL :
         F_AssertionTypeToString := 'Array_REAL';
+
     E_AssertionType.Type_Array_SINT :
         F_AssertionTypeToString := 'Array_SINT';
+
     E_AssertionType.Type_Array_UDINT :
         F_AssertionTypeToString := 'Array_UDINT';
+
     E_AssertionType.Type_Array_UINT :
         F_AssertionTypeToString := 'Array_UINT';
+
     E_AssertionType.Type_Array_ULINT :
         F_AssertionTypeToString := 'Array_ULINT';
+
     E_AssertionType.Type_Array_USINT :
         F_AssertionTypeToString := 'Array_USINT';
+
     E_AssertionType.Type_Array_WORD :
         F_AssertionTypeToString := 'Array_WORD';
 

@@ -10,27 +10,26 @@ VAR
     ProjectNameWithDot : T_MaxString;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Add the '.' character to the project name for search *)
+      <ST><![CDATA[// Add the '.' character to the project name for search
 ProjectNameWithDot := CONCAT(STR1 := TwinCAT_SystemInfoVarList._AppInfo.ProjectName, STR2 := '.');
 
-(* Find the character position of the beginning of the first occurence of the project name *)
+// Find the character position of the beginning of the first occurence of the project name
 CharacterPositionOfProjectName := FIND(STR1 := TestInstancePath, STR2 := ProjectNameWithDot);
 
 IF CharacterPositionOfProjectName > 0 THEN
     TestInstancePath := DELETE(STR := TestInstancePath,
-                                            LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
-                                            POS := 1);
+                               LEN := CharacterPositionOfProjectName-1 + LEN(ProjectNameWithDot),
+                               POS := 1);
 END_IF
 
-(* Check if the project name happens to be the same as namespace, and in that case, remove that as well *)
+// Check if the project name happens to be the same as namespace, and in that case, remove that as well
 CharacterPositionOfProjectName := FIND(STR1 := TestInstancePath,
                                                     STR2 := ProjectNameWithDot);
 
 IF CharacterPositionOfProjectName > 0 THEN
     TestInstancePath := DELETE(STR := TestInstancePath,
-                                            LEN := CharacterPositionOfProjectName - 1 + 
-                                                LEN(STR := ProjectNameWithDot),
-                                            POS := 1);
+                               LEN := CharacterPositionOfProjectName - 1 +  LEN(STR := ProjectNameWithDot),
+                               POS := 1);
 END_IF
 
 F_RemoveInstancePathAndProjectNameFromTestInstancePath := TestInstancePath;]]></ST>

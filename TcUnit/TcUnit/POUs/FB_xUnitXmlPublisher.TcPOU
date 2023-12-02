@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_xUnitXmlPublisher" Id="{6597c0b3-0890-4d5d-8d3a-2d0d0b2355db}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    Publishes test results into an xUnit compatible Xml file
-*)
+    <Declaration><![CDATA[// Publishes test results into an xUnit compatible Xml file
 FUNCTION_BLOCK FB_xUnitXmlPublisher IMPLEMENTS I_TestResultLogger
 VAR
-    // Dependancy Injection via FB_Init
+    // Dependency injection via FB_Init
     TestResults : I_TestResults;
 
     // File access mode
@@ -74,7 +72,7 @@ THIS^.TestResults := iTestResults;]]></ST>
       <Declaration><![CDATA[(*
     This method is responsible for the entire generation of the output file. 
     The output of the xml writer is NOT beautified.
-    
+
     When new data is available, feel free to add it to the report
 *)
 METHOD PUBLIC LogTestSuiteResults
@@ -95,10 +93,10 @@ END_VAR]]></Declaration>
 PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish));
 IF PublishTrigger.Q THEN
 
-    (* <?xml version="1.0" encoding="UTF-8"?> *)
+    // <?xml version="1.0" encoding="UTF-8"?>
     Xml.WriteDocumentHeader(Header := '<?xml version="1.0" encoding="UTF-8"?>');
 
-    (* <testsuites> *)
+    // <testsuites>
     Xml.NewTag('testsuites');
     Xml.NewParameter('disabled', '');
     Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.NumberOfFailedTestCases));
@@ -106,16 +104,16 @@ IF PublishTrigger.Q THEN
     Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.Duration));
 
     FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO
-        (* <testsuite> *)
+        // <testsuite>
         Xml.NewTag('testsuite');
         Xml.NewParameter('id', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Identity));
         Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
         Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));
         Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
         Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Duration));
-        
+
         FOR CurrentTestCount := 1 TO UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests BY 1 DO
-            (* <testcase> *)
+            // <testcase>
             Xml.NewTag('testcase');
             Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
             Xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
@@ -129,7 +127,7 @@ IF PublishTrigger.Q THEN
                 Xml.NewParameter('status', TEST_STATUS_PASS);
             END_IF
 
-            (* Determine testcase fail or success *)
+            // Determine testcase fail or success
             IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType <> E_AssertionType.Type_UNDEFINED THEN
                 (* In case of fail 
                     <failure message="Values differ" type="BYTE" />
@@ -137,10 +135,10 @@ IF PublishTrigger.Q THEN
                 Xml.NewTag('failure');
                 Xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
                 Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
-                (* Close failure tag *)
+                // Close failure tag
                 Xml.CloseTag();
             ELSE
-            (* In case of success *)
+            // In case of success
             Xml.NewTagData('');
 
             END_IF
@@ -152,13 +150,13 @@ IF PublishTrigger.Q THEN
         Xml.CloseTag();
 
     END_FOR
-    (* Close testsuites *)
+    // Close testsuites
     Xml.CloseTag();
 
-    (* Delete, open, save and close the file *)
+    // Delete, open, save and close the file
     DeleteOpenWriteClose();
 
-    (* Clear the internal buffer *)
+    // Clear the internal buffer
     Xml.ClearBuffer();
 
     // Inform user

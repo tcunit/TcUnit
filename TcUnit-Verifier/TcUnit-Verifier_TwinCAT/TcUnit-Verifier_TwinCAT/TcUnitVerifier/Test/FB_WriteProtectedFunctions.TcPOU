@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_WriteProtectedFunctions" Id="{812062d4-e1c0-4591-8720-04dcd5e89c1e}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This testsuite tests the WRITE_PROTECTED_* helper functions.
-*)
+    <Declaration><![CDATA[// This testsuite tests the WRITE_PROTECTED_* helper functions.
 FUNCTION_BLOCK FB_WriteProtectedFunctions EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_WRITE_PROTECTED_BOOL();

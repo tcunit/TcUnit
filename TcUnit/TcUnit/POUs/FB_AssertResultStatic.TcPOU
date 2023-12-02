@@ -129,11 +129,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
-    IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
-                                 ExpectedOrActualSize := ExpectedSize,
-                                 ExpectedOrActualTypeClass := ExpectedTypeClass,
-                                 ExpectedOrActualValue := ExpectedValue) AND
-       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+    IF F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
+                                ExpectedOrActualSize := ExpectedSize,
+                                ExpectedOrActualTypeClass := ExpectedTypeClass,
+                                ExpectedOrActualValue := ExpectedValue) AND
+       F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
                                 ExpectedOrActualSize := ActualSize,
                                 ExpectedOrActualTypeClass := ActualTypeClass,
                                 ExpectedOrActualValue := ActualValue) AND
@@ -161,11 +161,11 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR IteratorCounter := 1 TO GVL_Param_TcUnit.MaxNumberOfAssertsForEachTestSuite BY 1 DO
-    IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
+    IF F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                 ExpectedOrActualSize := ExpectedSize,
                                 ExpectedOrActualTypeClass := ExpectedTypeClass,
                                 ExpectedOrActualValue := ExpectedValue) AND
-       F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+       F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
                                 ExpectedOrActualSize := ActualSize,
                                 ExpectedOrActualTypeClass := ActualTypeClass,
                                 ExpectedOrActualValue := ActualValue) AND
@@ -264,11 +264,11 @@ IF CurrentCycleCount <> CycleCount THEN
 END_IF
 
 FOR IteratorCounter := 1 TO TotalAsserts BY 1 DO
-      IF F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
+      IF F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Expected,
                                   ExpectedOrActualSize := ExpectedSize,
                                   ExpectedOrActualTypeClass := ExpectedTypeClass,
                                   ExpectedOrActualValue := ExpectedValue) AND
-         F_IsAnyEqualToUnionValue(uExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
+         F_IsAnyEqualToUnionValue(ExpectedOrActual := AssertResultInstances[IteratorCounter].AssertResult.Actual,
                                   ExpectedOrActualSize := ActualSize,
                                   ExpectedOrActualTypeClass := ActualTypeClass,
                                   ExpectedOrActualValue := ActualValue) AND
@@ -287,7 +287,7 @@ END_FOR
 
 // If not found anything, create the first
 IF NOT FoundOne THEN
-    (* No existing match found, create a new entry *)
+    // No existing match found, create a new entry
     AddAssertResult(ExpectedSize := ExpectedSize,
                     ExpectedTypeClass := ExpectedTypeClass,
                     ExpectedValue := ExpectedValue,

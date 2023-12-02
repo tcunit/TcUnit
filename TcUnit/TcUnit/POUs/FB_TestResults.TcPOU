@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TestResults" Id="{dcfade2b-3801-4064-9466-67a7a848e8d0}" SpecialFunc="None">
-    <Declaration><![CDATA[(* This function block holds results of the complete test run, i.e. results for all test suites *)
+    <Declaration><![CDATA[// This function block holds results of the complete test run, i.e. results for all test suites
 FUNCTION_BLOCK FB_TestResults IMPLEMENTS I_TestResults
 VAR
-    (* Test results *)
+    // Test results
     TestSuiteResults : ST_TestSuiteResults;
 
-    (* Misc variables *)
+    // Misc variables
     StoringTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     StoringTestSuiteTrigger : R_TRIG;
     StoredTestSuiteResults : BOOL;
@@ -24,66 +24,64 @@ VAR_TEMP
     GeneralTestResultsTestSuitesCounter : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* The body of the function block stores the test results *)
+      <ST><![CDATA[// The body of the function block stores the test results
 IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT StoredTestSuiteResults THEN
-    (*StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished() AND
-								   GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetDuration() > 0);*)
 	StoringTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.AreAllTestsFinished());
 
     IF StoringTestSuiteTrigger.Q THEN
-        (* Remove everything except the program name + "." + test suite name *)
+        // Remove everything except the program name + "." + test suite name
         TestSuiteName := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
 
-        (* Store test suite name and ID *)
+        // Store test suite name and ID
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Name := TestSuiteName;
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Identity := StoringTestSuiteResultNumber - 1;
 
-        (* Store number of tests in test suite *)
+        // Store number of tests in test suite
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].NumberOfTests :=
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTests();
 
-        (* Store number of failed tests in test suite *)
+        // Store number of failed tests in test suite
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].NumberOfFailedTests :=
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfFailedTests();
 
-        (* Store the duration *)
+        // Store the duration
         TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].Duration :=
             GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetDuration();
 
-        (* Limit the test analyse to the max array limit of 'Tests[]' in FB_TestSuite *)
+        // Limit the test analyse to the max array limit of 'Tests[]' in FB_TestSuite
         NumberOfTestsToAnalyse := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetNumberOfTestsToAnalyse();
 
-        (* Iterate and print all tests in test suite *)
+        // Iterate and print all tests in test suite
         FOR TestsInTestSuiteCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
             TestToBeStored := GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetTestByPosition(TestsInTestSuiteCounter);
-            (* Store test name *)
+            // Store test name
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestName := TestToBeStored.GetName();
 
-            (* Store test class name *)
+            // Store test class name
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestClassName :=
                 F_RemoveInstancePathAndProjectNameFromTestInstancePath(GVL_TcUnit.TestSuiteAddresses[StoringTestSuiteResultNumber]^.GetInstancePath());
 
-            (* Store whether the test has failed *)
+            // Store whether the test has failed
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsFailed :=
                 TestToBeStored.IsFailed();
 
-            (* Store whether the test was skipped *)
+            // Store whether the test was skipped
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].TestIsSkipped :=
                 TestToBeStored.IsSkipped();
 
-            (* Store the (first failed) assertion message *)
+            // Store the (first failed) assertion message
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage :=
                 TestToBeStored.GetAssertionMessage();
 
-            (* Store the (first failed) assertion type *)
+            // Store the (first failed) assertion type
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType :=
                 TestToBeStored.GetAssertionType();
 
-            (* Store number of assertions made *)
+            // Store number of assertions made
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].NumberOfAsserts :=
                 TestToBeStored.GetNumberOfAssertions();
 
-            (* Store the duration of the test *)
+            // Store the duration of the test
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].Duration :=
                 TestToBeStored.GetDuration();
         END_FOR
@@ -97,8 +95,8 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
     END_IF
 END_IF
 
-(* If all test suites have finished running, store the general test results *)
-(* Take care of the special case where no tests have not yet been defined *)
+(* If all test suites have finished running, store the general test results.
+   Take care OF the special CASE where no tests have NOT yet been defined *)
 IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 AND (NOT StoredGeneralTestResults) THEN
     StoredGeneralTestResults := TRUE;
     StoredTestSuiteResults := TRUE;
@@ -118,7 +116,7 @@ ELSIF StoringTestSuiteResultNumber = GVL_TcUnit.NumberOfInitializedTestSuites AN
 END_IF]]></ST>
     </Implementation>
     <Method Name="GetAreTestResultsAvailable" Id="{1405a17f-835e-481b-8bc4-6f447bc860a2}">
-      <Declaration><![CDATA[(* Returns whether the storing of the test results is finished *)
+      <Declaration><![CDATA[// Returns whether the storing of the test results is finished
 METHOD PUBLIC GetAreTestResultsAvailable : BOOL]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetAreTestResultsAvailable := (StoredTestSuiteResults AND StoredGeneralTestResults);]]></ST>

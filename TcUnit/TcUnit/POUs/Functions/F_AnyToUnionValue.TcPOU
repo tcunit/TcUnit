@@ -33,8 +33,8 @@ END_VAR]]></Declaration>
 
     IBaseLibrary.TypeClass.TYPE_DWORD :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.dwordExpectedOrActual),
-                          srcAddr := AnyValue,
-                          n := AnySize);
+               srcAddr := AnyValue,
+               n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_LWORD :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.lwordExpectedOrActual),
@@ -122,49 +122,49 @@ END_VAR]]></Declaration>
                n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_POINTER :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_REFERENCE :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_SUBRANGE :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ENUM :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ARRAY :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_PARAMS :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_USERDEF :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_NONE :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANY :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANYBIT :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANYDATE :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANYINT :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANYNUM :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_ANYREAL :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_LAZY :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
         MEMCPY(destaddr := ADR(F_AnyToUnionValue.ltimeExpectedOrActual),
@@ -172,13 +172,13 @@ END_VAR]]></Declaration>
                n := AnySize);
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
-        (* None *)
+        // None
 
     IBaseLibrary.TypeClass.TYPE_INTERFACE :
-        (* None *)
+        // None
 
     ELSE
-        (* None *)
+        // None
 END_CASE]]></ST>
     </Implementation>
   </POU>

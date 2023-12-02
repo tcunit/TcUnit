@@ -76,7 +76,7 @@ TrimmedTestName := F_LTrim(in := TestName);
 TrimmedTestName := F_RTrim(in := TrimmedTestName);
 LowerCasedTestName := F_ToLCase(in := TrimmedTestName);
 
-(* If test should be disabled, make sure to remove the "disabled_"-part of it from the test name *)
+// If test should be disabled, make sure to remove the "disabled_"-part of it from the test name
 IF FIND(STR1 := LowerCasedTestName, STR2 := 'disabled_') = 1 THEN
     IgnoreCurrentTestCase := TRUE;
     TrimmedTestName := DELETE(STR := TrimmedTestName, LEN := LEN(STR := 'disabled_'), POS := 1);
@@ -89,14 +89,14 @@ GetCurrentTaskIndex(); // Gets the task index of where this function block insta
 
 CycleCount := TwinCAT_SystemInfoVarList._TaskInfo[GetCurrentTaskIndex.index].CycleCount;
 
-(* Limit the test analyse to the max array limit of 'Tests[]' *)
+// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
-(* Iterate all the test names that up to this point have been added for this test suite *)
+// Iterate all the test names that up to this point have been added for this test suite
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TrimmedTestName THEN
         TestWithThisNameAlreadyExists := TRUE;
-        (* Check if a test with this name has already been called in this PLC cycle *)
+        // Check if a test with this name has already been called in this PLC cycle
         IF TestCycleCountIndex[IteratorCounter] = CycleCount THEN
             GVL_TcUnit.IgnoreCurrentTest := TRUE;
             (* A test with this name already exists for this test suite and has already been called in this cycle.
@@ -118,7 +118,7 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
 END_FOR
 
 IF NOT TestWithThisNameAlreadyExists THEN
-    (* Test has not been found. Add it. *)
+    // Test has not been found. Add it.
     Tests[IteratorCounter].SetName(Name := TrimmedTestName);
     NumberOfTests := NumberOfTests + 1;
     TestCycleCountIndex[NumberOfTests] := CycleCount;
@@ -126,14 +126,14 @@ IF NOT TestWithThisNameAlreadyExists THEN
         Tests[IteratorCounter].SetSkipped();
     END_IF
 
-    (* Extra information to be added if test is ordered (called by TEST_ORDERED()) *)
+    // Extra information to be added if test is ordered (called by TEST_ORDERED())
     IF IsTestOrdered THEN
         NumberOfOrderedTests := NumberOfOrderedTests + 1;
         Tests[IteratorCounter].SetTestOrder(OrderNumber := NumberOfOrderedTests);
     END_IF
 END_IF
 
-(* Check if this test should be disabled *)
+// Check if this test should be disabled
 IF IgnoreCurrentTestCase THEN
     GVL_TcUnit.IgnoreCurrentTest := TRUE;
     RETURN;
@@ -167,9 +167,9 @@ END_VAR]]></Declaration>
 
 IF NumberOfTests > 0 THEN
     AreAllTestsFinished := TRUE;
-    (* Limit the test analyse to the max array limit of 'Tests[]' *)
+    // Limit the test analyse to the max array limit of 'Tests[]'
     NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
-    (* A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled *)
+    // A test is considered finished if it is finished running (i.e. set by TEST_FINISHED) or if it is skipped/disabled
     FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         AreAllTestsFinished := AreAllTestsFinished AND (Tests[Counter].IsFinished() OR Tests[Counter].IsSkipped());
     END_FOR
@@ -184,9 +184,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_LREAL" Id="{964c2fec-9de7-47ae-bee4-23c559ae4a3f}">
-      <Declaration><![CDATA[(*
-    Asserts that two LREAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LREAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArray2dEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*] OF LREAL; // LREAL 2d array with expected values
@@ -288,7 +286,7 @@ IF NOT AlreadyReported AND NOT Equals THEN
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = [';
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+        ExpectedString := CONCAT(STR1 := ExpectedString,STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
@@ -338,9 +336,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray2dEquals_REAL" Id="{dc3b5666-7b5a-49ae-9837-cbb9bedd911a}">
-      <Declaration><![CDATA[(*
-    Asserts that two REAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two REAL 2D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArray2dEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*] OF REAL; // REAL 2d array with expected values
@@ -492,9 +488,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray3dEquals_LREAL" Id="{251da4d5-4df8-4eed-b154-a479323eb0d5}">
-      <Declaration><![CDATA[(*
-    Asserts that two LREAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LREAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArray3dEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*,*] OF LREAL; // LREAL 3d array with expected values
@@ -673,9 +667,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArray3dEquals_REAL" Id="{0dc8fccf-4b9a-4206-8d9f-212f576edb04}">
-      <Declaration><![CDATA[(*
-    Asserts that two REAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two REAL 3D-arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArray3dEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*,*,*] OF REAL; // REAL 3d array with expected values
@@ -857,9 +849,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_BOOL" Id="{3d4059ab-c241-4859-9a9f-090cab6db606}">
-      <Declaration><![CDATA[(*
-    Asserts that two BOOL arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two BOOL arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_BOOL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF BOOL; // BOOL array with expected values
@@ -947,9 +937,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_BYTE" Id="{375a5287-a3e9-4833-ac17-bab8f3f0fdc9}">
-      <Declaration><![CDATA[(*
-    Asserts that two BYTE arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two BYTE arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_BYTE
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF BYTE; // BYTE array with expected values
@@ -1048,9 +1036,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_DINT" Id="{4f0d9b20-0c78-467d-a52a-6badbd5d37cc}">
-      <Declaration><![CDATA[(*
-    Asserts that two DINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_DINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF DINT; // DINT array with expected values
@@ -1138,9 +1124,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_DWORD" Id="{eec9d02d-95a1-4885-9906-ad4b2d0f4cab}">
-      <Declaration><![CDATA[(*
-    Asserts that two DWORD arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DWORD arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_DWORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF DWORD; // DWORD array with expected values
@@ -1238,9 +1222,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_INT" Id="{d54cf111-a7e7-4f51-bdf4-9853e055f62d}">
-      <Declaration><![CDATA[(*
-    Asserts that two INT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two INT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_INT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF INT; // INT array with expected values
@@ -1328,9 +1310,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_LINT" Id="{d7e53e6b-caed-4867-9ef5-3ccb7ae16bf8}">
-      <Declaration><![CDATA[(*
-    Asserts that two LINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_LINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LINT; // LINT array with expected values
@@ -1418,9 +1398,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_LREAL" Id="{fbc23ff0-cdf6-43f2-82cd-e6f3a7903664}">
-      <Declaration><![CDATA[(*
-    Asserts that two LREAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LREAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_LREAL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LREAL; // LREAL array with expected values
@@ -1509,9 +1487,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_LWORD" Id="{7bc0c786-fccc-46e3-b38f-2013c44bfcb0}">
-      <Declaration><![CDATA[(*
-    Asserts that two LWORD arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LWORD arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_LWORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF LWORD; // LWORD array with expected values
@@ -1609,9 +1585,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_REAL" Id="{c42ec40e-0859-4258-a3b2-11b258dab324}">
-      <Declaration><![CDATA[(*
-    Asserts that two REAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two REAL arrays are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_REAL
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF REAL; // REAL array with expected values
@@ -1700,9 +1674,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_SINT" Id="{133c577e-0641-4157-b42b-46dbf29f788e}">
-      <Declaration><![CDATA[(*
-    Asserts that two SINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two SINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_SINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF SINT; // SINT array with expected values
@@ -1790,9 +1762,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_UDINT" Id="{5f690331-57e2-4ea1-b1d7-ab65b52dc848}">
-      <Declaration><![CDATA[(*
-    Asserts that two UDINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two UDINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_UDINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF UDINT; // UDINT array with expected values
@@ -1881,9 +1851,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_UINT" Id="{358571ac-0a0d-4e71-8097-c7943f718fce}">
-      <Declaration><![CDATA[(*
-    Asserts that two UINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two UINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_UINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF UINT; // UINT array with expected values
@@ -1971,9 +1939,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_ULINT" Id="{916529a0-57b3-4947-a5b8-e7b9ff17f35f}">
-      <Declaration><![CDATA[(*
-    Asserts that two ULINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two ULINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_ULINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF ULINT; // ULINT array with expected values
@@ -2061,9 +2027,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_USINT" Id="{b3215098-2f26-48bf-a7e4-ee1a0803a968}">
-      <Declaration><![CDATA[(*
-    Asserts that two USINT arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two USINT arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_USINT
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF USINT; // USINT array with expected values
@@ -2151,9 +2115,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertArrayEquals_WORD" Id="{16eada18-ce2b-459d-a8d9-277e84766935}">
-      <Declaration><![CDATA[(*
-    Asserts that two WORD arrays are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two WORD arrays are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertArrayEquals_WORD
 VAR_IN_OUT
     Expecteds : ARRAY[*] OF WORD; // WORD array with expected values
@@ -2331,12 +2293,12 @@ END_IF
     1. So that we can know exactly what differs between the two input parameters
     2. It's not possible to do a comparison (= or <>) between two instances of ANY. 
 *)
-(* Check whether the type of the inputs differs *)
+// Check whether the type of the inputs differs
 IF Expected.TypeClass <> Actual.TypeClass THEN
     DataTypesNotEquals := TRUE;
 END_IF
 
-(* Check whether the size of the inputs differs *)
+// Check whether the size of the inputs differs
 IF NOT DataTypesNotEquals THEN
     (* Take special care of STRING and WSTRING, as these can be declared with different sizes,
        although their content might be the same *)
@@ -2353,7 +2315,7 @@ IF NOT DataTypesNotEquals THEN
     END_IF
 END_IF
 
-(* Even though the data type and size are equals, the contents may still differ *)
+// Even though the data type and size are equals, the contents may still differ
 IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
     // Compare each byte in the ANY-types
     FOR IteratorCounter := 0 TO Expected.diSize - 1 BY 1 DO
@@ -2372,7 +2334,7 @@ END_IF
 *)
 IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
 
-    (* BOOL *)
+    // BOOL
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_BOOL THEN
         MEMCPY(destAddr := ADR(boolExpected), srcAddr := Expected.pValue, n := SIZEOF(BOOL));
         MEMCPY(destAddr := ADR(boolActual), srcAddr := Actual.pValue, n := SIZEOF(BOOL));
@@ -2380,7 +2342,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* BYTE *)
+    // BYTE
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_BYTE THEN
         MEMCPY(destAddr := ADR(byteExpected), srcAddr := Expected.pValue, n := SIZEOF(BYTE));
         MEMCPY(destAddr := ADR(byteActual), srcAddr := Actual.pValue, n := SIZEOF(BYTE));
@@ -2388,7 +2350,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* DATE *)
+    // DATE
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DATE THEN
         MEMCPY(destAddr := ADR(dateExpected), srcAddr := Expected.pValue, n := SIZEOF(DATE));
         MEMCPY(destAddr := ADR(dateActual), srcAddr := Actual.pValue, n := SIZEOF(DATE));
@@ -2396,7 +2358,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* DATE_AND_TIME *)
+    // DATE_AND_TIME
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DATEANDTIME THEN
         MEMCPY(destAddr := ADR(dateAndTimeExpected), srcAddr := Expected.pValue, n := SIZEOF(DATE_AND_TIME));
         MEMCPY(destAddr := ADR(dateAndTimeActual), srcAddr := Actual.pValue, n := SIZEOF(DATE_AND_TIME));
@@ -2404,7 +2366,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* DINT *)
+    // DINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DINT THEN
         MEMCPY(destAddr := ADR(dintExpected), srcAddr := Expected.pValue, n := SIZEOF(DINT));
         MEMCPY(destAddr := ADR(dintActual), srcAddr := Actual.pValue, n := SIZEOF(DINT));
@@ -2412,7 +2374,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* DWORD *)
+    // DWORD
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_DWORD THEN
         MEMCPY(destAddr := ADR(dwordExpected), srcAddr := Expected.pValue, n := SIZEOF(DWORD));
         MEMCPY(destAddr := ADR(dwordActual), srcAddr := Actual.pValue, n := SIZEOF(DWORD));
@@ -2420,7 +2382,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* INT *)
+    // INT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_INT THEN
         MEMCPY(destAddr := ADR(intExpected), srcAddr := Expected.pValue, n := SIZEOF(INT));
         MEMCPY(destAddr := ADR(intActual), srcAddr := Actual.pValue, n := SIZEOF(INT));
@@ -2428,7 +2390,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* LINT *)
+    // LINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LINT THEN
         MEMCPY(destAddr := ADR(lintExpected), srcAddr := Expected.pValue, n := SIZEOF(LINT));
         MEMCPY(destAddr := ADR(lintActual), srcAddr := Actual.pValue, n := SIZEOF(LINT));
@@ -2436,7 +2398,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* LREAL *)
+    // LREAL
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LREAL THEN
         MEMCPY(destAddr := ADR(lrealExpected), srcAddr := Expected.pValue, n := SIZEOF(LREAL));
         MEMCPY(destAddr := ADR(lrealActual), srcAddr := Actual.pValue, n := SIZEOF(LREAL));
@@ -2444,7 +2406,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* LTIME *)
+    // LTIME
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LTIME THEN
         MEMCPY(destAddr := ADR(ltimeExpected), srcAddr := Expected.pValue, n := SIZEOF(LTIME));
         MEMCPY(destAddr := ADR(ltimeActual), srcAddr := Actual.pValue, n := SIZEOF(LTIME));
@@ -2452,7 +2414,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* LWORD *)
+    // LWORD
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_LWORD THEN
         MEMCPY(destAddr := ADR(lwordExpected), srcAddr := Expected.pValue, n := SIZEOF(LWORD));
         MEMCPY(destAddr := ADR(lwordActual), srcAddr := Actual.pValue, n := SIZEOF(LWORD));
@@ -2460,7 +2422,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* REAL *)
+    // REAL
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_REAL THEN
         MEMCPY(destAddr := ADR(realExpected), srcAddr := Expected.pValue, n := SIZEOF(REAL));
         MEMCPY(destAddr := ADR(realActual), srcAddr := Actual.pValue, n := SIZEOF(REAL));
@@ -2468,7 +2430,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* SINT *)
+    // SINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_SINT THEN
         MEMCPY(destAddr := ADR(sintExpected), srcAddr := Expected.pValue, n := SIZEOF(SINT));
         MEMCPY(destAddr := ADR(sintActual), srcAddr := Actual.pValue, n := SIZEOF(SINT));
@@ -2476,7 +2438,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* STRING *)
+    // STRING
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_STRING THEN
         MEMCPY(destAddr := ADR(stringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
         MEMCPY(destAddr := ADR(stringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
@@ -2484,7 +2446,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* WSTRING *)
+    // WSTRING
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WSTRING THEN
         MEMCPY(destAddr := ADR(wstringExpected), srcAddr := Expected.pValue, n := DINT_TO_UDINT(Expected.diSize));
         MEMCPY(destAddr := ADR(wstringActual), srcAddr := Actual.pValue, n := DINT_TO_UDINT(Actual.diSize));
@@ -2492,7 +2454,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* TIME *)
+    // TIME
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_TIME THEN
         MEMCPY(destAddr := ADR(timeExpected), srcAddr := Expected.pValue, n := SIZEOF(TIME));
         MEMCPY(destAddr := ADR(timeActual), srcAddr := Actual.pValue, n := SIZEOF(TIME));
@@ -2500,7 +2462,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* TIME_OF_DAY *)
+    // TIME_OF_DAY
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_TIMEOFDAY THEN
         MEMCPY(destAddr := ADR(timeOfDayExpected), srcAddr := Expected.pValue, n := SIZEOF(TIME_OF_DAY));
         MEMCPY(destAddr := ADR(timeOfDayActual), srcAddr := Actual.pValue, n := SIZEOF(TIME_OF_DAY));
@@ -2508,7 +2470,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* UDINT *)
+    // UDINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_UDINT THEN
         MEMCPY(destAddr := ADR(udintExpected), srcAddr := Expected.pValue, n := SIZEOF(UDINT));
         MEMCPY(destAddr := ADR(udintActual), srcAddr := Actual.pValue, n := SIZEOF(UDINT));
@@ -2516,7 +2478,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* UINT *)
+    // UINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_UINT THEN
         MEMCPY(destAddr := ADR(uintExpected), srcAddr := Expected.pValue, n := SIZEOF(UINT));
         MEMCPY(destAddr := ADR(uintActual), srcAddr := Actual.pValue, n := SIZEOF(UINT));
@@ -2524,7 +2486,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* ULINT *)
+    // ULINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_ULINT THEN
         MEMCPY(destAddr := ADR(ulintExpected), srcAddr := Expected.pValue, n := SIZEOF(ULINT));
         MEMCPY(destAddr := ADR(ulintActual), srcAddr := Actual.pValue, n := SIZEOF(ULINT));
@@ -2532,7 +2494,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* USINT *)
+    // USINT
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_USINT THEN
         MEMCPY(destAddr := ADR(usintExpected), srcAddr := Expected.pValue, n := SIZEOF(USINT));
         MEMCPY(destAddr := ADR(usintActual), srcAddr := Actual.pValue, n := SIZEOF(USINT));
@@ -2540,7 +2502,7 @@ IF NOT DataTypesNotEquals AND NOT DataSizeNotEquals THEN
         RETURN;
     END_IF
 
-    (* WORD *)
+    // WORD
     IF UDINT_TO_INT(Expected.TypeClass) = IBaseLibrary.TypeClass.TYPE_WORD THEN
         MEMCPY(destAddr := ADR(wordExpected), srcAddr := Expected.pValue, n := SIZEOF(WORD));
         MEMCPY(destAddr := ADR(wordActual), srcAddr := Actual.pValue, n := SIZEOF(WORD));
@@ -2618,9 +2580,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BOOL" Id="{0c41b405-ea35-4450-93cc-7c3349bdf754}">
-      <Declaration><![CDATA[(*
-    Asserts that two BOOLs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two BOOLs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_BOOL
 VAR_INPUT
     Expected : BOOL; // BOOL expected value
@@ -2660,9 +2620,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_BYTE" Id="{c039f3f1-9c41-4f5e-93a3-393ce160979a}">
-      <Declaration><![CDATA[(*
-    Asserts that two BYTEs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two BYTEs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_BYTE
 VAR_INPUT
     Expected : BYTE; // BYTE expected value
@@ -2710,9 +2668,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DATE" Id="{1645ab79-f969-41aa-a170-f589a5757e7f}">
-      <Declaration><![CDATA[(*
-    Asserts that two DATEs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DATEs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_DATE
 VAR_INPUT
     Expected : DATE; // DATE expected value
@@ -2752,9 +2708,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DATE_AND_TIME" Id="{42befc01-2199-49e2-b7ef-cf909b8890f9}">
-      <Declaration><![CDATA[(*
-    Asserts that two DATE_AND_TIMEs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DATE_AND_TIMEs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_DATE_AND_TIME
 VAR_INPUT
     Expected : DATE_AND_TIME; // DATE_AND_TIME expected value
@@ -2794,9 +2748,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DINT" Id="{b7177b75-64df-4021-85c6-c366f61f5f89}">
-      <Declaration><![CDATA[(*
-    Asserts that two DINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_DINT
 VAR_INPUT
     Expected : DINT; // DINT expected value
@@ -2836,9 +2788,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_DWORD" Id="{3ce6ba77-0ab2-46fc-a7c9-978b376b93be}">
-      <Declaration><![CDATA[(*
-    Asserts that two DWORDs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two DWORDs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_DWORD
 VAR_INPUT
     Expected : DWORD; // DWORD expected value
@@ -2886,9 +2836,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_INT" Id="{7c61106e-9bcd-4577-a949-ab96d8862e41}">
-      <Declaration><![CDATA[(*
-    Asserts that two INTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two INTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_INT
 VAR_INPUT
     Expected : INT; // INT expected value
@@ -2928,9 +2876,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LINT" Id="{9dc34017-cbc7-41a9-83a2-941f39cc7271}">
-      <Declaration><![CDATA[(*
-    Asserts that two LINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_LINT
 VAR_INPUT
     Expected : LINT; // LINT expected value
@@ -2970,9 +2916,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LREAL" Id="{205d107c-0a2d-44f7-b68a-eb06720b6a6b}">
-      <Declaration><![CDATA[(*
-    Asserts that two LREALs are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LREALs are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_LREAL
 VAR_INPUT
     Expected : LREAL; // LREAL expected value
@@ -3013,9 +2957,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LTIME" Id="{05ea6378-c553-40a9-9e6b-8f3736f63098}">
-      <Declaration><![CDATA[(*
-    Asserts that two LTIMEs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LTIMEs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_LTIME
 VAR_INPUT
     Expected : LTIME; // LTIME expected value
@@ -3055,9 +2997,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_LWORD" Id="{08b090fb-911b-49fa-a51a-7f5edfd3dd2c}">
-      <Declaration><![CDATA[(*
-    Asserts that two LWORDs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two LWORDs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_LWORD
 VAR_INPUT
     Expected : LWORD; // LWORD expected value
@@ -3105,9 +3045,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_REAL" Id="{fba4feaf-27d0-4f8b-9014-3895f7bb9cc7}">
-      <Declaration><![CDATA[(*
-    Asserts that two REALs are equal to within a positive delta. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two REALs are equal to within a positive delta. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_REAL
 VAR_INPUT
     Expected : REAL; // REAL expected value
@@ -3148,9 +3086,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_SINT" Id="{10052dfe-cfcb-4a5a-aa97-151e272ce217}">
-      <Declaration><![CDATA[(*
-    Asserts that two SINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two SINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_SINT
 VAR_INPUT
     Expected : SINT; // SINT expected value
@@ -3190,9 +3126,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_STRING" Id="{cad7fed3-5db3-4371-9240-856c3c740489}">
-      <Declaration><![CDATA[(*
-    Asserts that two STRINGs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two STRINGs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_STRING
 VAR_INPUT
     Expected : T_MaxString; // STRING expected value
@@ -3232,9 +3166,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_TIME" Id="{717a0cdd-16a7-4f45-90f3-f5700dba9369}">
-      <Declaration><![CDATA[(*
-    Asserts that two TIMEs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two TIMEs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_TIME
 VAR_INPUT
     Expected : TIME; // TIME expected value
@@ -3274,9 +3206,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_TIME_OF_DAY" Id="{d892dd01-3d32-4eb1-9f95-980dff16616c}">
-      <Declaration><![CDATA[(*
-    Asserts that two TIME_OF_DAYs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two TIME_OF_DAYs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_TIME_OF_DAY
 VAR_INPUT
     Expected : TIME_OF_DAY; // TIME_OF_DAY expected value
@@ -3316,9 +3246,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UDINT" Id="{9c21e8db-62d7-4e5c-8e00-cd508f4f5abc}">
-      <Declaration><![CDATA[(*
-    Asserts that two UDINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two UDINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_UDINT
 VAR_INPUT
     Expected : UDINT; // UDINT expected value
@@ -3358,9 +3286,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_UINT" Id="{86b960b9-ebc0-46af-91ed-94a423f501dc}">
-      <Declaration><![CDATA[(*
-    Asserts that two UINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two UINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_UINT
 VAR_INPUT
     Expected : UINT; // UINT expected value
@@ -3400,9 +3326,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_ULINT" Id="{6f1e7566-33c3-4f9c-b92d-7828feb26211}">
-      <Declaration><![CDATA[(*
-    Asserts that two ULINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two ULINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_ULINT
 VAR_INPUT
     Expected : ULINT; // ULINT expected value
@@ -3442,9 +3366,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_USINT" Id="{7f12117a-f0ab-475b-ba47-c8a5c801a9ac}">
-      <Declaration><![CDATA[(*
-    Asserts that two USINTs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two USINTs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_USINT
 VAR_INPUT
     Expected : USINT; // USINT expected value
@@ -3484,9 +3406,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WORD" Id="{85132cdb-0553-4070-be9a-976fcddd873d}">
-      <Declaration><![CDATA[(*
-    Asserts that two WORDs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two WORDs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_WORD
 VAR_INPUT
     Expected : WORD; // WORD expected value
@@ -3534,9 +3454,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertEquals_WSTRING" Id="{74750f5e-0a5e-499f-bc11-ef38c3a2fafb}">
-      <Declaration><![CDATA[(*
-    Asserts that two WSTRINGs are equal. If they are not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that two WSTRINGs are equal. If they are not, an assertion error is created.
 METHOD PUBLIC AssertEquals_WSTRING
 VAR_INPUT
     Expected : WSTRING(255); // WSTRING expected value
@@ -3576,29 +3494,29 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertFalse" Id="{022665a8-9003-4aaa-8ef4-bd39fe196883}">
-      <Declaration><![CDATA[(*
-    Asserts that a condition is false. If it is not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that a condition is false. If it is not, an assertion error is created.
 METHOD PUBLIC AssertFalse
 VAR_INPUT
     Condition : BOOL; // Condition to be checked
     Message : T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(Expected := FALSE, Actual := Condition, Message := Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(Expected := FALSE,
+                  Actual := Condition,
+                  Message := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="AssertTrue" Id="{c415013c-c271-42ba-83ad-6c2c653d8f2e}">
-      <Declaration><![CDATA[(*
-    Asserts that a condition is true. If it is not, an assertion error is created.
-*)
+      <Declaration><![CDATA[// Asserts that a condition is true. If it is not, an assertion error is created.
 METHOD PUBLIC AssertTrue
 VAR_INPUT
     Condition : BOOL; // Condition to be checked
     Message : T_MaxString; // The identifying message for the assertion error
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AssertEquals_BOOL(Expected := TRUE, Actual := Condition, Message := Message);]]></ST>
+        <ST><![CDATA[AssertEquals_BOOL(Expected := TRUE,
+                  Actual := Condition,
+                  Message := Message);]]></ST>
       </Implementation>
     </Method>
     <Method Name="CalculateAndSetNumberOfAssertsForTest" Id="{a963cb6a-a176-4774-9e1c-6c7896b6a752}">
@@ -3655,7 +3573,7 @@ GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;
       </Implementation>
     </Method>
     <Method Name="FindTestSuiteInstancePath" Id="{e69a4510-81a2-4d65-94e4-52c06ac49944}">
-      <Declaration><![CDATA[(* Searches for the instance path of the calling function block *)
+      <Declaration><![CDATA[// Searches for the instance path of the calling function block
 METHOD PRIVATE FindTestSuiteInstancePath : T_MaxString]]></Declaration>
       <Implementation>
         <ST><![CDATA[FindTestSuiteInstancePath := GetInstancePath();]]></ST>
@@ -3689,7 +3607,7 @@ VAR
     NumberOfTestOverArrayLimit : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 IF GetNumberOfTests() > NumberOfTestsToAnalyse THEN
     NumberOfTestOverArrayLimit := GetNumberOfTests()-NumberOfTestsToAnalyse;
@@ -3712,7 +3630,7 @@ VAR
     NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR Counter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -3750,8 +3668,7 @@ END_VAR
 VAR
   IteratorCounter : UINT;
   NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -3763,7 +3680,7 @@ END_FOR]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetTestByPosition" Id="{3795ba6c-bb70-4d36-8d46-fa6431157992}">
-      <Declaration><![CDATA[(* This method returns the test at the n'th position, ranging from 1.. NumberOfTests *)
+      <Declaration><![CDATA[// This method returns the test at the n'th position, ranging from 1.. NumberOfTests
 METHOD INTERNAL GetTestByPosition : FB_Test
 VAR_INPUT
     Position : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
@@ -3782,7 +3699,7 @@ VAR
     NumberOfTestsToAnalyse : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -3804,7 +3721,7 @@ VAR
     NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 IsTestFinished := FALSE;
@@ -3844,7 +3761,7 @@ VAR
     NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
@@ -3858,8 +3775,7 @@ END_FOR]]></ST>
     </Method>
     <Method Name="SetTestFinished" Id="{1ec94335-80d7-46d3-a0f0-345f8eda2ea4}">
       <Declaration><![CDATA[(* Marks the test as finished in this testsuite.
-   Returns TRUE if test was found, and FALSE if a test with this name was not found in this testsuite
-*)
+   Returns TRUE if test was found, and FALSE if a test with this name was not found in this testsuite *)
 METHOD INTERNAL SetTestFinished : BOOL;
 VAR_INPUT
     TestName : T_MaxString;
@@ -3870,7 +3786,7 @@ VAR
     NumberOfTestsToAnalyse : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Limit the test analyse to the max array limit of 'Tests[]' *)
+        <ST><![CDATA[// Limit the test analyse to the max array limit of 'Tests[]'
 NumberOfTestsToAnalyse := GetNumberOfTestsToAnalyse();
 FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
     IF Tests[IteratorCounter].GetName() = TestName THEN

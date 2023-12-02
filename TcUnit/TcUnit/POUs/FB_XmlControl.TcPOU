@@ -44,9 +44,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="ClearBuffer" Id="{651b4460-232e-47e8-95ba-ecea1541fbb9}">
-      <Declaration><![CDATA[(* 
-    Clears the contents of the entire buffer.
-*)
+      <Declaration><![CDATA[// Clears the contents of the entire buffer.
 METHOD PUBLIC ClearBuffer]]></Declaration>
       <Implementation>
         <ST><![CDATA[SearchPosition := 0;

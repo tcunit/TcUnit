@@ -37,12 +37,12 @@ Test_LTIME();]]></ST>
     <Method Name="Test_BIT" Id="{2bab70c5-093e-48a7-94e6-ae7f2bb2e7b3}">
       <Declaration><![CDATA[METHOD PRIVATE Test_BIT
 VAR
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BIT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(aBit), AnyTypeClass := IBaseLibrary.TYPE_BIT, AnyValue := ADR(aBit));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(aBit), AnyTypeClass := IBaseLibrary.TYPE_BIT, AnyValue := ADR(aBit));
 
 AssertEquals(Expected := aBit,
              Actual := result.bitExpectedOrActual,
@@ -55,12 +55,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_BOOL
 VAR
     a : BOOL := TRUE;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BOOL');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_BOOL, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_BOOL, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.boolExpectedOrActual,
@@ -73,12 +73,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_BYTE
 VAR
     a : BYTE := 16#8A;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_BYTE');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_BYTE, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_BYTE, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.byteExpectedOrActual,
@@ -91,12 +91,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_DATE
 VAR
     a : DATE := D#2106-02-05;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DATE');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DATE, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DATE, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.dateExpectedOrActual,
@@ -109,12 +109,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_DATE_AND_TIME
 VAR
     a : DATE_AND_TIME := DT#2106-02-06-06:28:15;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DATE_AND_TIME');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DATEANDTIME, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DATEANDTIME, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.dateandtimeExpectedOrActual,
@@ -127,12 +127,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_DINT
 VAR
     a : DINT := 143251;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.dintExpectedOrActual,
@@ -145,12 +145,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_DWORD
 VAR
     a : DWORD := 16#3456CDEF;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_DWORD');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DWORD, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_DWORD, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.dwordExpectedOrActual,
@@ -163,12 +163,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_INT
 VAR
     a : INT := -32000;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_INT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_INT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_INT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.intExpectedOrActual,
@@ -181,12 +181,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_LINT
 VAR
     a : LINT := -31243145;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.lintExpectedOrActual,
@@ -199,12 +199,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_LREAL
 VAR
     a : LREAL := 43123923124.745423;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LREAL, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LREAL, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.lrealExpectedOrActual,
@@ -217,12 +217,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_LTIME
 VAR
     a : LTIME := LTIME#213502D23H34M33S709MS551US615NS;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LTIME');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LTIME, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LTIME, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.ltimeExpectedOrActual,
@@ -235,12 +235,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_LWORD
 VAR
     a : LWORD := 16#456CDEF987654321;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LWORD');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LWORD, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_LWORD, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.lwordExpectedOrActual,
@@ -253,12 +253,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_REAL
 VAR
     a : REAL := 431239.423;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_REAL, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_REAL, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.realExpectedOrActual,
@@ -271,12 +271,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_SINT
 VAR
     a : SINT := 100;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_SINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_SINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_SINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.sintExpectedOrActual,
@@ -289,12 +289,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_STRING
 VAR
     a : STRING := 'This is a random string';
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_STRING');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_STRING, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_STRING, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.stringExpectedOrActual,
@@ -306,13 +306,13 @@ TEST_FINISHED();]]></ST>
     <Method Name="Test_STRING_2" Id="{1e075eec-d55a-483a-976e-656d4a8d5ac3}">
       <Declaration><![CDATA[METHOD PRIVATE Test_STRING_2
 VAR
-    a : Tc2_System.T_MaxString := '8YNn5KOmPC4dAcpOBdLWnw4WkN126EwXsj65xeurG48gWBepinNaOIKeCVMtWNBSxQWPdtUYiAusDkjMLtQhDtiWbwvmoKcFwiUGDd7pOe0fd52J7hK60oaYAX6VWWmceLJX8utaDVrVzCGXafeZLeHl6jj5enfjg4tfb2WMEBdsBuG2iDKwzwhBLCPqXDnhe5HbemIbtZT7p62OEj2oDqiIYDD6tZdlhBCCelDBx6dbIp32wFm0TpRKsTiwkZ6'; // 255 characters
-    result : U_ExpectedOrActual;
+    a : T_MaxString := '8YNn5KOmPC4dAcpOBdLWnw4WkN126EwXsj65xeurG48gWBepinNaOIKeCVMtWNBSxQWPdtUYiAusDkjMLtQhDtiWbwvmoKcFwiUGDd7pOe0fd52J7hK60oaYAX6VWWmceLJX8utaDVrVzCGXafeZLeHl6jj5enfjg4tfb2WMEBdsBuG2iDKwzwhBLCPqXDnhe5HbemIbtZT7p62OEj2oDqiIYDD6tZdlhBCCelDBx6dbIp32wFm0TpRKsTiwkZ6'; // 255 characters
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_STRING_2');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_STRING, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_STRING, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.stringExpectedOrActual,
@@ -325,12 +325,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_TIME
 VAR
     a : TIME := T#15M20S;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_TIME');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_TIME, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_TIME, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.timeExpectedOrActual,
@@ -343,12 +343,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_TIME_OF_DAY
 VAR
     a : TIME_OF_DAY := TOD#15:36:30.123;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_TIME_OF_DAY');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_TIMEOFDAY, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_TIMEOFDAY, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.timeofdayExpectedOrActual,
@@ -361,12 +361,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_UDINT
 VAR
     a : UDINT := 2555;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UDINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_UDINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_UDINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.udintExpectedOrActual,
@@ -379,12 +379,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_UINT
 VAR
     a : UINT := 34523;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_UINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_UINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_UINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.uintExpectedOrActual,
@@ -397,12 +397,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_ULINT
 VAR
     a : ULINT := 25555423;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('TEST_ULINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_ULINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_ULINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.ulintExpectedOrActual,
@@ -415,12 +415,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_USINT
 VAR
     a : USINT := 255;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_USINT');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_USINT, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_USINT, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.usintExpectedOrActual,
@@ -433,12 +433,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_WORD
 VAR
     a : WORD := 16#ABCD;
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WORD');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_WORD, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_WORD, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.wordExpectedOrActual,
@@ -451,12 +451,12 @@ TEST_FINISHED();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Test_WSTRING
 VAR
     a : WSTRING := "åäöĦ";
-    result : U_ExpectedOrActual;
+    Result : U_ExpectedOrActual;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_WSTRING');
 
-result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_WSTRING, AnyValue := ADR(a));
+Result := TcUnit.F_AnyToUnionValue(AnySize := SIZEOF(a), AnyTypeClass := IBaseLibrary.TYPE_WSTRING, AnyValue := ADR(a));
 
 AssertEquals(Expected := a,
              Actual := result.wstringExpectedOrActual,

@@ -16,7 +16,7 @@ VAR CONSTANT
     TIME_BETWEEN_MESSAGES : TIME := T#10MS;
 END_VAR
 VAR_TEMP
-    MessageToBeSent : ST_ADSLogStringMessage;
+    MessageToBeSent : ST_AdsLogStringMessage;
     ErrorGet : BOOL;
     ReturnValue : DINT;
 END_VAR]]></Declaration>
@@ -29,8 +29,8 @@ IF GetLogCount() > 0 THEN
                                  Error => ErrorGet);
         IF NOT ErrorGet THEN
             ReturnValue := ADSLOGSTR(msgCtrlMask := MessageToBeSent.MsgCtrlMask,
-                                                msgFmtStr := MessageToBeSent.MsgFmtStr,
-                                                strArg := MessageToBeSent.StrArg);
+                                     msgFmtStr := MessageToBeSent.MsgFmtStr,
+                                     strArg := MessageToBeSent.StrArg);
         END_IF
         TimerBetweenMessages(IN := FALSE); // Reset timer
         TimerBetweenMessages.IN := TRUE;
@@ -59,7 +59,7 @@ Error := NOT MemRingBuffer.bOk;]]></ST>
       </Implementation>
     </Method>
     <Method Name="WriteLog" Id="{4ca4d063-d389-4869-8fdb-ce7017f310dc}">
-      <Declaration><![CDATA[(* Writes a new data set into the ring buffer *)
+      <Declaration><![CDATA[// Writes a new data set into the ring buffer
 METHOD INTERNAL WriteLog
 VAR_INPUT
     MsgCtrlMask : DWORD;
@@ -73,7 +73,7 @@ VAR
     AdsLogStringMessage : ST_AdsLogStringMessage;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[(* Only log message types of ERROR if log extended results is not enabled *)
+        <ST><![CDATA[// Only log message types of ERROR if log extended results is not enabled
 IF MsgCtrlMask = ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN
     AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
     AdsLogStringMessage.MsgFmtStr := MsgFmtStr;

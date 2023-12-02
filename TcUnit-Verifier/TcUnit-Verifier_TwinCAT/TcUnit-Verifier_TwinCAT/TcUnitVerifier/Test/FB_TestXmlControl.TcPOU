@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TestXmlControl" Id="{363fde2d-bb7b-452f-a760-baf03449eb88}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    Contains tests that verify the XmlControl function block methods
-*)
+    <Declaration><![CDATA[// Contains tests that verify the XmlControl function block methods
 FUNCTION_BLOCK FB_TestXmlControl EXTENDS TcUnit.FB_TestSuite
 VAR
     Buffer: ARRAY[0..TcUnit.GVL_Param_TcUnit.xUnitBufferSize - 1] OF BYTE;
@@ -21,7 +19,7 @@ Test_NewTagData();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Setup]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Clear buffer
-Tc2_System.MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
+MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_CloseOpenTag" Id="{7b197c98-60c2-43ce-badc-40234f3381a4}">
@@ -42,7 +40,7 @@ Setup();
 XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewTag(TagName);
 XmlControl.CloseTag();
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -74,7 +72,7 @@ XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewTag(TagName);
 XmlControl.NewTagData('TagData');
 ActualResult := XmlControl.CloseTag();
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -102,7 +100,7 @@ Setup();
 
 XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewComment(Comment);
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -127,7 +125,7 @@ Setup();
 
 XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewParameter(ParameterName, ParameterValue);
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -151,7 +149,7 @@ Setup();
 
 XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewTag(TagName);
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -176,7 +174,7 @@ XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 XmlControl.NewTag(TagName);
 XmlControl.NewTagData('TagData');
 
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
@@ -202,9 +200,7 @@ END_VAR]]></Declaration>
 Setup();
 XmlControl.SetBuffer(ADR(Buffer), SIZEOF(Buffer));
 
-(*
-<MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>
-*)
+// <MyTag1><MyTag2/><MyTag3/><MyTag4/></MyTag1>
 XmlControl.NewTag(Tag1Name);
 XmlControl.NewTag(Tag2Name);
 XmlControl.CloseTag();
@@ -214,7 +210,7 @@ XmlControl.NewTag(Tag4Name);
 XmlControl.CloseTag();
 XmlControl.CloseTag();
 
-Tc2_System.MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
+MEMCPY(ADR(ActualBuffer), ADR(Buffer), SIZEOF(ActualBuffer));
 
 AssertEquals_String(Expected := ExpectedBuffer,
                     Actual :=  ActualBuffer,
