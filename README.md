@@ -10,13 +10,13 @@ Welcome to the documentation TcUnit - an xUnit testing framework for [Beckhoff's
 **[www.tcunit.org](https://www.tcunit.org)**
 
 **What is test driven development and unit testing?**  
-Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/unit-testing-concepts/).
+Familiarize yourself with [the basic concepts and specifics for TcUnit](https://tcunit.org/#/unit-testing-concepts).
 
 **Want to know how to get started?**  
-Read the [user guide](https://tcunit.org/introduction-user-guide/).
+Read the [user guide](https://tcunit.org/#/introduction-user-guide).
 
 **Want to see a more advanced programming example?**  
-Read the [programming example](https://tcunit.org/programming-example-introduction/).
+Read the [programming example](https://tcunit.org/#/programming-example-introduction).
 
 **Want to download a precompiled version of the library?**  
 Go to the [releases](https://github.com/tcunit/TcUnit/releases).
@@ -33,5 +33,5 @@ That's fantastic! There are two ways to do this.
 **Have any questions? Found a bug or want to discuss an idea?**  
 Check the [F.A.Q](https://tcunit.org/#/faq).
 Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
-If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new).
+If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new/choose).
 For general ideas/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
