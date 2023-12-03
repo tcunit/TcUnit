@@ -14,8 +14,8 @@
     <Implicit_KindOfTask>{5a8ad837-c79d-4cc7-9349-2bfab1bd88ec}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{9ba5f403-6725-42f3-958a-e49cc23e0e00}</Implicit_Jitter_Distribution>
     <LibraryReferences>{d4c50e9b-48cc-4451-9f8a-44fa2a49ee45}</LibraryReferences>
-    <CombineIds>false</CombineIds>
-    <Released>false</Released>
+    <CombineIds>true</CombineIds>
+    <Released>true</Released>
     <Title>TcUnit</Title>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Description>TwinCAT unit testing framework.
@@ -32,7 +32,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     </SelectedLibraryCategories>
     <Company>www.tcunit.org</Company>
     <Author>Jakob Sagatowski and contributors</Author>
-    <ProjectVersion>1.2.1.0</ProjectVersion>
+    <ProjectVersion>1.3.0.0</ProjectVersion>
     <WriteProductVersion>false</WriteProductVersion>
     <!--    <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
@@ -287,8 +287,8 @@ Documentation and examples are available at www.tcunit.org</Description>
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
@@ -360,15 +360,15 @@ Documentation and examples are available at www.tcunit.org</Description>
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="Int32">System.Int32</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="Int32">System.Int32</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
   <!-- 
