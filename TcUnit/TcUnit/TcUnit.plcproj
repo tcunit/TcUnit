@@ -15,7 +15,7 @@
     <Implicit_Jitter_Distribution>{9ba5f403-6725-42f3-958a-e49cc23e0e00}</Implicit_Jitter_Distribution>
     <LibraryReferences>{d4c50e9b-48cc-4451-9f8a-44fa2a49ee45}</LibraryReferences>
     <CombineIds>true</CombineIds>
-    <Released>false</Released>
+    <Released>true</Released>
     <Title>TcUnit</Title>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Description>TwinCAT unit testing framework.
