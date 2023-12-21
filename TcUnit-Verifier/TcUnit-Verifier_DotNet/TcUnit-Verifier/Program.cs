@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 118; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 121; // Update this if you add intentionally failing tests
 
         [STAThread]
         static void Main(string[] args)
@@ -208,6 +208,7 @@ namespace TcUnit.Verifier
             new FB_TestStreamBuffer(errors);
             new FB_TestFinishedNamed(errors);
             new FB_TestNumberOfAssertionsCalculation(errors);
+            new FB_TestDurationMeasurement(errors);
             new FB_EmptyAssertionMessage(errors);
             new FB_AssertCountExceedsMaxNumber(errors);
 

@@ -32,6 +32,9 @@
     <Compile Include="Test\FB_AdjustAssertFailureMessageToMax253CharLengthTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_TestDurationMeasurement.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_AnyPrimitiveTypes.TcPOU">
       <SubType>Code</SubType>
     </Compile>
