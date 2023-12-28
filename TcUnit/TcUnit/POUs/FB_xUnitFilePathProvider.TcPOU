@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_xUnitFilePathProvider" Id="{19237c24-26cc-0dd6-1102-238ff3cbc207}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'Do not call this POU directly. Please use the provided methods.'} 
+FUNCTION_BLOCK FB_xUnitFilePathProvider
+
+VAR
+	QueryRegistryValue : Tc2_Utilities.FB_RegQueryValue;
+	RegKeyValue : T_MaxString;
+	RegKey : T_MaxString;
+	ContainsBootDir	: BOOL;
+	ContainsInstallDir : BOOL;
+	ContainsConstant : BOOL;
+END_VAR
+
+VAR CONSTANT
+	TWINCAT_BOOT_DIR_CONSTANT : STRING := '%TCBOOTDIR%';
+	TWINCAT_INSTALL_DIR_CONSTANT : STRING := '%TCINSTALLDIR%';
+	
+	TWINCAT_REGPATH : STRING := 'SOFTWARE\Beckhoff\TwinCAT3\3.1';
+	TWINCAT_BOOT_DIR_REGKEY : STRING := 'BootDir';
+	TWINCAT_INSTALL_DIR_REGKEY : STRING := 'InstallDir';
+	
+	UNIX_PATH_SEPERATOR : STRING(1) := '/';
+	WINDOWS_PATH_SEPERATOR : STRING(1) := '\';
+	
+	XML_FILE_EXTENSION : STRING(4) := '.xml';
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Contains" Id="{8071f4eb-a376-0c4f-0573-8478b6391b98}">
+      <Declaration><![CDATA[METHOD PRIVATE Contains : BOOL
+VAR_IN_OUT CONSTANT
+	Path : STRING;
+	Text : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Contains := FIND2(ADR(Path), ADR(Text)) <> 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Replace" Id="{1c9648d9-b87c-0536-264b-64cac079b94b}">
+      <Declaration><![CDATA[METHOD PRIVATE Replace : BOOL
+VAR_IN_OUT CONSTANT
+	Source : STRING;
+	Destination : STRING;
+	OldString : STRING;
+	NewString : STRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Replace := FindAndReplace(ADR(Source), ADR(OldString), ADR(NewString), ADR(Destination), SIZEOF(Destination)) <> 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetFilePath" Id="{2aa9e716-aac6-07c1-0975-2172943f81e9}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetFilePath : BOOL
+VAR_INPUT
+	FilePath : REFERENCE TO T_MaxString;
+END_VAR
+
+VAR_OUTPUT
+	IsValid : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT __ISVALIDREF(FilePath) THEN
+	TryGetFilePath := TRUE;
+	RETURN;
+END_IF
+
+IF FIND2(ADR(GVL_Param_TcUnit.xUnitFilePath), ADR(XML_FILE_EXTENSION)) = 0 THEN
+	TryGetFilePath := TRUE;
+	RETURN;
+END_IF
+	
+ContainsBootDir := Contains(GVL_Param_TcUnit.xUnitFilePath, TWINCAT_BOOT_DIR_CONSTANT);
+ContainsInstallDir := Contains(GVL_Param_TcUnit.xUnitFilePath, TWINCAT_INSTALL_DIR_CONSTANT);
+ContainsConstant := ContainsBootDir OR ContainsInstallDir;
+
+IF ContainsBootDir AND ContainsInstallDir THEN
+	// bad file path - contains both constants
+	TryGetFilePath := TRUE;
+	RETURN;
+ELSIF ContainsBootDir THEN
+	RegKey := TWINCAT_BOOT_DIR_REGKEY;
+ELSIF ContainsInstallDir THEN
+	RegKey := TWINCAT_INSTALL_DIR_REGKEY;
+END_IF
+
+IF Contains(GVL_Param_TcUnit.xUnitFilePath, UNIX_PATH_SEPERATOR) 
+	AND Contains(GVL_Param_TcUnit.xUnitFilePath, UNIX_PATH_SEPERATOR) 
+THEN
+	TryGetFilePath := TRUE;
+	RETURN;
+END_IF
+
+QueryRegistryValue(
+	sSubKey:= TWINCAT_REGPATH, 
+	sValName:= RegKey, 
+	cbData:= SIZEOF(RegKeyValue), 
+	pData:= ADR(RegKeyValue), 
+	bExecute:= ContainsConstant, 
+	tTimeOut:= DEFAULT_ADS_TIMEOUT
+);
+	
+IF NOT QueryRegistryValue.bBusy AND NOT QueryRegistryValue.bError AND RegKeyValue <> '' OR NOT ContainsConstant THEN
+
+	IF ContainsBootDir THEN
+		Replace(GVL_Param_TcUnit.xUnitFilePath, FilePath, TWINCAT_BOOT_DIR_CONSTANT, RegKeyValue);
+	ELSIF ContainsInstallDir THEN	
+		Replace(GVL_Param_TcUnit.xUnitFilePath, FilePath, TWINCAT_INSTALL_DIR_CONSTANT, RegKeyValue);
+	ELSE
+		// No pre defined path constant is used
+		MEMCPY(ADR(FilePath), ADR(GVL_Param_TcUnit.xUnitFilePath), MIN(SIZEOF(FilePath), LEN2(ADR(GVL_Param_TcUnit.xUnitFilePath))));
+	END_IF
+	
+	IsValid := TRUE;
+	TryGetFilePath := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

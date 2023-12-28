@@ -16,6 +16,10 @@ VAR
     Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize - 1)] OF BYTE;
     WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
     PublishTrigger : R_TRIG;
+	
+	FilePath : T_MaxString;
+	FilePathProvider : FB_xUnitFilePathProvider;
+	IsValidFilePath : BOOL;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -29,8 +33,8 @@ METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Decla
       <Implementation>
         <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;
 IF Initialised() THEN
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.xUnitFilePath));
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := AccessMode));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := FilePath));
+    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := FilePath, FileAccessMode := AccessMode));
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Write(BufferPointer := ADR(Buffer), Xml.Length)); 
     DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Close());
 ELSE
@@ -89,8 +93,22 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[UnitTestResults REF= TestResults.GetTestSuiteResults();
 
-// Only publish once if "GVL_Param_TcUnit.xUnitEnablePublish" is enabled and all test results are stored.
-PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish));
+// Do not publish xUnit test results if "GVL_Param_TcUnit.xUnitEnablePublish" is disabled
+IF NOT GVL_Param_TcUnit.xUnitEnablePublish THEN
+	RETURN;
+END_IF
+
+// Try to retrieve the xUnit file path and replace the pre defined constants like %TCBOOTDIR%
+IF FilePathProvider.TryGetFilePath(FilePath, IsValid => IsValidFilePath) THEN
+	IF NOT IsValidFilePath THEN
+		GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        msgFmtStr := '%s',
+                                        strArg := 'Failed to retrieve xUnit file path. "GVL_Param_TcUnit.xUnitFilePath" contains invalid characters.');
+	END_IF
+END_IF
+
+// Only publish once if all test results are stored and a valid file path is available
+PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND IsValidFilePath));
 IF PublishTrigger.Q THEN
 
     // <?xml version="1.0" encoding="UTF-8"?>
@@ -166,7 +184,7 @@ IF PublishTrigger.Q THEN
 
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                         msgFmtStr :=  '| Location: %s ',
-                                        strArg := GVL_Param_TcUnit.xUnitFilePath);
+                                        strArg := FilePath);
 
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
                                         MsgFmtStr := '%s',
