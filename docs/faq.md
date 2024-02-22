@@ -30,10 +30,31 @@ If you don’t find what you are looking for here, you can look through the:
 
 ## 1. How can I run a test across multiple PLC cycles?
 
-This can be accomplished by keeping the function block under test as an instance variable of the test suite rather than the test method.
-You can download an [example here](https://tcunit.org/temp/TimedTest_1x.zip).
-In this example, the `FB_ToBeTested` is instantiated under the test suite (`FB_ToBeTested_Test`), and can thus be controlled over multiple cycles.
-Then all that’s necessary to do is to set the condition for when the assertion should be made in the test itself, which in the example is when the `TestSuiteTimer` has elapsed (`TestSuiteTimer.Q`).
+This can be accomplished by keeping the function block under test as an instance variable of the test method, using `VAR_INST`.
+For example:
+
+```example
+METHOD PRIVATE MyTest
+VAR_INST
+    fbTestTimer : TON := (PT := T#5S);
+    fbToBeTested : FB_ToBeTested;
+END_VAR
+-------
+TEST('MyTest')
+fbTestTimer(IN := TRUE);
+
+// Do stuff here with fbToBeTested
+
+IF fbTestTimer.Q THEN
+    // Make your assertions here or part of the test execution as a state machine
+    TEST_FINISHED();
+END_IF
+```
+
+In this example, the `FB_ToBeTested` is instantiated under the test suite as an instance variable in the test-method, and can thus be controlled over multiple cycles.
+Then all that's necessary to do is to set the condition for when the assertion should be made in the test itself, which in the example is when the `fbTestTimer` has elapsed (`fbTestTimer.Q`).
+Note that you don't have to use a timer, this is just an example.
+You can for example also use a state-machine that steps over various tests over multiple cycles instead.
 
 **Required TcUnit version:** 1.0 or later
 
