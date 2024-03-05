@@ -15,7 +15,7 @@
     <Implicit_Jitter_Distribution>{9ba5f403-6725-42f3-958a-e49cc23e0e00}</Implicit_Jitter_Distribution>
     <LibraryReferences>{d4c50e9b-48cc-4451-9f8a-44fa2a49ee45}</LibraryReferences>
     <CombineIds>true</CombineIds>
-    <Released>true</Released>
+    <Released>false</Released>
     <Title>TcUnit</Title>
     <DefaultNamespace>TcUnit</DefaultNamespace>
     <Description>TwinCAT unit testing framework.
@@ -111,6 +111,9 @@ Documentation and examples are available at www.tcunit.org</Description>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_StreamBuffer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_xUnitFilePathProvider.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_xUnitXmlPublisher.TcPOU">
@@ -283,6 +286,10 @@ Documentation and examples are available at www.tcunit.org</Description>
     <LibraryReference Include="Base Interfaces,newest,System">
       <Namespace>IBaseLibrary</Namespace>
     </LibraryReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="FB_xUnitFilePathProvider.Contains" />
+    <SubObject Include="FB_xUnitFilePathProvider.TryGetFilePath" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
