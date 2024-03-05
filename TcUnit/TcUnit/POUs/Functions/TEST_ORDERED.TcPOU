@@ -28,6 +28,7 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
+    Test : REFERENCE TO FB_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
@@ -44,7 +45,7 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
 
     // Look for the test suite by comparing to the one that is currently running
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := TRUE);
+        Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := TRUE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
 
         // Check that no previous code has set the currently running test to ignored (for example by setting the test to DISABLED
@@ -60,7 +61,10 @@ FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 
                     TEST_ORDERED := FALSE;
                     GVL_TcUnit.IgnoreCurrentTest := TRUE;
                 ELSE
-                    // Continue executing test
+                    // Start or continue executing test
+                    IF __ISVALIDREF(Test) THEN
+                        Test.SetStartedAtIfNotSet(Timestamp := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
+                    END_IF
                     TEST_ORDERED := TRUE;
                 END_IF
             ELSE

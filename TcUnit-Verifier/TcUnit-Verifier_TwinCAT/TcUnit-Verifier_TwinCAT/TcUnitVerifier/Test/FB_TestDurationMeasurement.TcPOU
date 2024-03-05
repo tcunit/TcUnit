@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_TestDurationMeasurement" Id="{12ee45bf-3a7d-4e41-a324-1302d89aa59f}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This testsuite tests that durations are calculated correctly by different types of test cases
+    Tests are considered passing if the duration returned is reasonablly close to the expected value.
+*)
+FUNCTION_BLOCK FB_TestDurationMeasurement EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestNamedTest20msDurationMeasuredCorrectly();
+TestOrderedTest30msDurationMeasuredCorrectly();
+TestRegularTestDurationMeasuredCorrectly();]]></ST>
+    </Implementation>
+    <Method Name="TestOrderedTest30msDurationMeasuredCorrectly" Id="{139af150-7ad8-44c8-898c-2ab768ced5be}">
+      <Declaration><![CDATA[METHOD PRIVATE TestOrderedTest30msDurationMeasuredCorrectly
+VAR_INST
+    DelayTimer : TON;
+    Counter : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TEST_ORDERED('TestOrderedTest30msDurationMeasuredCorrectly') THEN
+    DelayTimer(IN := TRUE, PT := T#30ms);   
+
+    IF delayTimer.Q THEN
+        // Write the approximate duration through an assert message for use by the verifier
+        AssertEquals_LREAL(0, 0.03, 0, 'Duration');
+    
+        TEST_FINISHED();
+    END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestRegularTestDurationMeasuredCorrectly" Id="{47c4b2d9-0773-4b15-a225-f2e9b9db2037}">
+      <Declaration><![CDATA[METHOD TestRegularTestDurationMeasuredCorrectly
+VAR_INST
+    TestExecuted : BOOL;
+    TestStartedAt : LWORD;
+    TestDuration : LREAL;
+    Counter : DINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestRegularTestDurationMeasuredCorrectly');
+
+IF NOT TestExecuted THEN
+    // Introduce a delay and store the time it takes for evaluation by the test
+    // use an assert statement as the delay because it takes quite a bit of time
+    // double the value to account for the second assert which will print the message
+    TestStartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
+    AssertEquals_LREAL(0, 10, 0, 'Duration for calculation'); 
+    TestDuration := LWORD_TO_LREAL(F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter) - TestStartedAt) * GVL_TcUnit.HundredNanosecondToSecond * 2.0;
+    TestExecuted := TRUE;
+END_IF
+
+// Write the duration through an assert message for use by the verifier
+AssertEquals_LREAL(0, TestDuration, 0, 'Duration');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestNamedTest20msDurationMeasuredCorrectly" Id="{e0e67c05-d34d-4254-a1f5-64b0ac92409b}">
+      <Declaration><![CDATA[METHOD TestNamedTest20msDurationMeasuredCorrectly
+VAR_INST
+    delayTimer : TON;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestNamedTest20msDurationMeasuredCorrectly');
+
+delayTimer(IN := TRUE, PT := T#20ms);
+
+IF delayTimer.Q THEN       
+    // Write the approximate duration through an assert message for use by the verifier
+    AssertEquals_LREAL(0, 0.02, 0, 'Duration');
+    
+    TEST_FINISHED_NAMED('TestNamedTest20msDurationMeasuredCorrectly');
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
