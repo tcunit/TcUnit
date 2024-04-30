@@ -31,8 +31,8 @@ VAR_GLOBAL CONSTANT
     (* Default path and filename for the xunit testresults e.g.: for use with jenkins 
 
 	   Use environment variables for a OS independent file path
-	   - %TC_BOOTPRJPATH% -> e.g. C:\TwinCAT\3.1\Boot\
-       - %TC_INSTALLPATH% -> e.g. C:\TwinCAT\3.1\ *)
+	   - %TC_BOOTPRJPATH% -> 'C:\TwinCAT\3.1\Boot\' (Windows), '/usr/local/etc/TwinCAT/3.1/Boot/' (TC/BSD), '\Hard Disk\TwinCAT\3.1\Boot\' (Windows CE)
+      - %TC_INSTALLPATH% -> 'C:\TwinCAT\3.1\' (Windows), '/usr/local/etc/TwinCAT/3.1/' (TC/BSD), '\Hard Disk\TwinCAT\3.1\' (Windows CE) *)
     xUnitFilePath : T_MaxString := '%TC_BOOTPRJPATH%tcunit_xunit_testresults.xml';
 
     (* This is the maximum number of ADS-messages that can be stored for reporting at the same time.
