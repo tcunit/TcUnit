@@ -8,7 +8,7 @@
   - [Unit testing concepts](unit-testing-concepts.md)
   - [Introduction user guide](introduction-user-guide.md)
   - [API](api.md)
--- Programming example
+-- [Programming example](programming-example.md)
     - [Introduction](programming-example-introduction.md)
     - [The function blocks](programming-example-the-function-blocks.md)
     - [Test cases - Part 1](programming-example-test-cases-part-one)
