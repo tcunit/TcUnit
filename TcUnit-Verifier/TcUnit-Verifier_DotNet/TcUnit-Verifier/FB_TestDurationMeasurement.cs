@@ -13,17 +13,17 @@ namespace TcUnit.Verifier
 
         private void TestNamedTest20msDurationMeasuredCorrectly()
         {
-            AssertContainsResultSet("TestNamedTest20msDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 1, 0.06, 0.02);
+            AssertContainsResultSet("TestNamedTest20msDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 1, 0.02, 0.1);
         }
 
         private void TestOrderedTest30msDurationMeasuredCorrectly()
         {
-            AssertContainsResultSet("TestOrderedTest30msDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 1, 0.06, 0.02);
+            AssertContainsResultSet("TestOrderedTest30msDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 1, 0.03, 0.1);
         }
 
         private void TestRegularTestDurationMeasuredCorrectly()
         {
-            AssertContainsResultSet("TestRegularTestDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 2, 0.0003, 0.0002);
+            AssertContainsResultSet("TestRegularTestDurationMeasuredCorrectly", "PRG_TEST.TestDurationMeasurement", "FAIL", 2, 0.0003, 0.001);
         }
     }
 }

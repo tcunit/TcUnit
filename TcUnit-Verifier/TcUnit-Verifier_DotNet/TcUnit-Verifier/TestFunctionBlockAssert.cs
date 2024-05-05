@@ -160,7 +160,7 @@ namespace TcUnit.Verifier
             }
         }
 
-        protected void AssertContainsResultSet(string testName, string className, string status, int numberOfAsserts, double duration, double durationRange)
+        protected void AssertContainsResultSet(string testName, string className, string status, int numberOfAsserts, double expectedDuration, double expectedDurationTolerance)
         {
             var errorMessagePrefix = $"Test suite {_testFunctionBlockInstance} test {testName} ";
             try
@@ -204,9 +204,9 @@ namespace TcUnit.Verifier
                 }
 
                 var actualDuration = double.Parse(match.Groups["Duration"].Value);
-                if (System.Math.Abs(actualDuration - duration) > durationRange)
+                if (System.Math.Abs(actualDuration - expectedDuration) > expectedDurationTolerance)
                 {
-                    log.Info($"{errorMessagePrefix} does not have expected duration: abs({actualDuration} - {duration}) > {durationRange}");
+                    log.Info($"{errorMessagePrefix} does not have expected duration: abs({actualDuration} - {expectedDuration}) > {expectedDurationTolerance}");
                     return;
                 }
             } 
