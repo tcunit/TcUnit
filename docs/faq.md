@@ -139,7 +139,7 @@ If you have data declared with the BIT-type, the easiest way to do an assertion 
 ```body
 TEST('Testing_of_BIT_Type');
  
-AssertEquals_BOOL(Expected := BIT_TO_BOO(VariableDeclaredAsBit_A),
+AssertEquals_BOOL(Expected := BIT_TO_BOOL(VariableDeclaredAsBit_A),
                   Actual := BIT_TO_BOOL(VariableDeclaredAsBit_B),
                   Message := 'The variables differ');
  
