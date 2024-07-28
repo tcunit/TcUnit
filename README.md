@@ -21,9 +21,6 @@ Read the [programming example](https://tcunit.org/#/programming-example-introduc
 **Want to download a precompiled version of the library?**  
 Go to the [releases](https://github.com/tcunit/TcUnit/releases).
 
-**Want to include TcUnit tests into a CI/CD pipeline?**  
-Check out the [TcUnit-Runner project](https://github.com/tcunit/TcUnit-Runner).
-
 **Want to contribute to the project?**  
 That's fantastic! There are two ways to do this.
 
