@@ -25,6 +25,7 @@ If you don’t find what you are looking for here, you can look through the:
 11. [How do I test functions?](#_11-how-do-i-test-functions)  
 12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
 13. [AssertEquals(ANY) on properties makes my development environment crash, why?](#_13-assertequalsany-on-properties-makes-my-development-environment-crash-why)
+14. [Why can't I pass a variable in VAR_INST into another?](#_14-why-cant-i-pass-a-variable-in-var_inst-into-another)
 
 ---
 
@@ -351,3 +352,64 @@ In TwinCAT 4024 (and earlier) the compiler doesn't warn about this but simply cr
 ![AssertANY with parameter](img/AssertAnyWithParameter.png)
 
 Simply use the primitive variant of Assert instead. For example, if you have a parameter that is a boolean, use [`AssertEquals_BOOL`](api.md#assertequals_bool) instead.
+
+## 14. Why can't I pass a variable in VAR_INST into another?
+
+Attempting to do this will lead to an error, specifically in a VAR_INST block of a method:
+
+```example
+METHOD PRIVATE DoATest
+VAR_INST
+    Foo : BOOL := TRUE;
+    Bar : BOOL := Foo;
+VAR_END
+```
+
+In 4024, it may warn you that `Foo` is not defined. 4026 has added a more descriptive error `C0536: The initial value for a VAR_INST variable may not use local variables`.
+
+So what can you do?
+
+- Place the variable you want to pass to others into a larger scope, like the function blocks declaration.
+- For single cycle tests, or tests where you don't intend to write to these variables, replace `VAR_INST` with `VAR`.
+VAR_INST is only useful if you want to retain changes between cycles, and `VAR` will allow you to use local variables in initial values.
+- Place your variables in a struct first
+
+```example
+TYPE FooBarStruct :
+STRUCT
+    Foo : BOOL := TRUE;
+    Bar : BOOL := Foo;
+    pFoo : POINTER TO BOOL := ADR(Foo);
+    rFoo : REFERENCE TO BOOL REF= Foo;
+END_STRUCT
+END_TYPE
+```
+
+```example
+METHOD DoATest : BOOL
+VAR_INST
+    TestVars : FooBarStruct;
+VAR_END
+
+```
+
+- Instantiate the variables in the implementation section, rather than the declaration.
+  For function blocks, the `'noinit'` attribute pragma can be used for FBs that have a FB_init constructor, to prevent a compile error.
+
+```example
+METHOD DoATest : BOOL
+VAR_INST
+    Foo : BOOL := TRUE;
+    {attribute 'noinit'}
+    Bar : FB_BAR;
+    Initialized : BOOL;
+END_VAR
+-----------------------
+IF NOT Initialized THEN
+    Initialized := TRUE;
+    Bar.FB_Init(false, false, Foo);
+END_IF
+```
+
+- If your test function block will only have one instance, you can use `VAR_STAT` instead.
+  Like `VAR_INST`, `VAR_STAT` will retain changes between cycles, but the values will be the same across all instances of the FB.
