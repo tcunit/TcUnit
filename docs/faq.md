@@ -413,6 +413,3 @@ END_IF
 
 - If your test function block will only have one instance, you can use `VAR_STAT` instead.
   Like `VAR_INST`, `VAR_STAT` will retain changes between cycles, but the values will be the same across all instances of the FB.
-
-## 15 banan boat
-adkls
