@@ -351,3 +351,55 @@ In TwinCAT 4024 (and earlier) the compiler doesn't warn about this but simply cr
 ![AssertANY with parameter](img/AssertAnyWithParameter.png)
 
 Simply use the primitive variant of Assert instead. For example, if you have a parameter that is a boolean, use [`AssertEquals_BOOL`](api.md#assertequals_bool) instead.
+
+## 14. Why can't I pass a variable in `VAR_INST` into another?
+
+Attempting to do this will lead to an error, specifically in a VAR_INST block of a method:
+```example
+METHOD DoATest : BOOL
+VAR_INST
+    Foo : BOOL := TRUE;
+    Bar : BOOL := Foo;
+VAR_END
+```
+In 4024, it may warn you that `Foo` is not defined. 4026 has added a more descriptive error `C0536: The initial value for a VAR_INST variable may not use local variables`
+So what can you do?
+  1. Place the variable you want to pass to others into a larger scope, like the function block's main header, or a GVL
+  2. For single cycle tests, or tests where you don't intend to write to these variables, replace `VAR_INST` with `VAR`
+        - `VAR_INST` is only useful if you want to retain changes between cycles, and `VAR` will allow you to use local variables in initial values
+  3. Place your variables in a struct first
+```example
+TYPE FooBarStruct :
+STRUCT
+	Foo : BOOL := TRUE;
+	Bar : BOOL := Foo;
+	pFoo : POINTER TO BOOL := ADR(Foo);
+	rFoo : REFERENCE TO BOOL REF= Foo;
+END_STRUCT
+END_TYPE
+```
+----
+```example
+METHOD DoATest : BOOL
+VAR_INST
+    TestVars : FooBarStruct;
+VAR_END
+```
+  4. Instantiate the variables in the implementation section, rather than the declaration. 
+     - For Function blocks, the 'noinit' attribute pragma can be used for FBs that have a FB_init constructor, to prevent a compile error
+```example
+METHOD DoATest : BOOL
+VAR_INST
+    Foo : BOOL := TRUE;
+    {attribute 'noinit'}
+    Bar : FB_BAR;
+    Initialized : BOOL;
+END_VAR
+-----
+IF NOT Initialized THEN
+    Initialized := TRUE;
+    Bar.FB_Init(false, false, Foo);
+END_IF
+```
+  5. If your test function block will only have one instance, you can use `VAR_STAT` instead
+      - Like `VAR_INST`, `VAR_STAT` will retain changes between cycles, but the values will be the same across all instances of the FB
