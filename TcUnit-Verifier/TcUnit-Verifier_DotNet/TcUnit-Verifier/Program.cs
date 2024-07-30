@@ -182,8 +182,10 @@ namespace TcUnit.Verifier
                 errorList.Where(e => (
                     e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh 
                     || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)
-                )
+               )
             );
+
+            errors = errors.OrderBy(error => error.Timestamp).ToList();
 
             // Insert the test classes here
             new FB_PrimitiveTypes(errors);
