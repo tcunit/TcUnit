@@ -160,6 +160,62 @@ namespace TcUnit.Verifier
             }
         }
 
+        protected void AssertContainsResultSet(string testName, string className, string status, int numberOfAsserts, double expectedDuration, double expectedDurationTolerance)
+        {
+            var errorMessagePrefix = $"Test suite {_testFunctionBlockInstance} test {testName} ";
+            try
+            {
+                var results = _errors
+                    .Select((e, index) => new { Error = e, Index = index })
+                    .Where(item =>
+                        item.Error.Description.Contains($"| Test name={testName}".ToUpper()) &&
+                        item.Error.ErrorLevel.Equals(vsBuildErrorLevel.vsBuildErrorLevelLow))
+                    .Select(item => _errors.Skip(item.Index).Take(3))
+                    .FirstOrDefault();
+
+
+                if (!results.ElementAt(1).Description.Contains($"| Test class name={className}".ToUpper()))
+                {
+                    log.Info($"{errorMessagePrefix} does not list class name: {className}");
+                    return;
+                }
+
+                string pattern = @"Test status=(?<Status>\w+), number of asserts=(?<Asserts>\d+), duration=(?<Duration>[\d\.e-]+)";
+                Match match = Regex.Match(results.ElementAt(2).Description, pattern, RegexOptions.IgnoreCase);
+
+                if (!match.Success)
+                {
+                    log.Info($"{errorMessagePrefix} does not contain expected result set");
+                    return;
+                }
+
+                var actualStatus = match.Groups["Status"].Value;
+                if (actualStatus != status)
+                {
+                    log.Info($"{errorMessagePrefix} does not have expected status: {actualStatus} != {status}");
+                    return;
+                }
+
+                var actualNumberOfAsserts = int.Parse(match.Groups["Asserts"].Value);
+                if (actualNumberOfAsserts != numberOfAsserts)
+                {
+                    log.Info($"{errorMessagePrefix} does not have expected number of asserts: {actualNumberOfAsserts} != {numberOfAsserts}");
+                    return;
+                }
+
+                var actualDuration = double.Parse(match.Groups["Duration"].Value);
+                if (System.Math.Abs(actualDuration - expectedDuration) > expectedDurationTolerance)
+                {
+                    log.Info($"{errorMessagePrefix} does not have expected duration: abs({actualDuration} - {expectedDuration}) > {expectedDurationTolerance}");
+                    return;
+                }
+            } 
+            catch 
+            {
+                log.Info($"{errorMessagePrefix} does not contain expected results");
+            }
+        }
+
         protected string CreateFailedTestCommonString(string method)
         {
             string returnString;
