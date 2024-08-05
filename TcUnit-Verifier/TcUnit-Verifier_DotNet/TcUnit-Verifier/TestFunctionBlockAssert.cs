@@ -203,14 +203,14 @@ namespace TcUnit.Verifier
                     return;
                 }
 
-                var actualDuration = double.Parse(match.Groups["Duration"].Value);
+                var actualDuration = double.Parse(match.Groups["Duration"].Value, System.Globalization.CultureInfo.InvariantCulture);
                 if (System.Math.Abs(actualDuration - expectedDuration) > expectedDurationTolerance)
                 {
                     log.Info($"{errorMessagePrefix} does not have expected duration: abs({actualDuration} - {expectedDuration}) > {expectedDurationTolerance}");
                     return;
                 }
             } 
-            catch 
+            catch
             {
                 log.Info($"{errorMessagePrefix} does not contain expected results");
             }
