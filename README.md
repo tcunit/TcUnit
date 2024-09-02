@@ -32,3 +32,7 @@ Check the [F.A.Q](https://tcunit.org/#/faq).
 Check the [open](https://github.com/tcunit/TcUnit/issues) and [closed](https://github.com/tcunit/TcUnit/issues?q=is%3Aissue+is%3Aclosed) issues.
 If your issue does not already exist, create a [new](https://github.com/tcunit/TcUnit/issues/new/choose).
 For general ideas/discussions, use the [discussions](https://github.com/tcunit/TcUnit/discussions).
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=tcunit/tcunit&type=Timeline)](https://star-history.com/#tcunit/tcunit&Timeline)
