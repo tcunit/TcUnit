@@ -46,7 +46,7 @@ Make sure that the **file format** drop-down menu is set to **Library files (*.l
 This will install the library on your computer.
 Once the library is installed, the file that you saved on the desktop can be removed.
 
-### Reference the library in project
+## Reference the library in project
 
 In order to use TcUnit you need to add a reference to the library in your project.
 Open your TwinCAT project, and right-click on the **References** under the PLC-project and click on **Add library...**
@@ -55,7 +55,7 @@ Open your TwinCAT project, and right-click on the **References** under the PLC-p
 
 Next go to the TcUnit-group, select TcUnit and click **OK**.
 
-### Create test suites and run them
+## Create test suites and run them
 
 For every function block (or free function) that you have defined we want to create a test function block (test suite), which has the responsibility to:
 
