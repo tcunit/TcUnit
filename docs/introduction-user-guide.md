@@ -13,9 +13,24 @@ For a more thorough/detailed example please see the [programming example](progra
 
 The purpose of this user guide is to be a short tutorial where we will go through the different steps to that are necessary to use TcUnit, which are:
 
-1. Download and install the TcUnit framework on your engineering PC
-2. Reference the library in your project
-3. Create test suites and run the tests
+1. Create the library project that is going to be tested
+2. Download and install the TcUnit framework on your engineering PC
+3. Reference the TcUnit library in your project
+4. Create test suites and run the tests
+
+## Create your library to be tested
+
+You may already have a library in which you want to add unit tests, so why create another one?
+
+The reason is, your library probably is not suitable for executing unit tests.
+The Beckhoff documentation on [Library creation](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_plc_intro/4189255051.html) recommends using an "Empty PLC Project".
+An empty PLC project however can only be saved as a library and cannot be run itself in the TwinCAT runtime.
+If you followed this recommendation and created your library based on an empty PLC project, you will not be able to execute any programs in this project, because the whole system-related part is missing.
+In this case you need to create a new "TwinCAT XAE Project (XML format)" and move your library code.
+
+If you want to keep your empty PLC project as the base of your library, then you still need to create another TwinCAT XAE project in which you will put your unit tests code.
+
+This of course is not necessary if you already have a XAE project or your library is based on one.
 
 ## Download & install
 
