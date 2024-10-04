@@ -420,8 +420,12 @@ END_IF
 Each message is printed twice (or many times) to the Error List of Visual Studio.  
 Why? What is going wrong here?
 
-This problem is described in the following GitHub issues: 
+This problem is described in the following GitHub issue: 
 - [#92: Duplicate event message output in multi-project solutions](https://github.com/tcunit/TcUnit/issues/92)
+
+Duplicates of this issue:
+- [#125: Duplicate messages presented in error list](https://github.com/tcunit/TcUnit/issues/125)
+- [#235: Tests seem to run 4 times](https://github.com/tcunit/TcUnit/issues/235)
 - [#246: Double execution of TcUnit](https://github.com/tcunit/TcUnit/issues/246)
 - [#248: Each message is printed multiple times in the XAE instance, and in every XAE instance](https://github.com/tcunit/TcUnit/issues/248)
 
