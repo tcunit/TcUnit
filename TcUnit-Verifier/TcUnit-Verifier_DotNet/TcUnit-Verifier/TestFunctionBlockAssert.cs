@@ -10,7 +10,7 @@ namespace TcUnit.Verifier
     {
         private IEnumerable<ErrorList.Error> _errors;
         protected string _testFunctionBlockInstance;
-        private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
+        protected static ILog log = LogManager.GetLogger("TcUnit-Verifier");
 
         private string DefaultFunctionBlockInstance
         {

@@ -104,6 +104,9 @@
     <Compile Include="Test\FB_TestXmlControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\FB_TestXUnitPublisher.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\FB_WriteProtectedFunctions.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -146,6 +149,12 @@
     <PlaceholderReference Include="TcUnit">
       <DefaultResolution>TcUnit, * (www.tcunit.org)</DefaultResolution>
       <Namespace>TcUnit</Namespace>
+      <Parameters>
+        <Parameter ListName="GVL_PARAM_TCUNIT" xmlns="">
+          <Key>XUNITENABLEPUBLISH</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
