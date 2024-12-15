@@ -23,9 +23,10 @@ If you don’t find what you are looking for here, you can look through the:
 9. [Is it possible to have a time delay between the execution of the test suites?](#_9-is-it-possible-to-have-a-time-delay-between-the-execution-of-the-test-suites)  
 10. [If I call ADSLOGSTR(), my messages don't show up in the correct sequence. Why?](#_10-if-i-call-adslogstr-my-messages-dont-show-up-in-the-correct-sequence-why)  
 11. [How do I test functions?](#_11-how-do-i-test-functions)  
-12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
-13. [AssertEquals(ANY) on properties makes my development environment crash, why?](#_13-assertequalsany-on-properties-makes-my-development-environment-crash-why)
-14. [Why can't I pass a variable in VAR_INST into another?](#_14-why-can39t-i-pass-a-variable-in-var_inst-into-another)
+12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)
+13. [How do I work with released libraries that use TcUnit on an Armv7 controller?](#13-how-do-i-work-with-released-libraries-that-use-tcunit-on-an-armv7-controller)
+14. [AssertEquals(ANY) on properties makes my development environment crash, why?](#_13-assertequalsany-on-properties-makes-my-development-environment-crash-why)
+15. [Why can't I pass a variable in VAR_INST into another?](#_14-why-can39t-i-pass-a-variable-in-var_inst-into-another)
 
 ---
 
@@ -341,7 +342,29 @@ This seems to be an issue with the limited memory of the controllers using an AR
 
 For more information on a set of working parameters, see [this issue on GitHub](https://github.com/tcunit/TcUnit/issues/148).
 
-## 13. AssertEquals(ANY) on properties makes my development environment crash, why?
+## 13. How do I work with released libraries that use TcUnit on an Armv7 controller?
+
+Despite being able to limit how many tests your library has, when you import the released library to your project, the parameters will automatically be set to deafult and can't be editet (this is how TwinCAT library parameters work). Take the foolowing example, where a library had it's test parameters set to 10/1/10. But when the same library is released and imported in a project, the settings go back to default, which is 1000/100/1000.
+![image](https://github.com/user-attachments/assets/0cc2f814-8484-4b26-a833-47ee3f51e706)
+You can even hide TcUnit reference and give the property ```Compiler defines``` some value, which disables the TcUnit inside the library, then create the release. 
+![image](https://github.com/user-attachments/assets/4e6c8806-fc2c-4a9c-9e08-c98da9da46ff)
+
+You might not see anything when you import the released library to your project, but ```target browser``` reveals that there actually is ```GVL_TcUnit``` list, and the parameters are also set to maximum, occupying a large ammount of memory. See the following example, left side show the released library with no TcUnit reference, but once you log in to your runtime you can see that is not the case.
+
+![image](https://github.com/user-attachments/assets/9868b9e1-d672-408c-9fc1-0557def856cc)
+
+# What is the solution?
+As it turns out, the best solution (so far) is to also import TcUnit in your project. Then (inside this project) set the parameters to as low as possible - this will overwrite any settings to imported libraries as well, resulting in next to no memory usage, but not completely gone. Set the parameters according to the following image (you cant set the values to 0, it will result in compilation error inside TcUnit):
+
+![image](https://github.com/user-attachments/assets/cba1a183-6e0b-4cde-97dc-774133f13c80)
+
+Now, when you download the code, taking another look in the target browser reveals that the ```GVL_TcUnit``` list has been set to minimal size.
+
+![image](https://github.com/user-attachments/assets/2452a698-7961-4f0e-87b8-02f06f5be271)
+
+
+
+## 14. AssertEquals(ANY) on properties makes my development environment crash, why?
 
 Asserting the expected value of a property makes TcXaeShell crash and triggers a Windows Blue-Screen-Of-Death causing a full PLC reboot.
 What should I do?
@@ -353,7 +376,7 @@ In TwinCAT 4024 (and earlier) the compiler doesn't warn about this but simply cr
 
 Simply use the primitive variant of Assert instead. For example, if you have a parameter that is a boolean, use [`AssertEquals_BOOL`](api.md#assertequals_bool) instead.
 
-## 14. Why can't I pass a variable in VAR_INST into another?
+## 15. Why can't I pass a variable in VAR_INST into another?
 
 Attempting to do this will lead to an error, specifically in a VAR_INST block of a method:
 
