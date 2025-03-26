@@ -7,44 +7,49 @@
 *)
 FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax253CharLength
 VAR_INPUT
-    MsgFmtString : T_MaxString; // Test instance path
-    StringArg : T_MaxString; // Test message
+    TestInstancePath : T_MaxString;
+    TestMessage : T_MaxString;
 END_VAR
 VAR_OUTPUT
-    MsgFmtStringProcessed : T_MaxString;
-    StringArgProcessed : T_MaxString;
+    TestInstancePathProcessed : T_MaxString;
+    TestMessageProcessed : T_MaxString;
 END_VAR
-VAR
-    MsgFmtStringTemp : T_MaxString;
-    TestNameTooLong : STRING := '...TestName too long';
-    TestMsgTooLong : STRING := '...TestMsg too long';
+VAR_TEMP
+    TestInstancePathTemporary : T_MaxString;
 END_VAR
 VAR CONSTANT
-    MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 253; // This is actually 254, but if StrArg-argument is used (which it is in TcUnit) it is 253.
+    MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 253; // This is actually 254, but if StrArg-argument is used (which it is in TcUnit) it is 253.
+    TEST_NAME_TOO_LONG : STRING := '...TestName too long';
+    TEST_MESSAGE_TOO_LONG : STRING := '...TestMsg too long';
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Check if any of the two strings are too long (or the combination of them)
 
 // All OK
-IF (LEN(STR := MsgFmtString) + LEN(STR := StringArg)) <= MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
-    MsgFmtStringProcessed := MsgFmtString;
-    StringArgProcessed := StringArg;
+IF (LEN(STR := TestInstancePath) + LEN(STR := TestMessage)) <= MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+    TestInstancePathProcessed := TestInstancePath;
+    TestMessageProcessed := TestMessage;
 // If test instance path is longer than 253 chars, shorten it down to 253 characters and additionally with the length of the '...TestName too long'. Add the text '...TestName too long' to the test instance path. Leave no characters for the message.
-ELSIF LEN(STR := MsgFmtString) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS THEN
-    MsgFmtStringTemp := LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestNameTooLong)));
-    MsgFmtStringProcessed := CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
-    StringArgProcessed := '';
+ELSIF LEN(STR := TestInstancePath) > MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+    TestInstancePathTemporary := LEFT(STR := TestInstancePath,
+                                      SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_NAME_TOO_LONG)));
+    TestInstancePathProcessed := CONCAT(STR1 := TestInstancePathTemporary,
+                                        STR2 := TEST_NAME_TOO_LONG);
+    TestMessageProcessed := '';
 // If test message is too long (so we cant fit the text "...TestMsg too long" to the end of it) , shorten it (so that we can fit the text)
-ELSIF (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestMsgTooLong)) >= LEN(STR := MsgFmtString) THEN
-    MsgFmtStringProcessed := MsgFmtString;
-    StringArgProcessed := LEFT(STR := StringArg,
-                                            SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestMsgTooLong) - LEN(STR := MsgFmtStringProcessed)));
-    StringArgProcessed := CONCAT(STR1 := StringArgProcessed, STR2 := TestMsgTooLong);
+ELSIF (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_MESSAGE_TOO_LONG)) >= LEN(STR := TestInstancePath) THEN
+    TestInstancePathProcessed := TestInstancePath;
+    TestMessageProcessed := LEFT(STR := TestMessage,
+                                 SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_MESSAGE_TOO_LONG) - LEN(STR := TestInstancePathProcessed)));
+    TestMessageProcessed := CONCAT(STR1 := TestMessageProcessed,
+                                   STR2 := TEST_MESSAGE_TOO_LONG);
 // If test instance path is too long (length is between 233 and 253 characters long), shorten it and add the text '...TestName too long'. Leave no characters for the message
 ELSE
-    MsgFmtStringTemp := LEFT(STR := MsgFmtString, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TestNameTooLong)));
-    MsgFmtStringProcessed := CONCAT(STR1 := MsgFmtStringTemp, STR2 := TestNameTooLong);
-    StringArgProcessed := '';
+    TestInstancePathTemporary := LEFT(STR := TestInstancePath,
+                                      SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_NAME_TOO_LONG)));
+    TestInstancePathProcessed := CONCAT(STR1 := TestInstancePathTemporary,
+                                        STR2 := TEST_NAME_TOO_LONG);
+    TestMessageProcessed := '';
 END_IF]]></ST>
     </Implementation>
   </POU>

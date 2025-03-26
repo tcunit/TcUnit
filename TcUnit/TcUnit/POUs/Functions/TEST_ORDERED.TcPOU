@@ -28,11 +28,12 @@ VAR_INPUT
 END_VAR
 VAR
     CounterTestSuiteAddress : UINT;
+    Test : REFERENCE TO FB_Test;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestName := F_LTrim(in := F_RTrim(in := TestName));
 
-(* Mark this test as the current one being executed *)
+// Mark this test as the current one being executed
 GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 
 (* Check if combination of address for the test suite and test name already exists.
@@ -42,33 +43,36 @@ GVL_TcUnit.CurrentTestNameBeingCalled := TestName;
 
 FOR CounterTestSuiteAddress := 1 TO GVL_TcUnit.NumberOfInitializedTestSuites BY 1 DO
 
-    (* Look for the test suite by comparing to the one that is currently running *)
+    // Look for the test suite by comparing to the one that is currently running
     IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress] = GVL_TcUnit.CurrentTestSuiteBeingCalled THEN
-        GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := TRUE);
+        Test REF= GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.AddTest(TestName := TestName, IsTestOrdered := TRUE);
         GVL_TcUnit.CurrentTestIsFinished := GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.IsTestFinished(TestName := TestName);
 
-        (* Check that no previous code has set the currently running test to ignored (for example by setting the test to DISABLED *)
+        // Check that no previous code has set the currently running test to ignored (for example by setting the test to DISABLED
         IF NOT GVL_TcUnit.IgnoreCurrentTest THEN
             (* If the current test is not the current in the sequence of tests, set it to ignored until it is its turn to run
                If the current test is the one supposed to be run, check whether it has finished running or not *)
             IF GVL_TcUnit.TestSuiteAddresses[CounterTestSuiteAddress]^.GetTestOrderNumber(TestName := TestName) =
                 GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] THEN
-                (* Check if test if finished, if so, increase the order number of this test suite to the next test *)
+                // Check if test if finished, if so, increase the order number of this test suite to the next test
                 IF GVL_TcUnit.CurrentTestIsFinished THEN
                     GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] := GVL_TcUnit.CurrentlyRunningOrderedTestInTestSuite[CounterTestSuiteAddress] + 1;
-                    (* No need to execute the test if it is already finished *)
+                    // No need to execute the test if it is already finished
                     TEST_ORDERED := FALSE;
                     GVL_TcUnit.IgnoreCurrentTest := TRUE;
                 ELSE
-                    (* Continue executing test *)
+                    // Start or continue executing test
+                    IF __ISVALIDREF(Test) THEN
+                        Test.SetStartedAtIfNotSet(Timestamp := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter));
+                    END_IF
                     TEST_ORDERED := TRUE;
                 END_IF
             ELSE
-                (* If this is not the current test that we are supposed to run, ignore it until it is its turn *)
+                // If this is not the current test that we are supposed to run, ignore it until it is its turn
                 TEST_ORDERED := FALSE;
                 GVL_TcUnit.IgnoreCurrentTest := TRUE;
 			END_IF
-        (* This test should be ignored *)
+        // This test should be ignored
         ELSE
             TEST_ORDERED := FALSE;
             GVL_TcUnit.IgnoreCurrentTest := TRUE;

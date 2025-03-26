@@ -9,7 +9,6 @@ namespace TcUnit.Verifier
         {
             Check_TestSuite_Statistics();
             AssertTestClassName();
-            AssertTestDuration();
             Test_BOOL_AssertFailed();
             Test_BOOL_AssertSuccess();
             Test_BYTE_TwoFailedAsserts();
@@ -35,12 +34,6 @@ namespace TcUnit.Verifier
             // 4. Test_LINT_AssertFailed
             // 5. Test_LINT_AssertSuccess
             AssertMessageCount(className, 5, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
-        }
-
-        private void AssertTestDuration()
-        {
-            string duration = "Test duration=%f";
-            AssertMessageCount(duration, 260, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow);
         }
 
         private void Test_BOOL_AssertFailed()

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="TEST_FINISHED" Id="{9922b45b-fca5-4323-be8f-93710371a816}" SpecialFunc="None">
-    <Declaration><![CDATA[(* Sets the currently running test as finished *)
+    <Declaration><![CDATA[// Sets the currently running test as finished
 FUNCTION TEST_FINISHED : BOOL
 VAR
     TestName : T_MaxString;

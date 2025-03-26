@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_FileControl" Id="{c9bec8fc-2de3-45f4-b839-e6c4276a6b5a}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This functionblock can open, close, read, write and delete files on the local filesystem
-*)
+    <Declaration><![CDATA[// This functionblock can open, close, read, write and delete files on the local filesystem
 FUNCTION_BLOCK FB_FileControl
 VAR
     FileAccessMode : SysFile.ACCESS_MODE := SysFile.AM_APPEND_PLUS; // Append_Plus creates the file if it doesn't exist yet. 
@@ -13,9 +11,7 @@ END_VAR]]></Declaration>
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Close" Id="{519e9011-283c-40b1-afd4-31686c5b81fe}">
-      <Declaration><![CDATA[(*
-    Closes the currently opened file.
-*)
+      <Declaration><![CDATA[// Closes the currently opened file.
 METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF FileHandle <> SysFile.SysTypes.RTS_INVALID_HANDLE THEN
@@ -26,12 +22,10 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Delete" Id="{e27996e3-6698-47c5-be0e-65fca18115ae}">
-      <Declaration><![CDATA[(*
-    Deletes a file specified by name, if it exists.
-*)
+      <Declaration><![CDATA[// Deletes a file specified by name, if it exists.
 METHOD PUBLIC Delete : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
-    (* File name can contain an absolute or relative path to the file. Path entries must be separated with a forward slash (/) *)
+    // File name can contain an absolute or relative path to the file. Path entries must be separated with a forward slash (/)
     FileName : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
@@ -39,9 +33,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="Open" Id="{1873bb2c-c6a3-4681-8948-02aa2bad0a9b}">
-      <Declaration><![CDATA[(*
-    Opens a file
-*)
+      <Declaration><![CDATA[// Opens a file
 METHOD PUBLIC Open : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     FileName : T_MaxString := 'filepath/output.xml';  // File name can contain an absolute or relative path to the file. Path entries must be separated with a Slash (/)
@@ -54,9 +46,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="Read" Id="{3984ae50-1cdb-4045-af99-0bb56917afb2}">
-      <Declaration><![CDATA[(*
-    Reads a file from disk into the buffer
-*)
+      <Declaration><![CDATA[// Reads a file from disk into the buffer
 METHOD PUBLIC Read : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     BufferPointer : POINTER TO BYTE; // Call with ADR();
@@ -72,14 +62,12 @@ END_VAR]]></Declaration>
                                     ulSize := Size,
                                     pResult := ADR(Read));
 ELSE
-    Read := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;                  
+    Read := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;
 END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Write" Id="{c4146a99-50c6-4ce0-88ab-794dbfb1af62}">
-      <Declaration><![CDATA[(* 
-    Writes the contents of the buffer into a file.
-*)
+      <Declaration><![CDATA[// Writes the contents of the buffer into a file.
 METHOD PUBLIC Write : SysFile.SysTypes.RTS_IEC_RESULT;
 VAR_INPUT
     BufferPointer : POINTER TO BYTE; // Call with ADR();
@@ -92,7 +80,7 @@ END_VAR]]></Declaration>
                          ulSize := Size,
                          pResult := ADR(Write));
 ELSE
-    Write := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;                  
+    Write := SysDir.CmpErrors.Errors.ERR_INVALID_HANDLE;
 END_IF]]></ST>
       </Implementation>
     </Method>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="IS_TEST_FINISHED" Id="{79206b95-49a5-42aa-8a6a-b089aa13b1fd}" SpecialFunc="None">
-    <Declaration><![CDATA[(* Check if a certain test in the current suite is finished *)
+    <Declaration><![CDATA[// Check if a certain test in the current suite is finished
 FUNCTION IS_TEST_FINISHED : BOOL
 VAR_INPUT
     TestName : T_MaxString;

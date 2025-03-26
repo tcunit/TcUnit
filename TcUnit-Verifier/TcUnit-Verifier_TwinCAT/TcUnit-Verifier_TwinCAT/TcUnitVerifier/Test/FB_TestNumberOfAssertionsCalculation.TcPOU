@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TestNumberOfAssertionsCalculation" Id="{cee9ba28-e671-41e0-b4c9-dea366cda83b}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This testsuite verifies that the number of assertions for every testcase is correctly calculated
-*)
+    <Declaration><![CDATA[// This testsuite verifies that the number of assertions for every testcase is correctly calculated
 FUNCTION_BLOCK FB_TestNumberOfAssertionsCalculation EXTENDS TcUnit.FB_TestSuite]]></Declaration>
     <Implementation>
       <ST><![CDATA[TestMixed33SuccessulAnd9FailedAssertions();

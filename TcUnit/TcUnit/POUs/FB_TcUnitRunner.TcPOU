@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TcUnitRunner" Id="{857e16d6-a26c-468a-935e-aa7317c263b9}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This function block is responsible for holding track of the tests and executing them.
-*)
+    <Declaration><![CDATA[// This function block is responsible for holding track of the tests and executing them.
 FUNCTION_BLOCK FB_TcUnitRunner
 VAR
-    (* Indication of whether all test suites have reported that they are finished *)
+    // Indication of whether all test suites have reported that they are finished
     AllTestSuitesFinished : BOOL := FALSE;
     AllTestSuitesFinishedTrigger : R_TRIG;
 
-    (* Test result information *)
+    //Test result information
     TestResults : FB_TestResults;
 
     (* Prints the results to ADS so that Visual Studio can display the results.
@@ -22,7 +20,7 @@ VAR
        request to abort running the test suites *)
     AbortRunningTestSuites : BOOL;
 
-    (* Publishes a xUnit compatible XML file *)
+    // Publishes a xUnit compatible XML file
     xUnitXmlPublisher : FB_xUnitXmlPublisher(TestResults);
     XmlTestResultPublisher : I_TestResultLogger := xUnitXmlPublisher;
 END_VAR]]></Declaration>
@@ -38,7 +36,7 @@ METHOD INTERNAL AbortRunningTestSuiteTests]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="RunTestSuiteTests" Id="{d333e6c4-a1da-4b5b-91b3-4b4808e6c299}">
-      <Declaration><![CDATA[(* This runs all the test suites in parallel *)
+      <Declaration><![CDATA[// This runs all the test suites in parallel
 METHOD INTERNAL RunTestSuiteTests
 VAR
     Counter : UINT := 0;
@@ -54,7 +52,7 @@ END_VAR]]></Declaration>
     GVL_TcUnit.StartedAt := F_GetCpuCounterAs64bit(GVL_TcUnit.GetCpuCounter);
 END_IF
 
-(* Run TcUnit test suites *)
+// Run TcUnit test suites
 IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
@@ -84,21 +82,21 @@ IF NOT AllTestSuitesFinished THEN
     END_IF
 END_IF
 
-(* Store test suite results continuously *)
+// Store test suite results continuously
 TestResults();
 
-(* Log test suite results continuously *)
+// Log test suite results continuously
 TestResultLogger.LogTestSuiteResults();
 
-(* publish the xUnit Xml file once if enabled *)
+// Publish the xUnit Xml file once if enabled
 XmlTestResultPublisher.LogTestSuiteResults();
 
-(* Run the buffered ADS logger *)
+// Run the buffered ADS logger
 GVL_TcUnit.AdsMessageQueue();]]></ST>
       </Implementation>
     </Method>
     <Method Name="RunTestSuiteTestsInSequence" Id="{01bbc2d3-b1c5-4bce-a3f3-fa46a50fd167}">
-      <Declaration><![CDATA[(* This runs all the test suites in sequence (one after the other) *)
+      <Declaration><![CDATA[// This runs all the test suites in sequence (one after the other)
 METHOD INTERNAL RunTestSuiteTestsInSequence
 VAR_INPUT
     TimeBetweenTestSuitesExecution : TIME; // Time delay between a test suite is finished and the next test suite starts
@@ -123,7 +121,7 @@ END_VAR]]></Declaration>
 END_IF
 
 TimerBetweenExecutionOfTestSuites(PT := TimeBetweenTestSuitesExecution);
-(* Run TcUnit test suites *)
+// Run TcUnit test suites
 IF NOT AllTestSuitesFinished THEN
     IF GVL_TcUnit.NumberOfInitializedTestSuites = 0 THEN
         AllTestSuitesFinished := TRUE;
@@ -158,16 +156,16 @@ IF NOT AllTestSuitesFinished THEN
     END_IF
 END_IF
 
-(* Store test suite results continuously *)
+// Store test suite results continuously
 TestResults();
 
-(* Log test suite results continuously *)
+// Log test suite results continuously
 TestResultLogger.LogTestSuiteResults();
 
-(* publish the xUnit Xml file once if enabled *)
+// Publish the xUnit Xml file once if enabled
 XmlTestResultPublisher.LogTestSuiteResults();
 
-(* Run the buffered ADS logger *)
+// Run the buffered ADS logger
 GVL_TcUnit.AdsMessageQueue();]]></ST>
       </Implementation>
     </Method>

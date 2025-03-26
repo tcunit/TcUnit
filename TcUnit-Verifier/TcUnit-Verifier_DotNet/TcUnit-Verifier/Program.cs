@@ -18,7 +18,7 @@ namespace TcUnit.Verifier
         private static string tcUnitTargetNetId = "127.0.0.1.1.1";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 116; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 121; // Update this if you add intentionally failing tests
 
         [STAThread]
         static void Main(string[] args)
@@ -108,7 +108,7 @@ namespace TcUnit.Verifier
             bool testsFinishedRunningFirstLineFound = false;
             bool numberOfTestSuitesLineFound = false;
             bool numberOfTestsLineFound = false;
-            bool numberOfSuccesfulTestsLineFound = false;
+            bool numberOfSuccessfulTestsLineFound = false;
             bool numberOfFailedTestsLineFound = false;
             bool durationLineFound = false;
             bool testsFinishedRunningLastLineFound = false;
@@ -138,7 +138,7 @@ namespace TcUnit.Verifier
                     if (error.Description.Contains("| Tests:"))
                         numberOfTestsLineFound = true;
                     if (error.Description.Contains("| Successful tests:"))
-                        numberOfSuccesfulTestsLineFound = true;
+                        numberOfSuccessfulTestsLineFound = true;
                     if (error.Description.Contains("| Failed tests:"))
                     {
                         numberOfFailedTestsLineFound = true;
@@ -158,7 +158,7 @@ namespace TcUnit.Verifier
                     testsFinishedRunningFirstLineFound 
                     && numberOfTestSuitesLineFound 
                     && numberOfTestsLineFound 
-                    && numberOfSuccesfulTestsLineFound
+                    && numberOfSuccessfulTestsLineFound
                     && numberOfFailedTestsLineFound
                     && durationLineFound
                     && testsFinishedRunningLastLineFound
@@ -182,10 +182,12 @@ namespace TcUnit.Verifier
                 errorList.Where(e => (
                     e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelHigh 
                     || e.ErrorLevel == vsBuildErrorLevel.vsBuildErrorLevelLow)
-                )
+               )
             );
 
-            /* Insert the test classes here */
+            errors = errors.OrderBy(error => error.Timestamp).ToList();
+
+            // Insert the test classes here
             new FB_PrimitiveTypes(errors);
             new FB_ExtendedTestInformation(errors);
             new FB_AssertTrueFalse(errors);
@@ -208,7 +210,9 @@ namespace TcUnit.Verifier
             new FB_TestStreamBuffer(errors);
             new FB_TestFinishedNamed(errors);
             new FB_TestNumberOfAssertionsCalculation(errors);
+            new FB_TestDurationMeasurement(errors);
             new FB_EmptyAssertionMessage(errors);
+            new FB_AssertCountExceedsMaxNumber(errors);
 
             log.Info("Done.");
 

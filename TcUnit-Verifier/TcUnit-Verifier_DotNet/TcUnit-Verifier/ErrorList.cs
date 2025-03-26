@@ -1,6 +1,9 @@
 ﻿using EnvDTE80;
+using System;
+using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace TcUnit.Verifier
 {
@@ -12,12 +15,22 @@ namespace TcUnit.Verifier
         {
             public string Description;
             public vsBuildErrorLevel ErrorLevel;
+            public DateTime Timestamp;
 
             public Error(ErrorItem item)
             {
                 Description = item.Description.ToUpper();
                 ErrorLevel = item.ErrorLevel;
+                Timestamp = ParseTimestampFromDescription(item.Description);
             }
+        }
+
+        static public DateTime ParseTimestampFromDescription(string description)
+        {
+            string pattern = @"^(.*?)\s+(\d+\s)ms\s+\|";
+            Match match = Regex.Match(description, pattern, RegexOptions.IgnoreCase);
+            var parsedDate = DateTime.Parse(match.Groups[1].Value, CultureInfo.CurrentCulture).AddMilliseconds(double.Parse(match.Groups[2].Value));
+            return parsedDate;
         }
 
         public IEnumerable<Error> AddNew(ErrorItems errorItems)

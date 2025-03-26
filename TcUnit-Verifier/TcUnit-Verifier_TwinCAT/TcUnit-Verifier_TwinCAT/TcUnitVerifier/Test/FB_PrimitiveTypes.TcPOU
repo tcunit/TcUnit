@@ -39,6 +39,8 @@ Test_SINT_Equals();
 Test_SINT_Differ();
 Test_STRING_Equals();
 Test_STRING_Differ();
+Test_STRING_Differ2();
+Test_STRING_Differ3();
 Test_TIME_Equals();
 Test_TIME_Differ();
 Test_TIME_OF_DAY_Equals();
@@ -539,6 +541,38 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_STRING_Differ');
+
+AssertEquals_STRING(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_STRING_Differ2" Id="{83fd514c-a336-4c84-b73e-0e3841ee49c4}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_STRING_Differ2
+VAR
+    a : STRING := '';
+    b : STRING := 'This string is not empty';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_STRING_Differ2');
+
+AssertEquals_STRING(Expected := a,
+                    Actual := b,
+                    Message := 'Values differ');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_STRING_Differ3" Id="{e6ee682a-82f5-4d00-8b9f-35f174b6cd26}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_STRING_Differ3
+VAR
+    a : STRING := 'This string is not empty';
+    b : STRING := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_STRING_Differ3');
 
 AssertEquals_STRING(Expected := a,
                     Actual := b,

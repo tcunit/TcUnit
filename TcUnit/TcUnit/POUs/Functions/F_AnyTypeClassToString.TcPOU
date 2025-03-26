@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="F_AnyTypeClassToString" Id="{9e1352f3-5f86-40fd-88db-b6807b901391}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This function takes the type-class of a ANY-variable and returns the STRING representation of it.
-*)
+    <Declaration><![CDATA[// This function takes the type-class of a ANY-variable and returns the STRING representation of it.
 FUNCTION F_AnyTypeClassToString : STRING
 VAR_INPUT
     AnyTypeClass : __SYSTEM.TYPE_CLASS;
@@ -12,86 +10,127 @@ END_VAR]]></Declaration>
       <ST><![CDATA[CASE UDINT_TO_INT(AnyTypeClass) OF
     IBaseLibrary.TypeClass.TYPE_BOOL :
         F_AnyTypeClassToString := 'BOOL';
+
     IBaseLibrary.TypeClass.TYPE_BIT :
         F_AnyTypeClassToString := 'BIT';
+
     IBaseLibrary.TypeClass.TYPE_BYTE :
         F_AnyTypeClassToString := 'BYTE';
+
     IBaseLibrary.TypeClass.TYPE_WORD :
         F_AnyTypeClassToString := 'WORD';
+
     IBaseLibrary.TypeClass.TYPE_DWORD :
         F_AnyTypeClassToString := 'DWORD';
+
     IBaseLibrary.TypeClass.TYPE_LWORD :
         F_AnyTypeClassToString := 'LWORD';
+
     IBaseLibrary.TypeClass.TYPE_SINT :
         F_AnyTypeClassToString := 'SINT';
+
     IBaseLibrary.TypeClass.TYPE_INT :
         F_AnyTypeClassToString := 'INT';
+
     IBaseLibrary.TypeClass.TYPE_DINT :
         F_AnyTypeClassToString := 'DINT';
+
     IBaseLibrary.TypeClass.TYPE_LINT :
         F_AnyTypeClassToString := 'LINT';
+
     IBaseLibrary.TypeClass.TYPE_USINT :
         F_AnyTypeClassToString := 'USINT';
+
     IBaseLibrary.TypeClass.TYPE_UINT :
         F_AnyTypeClassToString := 'UINT';
+
     IBaseLibrary.TypeClass.TYPE_UDINT :
         F_AnyTypeClassToString := 'UDINT';
+
     IBaseLibrary.TypeClass.TYPE_ULINT :
         F_AnyTypeClassToString := 'ULINT';
+
     IBaseLibrary.TypeClass.TYPE_REAL :
         F_AnyTypeClassToString := 'REAL';
+
     IBaseLibrary.TypeClass.TYPE_LREAL :
         F_AnyTypeClassToString := 'LREAL';
+
     IBaseLibrary.TypeClass.TYPE_STRING :
         F_AnyTypeClassToString := 'STRING';
+
     IBaseLibrary.TypeClass.TYPE_WSTRING :
         F_AnyTypeClassToString := 'WSTRING';
+
     IBaseLibrary.TypeClass.TYPE_TIME :
         F_AnyTypeClassToString := 'TIME';
+
     IBaseLibrary.TypeClass.TYPE_DATE :
         F_AnyTypeClassToString := 'DATE';
+
     IBaseLibrary.TypeClass.TYPE_DATEANDTIME :
         F_AnyTypeClassToString := 'DATEANDTIME';
+
     IBaseLibrary.TypeClass.TYPE_TIMEOFDAY :
         F_AnyTypeClassToString := 'TIMEOFDAY';
+
     IBaseLibrary.TypeClass.TYPE_POINTER :
         F_AnyTypeClassToString := 'POINTER';
+
     IBaseLibrary.TypeClass.TYPE_REFERENCE :
         F_AnyTypeClassToString := 'REFERENCE';
+
     IBaseLibrary.TypeClass.TYPE_SUBRANGE :
         F_AnyTypeClassToString := 'SUBRANGE';
+
     IBaseLibrary.TypeClass.TYPE_ENUM :
         F_AnyTypeClassToString := 'ENUM';
+
     IBaseLibrary.TypeClass.TYPE_ARRAY :
         F_AnyTypeClassToString := 'ARRAY';
+
     IBaseLibrary.TypeClass.TYPE_PARAMS :
         F_AnyTypeClassToString := 'PARAMS';
+
     IBaseLibrary.TypeClass.TYPE_USERDEF :
         F_AnyTypeClassToString := 'USERDEF';
+
     IBaseLibrary.TypeClass.TYPE_NONE :
         F_AnyTypeClassToString := 'NONE';
+
     IBaseLibrary.TypeClass.TYPE_ANY :
         F_AnyTypeClassToString := 'ANY';
+
     IBaseLibrary.TypeClass.TYPE_ANYBIT :
         F_AnyTypeClassToString := 'ANYBIT';
+
     IBaseLibrary.TypeClass.TYPE_ANYDATE :
         F_AnyTypeClassToString := 'ANYDATE';
+
     IBaseLibrary.TypeClass.TYPE_ANYINT :
         F_AnyTypeClassToString := 'ANYINT';
+
     IBaseLibrary.TypeClass.TYPE_ANYNUM :
         F_AnyTypeClassToString := 'ANYNUM';
+
     IBaseLibrary.TypeClass.TYPE_ANYREAL :
         F_AnyTypeClassToString := 'ANYREAL';
+
     IBaseLibrary.TypeClass.TYPE_LAZY :
         F_AnyTypeClassToString := 'LAZY';
+
     IBaseLibrary.TypeClass.TYPE_LTIME :
         F_AnyTypeClassToString := 'LTIME';
+
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         F_AnyTypeClassToString := 'BITCONST';
+
     IBaseLibrary.TypeClass.TYPE_INTERFACE :
         F_AnyTypeClassToString := 'INTERFACE';
+
     ELSE
         F_AnyTypeClassToString := 'UNKNOWN';
+
 END_CASE]]></ST>
     </Implementation>
   </POU>

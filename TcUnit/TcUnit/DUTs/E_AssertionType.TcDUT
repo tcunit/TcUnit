@@ -8,7 +8,7 @@ TYPE E_AssertionType :
     Type_UNDEFINED := 0,
     Type_ANY,
 
-    (* Primitive types *)
+    // Primitive types
     Type_BOOL,
     Type_BYTE,
     Type_DATE,
@@ -32,7 +32,7 @@ TYPE E_AssertionType :
     Type_WORD,
     Type_WSTRING,
 
-    (* Array types *)
+    // Array types
     Type_Array2D_LREAL,
     Type_Array2D_REAL,
     Type_Array3D_LREAL,

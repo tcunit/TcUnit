@@ -12,8 +12,8 @@
 *)
 FUNCTION_BLOCK FB_SkipAssertionsWhenFinished EXTENDS TcUnit.FB_TestSuite
 VAR
-    ShortTimer : Tc2_Standard.TON := (PT := T#200MS);
-    LongTimer : Tc2_Standard.TON := (PT := T#1S);
+    ShortTimer : TON := (PT := T#200MS);
+    LongTimer : TON := (PT := T#1S);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[Test_LongTest(ADR(LongTimer));
@@ -36,7 +36,7 @@ AssertTrue(FALSE, 'This failing assertion should be skipped because the test is 
     <Method Name="Test_LongTest" Id="{ae29de17-8470-4029-86cf-f2d600b1894b}">
       <Declaration><![CDATA[METHOD Test_LongTest
 VAR_INPUT
-    Timer : POINTER TO Tc2_Standard.TON;
+    Timer : POINTER TO TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LongTest');
@@ -50,7 +50,7 @@ END_IF]]></ST>
     <Method Name="Test_ShortTest" Id="{e7d5d2da-b6ff-46cc-9627-d85c0378e38a}">
       <Declaration><![CDATA[METHOD Test_ShortTest
 VAR_INPUT
-    Timer : POINTER TO Tc2_Standard.TON;
+    Timer : POINTER TO TON;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ShortTest');

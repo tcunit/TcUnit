@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_TestStreamBuffer" Id="{93715912-c883-4a03-854d-0419c551b14f}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    Contains tests that verify the StreamBuffer function block methods
-*)
+    <Declaration><![CDATA[// Contains tests that verify the StreamBuffer function block methods
 FUNCTION_BLOCK FB_TestStreamBuffer EXTENDS TcUnit.FB_TestSuite
 VAR
     Buffer: ARRAY [0..TcUnit.GVL_Param_TcUnit.XUnitBufferSize - 1] OF BYTE;
@@ -22,7 +20,7 @@ Test_BufferOverflow();]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE Setup]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Clear buffer
-Tc2_System.MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
+MEMSET(ADR(Buffer), 0, SIZEOF(Buffer));]]></ST>
       </Implementation>
     </Method>
     <Method Name="Test_Append" Id="{c9f256b4-b10a-4c18-ac2e-375993748010}">
@@ -43,7 +41,7 @@ Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 Stream.Append := Str1;
 Stream.Append := Str2;
 
-(* Search *)
+// Search
 TestResult := (Stream.Find(SearchString := Search, StartPos := 1) >= 0);
 
 AssertTrue(Condition := TestResult,
@@ -98,7 +96,7 @@ Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
-(* Compare initialised buffersize with expected buffersize *)
+// Compare initialised buffersize with expected buffersize
 AssertEquals_UDINT(Expected := GVL_Param_TcUnit.xUnitBufferSize,
                    Actual := Stream.BufferSize,
                    Message := 'BufferSize differs');
@@ -146,7 +144,7 @@ Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 Stream.Append := Str1;
 Stream.Append := Str2;
 
-(* Copy from 8th char 3 chars (8+3=11), should be 'qui' *)
+// Copy from 8th char 3 chars (8+3=11), should be 'qui'
 Cpy := Stream.Copy(StartPos := 8, EndPos := 11, CopyLen => CopyLen);
 
 AssertEquals_STRING(Expected := 'qui',
@@ -173,11 +171,11 @@ Setup();
 
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 
-(* Last char - 2 chars = 3 chars in total *)
+// Last char - 2 chars = 3 chars in total
 Stream.Append := Str;
 Cut := (Stream.Length - 2); 
 
-(* CutOff should contain 'ars' *)
+// CutOff should contain 'ars'
 CutOff := Stream.CutOff(StartPos := Cut, CutLen => Length);
 Expected := Stream.Copy(StartPos := 1, EndPos := Stream.Length); 
 
@@ -204,7 +202,7 @@ Setup();
 Stream.Setbuffer(ADR(Buffer), SIZEOF(Buffer));
 Stream.Append:= Str;
 
-(* Start search at 1st char *)
+// Start search at 1st char
 TestResult := (Stream.Find(SearchString := Str, StartPos := 1 ) >= 0); 
 
 AssertTrue(Condition := TestResult,

@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="FB_Test" Id="{a51e9086-33ec-4162-acad-93a76961e893}" SpecialFunc="None">
-    <Declaration><![CDATA[(*
-    This function block holds all data that defines a test.
-*)
+    <Declaration><![CDATA[// This function block holds all data that defines a test.
 FUNCTION_BLOCK FB_Test
 VAR
     TestName : T_MaxString;
@@ -16,7 +14,7 @@ VAR
        A value <> 0 tells in which order this test will be executed/evaluated. The lower the number, the earlier it will execute. *)
     TestOrderNumber : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite); 
 
-    (* Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well *)
+    // Failure parameters. If TestIsFailed is TRUE, the other parameters will hold values as well
     TestIsFailed : BOOL; // Indication of whether this test has at least one failed assert
     AssertionMessage : T_MaxString; // Assertion message for the first assertion in this test
     AssertionFailure : Tc2_System.T_MaxString; // Assertion failure for the first assertion in this test	
@@ -65,7 +63,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="GetTestOrder" Id="{c2cf620d-27f0-4dc3-9f43-cee6a8334a60}">
-      <Declaration><![CDATA[(* Gets in which order/sequence relative to the order tests should this test be executed/evaluated. *)
+      <Declaration><![CDATA[// Gets in which order/sequence relative to the order tests should this test be executed/evaluated.
 METHOD INTERNAL GetTestOrder : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetTestOrder := TestOrderNumber;]]></ST>
@@ -102,7 +100,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetAssertionMessage" Id="{05091715-93d7-47f7-9b6c-cb2511f88eb7}">
-      <Declaration><![CDATA[(* Sets the assertion message. If one already exists, it's not overwritten as we keep the first assertion in the test *)
+      <Declaration><![CDATA[// Sets the assertion message. If one already exists, it's not overwritten as we keep the first assertion in the test
 METHOD INTERNAL SetAssertionMessage
 VAR_INPUT
     AssertMessage : T_MaxString;
@@ -114,7 +112,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetAssertionType" Id="{f885f3cc-c862-4d38-9dbb-f44d7639f6a8}">
-      <Declaration><![CDATA[(* Sets the assertion type. If one already exists, it's not overwritten as we keep the first assertion in the test *)
+      <Declaration><![CDATA[// Sets the assertion type. If one already exists, it's not overwritten as we keep the first assertion in the test
 METHOD INTERNAL SetAssertionType
 VAR_INPUT
     AssertType : E_AssertionType;
@@ -160,7 +158,7 @@ END_VAR]]></Declaration>
       </Implementation>
     </Method>
     <Method Name="SetSkipped" Id="{e9a94cad-c60d-4460-92bf-2b70cf2f46b2}">
-      <Declaration><![CDATA[(* Sets the test case to skipped *)
+      <Declaration><![CDATA[// Sets the test case to skipped
 METHOD INTERNAL SetSkipped]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestIsSkipped := TRUE;]]></ST>
@@ -178,7 +176,7 @@ END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetTestOrder" Id="{9154b373-5715-4bb9-b58b-0dd484b21841}">
-      <Declaration><![CDATA[(* Sets in which order/sequence relative to the order tests should this test be executed/evaluated. *)
+      <Declaration><![CDATA[// Sets in which order/sequence relative to the order tests should this test be executed/evaluated.
 METHOD INTERNAL SetTestOrder
 VAR_INPUT
     OrderNumber : UINT(0..GVL_Param_TcUnit.MaxNumberOfTestsForEachTestSuite);

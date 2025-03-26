@@ -37,6 +37,8 @@ namespace TcUnit.Verifier
             Test_SINT_Differ();
             Test_STRING_Equals();
             Test_STRING_Differ();
+            Test_STRING_Differ2();
+            Test_STRING_Differ3();
             Test_TIME_Equals();
             Test_TIME_Differ();
             Test_TIME_OF_DAY_Equals();
@@ -232,6 +234,18 @@ namespace TcUnit.Verifier
         private void Test_STRING_Differ()
         {
             string testMessage = CreateFailedTestMessage("Test_STRING_Differ", "This is a string", "This is another string", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_STRING_Differ2()
+        {
+            string testMessage = CreateFailedTestMessage("Test_STRING_Differ2", "", "This string is not empty", "Values differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+        }
+
+        private void Test_STRING_Differ3()
+        {
+            string testMessage = CreateFailedTestMessage("Test_STRING_Differ3", "This string is not empty", "", "Values differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
