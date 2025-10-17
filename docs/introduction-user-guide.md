@@ -29,8 +29,13 @@ In the menu of Visual Studio select **PLC** and then **Library Repository...**
 This will display the following window:
 ![Library repository window](img/library-repository-window.png)
 
-Click on **Install...**, locate the **TcUnit.library** file and double-click on it.
-Now it will install to your TwinCAT-folder, more specifically C:\TwinCAT\3.1\Components\Plc\Managed Libraries\www.tcunit.org\TcUnit\.
+Click on **Install...**, locate the **TcUnit.library** file and double-click on it. Now it will install to your TwinCAT-folder.  
+For TwinCAT 4024 the default path is:  
+`C:\TwinCAT\3.1\Components\Plc\Managed Libraries\www.tcunit.org\TcUnit`  
+
+For TwinCAT 4026 the path is:  
+`C:\ProgramData\Beckhoff\TwinCAT\PlcEngineering\Managed Libraries\www.tcunit.org\TcUnit`
+
 
 ### Install from source
 
