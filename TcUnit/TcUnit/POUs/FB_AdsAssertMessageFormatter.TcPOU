@@ -11,7 +11,7 @@ FUNCTION_BLOCK FB_AdsAssertMessageFormatter IMPLEMENTS I_AssertMessageFormatter]
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="LogAssertFailure" Id="{48cbc6b0-5380-44b8-a045-57b6ad9f189d}">
-      <Declaration><![CDATA[METHOD PUBLIC LogAssertFailure
+      <Declaration><![CDATA[METHOD PUBLIC LogAssertFailure : Tc2_System.T_MaxString
 VAR_INPUT
     Expected : T_MaxString;
     Actual : T_MaxString;
@@ -24,7 +24,7 @@ VAR
     TestInstancePathFinal : T_MaxString;
     ReturnValue : DINT;
     TestInstancePathProcessed : T_MaxString;
-    MessageProcessed : T_MaxString;
+    MessageProcessed : Tc2_System.T_MaxString;    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
@@ -32,7 +32,6 @@ TestInstancePathFinal := CONCAT(STR1 := 'FAILED TEST $'',
                                 STR2 := TestInstancePathCleaned);
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                 STR2 := '$'');
-
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                 STR2 := ', EXP: ');
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
@@ -41,6 +40,10 @@ TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                 STR2 := ', ACT: ');
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                 STR2 := Actual);
+LogAssertFailure := Tc2_Standard.CONCAT('EXP: ', Expected);
+LogAssertFailure := Tc2_Standard.CONCAT(LogAssertFailure, ', ACT: ');     
+LogAssertFailure := Tc2_Standard.CONCAT(LogAssertFailure, Actual);  
+
 IF LEN(STR := Message) > 0 THEN
     TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                     STR2 := ', MSG: %s');

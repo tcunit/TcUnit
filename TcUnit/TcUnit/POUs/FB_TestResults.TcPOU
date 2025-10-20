@@ -72,6 +72,10 @@ IF StoringTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND 
             // Store the (first failed) assertion message
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureMessage :=
                 TestToBeStored.GetAssertionMessage();
+                
+            (* Store the (first failed) assertion failure *)
+            TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureAssertion :=
+                TestToBeStored.GetAssertionFailure();
 
             // Store the (first failed) assertion type
             TestSuiteResults.TestSuiteResults[StoringTestSuiteResultNumber].TestCaseResults[TestsInTestSuiteCounter].FailureType :=

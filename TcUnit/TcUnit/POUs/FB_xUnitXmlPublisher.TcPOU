@@ -80,11 +80,17 @@ VAR
     UnitTestResults : REFERENCE TO ST_TestSuiteResults;
     CurrentSuiteNumber : UINT;
     CurrentTestCount : UINT;
+    AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;    
+    message : Tc2_System.T_MaxString;
+    FailureMessageLen : INT;
+    AssertionMessageLen : INT;
 END_VAR
 VAR CONSTANT
     TEST_STATUS_SKIP : STRING := 'SKIP';
     TEST_STATUS_PASS : STRING := 'PASS';
     TEST_STATUS_FAIL : STRING := 'FAIL';
+    MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 253;
+    MSG_TOO_LONG : STRING := '...';    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[UnitTestResults REF= TestResults.GetTestSuiteResults();
@@ -132,8 +138,24 @@ IF PublishTrigger.Q THEN
                 (* In case of fail 
                     <failure message="Values differ" type="BYTE" />
                 *)
+                
+                FailureMessageLen := Tc2_Standard.LEN(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
+                AssertionMessageLen := Tc2_Standard.LEN(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureAssertion);
+                IF FailureMessageLen = 0
+                THEN
+                  message := UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureAssertion;
+                ELSE
+                  message := CONCAT(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage, CONCAT('; ', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureAssertion));
+
+                  IF Tc2_Standard.LEN(message) > MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS
+                  THEN
+                    message := Tc2_Standard.LEFT(STR := message, SIZE := (MSG_FMT_STRING_MAX_NUMBER_OF_CHARACTERS - Tc2_Standard.LEN(STR := MSG_TOO_LONG)));
+                    message := Tc2_Standard.CONCAT(STR1 := message, STR2 := MSG_TOO_LONG);
+                  END_IF
+                END_IF
+                
                 Xml.NewTag('failure');
-                Xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
+                Xml.NewParameter('message', message);
                 Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
                 // Close failure tag
                 Xml.CloseTag();
