@@ -26,6 +26,7 @@ If you don’t find what you are looking for here, you can look through the:
 12. [I have problems running TcUnit on a ARMv7 controller, why?](#_12-i-have-problems-running-tcunit-on-a-armv7-controller-why)  
 13. [AssertEquals(ANY) on properties makes my development environment crash, why?](#_13-assertequalsany-on-properties-makes-my-development-environment-crash-why)
 14. [Why can't I pass a variable in VAR_INST into another?](#_14-why-can39t-i-pass-a-variable-in-var_inst-into-another)
+15. [Why is each message printed twice (or many times)?](#_15-why-is-each-message-printed-twice-or-many-times)
 
 ---
 
@@ -413,3 +414,31 @@ END_IF
 
 - If your test function block will only have one instance, you can use `VAR_STAT` instead.
   Like `VAR_INST`, `VAR_STAT` will retain changes between cycles, but the values will be the same across all instances of the FB.
+
+## 15. Why is each message printed twice (or many times)?
+
+Each message is printed twice (or many times) to the Error List of Visual Studio.  
+Why? What is going wrong here?
+
+This problem is described in the following GitHub issue: 
+- [#92: Duplicate event message output in multi-project solutions](https://github.com/tcunit/TcUnit/issues/92)
+
+Duplicates of this issue:
+- [#125: Duplicate messages presented in error list](https://github.com/tcunit/TcUnit/issues/125)
+- [#235: Tests seem to run 4 times](https://github.com/tcunit/TcUnit/issues/235)
+- [#246: Double execution of TcUnit](https://github.com/tcunit/TcUnit/issues/246)
+- [#248: Each message is printed multiple times in the XAE instance, and in every XAE instance](https://github.com/tcunit/TcUnit/issues/248)
+
+It happens when the solution contains multple projects.
+The messages are printed as often as the number of projects that exist in the solution.
+
+When the messages are printed multiple times. they may be ordered:  
+(Example from [Issue 92](https://github.com/tcunit/TcUnit/issues/92), image copied: TwinCAT 3.1.4022.22, TcUnit v.1.0.0, 3 projects in solution, thus each message is printed 3 times)  
+![](img/TcUnitDuplicateMessages1.png)
+
+or completely unordered:  
+(Example from [Issue 248](https://github.com/tcunit/TcUnit/issues/248), image added here independently: TwinCAT 3.1.4026.10, TcUnit v.1.3.1, 20 projects in solution, thus each message is printed 20 times)  
+![](img/TcUnitDuplicateMessages2.png)
+
+The reason for this behaviour is explained in [Issue 92](https://github.com/tcunit/TcUnit/issues/92).  
+Unfortunately, there is no solution or workaround for this problem yet.
