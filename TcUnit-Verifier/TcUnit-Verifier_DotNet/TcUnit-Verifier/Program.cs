@@ -1,4 +1,4 @@
-﻿using NDesk.Options;
+using NDesk.Options;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -16,9 +16,10 @@ namespace TcUnit.Verifier
     {
         private static string tcUnitVerifierPath = null;
         private static string tcUnitTargetNetId = "127.0.0.1.1.1";
+        private static string tcUnitXUnitFilePath = @"C:\TwinCAT\3.1\Boot\tcunit_xunit_testresults.xml";
         private static VisualStudioInstance vsInstance = null;
         private static ILog log = LogManager.GetLogger("TcUnit-Verifier");
-        private static int expectedNumberOfFailedTests = 121; // Update this if you add intentionally failing tests
+        private static int expectedNumberOfFailedTests = 122; // Update this if you add intentionally failing tests
 
         [STAThread]
         static void Main(string[] args)
@@ -31,6 +32,7 @@ namespace TcUnit.Verifier
             OptionSet options = new OptionSet()
                 .Add("v=|TcUnitVerifierPath=", "Path to TcUnit-Verifier TwinCAT solution", v => tcUnitVerifierPath = v)
                 .Add("t=|TcUnitTargetNetId=", "[OPTIONAL] Target NetId of TwinCAT runtime to run TcUnit-Verifier", t => tcUnitTargetNetId = t)
+                .Add("x=|TcUnitXUnitFilePath=", "[OPTIONAL] path and filename for the TcUnit-Verifier xunit testresults", t => tcUnitXUnitFilePath = t)
                 .Add("?|h|help", h => showHelp = h != null);
 
             try
@@ -213,6 +215,7 @@ namespace TcUnit.Verifier
             new FB_TestDurationMeasurement(errors);
             new FB_EmptyAssertionMessage(errors);
             new FB_AssertCountExceedsMaxNumber(errors);
+            new FB_TestXUnitPublisher(errors, tcUnitXUnitFilePath);
 
             log.Info("Done.");
 

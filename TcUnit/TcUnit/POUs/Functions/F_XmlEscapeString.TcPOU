@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="F_XmlEscapeString" Id="{5bc10c6a-24ec-0a65-0666-70c1e69087d6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_XmlEscapeString : T_MaxString
+VAR_INPUT
+	Message : T_MaxString;
+END_VAR
+VAR	
+	EscapedMessage : T_MaxString;
+	EscapedMessageSize : UDINT := SIZEOF(T_MaxString);
+END_VAR
+VAR CONSTANT
+	QUOTE : STRING(1) := '"';
+	APOS : STRING(2) := '$'';
+	_LT : STRING(1) := '<';
+	_GT : STRING(1) := '>';
+	AMP : STRING(1) := '&';
+	
+	ESCAPED_QUOTE : STRING(6) := '&quot;';
+	ESCAPED_APOS : STRING(6) := '&apos;';
+	ESCAPED_LT : STRING(4) := '&lt;';
+	ESCAPED_GT : STRING(4) := '&gt;';
+	ESCAPED_AMP : STRING(5) := '&amp;';
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[EscapedMessage := Message;
+FindAndReplace(ADR(EscapedMessage), ADR(AMP), ADR(ESCAPED_AMP), ADR(EscapedMessage), SIZEOF(T_MaxString));
+FindAndReplace(ADR(EscapedMessage), ADR(QUOTE), ADR(ESCAPED_QUOTE), ADR(EscapedMessage), SIZEOF(T_MaxString));
+FindAndReplace(ADR(EscapedMessage), ADR(APOS), ADR(ESCAPED_APOS), ADR(EscapedMessage), SIZEOF(T_MaxString));
+FindAndReplace(ADR(EscapedMessage), ADR(_LT), ADR(ESCAPED_LT), ADR(EscapedMessage), SIZEOF(T_MaxString));
+FindAndReplace(ADR(EscapedMessage), ADR(_GT), ADR(ESCAPED_GT), ADR(EscapedMessage), SIZEOF(T_MaxString));
+F_XmlEscapeString := EscapedMessage;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

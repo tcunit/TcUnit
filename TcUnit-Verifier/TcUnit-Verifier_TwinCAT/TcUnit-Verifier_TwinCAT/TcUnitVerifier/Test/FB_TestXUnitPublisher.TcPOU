@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_TestXUnitPublisher" Id="{c7819ac2-5de4-4840-89ae-815e54b5cb69}" SpecialFunc="None">
+    <Declaration><![CDATA[// Contains tests that verify the XmlControl function block methods
+FUNCTION_BLOCK FB_TestXUnitPublisher EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Test_EscapedFailedMessage();
+Test_EscapedFunctionName();]]></ST>
+    </Implementation>
+    <Method Name="Test_EscapedFailedMessage" Id="{8aca4c27-6db1-484c-a76f-a529f691497e}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_EscapedFailedMessage]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_EscapedFailedMessage');
+
+AssertTrue(FALSE, 'This "string" <should> be $'escaped$' & parsed properly');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Test_EscapedFunctionName" Id="{da2058a6-4b6f-43f7-8364-e0cf3494d96b}">
+      <Declaration><![CDATA[METHOD PRIVATE Test_EscapedFunctionName]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('Test_EscapedFunctionName$'"<>&');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
