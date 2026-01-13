@@ -5,39 +5,17 @@
 FUNCTION_BLOCK FB_xUnitXmlPublisher IMPLEMENTS I_TestResultLogger
 VAR
     // Dependency injection via FB_Init
-    TestResults : I_TestResults;
+    _testResults : I_TestResults;
 
-    // File access mode
-    AccessMode : SysFile.ACCESS_MODE := SysFile.AM_WRITE_PLUS;
+    _xmlFileStream : FB_XmlFileStream;
+    _xml : FB_XMLControl(_xmlFileStream);
 
-    File : FB_FileControl;
-    Xml : FB_XMLControl;
-    BufferInitialised : BOOL := FALSE;
-    Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize - 1)] OF BYTE;
-    WritingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
-    PublishTrigger : R_TRIG;
+    _writingTestSuiteResultNumber : UINT(1..GVL_Param_TcUnit.MaxNumberOfTestSuites);
+    _publishTrigger : R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="DeleteOpenWriteClose" Id="{84256533-6eb5-465b-b1e5-db6f61e2e6c3}">
-      <Declaration><![CDATA[(*
-    Deletes the former file (if it exists).
-    Opens the file, writes the buffer and closes it.
-*)
-METHOD PRIVATE DeleteOpenWriteClose : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_OK;
-IF Initialised() THEN
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Delete(Filename := GVL_Param_TcUnit.xUnitFilePath));
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := AccessMode));
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Write(BufferPointer := ADR(Buffer), Xml.Length)); 
-    DeleteOpenWriteClose := MAX(DeleteOpenWriteClose, File.Close());
-ELSE
-    DeleteOpenWriteClose := SysDir.CmpErrors.Errors.ERR_NOBUFFER;
-END_IF;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="FB_Init" Id="{0f23c47b-7245-415e-b489-0ae429217263}">
       <Declaration><![CDATA[(*
     FB_Init is always available implicitly AND it is used primarily FOR initialization.
@@ -52,20 +30,8 @@ VAR_INPUT
     iTestResults : I_TestResults; // Interface dependency injection
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Set buffer and flag
-Xml.SetBuffer(PointerToBuffer := ADR(Buffer), SizeOfBuffer := SIZEOF(Buffer));
-
-// Set buffer initialised
-BufferInitialised := TRUE;
-
-// Set testresult interface
-THIS^.TestResults := iTestResults;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Initialised" Id="{dac11801-83e2-4726-b3a7-dcd7f73621e3}">
-      <Declaration><![CDATA[METHOD PRIVATE Initialised : BOOL]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Initialised := THIS^.BufferInitialised;]]></ST>
+        <ST><![CDATA[// Set testresult interface
+THIS^._testResults := iTestResults;]]></ST>
       </Implementation>
     </Method>
     <Method Name="LogTestSuiteResults" Id="{32c3ccd7-3470-4554-b54c-b3a0a6491553}">
@@ -93,44 +59,46 @@ VAR CONSTANT
     MSG_TOO_LONG : STRING := '...';    
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[UnitTestResults REF= TestResults.GetTestSuiteResults();
+        <ST><![CDATA[UnitTestResults REF= _testResults.GetTestSuiteResults();
 
 // Only publish once if "GVL_Param_TcUnit.xUnitEnablePublish" is enabled and all test results are stored.
-PublishTrigger(CLK := (TestResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish));
-IF PublishTrigger.Q THEN
+_publishTrigger(CLK := (_testResults.GetAreTestResultsAvailable() AND GVL_Param_TcUnit.xUnitEnablePublish));
+IF _publishTrigger.Q THEN
+
+    _xmlFileStream.CreateFile();  
 
     // <?xml version="1.0" encoding="UTF-8"?>
-    Xml.WriteDocumentHeader(Header := '<?xml version="1.0" encoding="UTF-8"?>');
+    _xml.WriteDocumentHeader(Header := '<?xml version="1.0" encoding="UTF-8"?>');
 
     // <testsuites>
-    Xml.NewTag('testsuites');
-    Xml.NewParameter('disabled', '');
-    Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.NumberOfFailedTestCases));
-    Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.NumberOfSuccessfulTestCases));
-    Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.Duration));
+    _xml.NewTag('testsuites');
+    _xml.NewParameter('disabled', '');
+    _xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.NumberOfFailedTestCases));
+    _xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.NumberOfSuccessfulTestCases));
+    _xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.Duration));
 
     FOR CurrentSuiteNumber := 1 TO UnitTestResults.NumberOfTestSuites BY 1 DO
         // <testsuite>
-        Xml.NewTag('testsuite');
-        Xml.NewParameter('id', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Identity));
-        Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
-        Xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));
-        Xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
-        Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Duration));
+        _xml.NewTag('testsuite');
+        _xml.NewParameter('id', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Identity));
+        _xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].name);
+        _xml.NewParameter('tests', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests));
+        _xml.NewParameter('failures', UINT_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfFailedTests));
+        _xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].Duration));
 
         FOR CurrentTestCount := 1 TO UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests BY 1 DO
             // <testcase>
-            Xml.NewTag('testcase');
-            Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
-            Xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
-            Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].Duration));
+            _xml.NewTag('testcase');
+            _xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
+            _xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
+            _xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].Duration));
 
             IF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsFailed THEN
-                Xml.NewParameter('status', TEST_STATUS_FAIL);
+                _xml.NewParameter('status', TEST_STATUS_FAIL);
             ELSIF UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestIsSkipped THEN
-                Xml.NewParameter('status', TEST_STATUS_SKIP);
+                _xml.NewParameter('status', TEST_STATUS_SKIP);
             ELSE
-                Xml.NewParameter('status', TEST_STATUS_PASS);
+                _xml.NewParameter('status', TEST_STATUS_PASS);
             END_IF
 
             // Determine testcase fail or success
@@ -154,32 +122,29 @@ IF PublishTrigger.Q THEN
                   END_IF
                 END_IF
                 
-                Xml.NewTag('failure');
-                Xml.NewParameter('message', message);
-                Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
+                _xml.NewTag('failure');
+                _xml.NewParameter('message', message);
+                _xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
                 // Close failure tag
-                Xml.CloseTag();
-            ELSE
-            // In case of success
-            Xml.NewTagData('');
-
+                _xml.CloseTag();
             END_IF
+            
             // Close testcase tag
-            Xml.CloseTag();
+            _xml.CloseTag();
 
         END_FOR
         // Close testsuite tag
-        Xml.CloseTag();
+        _xml.CloseTag();
 
     END_FOR
     // Close testsuites
-    Xml.CloseTag();
+    _xml.CloseTag();
 
     // Delete, open, save and close the file
-    DeleteOpenWriteClose();
+    _xmlFileStream.CloseFile();
 
     // Clear the internal buffer
-    Xml.ClearBuffer();
+    _xml.ClearBuffer();
 
     // Inform user
     GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_HINT,
