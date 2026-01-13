@@ -6,16 +6,18 @@ VAR_GLOBAL CONSTANT
     MaxNumberOfTestSuites : UINT := 1000;
     MaxNumberOfTestsForEachTestSuite : UINT := 100;
     MaxNumberOfAssertsForEachTestSuite : UINT := 1000;
-
+    
     (* TcUnit logs complete test results. These include:
-         - Number of test suites
-         - Number of tests
-         - Number of successful tests
-         - Number of failed tests
-         - Any eventual failed assertion (with the expected & actual value plus an user defined message)
-       These are all printed to the ADS logger (Visual Studio error list) marked with ERROR criticality
+       - Number of test suites
+       - Number of tests
+       - Number of successful tests
+       - Number of failed tests
+       - Any eventual failed assertion (with the expected & actual value plus an user defined message)
+       These are all printed to the ADS logger (Visual Studio error list) marked with ERROR criticality *)
+    AdsLoggerEnablePublish : BOOL := TRUE;
 
-       On top of this TcUnit also reports some statistics/extended information with HINT/INFO criticality.
+
+    (* On top of the normal result, TcUnit also reports some statistics/extended information with HINT/INFO criticality.
        These statistics are more detailed results of the tests. This information is used when results are
        being collected by an external software (such as TcUnit-Runner) to do for example Jenkins integration.
        This extra information however takes time to print, so by setting the following parameter to FALSE
