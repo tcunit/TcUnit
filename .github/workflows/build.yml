@@ -1,0 +1,28 @@
+name: TwinCAT Build
+on:
+  push:
+    branches:
+      - master
+      - master_zgwk
+    paths:
+      - 'TcUnit/**'
+  pull_request:
+    branches: [ master, master_zgwk ]
+  workflow_dispatch:
+jobs:
+  Build:
+    name: TwinCAT Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        uses: Zeugwerk/zkbuild-action@1.0.0
+        with:
+          username: ${{ secrets.ACTIONS_ZGWK_USERNAME }}
+          password: ${{ secrets.ACTIONS_ZGWK_PASSWORD }}
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: TcUnit
+          path: |
+            **/*library    
