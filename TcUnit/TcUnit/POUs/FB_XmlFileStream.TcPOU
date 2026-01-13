@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_XmlFileStream" Id="{b70f94c8-92d2-0070-29bb-d87672ff0479}" SpecialFunc="None">
+    <Declaration><![CDATA[// This functionblock acts as a stream buffer for use with FB_XmlControl
+FUNCTION_BLOCK FB_XmlFileStream EXTENDS FB_StreamBuffer
+VAR
+    File : FB_FileControl;
+  
+    BufferInitialised : BOOL := FALSE;
+    Buffer : ARRAY [0..(GVL_Param_TcUnit.XUnitBufferSize - 1)] OF BYTE;  
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Append" Id="{ff5c19dd-debd-0c1d-3634-191a3290559b}">
+      <Declaration><![CDATA[// Appends a string to the buffer
+PROPERTY Append : T_MaxString]]></Declaration>
+      <Set Name="Set" Id="{ad8559ea-2d50-0888-106e-f6ce935a7509}">
+        <Declaration><![CDATA[VAR
+    ByteIn : POINTER TO BYTE;
+    ByteBuffer : POINTER TO BYTE;
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ByteIn := ADR(Append); 
+ByteBuffer := _PointerToStringBuffer + _Length; // set start address
+
+REPEAT
+  
+  WHILE ByteIn^ <> 0 AND _Length < _BufferSize  DO
+      ByteBuffer^ := ByteIn^; //Copy the 1st byte
+      _Length := _Length + 1; // set new buffer length
+      ByteIn := ByteIn + 1; // calculate new start address 
+      ByteBuffer := ByteBuffer + 1; // calculate new start address 
+  END_WHILE;
+  
+  IF ByteIn^ <> 0
+  THEN
+    Flush();
+    Clear();
+    ByteBuffer := _PointerToStringBuffer;
+  END_IF
+
+UNTIL ByteIn^ = 0 END_REPEAT
+
+ByteBuffer := _PointerToStringBuffer + _Length; // String End
+ByteBuffer^ := 0; // null terminated string]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="CloseFile" Id="{506f243e-65c2-0bad-27d2-c84f4b235bbd}">
+      <Declaration><![CDATA[(*
+    Deletes the former file (if it exists).
+    Opens the file, writes the buffer and closes it.
+*)
+METHOD CloseFile : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CloseFile := SysDir.CmpErrors.Errors.ERR_OK;
+CloseFile := MAX(CloseFile, Flush());
+CloseFile := MAX(CloseFile, File.Close());]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CreateFile" Id="{6244f4a5-e898-0ddb-089d-bad22f5a92db}">
+      <Declaration><![CDATA[(*
+    Deletes the former file (if it exists).
+    Opens the file, writes the buffer and closes it.
+*)
+METHOD CreateFile : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CreateFile := SysDir.CmpErrors.Errors.ERR_OK;
+CreateFile := MAX(CreateFile, File.Delete(Filename := GVL_Param_TcUnit.xUnitFilePath));
+CreateFile := MAX(CreateFile, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := ACCESS_MODE.AM_WRITE_PLUS));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{0874c850-d713-0321-28cd-b342f2f30134}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)   
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetBuffer(ADR(Buffer), GVL_Param_TcUnit.XUnitBufferSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Flush" Id="{d06eec93-628a-0aa6-0431-7060901a9f4e}">
+      <Declaration><![CDATA[(*
+    Deletes the former file (if it exists).
+    Opens the file, writes the buffer and closes it.
+*)
+METHOD PRIVATE Flush : SysFile.SysTypes.RTS_IEC_RESULT;]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Flush := SysDir.CmpErrors.Errors.ERR_OK;
+Flush := MAX(Flush, File.Write(_PointerToStringBuffer, _Length));
+Flush := MAX(Flush, File.Close());
+Flush := MAX(Flush, File.Open(Filename := GVL_Param_TcUnit.xUnitFilePath, FileAccessMode := ACCESS_MODE.AM_APPEND_PLUS));]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
