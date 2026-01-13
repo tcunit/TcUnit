@@ -213,8 +213,6 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -282,7 +280,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds[1
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -329,14 +328,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actual));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -370,8 +365,6 @@ VAR
     ActualArrayIndex : ARRAY[1..2] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : REAL; // Single expected value
     Actual : REAL; // Single actual value
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -439,7 +432,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds[1
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_REAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -485,15 +479,11 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
         ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actual));
     END_IF
-    
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -527,8 +517,6 @@ VAR
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : LREAL; // Single expected value
     Actual : LREAL; // Single actual value
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -607,7 +595,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds[1
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array3D_LREAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -670,14 +659,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actual));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -714,8 +699,6 @@ VAR
     ExpectedValueString : T_MaxString;
     ActualValueString : T_MaxString;
     FormatString : FB_FormatString; // String formatter for output messages
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -794,7 +777,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds[1
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array3D_REAL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -857,14 +841,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actual));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -890,8 +870,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -930,7 +908,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_BOOL,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -950,14 +929,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := BOOL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -985,8 +960,6 @@ VAR
     ActualByteString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1026,7 +999,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_BYTE,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1054,14 +1028,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := ActualByteString);
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1087,8 +1057,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1127,7 +1095,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_DINT,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1147,14 +1116,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1182,8 +1147,6 @@ VAR
     ActualDWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1222,7 +1185,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_DWORD,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1250,14 +1214,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1283,8 +1243,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1323,7 +1281,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_INT,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1343,14 +1302,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := INT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1376,8 +1331,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1416,7 +1369,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1436,14 +1390,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := LINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1470,8 +1420,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1510,7 +1458,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LREAL,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1530,14 +1479,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := LREAL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1565,8 +1510,6 @@ VAR
     ActualLWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1605,7 +1548,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_LWORD,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1633,14 +1577,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := ActualLWordString);
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1667,8 +1607,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1707,8 +1645,9 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
-    
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_REAL,
+                  AssertionMessage := Message);
+
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
@@ -1727,13 +1666,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := REAL_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1759,8 +1695,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1799,7 +1733,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_SINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1819,14 +1754,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := SINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1852,8 +1783,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1892,7 +1821,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_UDINT,
+                  AssertionMessage := Message);
     
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -1909,17 +1839,14 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := 'ARRAY[';
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualsIndex));
         ActualString := CONCAT(STR1 := ActualString, STR2 := '] = ');
-        ActualString := CONCAT(STR1 := ActualString, STR2 := UDINT_TO_STRING(Actuals[ActualsIndex]));
+        ActualString := 
+CONCAT(STR1 := ActualString, STR2 := UDINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -1945,8 +1872,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -1985,7 +1910,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_UINT,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2005,14 +1931,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := UINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2038,8 +1960,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2078,7 +1998,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_ULINT,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2098,14 +2019,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := ULINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2131,8 +2048,6 @@ VAR
     SizeOfActuals : DINT;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2171,7 +2086,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_USINT,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2191,14 +2107,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := USINT_TO_STRING(Actuals[ActualsIndex]));
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2226,8 +2138,6 @@ VAR
     ActualDWordString : STRING;
     ExpectedsIndex : DINT;
     ActualsIndex : DINT;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2266,7 +2176,8 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
                                 AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND NOT Equals THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_Array_WORD,
+                  AssertionMessage := Message);
 
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
@@ -2294,14 +2205,10 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := ActualDWordString);
     END_IF
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedString,
                                             Actual := ActualString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2374,9 +2281,6 @@ VAR
     DataSizeNotEquals : BOOL; // The data size of the two ANY input parameters are not equal
     DataContentNotEquals : BOOL; // The data content of the two ANY input parameters are not equal
     IteratorCounter : DINT;
-    
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2665,16 +2569,13 @@ AssertResults.ReportResult(ExpectedSize := DINT_TO_UDINT(Expected.diSize),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND (DataTypesNotEquals OR DataSizeNotEquals OR DataContentNotEquals) THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_ANY,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
+    AssertMessageFormatter.LogAssertFailure(Expected := ExpectedDataString,
                                             Actual := ActualDataString,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2689,8 +2590,6 @@ END_VAR
 VAR
     AlreadyReported : BOOL;
     TestInstancePath : T_MaxString;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2710,16 +2609,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_BOOL,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := BOOL_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := BOOL_TO_STRING(Expected),
                                             Actual := BOOL_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2734,8 +2630,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2755,9 +2649,10 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_BYTE,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+    AssertMessageFormatter.LogAssertFailure(Expected := CONCAT(
                                                        STR1 := '0x',
                                                        STR2 := BYTE_TO_HEXSTR(in := Expected,
                                                                                             iPrecision := 2,
@@ -2769,10 +2664,6 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
                                                                                             bLoCase := FALSE)),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2787,8 +2678,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2808,16 +2697,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
-    
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := DATE_TO_STRING(Expected),
+    SetTestFailed(AssertionType := E_AssertionType.Type_DATE,
+                  AssertionMessage := Message);
+
+    AssertMessageFormatter.LogAssertFailure(Expected := DATE_TO_STRING(Expected),
                                             Actual := DATE_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2832,8 +2718,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2853,16 +2737,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_DATE_AND_TIME,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := DT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := DT_TO_STRING(Expected),
                                             Actual := DT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2877,8 +2758,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2898,16 +2777,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_DINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := DINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := DINT_TO_STRING(Expected),
                                             Actual := DINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2922,8 +2798,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2943,9 +2817,10 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_DWORD,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+    AssertMessageFormatter.LogAssertFailure(Expected := CONCAT(
                                                             STR1 := '0x',
                                                             STR2 := DWORD_TO_HEXSTR(in := Expected,
                                                                                                   iPrecision := 8,
@@ -2957,10 +2832,6 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
                                                                                                  bLoCase := FALSE)),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -2975,8 +2846,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -2996,16 +2865,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_INT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := INT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := INT_TO_STRING(Expected),
                                             Actual := INT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3020,8 +2886,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3041,16 +2905,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_LINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := LINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := LINT_TO_STRING(Expected),
                                             Actual := LINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3066,8 +2927,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3087,16 +2946,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_LREAL,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
                                             Actual := LREAL_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3111,8 +2967,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3132,16 +2986,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_LTIME,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := LTIME_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := LTIME_TO_STRING(Expected),
                                             Actual := LTIME_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3156,8 +3007,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3177,9 +3026,10 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_LWORD,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+    AssertMessageFormatter.LogAssertFailure(Expected := CONCAT(
                                                             STR1 := '0x',
                                                             STR2 := LWORD_TO_HEXSTR(in := Expected,
                                                                                                   iPrecision := 16,
@@ -3191,10 +3041,6 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
                                                                                                   bLoCase := FALSE)),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3210,8 +3056,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3231,16 +3075,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_REAL,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
                                             Actual := REAL_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3255,8 +3096,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3276,16 +3115,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_SINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := SINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := SINT_TO_STRING(Expected),
                                             Actual := SINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3300,8 +3136,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3321,16 +3155,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND (LEN(STR := Expected) <> LEN(STR := Actual) OR (Expected <> Actual)) THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_STRING,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := Expected,
+    AssertMessageFormatter.LogAssertFailure(Expected := Expected,
                                             Actual := Actual,
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3345,8 +3176,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3366,16 +3195,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_TIME,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := TIME_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := TIME_TO_STRING(Expected),
                                             Actual := TIME_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3390,8 +3216,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3411,16 +3235,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_TIME_OF_DAY,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := TOD_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := TOD_TO_STRING(Expected),
                                             Actual := TOD_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3435,8 +3256,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3456,16 +3275,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_UDINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := UDINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := UDINT_TO_STRING(Expected),
                                             Actual := UDINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3480,8 +3296,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3501,16 +3315,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_UINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := UINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := UINT_TO_STRING(Expected),
                                             Actual := UINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3525,8 +3336,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3546,16 +3355,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_ULINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := ULINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := ULINT_TO_STRING(Expected),
                                             Actual := ULINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3570,8 +3376,6 @@ END_VAR
 VAR
     AlreadyReported : BOOL;
     TestInstancePath : T_MaxString;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3591,16 +3395,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_USINT,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := USINT_TO_STRING(Expected),
+    AssertMessageFormatter.LogAssertFailure(Expected := USINT_TO_STRING(Expected),
                                             Actual := USINT_TO_STRING(Actual),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3615,8 +3416,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3636,9 +3435,10 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND Expected <> Actual THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_WORD,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := Tc2_Standard.CONCAT(
+    AssertMessageFormatter.LogAssertFailure(Expected := CONCAT(
                                                             STR1 := '0x',
                                                             STR2 := WORD_TO_HEXSTR(in := Expected,
                                                                                                  iPrecision := 4,
@@ -3650,10 +3450,6 @@ IF NOT AlreadyReported AND Expected <> Actual THEN
                                                                                                  bLoCase := FALSE)),
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3668,8 +3464,6 @@ END_VAR
 VAR
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
-    TestMessage : Tc2_System.T_MaxString; // Holds the actual message of the test
-    TestFailure : Tc2_System.T_MaxString; // Holds the failure message of the test    
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -3689,16 +3483,13 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            AlreadyReported => AlreadyReported);
 
 IF NOT AlreadyReported AND (WLEN(STR := Expected) <> WLEN(STR := Actual) OR (Expected <> Actual)) THEN
-    TestMessage := Message;
+    SetTestFailed(AssertionType := E_AssertionType.Type_WSTRING,
+                  AssertionMessage := Message);
 
-    TestFailure := AssertMessageFormatter.LogAssertFailure(Expected := 'Not possible to print EXP unicode WSTRING value',
+    AssertMessageFormatter.LogAssertFailure(Expected := 'Not possible to print EXP unicode WSTRING value',
                                             Actual := 'Not possible to print ACT unicode WSTRING value',
                                             Message := Message,
                                             TestInstancePath := TestInstancePath);
-                                            
-    SetTestFailed(AssertionType := E_AssertionType.Type_Array2D_LREAL,
-                  AssertionMessage := TestMessage,
-                  AssertionFailure := TestFailure);                                               
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3964,7 +3755,6 @@ END_IF]]></ST>
 VAR_INPUT
     AssertionType : E_AssertionType;
     AssertionMessage : T_MaxString;
-    AssertionFailure : Tc2_System.T_MaxString;	
 END_VAR
 VAR
     IteratorCounter : UINT;
@@ -3979,7 +3769,6 @@ FOR IteratorCounter := 1 TO NumberOfTestsToAnalyse BY 1 DO
         Tests[IteratorCounter].SetFailed();
         Tests[IteratorCounter].SetAssertionType(AssertType := AssertionType);
         Tests[IteratorCounter].SetAssertionMessage(AssertMessage := AssertionMessage);
-        Tests[IteratorCounter].SetAssertionFailure(AssertFailure := AssertionFailure);		
     END_IF
 END_FOR]]></ST>
       </Implementation>
