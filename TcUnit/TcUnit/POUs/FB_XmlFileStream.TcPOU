@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_XmlFileStream" Id="{7f893efb-b056-43d3-9cf8-4965b865d1ab}" SpecialFunc="None">
+  <POU Name="FB_XmlFileStream" Id="{b70f94c8-92d2-0070-29bb-d87672ff0479}" SpecialFunc="None">
     <Declaration><![CDATA[// This functionblock acts as a stream buffer for use with FB_XmlControl
 FUNCTION_BLOCK FB_XmlFileStream EXTENDS FB_StreamBuffer
 VAR
@@ -12,10 +12,10 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Property Name="Append" Id="{d4d616f0-7dc0-4c82-9980-a86820a4e603}">
+    <Property Name="Append" Id="{ff5c19dd-debd-0c1d-3634-191a3290559b}">
       <Declaration><![CDATA[// Appends a string to the buffer
 PROPERTY Append : T_MaxString]]></Declaration>
-      <Set Name="Set" Id="{773bf1db-6b9a-4581-be33-e4745bbc41df}">
+      <Set Name="Set" Id="{ad8559ea-2d50-0888-106e-f6ce935a7509}">
         <Declaration><![CDATA[VAR
     ByteIn : POINTER TO BYTE;
     ByteBuffer : POINTER TO BYTE;
