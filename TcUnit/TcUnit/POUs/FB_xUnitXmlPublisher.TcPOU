@@ -100,11 +100,11 @@ IF _publishTrigger.Q THEN
                 (* In case of fail 
                     <failure message="Values differ" type="BYTE" />
                 *)
-                Xml.NewTag('failure');
-                Xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
-                Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
+                _xml.NewTag('failure');
+                _xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
+                _xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
                 // Close failure tag
-                Xml.CloseTag();
+                _xml.CloseTag();
             END_IF
             
             // Close testcase tag
