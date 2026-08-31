@@ -19,7 +19,7 @@ VAR_INPUT
     TestInstancePath : T_MaxString;
 END_VAR
 VAR
-    AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
     TestInstancePathCleaned : T_MaxString;
     TestInstancePathFinal : T_MaxString;
     ReturnValue : DINT;
@@ -46,7 +46,7 @@ IF LEN(STR := Message) > 0 THEN
                                     STR2 := ', MSG: %s');
 END_IF
 
-AdjustAssertFailureMessageToMax253CharLength(TestInstancePath := TestInstancePathFinal,
+AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathFinal,
                                              TestMessage := Message,
                                              TestInstancePathProcessed => TestInstancePathProcessed,
                                              TestMessageProcessed => MessageProcessed);
