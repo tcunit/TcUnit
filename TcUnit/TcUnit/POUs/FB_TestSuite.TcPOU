@@ -197,6 +197,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
     AlreadyReported : BOOL;
@@ -243,7 +244,10 @@ FOR DimensionIndex := 1 TO 2 DO
     END_IF
 END_FOR
 
-IF SizeEquals THEN
+IF LrealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
+ELSIF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes in each dimension, which needs to be taken into account. *)
     FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
@@ -258,6 +262,11 @@ IF SizeEquals THEN
             Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2]];
             Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2]]; 
 
+            IF (LrealIsNaN (Expected)
+            OR  LrealIsNaN (Actual)) THEN
+                Equals := FALSE;
+                EXIT;
+            END_IF
             IF ABS(Expected - Actual) > Delta THEN
                 Equals := FALSE;
                 EXIT;
@@ -286,7 +295,7 @@ IF NOT AlreadyReported AND NOT Equals THEN
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = [';
-        ExpectedString := CONCAT(STR1 := ExpectedString,STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(LowerBoundExpecteds[1]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '..');
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(UpperBoundExpecteds[1]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
@@ -312,6 +321,8 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
         ActualString := CONCAT(STR1 := ActualString, STR2 := ')');
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
@@ -349,6 +360,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
     AlreadyReported : BOOL;
@@ -373,9 +385,9 @@ END_IF
 
 TestInstancePath := AddTestNameToInstancePath(FindTestSuiteInstancePath());
 
-(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter, 
+(* UPPER_BOUND and LOWER_BOUND require literals for their second parameter,
    so they can't be called in a dimension-based loop.
-   Thus we copy the ARRAY dimensions into arrays which accept variable indexes *)
+   Thus we copy the array dimensions into arrays which accept variable indexes *)
 LowerBoundExpecteds[1] := LOWER_BOUND(Expecteds, 1);
 UpperBoundExpecteds[1] := UPPER_BOUND(Expecteds, 1);
 LowerBoundExpecteds[2] := LOWER_BOUND(Expecteds, 2);
@@ -395,7 +407,10 @@ FOR DimensionIndex := 1 TO 2 DO
     END_IF
 END_FOR
 
-IF SizeEquals THEN
+IF RealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
+ELSIF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes in each dimension, which needs to be taken into account. *)
     FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
@@ -410,6 +425,11 @@ IF SizeEquals THEN
             Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2]];
             Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2]]; 
 
+            IF (RealIsNaN (Expected)
+            OR  RealIsNaN (Actual)) THEN
+                Equals := FALSE;
+                EXIT;
+            END_IF
             IF ABS(Expected - Actual) > Delta THEN
                 Equals := FALSE;
                 EXIT;
@@ -464,6 +484,8 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[2]));
         ActualString := CONCAT(STR1 := ActualString, STR2 := ')');
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
@@ -501,6 +523,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
     AlreadyReported : BOOL;
@@ -551,7 +574,10 @@ FOR DimensionIndex := 1 TO 3 DO
     END_IF
 END_FOR
 
-IF SizeEquals THEN
+IF LrealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
+ELSIF SizeEquals THEN
     (* Even though we know that both arrays are equal in size, the three arrays can start at three completely different
        indexes in each dimension, which needs to be taken into account. *)
     FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
@@ -567,6 +593,11 @@ IF SizeEquals THEN
                 Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3]];
                 Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3]]; 
 
+                IF (LrealIsNaN (Expected)
+                OR  LrealIsNaN (Actual)) THEN
+                    Equals := FALSE;
+                    EXIT;
+                END_IF
                 IF ABS(Expected - Actual) > Delta THEN
                     Equals := FALSE;
                     EXIT;
@@ -639,6 +670,8 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[3]));
         ActualString := CONCAT(STR1 := ActualString, STR2 := ')');
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
@@ -647,7 +680,7 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[3]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expected) );
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := LREAL_TO_STRING(Expected));
 
         ActualString := 'ARRAY[';
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
@@ -680,6 +713,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
     AlreadyReported : BOOL;
@@ -696,9 +730,6 @@ VAR
     ActualArrayIndex : ARRAY[1..3] OF DINT; // Array of current Actual array indexes when looping through arrays
     Expected : REAL; // Single expected value
     Actual : REAL; // Single actual value
-    ExpectedValueString : T_MaxString;
-    ActualValueString : T_MaxString;
-    FormatString : FB_FormatString; // String formatter for output messages
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF GVL_TcUnit.IgnoreCurrentTest OR GVL_TcUnit.CurrentTestIsFinished THEN
@@ -733,8 +764,11 @@ FOR DimensionIndex := 1 TO 3 DO
     END_IF
 END_FOR
 
-IF SizeEquals THEN
-    (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
+IF RealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
+ELSIF SizeEquals THEN
+    (* Even though we know that both arrays are equal in size, the three arrays can start at three completely different
        indexes in each dimension, which needs to be taken into account. *)
     FOR Offset[1] := 0 TO SizeOfExpecteds[1] - 1 DO // Iterate Dimension 1
         FOR Offset[2] := 0 TO SizeOfExpecteds[2] - 1 DO // Iterate Dimension 2
@@ -749,6 +783,11 @@ IF SizeEquals THEN
                 Expected := Expecteds[ExpectedArrayIndex[1], ExpectedArrayIndex[2], ExpectedArrayIndex[3]];
                 Actual := Actuals[ActualArrayIndex[1], ActualArrayIndex[2], ActualArrayIndex[3]]; 
 
+                IF (RealIsNaN (Expected)
+                OR  RealIsNaN (Actual)) THEN
+                    Equals := FALSE;
+                    EXIT;
+                END_IF
                 IF ABS(Expected - Actual) > Delta THEN
                     Equals := FALSE;
                     EXIT;
@@ -821,6 +860,8 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ActualString := CONCAT(STR1 := ActualString, STR2 := 'x');
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals[3]));
         ActualString := CONCAT(STR1 := ActualString, STR2 := ')');
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[1]));
@@ -829,7 +870,7 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := ',');
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedArrayIndex[3]));
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := '] = ');
-        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expected) );
+        ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := REAL_TO_STRING(Expected));
 
         ActualString := 'ARRAY[';
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(ActualArrayIndex[1]));
@@ -1411,6 +1452,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     Index : DINT;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
@@ -1434,12 +1476,20 @@ SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
 IF SizeOfExpecteds <> SizeOfActuals THEN
     Equals := FALSE;
     SizeEquals := FALSE;
+ELSIF LrealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
 ELSE
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes, which needs to be taken into account for. *)
     ExpectedsIndex := LOWER_BOUND(Expecteds, 1); // The start position for the expecteds
     ActualsIndex := LOWER_BOUND(Actuals, 1); // The start position for the actuals
     FOR Index := 1 TO SizeOfExpecteds BY 1 DO
+        IF (LrealIsNaN (Expecteds[ExpectedsIndex])
+        OR  LrealIsNaN (Actuals[ActualsIndex])) THEN
+            Equals := FALSE;
+            EXIT;
+        END_IF
         IF ABS(Expecteds[ExpectedsIndex] - Actuals[ActualsIndex]) > Delta THEN
             Equals := FALSE;
             EXIT;
@@ -1460,13 +1510,15 @@ AssertArrayResults.ReportResult(ExpectedsSize := DINT_TO_UDINT(SizeOfExpecteds),
 IF NOT AlreadyReported AND NOT Equals THEN
     SetTestFailed(AssertionType := E_AssertionType.Type_Array_LREAL,
                   AssertionMessage := Message);
-    
+
     IF NOT SizeEquals THEN
         Message := CONCAT(STR1 := Message, STR2 := ', size of arrays not matching.');
         ExpectedString := 'SIZE = ';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
@@ -1598,6 +1650,7 @@ END_VAR
 VAR
     Equals : BOOL := TRUE;
     SizeEquals : BOOL := TRUE;
+    DeltaIsValid : BOOL := TRUE;
     Index : DINT;
     ExpectedString : T_MaxString;
     ActualString : T_MaxString;
@@ -1621,12 +1674,20 @@ SizeOfActuals := ABS(UPPER_BOUND(Actuals, 1) - LOWER_BOUND(Actuals, 1)) + 1;
 IF SizeOfExpecteds <> SizeOfActuals THEN
     Equals := FALSE;
     SizeEquals := FALSE;
+ELSIF RealIsNaN (Delta) THEN
+    Equals := FALSE;
+    DeltaIsValid := FALSE;
 ELSE
     (* Even though we know that both arrays are equal in size, the two arrays can start at two completely different
        indexes, which needs to be taken into account for. *)
     ExpectedsIndex := LOWER_BOUND(Expecteds, 1); // The start position for the expecteds
     ActualsIndex := LOWER_BOUND(Actuals, 1); // The start position for the actuals
     FOR Index := 1 TO SizeOfExpecteds BY 1 DO
+        IF (RealIsNaN (Expecteds[ExpectedsIndex])
+        OR  RealIsNaN (Actuals[ActualsIndex])) THEN
+            Equals := FALSE;
+            EXIT;
+        END_IF
         IF ABS(Expecteds[ExpectedsIndex] - Actuals[ActualsIndex]) > Delta THEN
             Equals := FALSE;
             EXIT;
@@ -1654,6 +1715,8 @@ IF NOT AlreadyReported AND NOT Equals THEN
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(SizeOfExpecteds));
         ActualString := 'SIZE = ';
         ActualString := CONCAT(STR1 := ActualString, STR2 := DINT_TO_STRING(SizeOfActuals));
+    ELSIF NOT DeltaIsValid THEN
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
     ELSE
         ExpectedString := 'ARRAY[';
         ExpectedString := CONCAT(STR1 := ExpectedString, STR2 := DINT_TO_STRING(ExpectedsIndex));
@@ -2925,6 +2988,7 @@ VAR_INPUT
     Message : T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
+    Equals : BOOL := TRUE;
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
@@ -2945,14 +3009,27 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            TestInstancePath := TestInstancePath,
                            AlreadyReported => AlreadyReported);
 
-IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    SetTestFailed(AssertionType := E_AssertionType.Type_LREAL,
-                  AssertionMessage := Message);
+IF NOT AlreadyReported THEN
+    IF LrealIsNaN (Delta) THEN
+        Equals := FALSE;
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
+    ELSIF (LrealIsNaN (Expected)
+    OR     LrealIsNaN (Actual)) THEN
+        Equals := FALSE;
+        Message := CONCAT(STR1 := Message, STR2 := ', value of Expected or Actual is NaN.');
+    ELSIF ABS(Expected - Actual) > Delta THEN
+        Equals := FALSE;
+    END_IF
 
-    AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
-                                            Actual := LREAL_TO_STRING(Actual),
-                                            Message := Message,
-                                            TestInstancePath := TestInstancePath);
+    IF NOT Equals THEN
+        SetTestFailed(AssertionType := E_AssertionType.Type_LREAL,
+                      AssertionMessage := Message);
+
+        AssertMessageFormatter.LogAssertFailure(Expected := LREAL_TO_STRING(Expected),
+                                                Actual := LREAL_TO_STRING(Actual),
+                                                Message := Message,
+                                                TestInstancePath := TestInstancePath);
+    END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -3054,6 +3131,7 @@ VAR_INPUT
     Message : T_MaxString; // The identifying message for the assertion error
 END_VAR
 VAR
+    Equals : BOOL := TRUE;
     TestInstancePath : T_MaxString;
     AlreadyReported : BOOL;
 END_VAR]]></Declaration>
@@ -3074,14 +3152,27 @@ AssertResults.ReportResult(ExpectedSize := SIZEOF(Expected),
                            TestInstancePath := TestInstancePath,
                            AlreadyReported => AlreadyReported);
 
-IF NOT AlreadyReported AND ABS(Expected - Actual) > Delta THEN
-    SetTestFailed(AssertionType := E_AssertionType.Type_REAL,
-                  AssertionMessage := Message);
+IF NOT AlreadyReported THEN
+    IF RealIsNaN (Delta) THEN
+        Equals := FALSE;
+        Message := CONCAT(STR1 := Message, STR2 := ', value of delta is NaN.');
+    ELSIF (RealIsNaN (Expected)
+    OR     RealIsNaN (Actual)) THEN
+        Equals := FALSE;
+        Message := CONCAT(STR1 := Message, STR2 := ', value of Expected or Actual is NaN.');
+    ELSIF ABS(Expected - Actual) > Delta THEN
+        Equals := FALSE;
+    END_IF
 
-    AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
-                                            Actual := REAL_TO_STRING(Actual),
-                                            Message := Message,
-                                            TestInstancePath := TestInstancePath);
+    IF NOT Equals THEN
+        SetTestFailed(AssertionType := E_AssertionType.Type_REAL,
+                      AssertionMessage := Message);
+
+        AssertMessageFormatter.LogAssertFailure(Expected := REAL_TO_STRING(Expected),
+                                                Actual := REAL_TO_STRING(Actual),
+                                                Message := Message,
+                                                TestInstancePath := TestInstancePath);
+    END_IF
 END_IF]]></ST>
       </Implementation>
     </Method>
