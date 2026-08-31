@@ -366,6 +366,7 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.76;
+    c : LREAL := 0.0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Differ');
@@ -373,7 +374,14 @@ END_VAR]]></Declaration>
 AssertEquals_LREAL(Expected := a,
                    Actual := b,
                    Delta := 0.1,
-                   Message := 'Values differ');
+                   Message := 'Values a and b differ');
+
+MEMSET (ADR(c), 255, SIZEOF(c));
+
+AssertEquals_LREAL(Expected := a,
+                   Actual := c,
+                   Delta := 0.1,
+                   Message := 'Values a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -464,6 +472,7 @@ TEST_FINISHED();]]></ST>
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.4;
+    c : REAL := 0.0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Differ');
@@ -475,7 +484,14 @@ TCUNIT_ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_WARN,
 AssertEquals_REAL(Expected := a,
                   Actual := b,
                   Delta := 0.05,
-                  Message := 'Values differ');
+                  Message := 'Values a and b differ');
+
+MEMSET (ADR(c), 255, SIZEOF(c));
+
+AssertEquals_REAL(Expected := a,
+                  Actual := c,
+                  Delta := 0.1,
+                  Message := 'Values a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

@@ -55,7 +55,7 @@ namespace TcUnit.Verifier
             Test_ANY_WSTRING_Differ_2();
         }
 
-       
+
 
         private void Test_ANY_BOOL_Equals()
         {
@@ -161,7 +161,10 @@ namespace TcUnit.Verifier
 
         private void Test_ANY_LREAL_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_ANY_LREAL_Differ", "1234567.89", "1234567.76", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_ANY_LREAL_Differ", "1234567.89", "1234567.76", "Values a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_ANY_LREAL_Differ", "1234567.89", "#NaN", "Values a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
@@ -197,7 +200,10 @@ namespace TcUnit.Verifier
 
         private void Test_ANY_REAL_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_ANY_REAL_Differ", "1234.5", "1234.4", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_ANY_REAL_Differ", "1234.5", "1234.4", "Values a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_ANY_REAL_Differ", "1234.5", "#NaN", "Values a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
