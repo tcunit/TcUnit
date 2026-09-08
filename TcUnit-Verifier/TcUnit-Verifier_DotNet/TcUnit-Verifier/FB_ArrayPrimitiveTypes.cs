@@ -194,7 +194,10 @@ namespace TcUnit.Verifier
 
         private void Test_LREAL_Array_DifferInContent()
         {
-            string testMessage = CreateFailedTestMessage("Test_LREAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays differ");
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = #NaN", "Arrays a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
@@ -300,7 +303,10 @@ namespace TcUnit.Verifier
 
         private void Test_REAL_Array_DifferInContent()
         {
-            string testMessage = CreateFailedTestMessage("Test_REAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays differ");
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = 24.0", "Arrays a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_REAL_Array_DifferInContent", "ARRAY[-7] = -23.0", "ARRAY[2] = #NaN", "Arrays a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
@@ -336,7 +342,7 @@ namespace TcUnit.Verifier
             string testMessage = CreateFailedTestMessage("Test_REAL_Array2d_DifferInContent_UBOUND", "ARRAY[-3,1] = 0.0", "ARRAY[3,2] = 1.0", "Arrays differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
-        
+
         private void Test_REAL_Array3d_Equals()
         {
             AssertDoesNotContainMessage("Test_REAL_Array3d_Equals", EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);

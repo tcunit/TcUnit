@@ -19,12 +19,24 @@ VAR_INPUT
     TestInstancePath : T_MaxString;
 END_VAR
 VAR
-    AdjustAssertFailureMessageToMax253CharLength : FB_AdjustAssertFailureMessageToMax253CharLength;
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
     TestInstancePathCleaned : T_MaxString;
     TestInstancePathFinal : T_MaxString;
     ReturnValue : DINT;
     TestInstancePathProcessed : T_MaxString;
+    MessagePart2 : T_MaxString;
+    MessagePart3 : T_MaxString;
+    MessagePart4 : T_MaxString;
     MessageProcessed : T_MaxString;
+    Length2 : INT;
+    Length3 : INT;
+    Length4 : INT;
+    LengthTotal : INT;
+END_VAR
+VAR CONSTANT
+    MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 252; // The maximum printed text length is 250. The '%s' placeholder will be replaced, therefore the limit to use in the check is 252.
+    ACTEXP_MAX_NUMBER_OF_CHARACTERS : INT := 250;
+    TOO_LONG : STRING := '...too long';
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TestInstancePathCleaned := F_RemoveInstancePathAndProjectNameFromTestInstancePath(TestInstancePath);
@@ -33,27 +45,185 @@ TestInstancePathFinal := CONCAT(STR1 := 'FAILED TEST $'',
 TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
                                 STR2 := '$'');
 
-TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
-                                STR2 := ', EXP: ');
-TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
-                                STR2 := Expected);
-TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
-                                STR2 := ', ACT: ');
-TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
-                                STR2 := Actual);
+MessagePart2 := CONCAT(STR1 := 'EXP: ',
+                       STR2 := Expected);
+MessagePart3 := CONCAT(STR1 := 'ACT: ',
+                       STR2 := Actual);
 IF LEN(STR := Message) > 0 THEN
-    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
-                                    STR2 := ', MSG: %s');
+    MessagePart4 := ', MSG: %s';
+    Length4 := LEN(STR := MessagePart4)
+             + LEN(STR := Message);
 END_IF
 
-AdjustAssertFailureMessageToMax253CharLength(TestInstancePath := TestInstancePathFinal,
-                                             TestMessage := Message,
-                                             TestInstancePathProcessed => TestInstancePathProcessed,
-                                             TestMessageProcessed => MessageProcessed);
+IF (GVL_Param_TcUnit.MultipleLinesPerAssertionMessage) THEN
+    Length2 := LEN(MessagePart2);
+    IF (Length2 > ACTEXP_MAX_NUMBER_OF_CHARACTERS) THEN
+        MessagePart2 := LEFT(STR := MessagePart2,
+                             SIZE := ACTEXP_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TOO_LONG));
+        MessagePart2 := CONCAT (STR1 := MessagePart2,
+                                STR2 := TOO_LONG);
+        Length2 := LEN(MessagePart2);
+    END_IF
+    
+    Length3 := LEN(MessagePart3);
+    IF (Length3 > ACTEXP_MAX_NUMBER_OF_CHARACTERS) THEN
+        MessagePart3 := LEFT(STR := MessagePart3,
+                             SIZE := ACTEXP_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TOO_LONG));
+        MessagePart3 := CONCAT (STR1 := MessagePart3,
+                                STR2 := TOO_LONG);
+        Length3 := LEN(MessagePart3);
+    END_IF
 
-GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
-                                    MsgFmtStr := TestInstancePathProcessed,
-                                    StrArg := MessageProcessed);]]></ST>
+    LengthTotal := LEN(TestInstancePathFinal) + 2 + Length2 + 2 + Length3 + Length4;
+END_IF
+
+IF (LengthTotal <= MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS) THEN
+    // If the message must be printed on a single line ("multiple lines" disabled), then LengthTotal is not calculated, so this path is executed.
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := ', ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := MessagePart2);
+    
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := ', ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := MessagePart3);
+    
+    IF Length4 > 0 THEN
+        TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                        STR2 := MessagePart4);
+    END_IF
+    
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathFinal,
+                                                 TestMessage := Message,
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+// ELSE: print multiple lines
+ELSIF (LEN(TestInstancePathFinal) + 2 + Length2 + 2 + Length3 <= MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS) THEN
+    // A message exists, because the text with message does not fit in one line, but it fits without the message. Print only the message in a separate line.
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := ', ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := MessagePart2);
+    
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := ', ');
+    TestInstancePathFinal := CONCAT(STR1 := TestInstancePathFinal,
+                                    STR2 := MessagePart3);
+    
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathFinal,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart4 (MSG)
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := '_ MSG: %s',
+                                                 TestMessage := Message,
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+ELSIF (2 + Length2 + 2 + Length3 <= ACTEXP_MAX_NUMBER_OF_CHARACTERS) THEN
+    // Text without message does not fit in one line. EXP and ACT fit in one line, therefore print them together in 2nd line. Print message (if existing) in 3rd line.
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathFinal,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart2 (EXP) + MessagePart3 (ACT)
+    MessagePart2 := CONCAT (STR1 := '_ ',
+                            STR2 := MessagePart2);
+    MessagePart2 := CONCAT (STR1 := MessagePart2,
+                            STR2 := ', ');
+    MessagePart2 := CONCAT (STR1 := MessagePart2,
+                            STR2 := MessagePart3);
+    
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := MessagePart2,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart4 (MSG)
+    IF Length4 > 0 THEN
+        AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := '_ MSG: %s',
+                                                     TestMessage := Message,
+                                                     TestInstancePathProcessed => TestInstancePathProcessed,
+                                                     TestMessageProcessed => MessageProcessed);
+        
+        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                            MsgFmtStr := TestInstancePathProcessed,
+                                            StrArg := MessageProcessed);
+    END_IF
+ELSE
+    // print every item in a separate line.
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathFinal,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart2 (EXP)
+    MessagePart2 := CONCAT (STR1 := '_ ',
+                            STR2 := MessagePart2);
+
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := MessagePart2,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart3 (ACT)
+    MessagePart3 := CONCAT (STR1 := '_ ',
+                            STR2 := MessagePart3);
+    
+    AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := MessagePart3,
+                                                 TestMessage := '',
+                                                 TestInstancePathProcessed => TestInstancePathProcessed,
+                                                 TestMessageProcessed => MessageProcessed);
+    
+    GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                        MsgFmtStr := TestInstancePathProcessed,
+                                        StrArg := MessageProcessed);
+    
+    // MessagePart4 (MSG)
+    IF Length4 > 0 THEN
+        AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := '_ MSG: %s',
+                                                     TestMessage := Message,
+                                                     TestInstancePathProcessed => TestInstancePathProcessed,
+                                                     TestMessageProcessed => MessageProcessed);
+        
+        GVL_TcUnit.AdsMessageQueue.WriteLog(MsgCtrlMask := ADSLOG_MSGTYPE_ERROR,
+                                            MsgFmtStr := TestInstancePathProcessed,
+                                            StrArg := MessageProcessed);
+    END_IF
+END_IF
+]]></ST>
       </Implementation>
     </Method>
   </POU>
