@@ -44,6 +44,9 @@ VAR_GLOBAL CONSTANT
     (* Time delay between a test suite is finished and the execution of the next test suite starts
        if using RUN_IN_SEQUENCE() *)
     TimeBetweenTestSuitesExecution : TIME := T#0MS;
+
+    (* If TRUE, the assertion message may be printed using multiple ADS log lines. *)
+    MultipleLinesPerAssertionMessage : BOOL := FALSE;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
