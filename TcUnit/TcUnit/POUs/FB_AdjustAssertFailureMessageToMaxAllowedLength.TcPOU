@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="FB_AdjustAssertFailureMessageToMax253CharLength" Id="{d7648cea-fb9f-427f-b157-93784e5b7cab}" SpecialFunc="None">
+  <POU Name="FB_AdjustAssertFailureMessageToMaxAllowedLength" Id="{d7648cea-fb9f-427f-b157-93784e5b7cab}" SpecialFunc="None">
     <Declaration><![CDATA[(*
     This function block is responsible for making sure that the asserted test instance path and test message are not
-    loo long. The total printed message can not be more than 253 characters long.
+    loo long. The total printed message can not be more than 250 characters long.
 *)
-FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMax253CharLength
+FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMaxAllowedLength
 VAR_INPUT
     TestInstancePath : T_MaxString;
     TestMessage : T_MaxString;
@@ -15,35 +15,40 @@ VAR_OUTPUT
     TestMessageProcessed : T_MaxString;
 END_VAR
 VAR_TEMP
+    TestInstancePathLen : INT;
+    TestMessageLen : INT;
     TestInstancePathTemporary : T_MaxString;
 END_VAR
 VAR CONSTANT
-    MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 253; // This is actually 254, but if StrArg-argument is used (which it is in TcUnit) it is 253.
+    MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS : INT := 252; // The maximum printed text length is 250. The '%s' placeholder will be replaced, therefore the limit to use in the check is 252.
     TEST_NAME_TOO_LONG : STRING := '...TestName too long';
     TEST_MESSAGE_TOO_LONG : STRING := '...TestMsg too long';
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Check if any of the two strings are too long (or the combination of them)
 
+TestInstancePathLen := LEN(STR := TestInstancePath);
+TestMessageLen      := LEN(STR := TestMessage);
+
 // All OK
-IF (LEN(STR := TestInstancePath) + LEN(STR := TestMessage)) <= MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+IF (TestInstancePathLen + TestMessageLen) <= MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
     TestInstancePathProcessed := TestInstancePath;
     TestMessageProcessed := TestMessage;
-// If test instance path is longer than 253 chars, shorten it down to 253 characters and additionally with the length of the '...TestName too long'. Add the text '...TestName too long' to the test instance path. Leave no characters for the message.
-ELSIF LEN(STR := TestInstancePath) > MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
+// If test instance path is longer than limit, shorten it down to the allowed length minus the length of the hint '...TestName too long'. Add the hint '...TestName too long' to the test instance path. Leave no characters for the message.
+ELSIF TestInstancePathLen > MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS THEN
     TestInstancePathTemporary := LEFT(STR := TestInstancePath,
                                       SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_NAME_TOO_LONG)));
     TestInstancePathProcessed := CONCAT(STR1 := TestInstancePathTemporary,
                                         STR2 := TEST_NAME_TOO_LONG);
     TestMessageProcessed := '';
 // If test message is too long (so we cant fit the text "...TestMsg too long" to the end of it) , shorten it (so that we can fit the text)
-ELSIF (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_MESSAGE_TOO_LONG)) >= LEN(STR := TestInstancePath) THEN
+ELSIF (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_MESSAGE_TOO_LONG)) >= TestInstancePathLen THEN
     TestInstancePathProcessed := TestInstancePath;
     TestMessageProcessed := LEFT(STR := TestMessage,
                                  SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_MESSAGE_TOO_LONG) - LEN(STR := TestInstancePathProcessed)));
     TestMessageProcessed := CONCAT(STR1 := TestMessageProcessed,
                                    STR2 := TEST_MESSAGE_TOO_LONG);
-// If test instance path is too long (length is between 233 and 253 characters long), shorten it and add the text '...TestName too long'. Leave no characters for the message
+// If test instance path is too long (length is between 233 and 252 characters long), shorten it and add the text '...TestName too long'. Leave no characters for the message
 ELSE
     TestInstancePathTemporary := LEFT(STR := TestInstancePath,
                                       SIZE := (MESSAGE_FORMATTED_STRING_MAX_NUMBER_OF_CHARACTERS - LEN(STR := TEST_NAME_TOO_LONG)));
@@ -52,5 +57,11 @@ ELSE
     TestMessageProcessed := '';
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLength">
+      <LineId Id="3" Count="1" />
+      <LineId Id="34" Count="2" />
+      <LineId Id="5" Count="24" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

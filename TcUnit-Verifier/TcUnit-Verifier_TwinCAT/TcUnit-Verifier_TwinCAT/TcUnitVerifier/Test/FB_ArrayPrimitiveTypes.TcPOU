@@ -393,6 +393,7 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-8..-6] OF LREAL := [42, -23, -32768];
     b : ARRAY[1..3] OF LREAL := [42, 24, -32768];
+    c : ARRAY[-1..1] OF LREAL := [42, 0.0, -32768];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_LREAL_Array_DifferInContent');
@@ -400,7 +401,14 @@ END_VAR]]></Declaration>
 AssertArrayEquals_LREAL(Expecteds := a,
                         Actuals := b,
                         Delta := 0.01,
-                        Message := 'Arrays differ');
+                        Message := 'Arrays a and b differ');
+
+MEMSET (ADR(c[0]), 255, SIZEOF(c[0]));
+
+AssertArrayEquals_LREAL(Expecteds := a,
+                        Actuals := c,
+                        Delta := 0.01,
+                        Message := 'Arrays a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -850,6 +858,7 @@ TEST_FINISHED();]]></ST>
 VAR
     a : ARRAY[-8..-6] OF REAL := [42, -23, -32768];
     b : ARRAY[1..3] OF REAL := [42, 24, -32768];
+    c : ARRAY[-1..1] OF REAL := [42, 0.0, -32768];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_REAL_Array_DifferInContent');
@@ -857,7 +866,14 @@ END_VAR]]></Declaration>
 AssertArrayEquals_REAL(Expecteds := a,
                        Actuals := b,
                        Delta := 0.01,
-                       Message := 'Arrays differ');
+                       Message := 'Arrays a and b differ');
+
+MEMSET (ADR(c[0]), 255, SIZEOF(c[0]));
+
+AssertArrayEquals_REAL(Expecteds := a,
+                       Actuals := c,
+                       Delta := 0.01,
+                       Message := 'Arrays a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

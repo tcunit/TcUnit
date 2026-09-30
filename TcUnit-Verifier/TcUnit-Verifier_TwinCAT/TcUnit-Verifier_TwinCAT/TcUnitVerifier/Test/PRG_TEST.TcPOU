@@ -19,7 +19,7 @@ VAR
     MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests : FB_MultipleAssertWithSameParametersInDifferentCyclesButWithDifferentTests;
     MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest : FB_MultipleAssertWithSameParametersInDifferentCyclesAndInSameTest;
     SkipAssertionsWhenFinished : FB_SkipAssertionsWhenFinished;
-    AdjustAssertFailureMessageToMax253CharLengthTest : FB_AdjustAssertFailureMessageToMax253CharLengthTest;
+    AdjustAssertFailureMessageToMaxAllowedLengthTest : FB_AdjustAssertFailureMessageToMaxAllowedLengthTest;
     EmptyTestSuite : FB_EmptyTestSuite;
     CheckIfSpecificTestIsFinished : FB_CheckIfSpecificTestIsFinished;
     WriteProtectedFunctions : FB_WriteProtectedFunctions;

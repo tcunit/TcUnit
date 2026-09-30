@@ -119,7 +119,7 @@ Documentation and examples are available at www.tcunit.org</Description>
     <Compile Include="POUs\FB_TestResults.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB_AdjustAssertFailureMessageToMax253CharLength.TcPOU">
+    <Compile Include="POUs\FB_AdjustAssertFailureMessageToMaxAllowedLength.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB_AssertResultStatic.TcPOU">

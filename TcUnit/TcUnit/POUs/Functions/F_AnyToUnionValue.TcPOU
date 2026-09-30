@@ -171,6 +171,21 @@ END_VAR]]></Declaration>
                srcAddr := AnyValue,
                n := AnySize);
 
+    IBaseLibrary.TypeClass.TYPE_LDATE :
+        MEMCPY(destaddr := ADR(F_AnyToUnionValue.ldateExpectedOrActual),
+               srcAddr := AnyValue,
+               n := AnySize);
+
+    IBaseLibrary.TypeClass.TYPE_LDATEANDTIME :
+        MEMCPY(destaddr := ADR(F_AnyToUnionValue.ldateandtimeExpectedOrActual),
+               srcAddr := AnyValue,
+               n := AnySize);
+
+    IBaseLibrary.TypeClass.TYPE_LTIMEOFDAY :
+        MEMCPY(destaddr := ADR(F_AnyToUnionValue.ltimeofdayExpectedOrActual),
+               srcAddr := AnyValue,
+               n := AnySize);
+
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         // None
 

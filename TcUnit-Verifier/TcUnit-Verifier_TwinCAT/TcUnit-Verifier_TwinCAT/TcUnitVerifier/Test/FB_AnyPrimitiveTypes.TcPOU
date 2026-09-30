@@ -320,13 +320,20 @@ TEST_FINISHED();]]></ST>
 VAR
     a : LREAL := 1234567.89;
     b : LREAL := 1234567.76;
+    c : LREAL := 0.0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_LREAL_Differ');
 
 AssertEquals(Expected := a,
              Actual := b,
-             Message := 'Values differ');
+             Message := 'Values a and b differ');
+
+MEMSET (ADR(c), 255, SIZEOF(c));
+
+AssertEquals(Expected := a,
+             Actual := c,
+             Message := 'Values a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>
@@ -416,13 +423,20 @@ TEST_FINISHED();]]></ST>
 VAR
     a : REAL := 1234.5;
     b : REAL := 1234.4;
+    c : LREAL := 0.0;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TEST('Test_ANY_REAL_Differ');
 
 AssertEquals(Expected := a,
              Actual := b,
-             Message := 'Values differ');
+             Message := 'Values a and b differ');
+
+MEMSET (ADR(c), 255, SIZEOF(c));
+
+AssertEquals(Expected := a,
+             Actual := c,
+             Message := 'Values a and c differ');
 
 TEST_FINISHED();]]></ST>
       </Implementation>

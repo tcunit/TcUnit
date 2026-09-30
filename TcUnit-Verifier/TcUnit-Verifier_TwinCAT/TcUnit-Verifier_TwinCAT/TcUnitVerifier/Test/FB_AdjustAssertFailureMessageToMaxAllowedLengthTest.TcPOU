@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest" Id="{305341a5-f462-4bcb-ba17-ae2773c50e69}" SpecialFunc="None">
+    <Declaration><![CDATA[(* This testsuite tests the function block FB_AdjustAssertFailureMessageToMaxAllowedLength
+   The total printed message can not be more than 250 characters long.
+*)
+FUNCTION_BLOCK FB_AdjustAssertFailureMessageToMaxAllowedLengthTest EXTENDS TcUnit.FB_TestSuite]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestInstancePath221CharsExpectShortenedTestInstancePath();
+TestInstancePath252CharsExpectTooLongTestInstancePath();
+TestInstancePath253CharsExpectTooLongTestInstancePath();
+TestInstancePath255CharsExpectTooLongTestInstancePath();]]></ST>
+    </Implementation>
+    <Method Name="TestInstancePath221CharsExpectShortenedTestInstancePath" Id="{dc008964-f701-440f-97f6-bba60a51fe93}">
+      <Declaration><![CDATA[METHOD TestInstancePath221CharsExpectShortenedTestInstancePath
+VAR
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
+
+    // @Text-Fixture
+    TestInstancePathNameWith221Chars : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELON';
+    TooLongTestMessage60Chars : T_MaxString := 'Very long message that is 60 characters long which means tha';
+
+    // @Test-Result-Expected
+    // 220 + 32 = 252 (in other words, expected test message should be 32 characters long including '...TestMsg too long'
+    TestMessageResultExpected : T_MaxString := 'Very long me...TestMsg too long'; 
+
+    // @Test-Result
+    TestInstancePathResult : T_MaxString;
+    TestMessageResult : T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestInstancePath221CharsExpectShortenedTestInstancePath');
+
+AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathNameWith221Chars,
+                                             TestMessage := TooLongTestMessage60Chars,
+                                             TestInstancePathProcessed => TestInstancePathResult,
+                                             TestMessageProcessed => TestMessageResult);
+
+AssertEquals_STRING(Expected := TestInstancePathNameWith221Chars, // Same test instance path should be expected as the one going in
+                    Actual := TestInstancePathResult,
+                    'Test instance path not correct');
+
+AssertEquals_STRING(Expected := TestMessageResultExpected,
+                    Actual := TestMessageResult,
+                    'Test message not correct');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestInstancePath252CharsExpectTooLongTestInstancePath" Id="{1827d41f-e87f-4ce3-83cf-9cd1836a351b}">
+      <Declaration><![CDATA[METHOD PRIVATE TestInstancePath252CharsExpectTooLongTestInstancePath
+VAR
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
+
+    // @Text-Fixture
+    TestInstancePathNameWith252Chars : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNA';
+    ShortTestMessage : T_MaxString := 'Very short message';
+
+    // @Test-Result-Expected
+    TestInstancePathNameWith252CharsExpectedResult : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELO...TestName too long';
+    ShortTestMessageExpectedResult : T_MaxString := '';
+
+    // @Test-Result
+    TestInstancePathNameWith252CharsResult : T_MaxString;
+    ShortTestMessageResult : T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestInstancePath252CharsExpectTooLongTestInstancePath');
+
+AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathNameWith252Chars,
+                                             TestMessage := ShortTestMessage,
+                                             TestInstancePathProcessed => TestInstancePathNameWith252CharsResult,
+                                             TestMessageProcessed => ShortTestMessageResult);
+
+AssertEquals_STRING(Expected := TestInstancePathNameWith252CharsExpectedResult,
+                    Actual := TestInstancePathNameWith252CharsResult,
+                    'Test instance path not correct');
+
+AssertEquals_STRING(Expected := ShortTestMessageExpectedResult,
+                    Actual := ShortTestMessageResult,
+                    'Test message not correct');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestInstancePath253CharsExpectTooLongTestInstancePath" Id="{f67e3ff5-02f7-4268-9fa7-f06935f8269a}">
+      <Declaration><![CDATA[METHOD PRIVATE TestInstancePath253CharsExpectTooLongTestInstancePath
+VAR
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
+
+    // @Text-Fixture
+    TestInstancePathNameWith253Chars : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAM';
+    ShortTestMessage : T_MaxString := 'Very short message';
+
+    // @Test-Result-Expected
+    TestInstancePathNameWith252CharsExpectedResult : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELO...TestName too long';
+    ShortTestMessageExpectedResult : T_MaxString := '';
+
+    // @Test-Result
+    TestInstancePathNameWith252CharsResult : T_MaxString;
+    ShortTestMessageResult : T_MaxString;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestInstancePath253CharsExpectTooLongTestInstancePath');
+
+AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathNameWith253Chars,
+                                             TestMessage := ShortTestMessage,
+                                             TestInstancePathProcessed => TestInstancePathNameWith252CharsResult,
+                                             TestMessageProcessed => ShortTestMessageResult);
+
+AssertEquals_STRING(Expected := TestInstancePathNameWith252CharsExpectedResult,
+                    Actual := TestInstancePathNameWith252CharsResult,
+                    'Test instance path not correct');
+
+AssertEquals_STRING(Expected := ShortTestMessageExpectedResult,
+                    Actual := ShortTestMessageResult,
+                    'Test message not correct');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestInstancePath255CharsExpectTooLongTestInstancePath" Id="{fbb2640b-9b30-45ae-a207-49da858d57e9}">
+      <Declaration><![CDATA[METHOD PRIVATE TestInstancePath255CharsExpectTooLongTestInstancePath
+VAR
+    AdjustAssertFailureMessageToMaxAllowedLength : FB_AdjustAssertFailureMessageToMaxAllowedLength;
+
+    // @Text-Fixture
+    TestInstancePathNameWith255Chars : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAGAV';
+    ShortTestMessage : T_MaxString := 'Very short message';
+
+    // @Test-Result-Expected
+    TestInstancePathNameWith252CharsExpectedResult : T_MaxString := 'PRG_TEST.LongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceNameLongInstanceName@LONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELONGTESTNAMELO...TestName too long';
+    ShortTestMessageExpectedResult : T_MaxString := '';
+
+    // @Test-Result
+    TestInstancePathNameWith252CharsResult : T_MaxString;
+    ShortTestMessageResult : T_MaxString;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestInstancePath255CharsExpectTooLongTestInstancePath');
+
+AdjustAssertFailureMessageToMaxAllowedLength(TestInstancePath := TestInstancePathNameWith255Chars,
+                                             TestMessage := ShortTestMessage,
+                                             TestInstancePathProcessed => TestInstancePathNameWith252CharsResult,
+                                             TestMessageProcessed => ShortTestMessageResult);
+
+AssertEquals_STRING(Expected := TestInstancePathNameWith252CharsExpectedResult,
+                    Actual := TestInstancePathNameWith252CharsResult,
+                    'Test instance path not correct');
+
+AssertEquals_STRING(Expected := ShortTestMessageExpectedResult,
+                    Actual := ShortTestMessageResult,
+                    'Test message not correct');
+
+TEST_FINISHED();]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest">
+      <LineId Id="5" Count="0" />
+      <LineId Id="3" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest.TestInstancePath221CharsExpectShortenedTestInstancePath">
+      <LineId Id="19" Count="14" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest.TestInstancePath252CharsExpectTooLongTestInstancePath">
+      <LineId Id="1" Count="15" />
+    </LineIds>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest.TestInstancePath253CharsExpectTooLongTestInstancePath">
+      <LineId Id="48" Count="14" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_AdjustAssertFailureMessageToMaxAllowedLengthTest.TestInstancePath255CharsExpectTooLongTestInstancePath">
+      <LineId Id="48" Count="14" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

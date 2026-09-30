@@ -29,7 +29,7 @@
     <Compile Include="POUs\FB_ProtectedVariables.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Test\FB_AdjustAssertFailureMessageToMax253CharLengthTest.TcPOU">
+    <Compile Include="Test\FB_AdjustAssertFailureMessageToMaxAllowedLengthTest.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\FB_TestDurationMeasurement.TcPOU">

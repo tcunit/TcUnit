@@ -37,6 +37,12 @@ END_VAR]]></Declaration>
     E_AssertionType.Type_INT :
         F_AssertionTypeToString := 'INT';
 
+    E_AssertionType.Type_LDATE :
+        F_AssertionTypeToString := 'LDATE';
+
+    E_AssertionType.Type_LDATE_AND_TIME :
+        F_AssertionTypeToString := 'LDATE_AND_TIME';
+
     E_AssertionType.Type_LINT :
         F_AssertionTypeToString := 'LINT';
 
@@ -45,6 +51,9 @@ END_VAR]]></Declaration>
 
     E_AssertionType.Type_LTIME :
         F_AssertionTypeToString := 'LTIME';
+
+    E_AssertionType.Type_LTIME_OF_DAY :
+        F_AssertionTypeToString := 'LTIME_OF_DAY';
 
     E_AssertionType.Type_LWORD :
         F_AssertionTypeToString := 'LWORD';

@@ -122,6 +122,15 @@ END_VAR]]></Declaration>
     IBaseLibrary.TypeClass.TYPE_LTIME :
         F_AnyTypeClassToString := 'LTIME';
 
+    IBaseLibrary.TypeClass.TYPE_LDATE :
+        F_AnyTypeClassToString := 'LDATE';
+
+    IBaseLibrary.TypeClass.TYPE_LDATEANDTIME :
+        F_AnyTypeClassToString := 'LDATEANDTIME';
+
+    IBaseLibrary.TypeClass.TYPE_LTIMEOFDAY :
+        F_AnyTypeClassToString := 'LTIMEOFDAY';
+
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         F_AnyTypeClassToString := 'BITCONST';
 

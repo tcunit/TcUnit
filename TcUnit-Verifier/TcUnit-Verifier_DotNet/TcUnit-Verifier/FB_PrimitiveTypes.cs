@@ -173,7 +173,10 @@ namespace TcUnit.Verifier
 
         private void Test_LREAL_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_LREAL_Differ", "1234567.89", "1234567.76", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Differ", "1234567.89", "1234567.76", "Values a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_LREAL_Differ", "1234567.89", "#NaN", "Values a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 
@@ -209,7 +212,10 @@ namespace TcUnit.Verifier
 
         private void Test_REAL_Differ()
         {
-            string testMessage = CreateFailedTestMessage("Test_REAL_Differ", "1234.5", "1234.4", "Values differ");
+            string testMessage = CreateFailedTestMessage("Test_REAL_Differ", "1234.5", "1234.4", "Values a and b differ");
+            AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
+
+            string testMessage = CreateFailedTestMessage("Test_REAL_Differ", "1234.5", "#NaN", "Values a and c differ");
             AssertContainsMessage(testMessage, EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh);
         }
 

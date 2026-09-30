@@ -61,10 +61,14 @@ CASE ExpectedOrActualTypeClass OF
         F_IsAnyEqualToUnionValue := ExpectedOrActual.ulintExpectedOrActual = AnyExpectedOrActual.ulintExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_REAL :
-        F_IsAnyEqualToUnionValue := ExpectedOrActual.realExpectedOrActual = AnyExpectedOrActual.realExpectedOrActual;
+        F_IsAnyEqualToUnionValue :=       NOT RealIsNaN (ExpectedOrActual.realExpectedOrActual)
+                                 AND_THEN NOT RealIsNaN (AnyExpectedOrActual.realExpectedOrActual)
+                                 AND_THEN ExpectedOrActual.realExpectedOrActual = AnyExpectedOrActual.realExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_LREAL :
-        F_IsAnyEqualToUnionValue := ExpectedOrActual.lrealExpectedOrActual = AnyExpectedOrActual.lrealExpectedOrActual;
+        F_IsAnyEqualToUnionValue :=       NOT LRealIsNaN (ExpectedOrActual.lrealExpectedOrActual)
+                                 AND_THEN NOT LRealIsNaN (AnyExpectedOrActual.lrealExpectedOrActual)
+                                 AND_THEN ExpectedOrActual.lrealExpectedOrActual = AnyExpectedOrActual.lrealExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_STRING :
         F_IsAnyEqualToUnionValue := ExpectedOrActual.stringExpectedOrActual = AnyExpectedOrActual.stringExpectedOrActual;
@@ -135,6 +139,15 @@ CASE ExpectedOrActualTypeClass OF
 
     IBaseLibrary.TypeClass.TYPE_LTIME :
         F_IsAnyEqualToUnionValue := ExpectedOrActual.ltimeExpectedOrActual = AnyExpectedOrActual.ltimeExpectedOrActual;
+
+    IBaseLibrary.TypeClass.TYPE_LDATE :
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.ldateExpectedOrActual = AnyExpectedOrActual.ldateExpectedOrActual;
+
+    IBaseLibrary.TypeClass.TYPE_LDATEANDTIME :
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.ldateandtimeExpectedOrActual = AnyExpectedOrActual.ldateandtimeExpectedOrActual;
+
+    IBaseLibrary.TypeClass.TYPE_LTIMEOFDAY :
+        F_IsAnyEqualToUnionValue := ExpectedOrActual.ltimeofdayExpectedOrActual = AnyExpectedOrActual.ltimeofdayExpectedOrActual;
 
     IBaseLibrary.TypeClass.TYPE_BITCONST :
         F_IsAnyEqualToUnionValue := FALSE;

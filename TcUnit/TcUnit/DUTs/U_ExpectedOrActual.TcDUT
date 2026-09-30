@@ -24,8 +24,11 @@ UNION
     timeExpectedOrActual : TIME;
     ltimeExpectedOrActual : LTIME;
     dateExpectedOrActual : DATE;
+    ldateExpectedOrActual : LDATE;
     dateandtimeExpectedOrActual : DATE_AND_TIME;
+    ldateandtimeExpectedOrActual : LDATE_AND_TIME;
     timeofdayExpectedOrActual : TIME_OF_DAY;
+    ltimeofdayExpectedOrActual : LTIME_OF_DAY;
 END_UNION
 END_TYPE]]></Declaration>
   </DUT>
