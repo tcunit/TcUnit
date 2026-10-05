@@ -57,6 +57,12 @@ Then all that's necessary to do is to set the condition for when the assertion s
 Note that you don't have to use a timer, this is just an example.
 You can for example also use a state-machine that steps over various tests over multiple cycles instead.
 
+Call `TEST()` (or `TEST_ORDERED()`) in every cycle the test runs, before any assertion and before `TEST_FINISHED()`, as in the example above.
+Don't call it only once, for instance on the first cycle behind a flag.
+`TEST_FINISHED()` and the assertions don't take a test name: they apply to the test named by the most recent `TEST()`/`TEST_ORDERED()` call (`GVL_TcUnit.CurrentTestNameBeingCalled`).
+If the call is skipped in a cycle, they apply to whichever test was called last, which with several test suites running in parallel belongs to another suite.
+The test is then never marked as finished and TcUnit never prints the results.
+
 **Required TcUnit version:** 1.0 or later
 
 ## 2. How can I disable/ignore a test?
