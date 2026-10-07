@@ -74,7 +74,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Only log message types of ERROR if log extended results is not enabled
-IF MsgCtrlMask = ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults THEN
+IF GVL_Param_TcUnit.AdsLoggerEnablePublish AND_THEN (MsgCtrlMask = ADSLOG_MSGTYPE_ERROR OR GVL_Param_TcUnit.LogExtendedResults) THEN
     AdsLogStringMessage.MsgCtrlMask := MsgCtrlMask;
     AdsLogStringMessage.MsgFmtStr := MsgFmtStr;
     AdsLogStringMessage.StrArg := StrArg;

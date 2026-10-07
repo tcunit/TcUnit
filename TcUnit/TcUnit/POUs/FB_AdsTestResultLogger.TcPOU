@@ -50,7 +50,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[TcUnitTestResults REF= TestResults.GetTestSuiteResults();
 
-IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND NOT PrintedTestSuitesResults THEN
+IF PrintingTestSuiteResultNumber <= GVL_TcUnit.NumberOfInitializedTestSuites AND_THEN NOT PrintedTestSuitesResults THEN
     PrintingTestSuiteTrigger(CLK := GVL_TcUnit.TestSuiteAddresses[PrintingTestSuiteResultNumber]^.AreAllTestsFinished());
     IF PrintingTestSuiteTrigger.Q THEN
         StringToPrint := CONCAT(STR1 := '| Test suite ID=',
