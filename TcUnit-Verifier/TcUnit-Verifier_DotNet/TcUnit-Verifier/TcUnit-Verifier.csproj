@@ -59,6 +59,7 @@
     <Compile Include="FB_AssertCountExceedsMaxNumber.cs" />
     <Compile Include="FB_EmptyAssertionMessage.cs" />
     <Compile Include="FB_TestDurationMeasurement.cs" />
+    <Compile Include="FB_TestXUnitPublisher.cs" />
     <Compile Include="FB_TestXmlControl.cs" />
     <Compile Include="FB_TestFileControl.cs" />
     <Compile Include="FB_TestStreamBuffer.cs" />

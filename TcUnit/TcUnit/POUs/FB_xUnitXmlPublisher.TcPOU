@@ -115,7 +115,7 @@ IF PublishTrigger.Q THEN
         FOR CurrentTestCount := 1 TO UnitTestResults.TestSuiteResults[CurrentSuiteNumber].NumberOfTests BY 1 DO
             // <testcase>
             Xml.NewTag('testcase');
-            Xml.NewParameter('name', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName);
+            Xml.NewParameter('name', F_XmlEscapeString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestName));
             Xml.NewParameter('classname', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].TestClassName);
             Xml.NewParameter('time', LREAL_TO_STRING(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].Duration));
 
@@ -133,7 +133,7 @@ IF PublishTrigger.Q THEN
                     <failure message="Values differ" type="BYTE" />
                 *)
                 Xml.NewTag('failure');
-                Xml.NewParameter('message', UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage);
+                Xml.NewParameter('message', F_XmlEscapeString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureMessage));
                 Xml.NewParameter('type', F_AssertionTypeToString(UnitTestResults.TestSuiteResults[CurrentSuiteNumber].TestCaseResults[CurrentTestCount].FailureType));       
                 // Close failure tag
                 Xml.CloseTag();
