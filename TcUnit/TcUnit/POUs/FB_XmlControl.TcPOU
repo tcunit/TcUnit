@@ -7,7 +7,7 @@
 *)
 FUNCTION_BLOCK FB_XmlControl
 VAR
-    XmlBuffer : FB_StreamBuffer;
+    XmlFileStream : REFERENCE TO FB_XmlFileStream;
     TagListBuffer : FB_StreamBuffer;
     Tags : T_MaxString;
     TagListSeekBuffer : FB_StreamBuffer;
@@ -15,6 +15,7 @@ VAR
     TagBuffer : FB_StreamBuffer;
     Tag : T_MaxString;
     TagOpen: BOOL;
+    TagOpenCount : INT;
     Select : UDINT;
     SearchPosition : UDINT; 
 END_VAR
@@ -32,6 +33,10 @@ VAR CONSTANT
     TAB : STRING(2) := '$T';
     CR_LF : STRING(4) := '$R$N';
 
+    CR_AS_BYTE : BYTE := 13;    
+    LF_AS_BYTE : BYTE := 10;
+    SPACE_AS_BYTE : BYTE := 32;    
+
     // $OD : ASCII code for carriage return (CR)
     // $$ : to add a $R
     // $' : to add ' (apostrophe)
@@ -43,13 +48,34 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="AppendIdent" Id="{703b348d-6c3f-0f37-18f0-541fdcc34c87}">
+      <Declaration><![CDATA[METHOD PRIVATE AppendIdent
+VAR_INST
+  indentBuffer : T_MaxString;
+  i : INT;
+  end : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[indentBuffer[0] := CR_AS_BYTE;
+indentBuffer[1] := LF_AS_BYTE;
+
+FOR i:=2 TO TagOpenCount
+DO
+  indentBuffer[i] := SPACE_AS_BYTE;
+END_FOR
+indentBuffer[TagOpenCount+2] := 0;
+
+XmlFileStream.Append := indentBuffer;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ClearBuffer" Id="{651b4460-232e-47e8-95ba-ecea1541fbb9}">
       <Declaration><![CDATA[// Clears the contents of the entire buffer.
 METHOD PUBLIC ClearBuffer]]></Declaration>
       <Implementation>
         <ST><![CDATA[SearchPosition := 0;
 TagListSeekBuffer.Length := 0;
-XmlBuffer.Length := 0;
+XmlFileStream.Length := 0;
 TagsSeek := '';
 Tag := '';]]></ST>
       </Implementation>
@@ -66,20 +92,42 @@ VAR
     ClosedTag : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF TagOpen THEN
-    XmlBuffer.Append := END_TAG_CLOSE;
+        <ST><![CDATA[TagOpenCount := TagOpenCount - 1;
+
+IF TagOpen THEN
+    XmlFileStream.Append := END_TAG_CLOSE;
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
     ClosedTag := TagListBuffer.CutOff(StartPos := Select);
     TagOpen := FALSE;
 ELSE
+    AppendIdent();  
     Select := TagListBuffer.FindBack(SearchString := FORWARD_SLASH);
     ClosedTag := TagListBuffer.CutOff(StartPos := Select);
-    XmlBuffer.Append := TAG_OPEN;
-    XmlBuffer.Append := ClosedTag;
-    XmlBuffer.Append := TAG_CLOSE;
+    XmlFileStream.Append := TAG_OPEN;
+    XmlFileStream.Append := ClosedTag;
+    XmlFileStream.Append := TAG_CLOSE;
 END_IF
 
 CloseTag := ClosedTag;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_Init" Id="{5c27080a-297f-0999-167e-85f86bcdacd9}">
+      <Declaration><![CDATA[//FB_Init is always available implicitly and it is used primarily for initialization.
+//The return value is not evaluated. For a specific influence, you can also declare the
+//methods explicitly and provide additional code there with the standard initialization
+//code. You can evaluate the return value.
+METHOD FB_Init: BOOL
+VAR_INPUT
+    bInitRetains: BOOL; // TRUE: the retain variables are initialized (reset warm / reset cold)
+    bInCopyCode: BOOL;  // TRUE: the instance will be copied to the copy code afterward (online change)
+    xmlFileStream : REFERENCE TO FB_XmlFileStream;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.XmlFileStream REF= xmlFileStream;
+
+TagListBuffer.SetBuffer(PointerToBufferAddress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
+TagListSeekBuffer.SetBuffer(PointerToBufferAddress := ADR(TagsSeek), SizeOfBuffer := SIZEOF(TagsSeek));
+TagBuffer.SetBuffer(PointerToBufferAddress := ADR(Tag), SizeOfBuffer := SIZEOF(Tag));]]></ST>
       </Implementation>
     </Method>
     <Property Name="Length" Id="{4fdf30b6-5fe7-4452-ad0a-85e866e236d0}">
@@ -87,7 +135,7 @@ CloseTag := ClosedTag;]]></ST>
       <Get Name="Get" Id="{267105d4-b124-4c5c-a359-0434c4992afc}">
         <Declaration><![CDATA[]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Length := XmlBuffer.Length;]]></ST>
+          <ST><![CDATA[Length := XmlFileStream.Length;]]></ST>
         </Implementation>
       </Get>
     </Property>
@@ -104,12 +152,12 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
-    XmlBuffer.Append := TAG_CLOSE;
+    XmlFileStream.Append := TAG_CLOSE;
     TagOpen := FALSE;
 END_IF;
-XmlBuffer.Append := OPEN_COMMENT;
-XmlBuffer.Append := Comment;
-XmlBuffer.Append := CLOSE_COMMENT;]]></ST>
+XmlFileStream.Append := OPEN_COMMENT;
+XmlFileStream.Append := Comment;
+XmlFileStream.Append := CLOSE_COMMENT;]]></ST>
       </Implementation>
     </Method>
     <Method Name="NewParameter" Id="{60c10606-ff09-4f9b-a3dd-0b54d0f565c7}">
@@ -124,12 +172,12 @@ VAR_INPUT
     Value : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.Append := SPACE;
-XmlBuffer.Append := Name;
-XmlBuffer.Append := EQUALS;
-XmlBuffer.Append := QUOTE;
-XmlBuffer.Append := Value;
-XmlBuffer.Append := QUOTE;]]></ST>
+        <ST><![CDATA[XmlFileStream.Append := SPACE;
+XmlFileStream.Append := Name;
+XmlFileStream.Append := EQUALS;
+XmlFileStream.Append := QUOTE;
+XmlFileStream.Append := Value;
+XmlFileStream.Append := QUOTE;]]></ST>
       </Implementation>
     </Method>
     <Method Name="NewTag" Id="{c44bdbda-725a-4943-a5cc-fa5ea9485541}">
@@ -145,10 +193,14 @@ VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TagOpen THEN
-    XmlBuffer.Append := TAG_CLOSE;
+    XmlFileStream.Append := TAG_CLOSE;
 END_IF;
-XmlBuffer.Append := TAG_OPEN;
-XmlBuffer.Append := Name;
+
+TagOpenCount := TagOpenCount + 1;
+AppendIdent();
+
+XmlFileStream.Append := TAG_OPEN;
+XmlFileStream.Append := Name;
 TagOpen := TRUE;
 TagListBuffer.Append := FORWARD_SLASH;
 TagListBuffer.Append := Name;]]></ST>
@@ -160,22 +212,9 @@ VAR_INPUT
     Data : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.Append := TAG_CLOSE;
-XmlBuffer.Append := Data;
+        <ST><![CDATA[XmlFileStream.Append := TAG_CLOSE;
+XmlFileStream.Append := Data;
 TagOpen := FALSE;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="SetBuffer" Id="{cbfaa6d5-eab9-48d0-a339-a8bf334e344e}">
-      <Declaration><![CDATA[METHOD PUBLIC SetBuffer
-VAR_INPUT
-    PointerToBuffer : POINTER TO BYTE; // ADR(..)
-    SizeOfBuffer : UDINT; // SIZEOF(..)
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[XmlBuffer.SetBuffer(PointerToBufferAddress:= PointerToBuffer, SizeOfBuffer := SizeOfBuffer);
-TagListBuffer.SetBuffer(PointerToBufferAddress := ADR(Tags), SizeOfBuffer := SIZEOF(Tags));
-TagListSeekBuffer.SetBuffer(PointerToBufferAddress := ADR(TagsSeek), SizeOfBuffer := SIZEOF(TagsSeek));
-TagBuffer.SetBuffer(PointerToBufferAddress := ADR(Tag), SizeOfBuffer := SIZEOF(Tag));]]></ST>
       </Implementation>
     </Method>
     <Method Name="ToStartBuffer" Id="{cb065068-a6c8-48d5-8c1d-535a21365348}">
@@ -205,7 +244,7 @@ VAR_INPUT
     Header : T_MaxString;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[XmlBuffer.Append := Header;]]></ST>
+        <ST><![CDATA[XmlFileStream.Append := Header;]]></ST>
       </Implementation>
     </Method>
   </POU>
